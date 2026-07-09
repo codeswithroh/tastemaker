@@ -37,6 +37,12 @@ Established: <date>. Source: <"reference images: list them" | "starter scaffoldi
 ## Assets
 - Anchor asset: <path> — everything else should visually match this
 - Asset style: <e.g. "outline icons, 1.5px stroke, rounded caps" | "flat geometric illustrations, palette-matched">
+- Illustration vs. photography split: <e.g. "illustrations for mission/values/team personality; real Unsplash photography for office/location sections">
+
+## Motion
+- Feel: <e.g. "quick and restrained" | "soft and slightly bouncy" — should match the mood descriptors above>
+- Entrance duration/distance: <e.g. "220ms, 12px rise" — see references/animation-guidelines.md defaults if unset>
+- Easing: <e.g. "ease-out" | "cubic-bezier(0.16, 1, 0.3, 1)">
 
 ## Do not
 Concrete things to avoid for this project specifically, if any came up during curation (e.g. "no gradients — user rejected twice", "avoid rounded-full buttons, feels too playful for this brand").

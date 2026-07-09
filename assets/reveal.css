@@ -1,0 +1,46 @@
+/*
+  Tastemaker scroll-reveal starter.
+  Tune these three variables to match the project's locked motion feel
+  instead of writing new keyframes/timings per project.
+*/
+:root {
+  --reveal-duration: 220ms;
+  --reveal-distance: 12px;
+  --reveal-easing: cubic-bezier(0.16, 1, 0.3, 1);
+  --reveal-stagger-step: 60ms;
+}
+
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(var(--reveal-distance));
+  transition: opacity var(--reveal-duration) var(--reveal-easing),
+              transform var(--reveal-duration) var(--reveal-easing);
+  will-change: opacity, transform;
+}
+
+[data-reveal].is-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Children of a data-reveal-group container stagger automatically —
+   reveal.js assigns each child a transition-delay based on its index. */
+[data-reveal-group] > * {
+  opacity: 0;
+  transform: translateY(var(--reveal-distance));
+  transition: opacity var(--reveal-duration) var(--reveal-easing),
+              transform var(--reveal-duration) var(--reveal-easing);
+}
+
+[data-reveal-group].is-revealed > * {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal],
+  [data-reveal-group] > * {
+    transition-duration: 0.01ms !important;
+    transform: none !important;
+  }
+}

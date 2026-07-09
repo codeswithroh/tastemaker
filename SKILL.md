@@ -49,9 +49,12 @@ For any icons, illustrations, hero imagery, or textures the scoped screens need:
 
 - If an image-generation tool is available in this session, generate them conditioned on the locked style tokens *and* on one already-generated "anchor" asset for the project, so the whole set shares one visual DNA instead of drifting per-call. Generate the anchor first, confirm it fits, then condition everything after it on that anchor. Be honest with yourself about fidelity here: matching a distinctive, specific illustration style (a particular character linework, a particular fill treatment) consistently across many assets is genuinely hard even with a good image-gen tool — treat the anchor as a checkpoint to actually verify against, not a formality, and flag to the user early if the style isn't converging rather than shipping a set that only sort-of matches.
 - **Decide illustration vs. real photography per section, don't default to one for the whole project.** Sections claiming something factual or physical (office locations, real team headshots) usually call for real photography; sections conveying an abstract concept (mission, values, product feel) are where illustration fits. Ask if it's ambiguous — guessing wrong here (illustrating something that should look "real," like an office) is a common, easy-to-avoid tell.
-- If no image-generation tool is available, don't fabricate one — build assets from what you can actually produce reliably: curated open icon sets filtered to match the locked stroke-width/corner-style/fill-vs-outline, and code-native visuals (SVG shapes, CSS gradients/patterns) built directly from the locked palette. These are fully achievable without external APIs and, done well, read as intentional rather than as a placeholder.
+- **Real photography → Unsplash, via their actual API, automatically.** Run `scripts/fetch_unsplash.py "<search terms>" --out design/assets/photos` (requires a one-time free `UNSPLASH_ACCESS_KEY`, see the script's `--help`). This is a legitimate documented API, not scraping, and the script handles the two things Unsplash's API Guidelines require: it writes photographer + Unsplash attribution to `ATTRIBUTION.md` next to the photos (surface that credit near the photo in the actual UI, not just in the file), and it pings the required download-tracking endpoint. Don't skip the attribution step to save a line of markup — it's a condition of using the API, not a suggestion.
+- **Illustrations in an unDraw-like style → one human step, then automatic.** unDraw's own license explicitly prohibits automated scraping or bulk downloading of their assets (a prior third-party CDN for it was shut down for exactly this) — so this skill does not and will not fetch from undraw.co programmatically. Instead: ask the user to spend one minute at undraw.co/illustrations, use unDraw's *own* built-in recolor tool to tint the illustrations they pick to the locked accent color, and drop the downloaded SVGs into `design/assets/`. Everything after that (validation, consistency reuse across screens) proceeds automatically — the one unavoidable manual step is a single visit to unDraw's site, not a repeated ask from you. If assets from other sources need normalizing to the locked palette, `scripts/recolor_svg.py` recolors local SVG files already on disk (it does not fetch anything remote, so it doesn't raise the same licensing concern).
+- If no image-generation tool and no human-provided illustrations are available, don't fabricate either — build assets from what you can actually produce reliably: curated open icon sets filtered to match the locked stroke-width/corner-style/fill-vs-outline, and code-native visuals (SVG shapes, CSS gradients/patterns) built directly from the locked palette. These are fully achievable without external APIs and, done well, read as intentional rather than as a placeholder.
 - Save generated/curated assets into the project (e.g. `/design/assets/`) rather than inlining them ad hoc, so they're reusable across screens.
 - Run `scripts/validate_assets.py` against any SVG assets before using them. SVGs are XML, and a file can read as fine text while still being malformed in a way that renders as a broken image in strict browsers (the most common real case: a `<!-- -->` comment that itself contains `--`, which is illegal XML) — this is invisible unless the file is actually parsed or rendered, so don't skip this in favor of eyeballing the source.
+- Bring in motion once the static screens are right, not before: copy `assets/reveal.css` + `assets/reveal.js` into the project (see `references/animation-guidelines.md`) rather than writing scroll/entrance animation from scratch — it's a small, dependency-free scroll-reveal system that already respects `prefers-reduced-motion`.
 
 ### Step 4 — Build the actual screens
 
@@ -78,6 +81,7 @@ This is what makes the second project faster than the first, and the tenth faste
 | `references/component-patterns.md` | Choosing a layout pattern for a given screen type (landing, dashboard, pricing, onboarding, empty states) |
 | `references/anti-slop-checklist.md` | Before handing back any generated UI (Step 4) |
 | `references/tech-stack-guides.md` | Implementing tokens/components in a specific stack (React/Next/Tailwind, Vue, SwiftUI, Flutter) |
+| `references/animation-guidelines.md` | Adding motion/scroll-reveal to a screen (Step 3/4, after statics are settled) |
 
 ## Scripts
 
@@ -85,6 +89,14 @@ This is what makes the second project faster than the first, and the tenth faste
 |---|---|
 | `scripts/extract_palette.py` | Deterministic color/contrast extraction from reference image(s). Usage: `python3 scripts/extract_palette.py <image_path> [image_path ...]` |
 | `scripts/validate_assets.py` | Validate generated/curated SVG assets are well-formed before shipping them (Step 3/4). Usage: `python3 scripts/validate_assets.py <file_or_directory>` |
+| `scripts/fetch_unsplash.py` | Fetch real photography via Unsplash's official API, with required attribution + download-tracking handled automatically. Usage: `python3 scripts/fetch_unsplash.py "<query>" --out design/assets/photos` (needs a free `UNSPLASH_ACCESS_KEY`) |
+| `scripts/recolor_svg.py` | Recolor local SVG files (already on disk, not fetched) to match the locked accent color. Usage: `python3 scripts/recolor_svg.py <path> --accent "#hex" --preserve-dark` |
+
+## Assets
+
+| File | Use when |
+|---|---|
+| `assets/reveal.css` + `assets/reveal.js` | Adding scroll-reveal/entrance motion to a project — copy both in rather than writing new animation from scratch (Step 3/4, see `references/animation-guidelines.md`) |
 
 ## A note on honesty
 

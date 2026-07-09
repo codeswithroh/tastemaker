@@ -12,9 +12,13 @@ Tastemaker fixes this with three ideas instead of a bigger catalog of presets:
 
 ## Install
 
-Drop the `tastemaker/` folder into your project's skills directory (or wherever your agent loads skills from — Claude Code, Cursor, and Windsurf all support this). No API keys or hosted service required — everything here runs locally.
+Drop the `tastemaker/` folder into your project's skills directory (or wherever your agent loads skills from — Claude Code, Cursor, and Windsurf all support this). Everything here runs locally; no hosted backend.
 
 Requires Python 3 + Pillow for the deterministic color extraction script (`pip install Pillow`). Falls back gracefully to a vision-based read if Pillow isn't installed.
+
+**Optional, for real photography**: register a free app at [unsplash.com/developers](https://unsplash.com/developers) and set `export UNSPLASH_ACCESS_KEY=your_key_here`. `scripts/fetch_unsplash.py` uses Unsplash's official API and handles the attribution + download-tracking their API Guidelines require — nothing extra to configure beyond the key.
+
+**A deliberate non-feature**: this skill does not auto-fetch from unDraw. unDraw's license explicitly prohibits automated scraping/downloading of their assets (a prior third-party CDN for it was shut down over exactly this), so instead the workflow asks you to spend one minute at [undraw.co/illustrations](https://undraw.co/illustrations), use *their own* built-in recolor tool, and drop the SVGs into the project — everything after that is automatic.
 
 ## How it's different from "design system" skills
 
@@ -37,10 +41,16 @@ tastemaker/
 │   ├── style-tokens.md               — starter palettes/type/shape by mood (cold-start fallback)
 │   ├── component-patterns.md         — layout patterns by screen type
 │   ├── anti-slop-checklist.md        — pre-delivery checks
-│   └── tech-stack-guides.md          — wiring tokens into React/Vue/SwiftUI/Flutter/plain CSS
-└── scripts/
-    ├── extract_palette.py            — deterministic color/contrast extraction from images
-    └── validate_assets.py            — SVG well-formedness validation
+│   ├── tech-stack-guides.md          — wiring tokens into React/Vue/SwiftUI/Flutter/plain CSS
+│   └── animation-guidelines.md       — motion principles + how to use assets/reveal.*
+├── scripts/
+│   ├── extract_palette.py            — deterministic color/contrast extraction from images
+│   ├── validate_assets.py            — SVG well-formedness validation
+│   ├── fetch_unsplash.py             — real photography via Unsplash's official API
+│   └── recolor_svg.py                — recolor local SVGs (already on disk) to the locked accent
+└── assets/
+    ├── reveal.css                    — scroll-reveal/stagger starter (prefers-reduced-motion aware)
+    └── reveal.js                     — pairs with reveal.css, no dependencies
 ```
 
 ## License
