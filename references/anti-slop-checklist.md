@@ -1,0 +1,15 @@
+# Pre-delivery anti-slop checklist
+
+Run through this before handing back any generated UI. These are the specific, recognizable tells that make output read as AI-generated regardless of how good the underlying tokens were — catching them is often higher-leverage than getting the palette exactly right.
+
+- [ ] **Not the default gradient.** Indigo-to-purple (or blue-to-cyan) diagonal gradients on hero sections/buttons are the single most recognizable "AI made this" signal. If the locked style didn't call for a gradient, don't add one out of habit.
+- [ ] **No emoji as icons.** Emoji standing in for icons in a "real" product UI is an instant tell. Use the project's actual icon set/asset style instead.
+- [ ] **Contrast actually checked, not eyeballed.** Body text vs. its background hits 4.5:1 (WCAG AA) — verify this against the real hex values, not by looking at it and assuming it's fine.
+- [ ] **Consistent with the lock, not re-derived.** Every screen in this batch uses the same tokens from `.tastemaker/style-lock.md` — no screen quietly reintroduces its own radius/shadow/color because it was generated in a separate pass.
+- [ ] **Density matches the mood.** A "premium/confident" project shouldn't have cramped, cluttered layouts; a "dense/information-heavy" dashboard shouldn't have so much whitespace that scanning it takes longer than it should.
+- [ ] **Real content, not lorem-ipsum-adjacent placeholders**, wherever the PRD gives enough information to write real copy. "Lorem ipsum" and "Sample text goes here" read as unfinished even in a first draft.
+- [ ] **Interactive states exist.** Hover/focus/disabled/loading states are specified, not left to browser/framework defaults — default states are another common tell.
+- [ ] **SVG assets actually pass `scripts/validate_assets.py`.** A malformed SVG (most commonly a `--` inside a comment) reads as normal text but renders as a broken image in strict browsers — this has to be checked by parsing, not by reading the source.
+- [ ] **Assets share one visual DNA.** If multiple icons/illustrations were generated or curated for this batch, they visibly belong to the same family (consistent stroke width, consistent color treatment) rather than looking independently sourced.
+- [ ] **Nothing here contradicts the "Do not" list** in `.tastemaker/style-lock.md`, if the project has accumulated specific rejections.
+- [ ] **Honest about fallbacks.** If asset generation fell back to curated icons + code-native visuals because no image-gen tool was available, that's stated plainly rather than implied to be custom-generated.
