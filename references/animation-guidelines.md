@@ -2,13 +2,24 @@
 
 Animation is one of the fastest ways to make a UI feel expensive or feel cheap, often more than any single color choice. The rule that separates the two: **motion should clarify, not decorate.** Every animation should answer "what changed" or "what's about to happen" — if it's just movement for its own sake, it reads as noise, not polish.
 
-## Bundled starter (use this instead of writing motion from scratch each time)
+## GSAP is the default motion engine
 
-`assets/reveal.css` + `assets/reveal.js` provide a small, dependency-free scroll-reveal + stagger system: elements fade/rise in as they enter the viewport, respecting `prefers-reduced-motion` automatically. Copy both into the project and:
+A static-looking site is one of the fastest ways a generated UI reads as a template rather than a real product. **GSAP + ScrollTrigger is the default for every Tastemaker project** — not an optional nice-to-have — because it's what actually produces the dynamic, interactive feel (scroll-driven reveals, staggered entrances, smooth hover/press feedback, timeline-sequenced hero moments) that separates a site that feels alive from one that feels like a static mockup. GSAP's full library, including ScrollTrigger and every previously-paid Club plugin, has been free for commercial use since Webflow's 2024 acquisition of GreenSock — there's no licensing reason to reach for anything more limited.
+
+Install it per `references/tech-stack-guides.md` (CDN tags for plain HTML, `npm install gsap` for React/Vue/etc.), then wire up `assets/gsap-starter.js` — tested end-to-end (immediate-viewport reveal, scroll-triggered reveal, and real staggered timing all verified in a browser, not just written blind):
 
 ```html
-<link rel="stylesheet" href="reveal.css">
-<script src="reveal.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="gsap-starter.js"></script>
+<script>
+  TastemakerMotion.init({
+    duration: 0.22,      // seconds — pull from .tastemaker/style-lock.md's Motion section
+    distance: 16,        // px
+    ease: "power2.out",
+    staggerStep: 0.06,   // seconds between staggered children
+  });
+</script>
 ```
 
 ```html
@@ -19,7 +30,9 @@ Animation is one of the fastest ways to make a UI feel expensive or feel cheap, 
 </div>
 ```
 
-Don't reinvent this per project — extend the CSS variables at the top of `reveal.css` (duration, distance, easing) to match the locked style instead of writing new keyframes each time.
+`gsap-starter.js` uses `gsap.matchMedia()` to branch on `prefers-reduced-motion` automatically — no separate reduced-motion code path to remember. Beyond scroll-reveal, reach for GSAP timelines for anything that needs real sequencing (a hero's headline, subhead, and CTA entering in order rather than all at once) and for hover/press micro-interactions where a plain CSS transition feels flat — GSAP handles both without a different library or mental model.
+
+**`assets/reveal.css` + `assets/reveal.js`** (the zero-dependency vanilla version) still exist and use the exact same `data-reveal` / `data-reveal-group` markup convention — use them only when a project genuinely can't take on GSAP (a constrained embed context, a CDN-blocked environment). Don't reach for them by default; GSAP is the default, the vanilla pair is the fallback.
 
 ## What to animate, and how much
 
@@ -34,9 +47,10 @@ Animate only `transform` and `opacity`. Anything that animates `width`, `height`
 
 ## Always respect `prefers-reduced-motion`
 
-Every animation must have a reduced-motion fallback (instant or near-instant state change instead of the animated transition). This isn't an accessibility afterthought to bolt on later — the bundled `reveal.css` handles it by default; if you write custom animation beyond what's bundled, wrap it the same way:
+Every animation must have a reduced-motion fallback (instant or near-instant state change instead of the animated transition). This isn't an accessibility afterthought to bolt on later — `gsap-starter.js` handles it automatically via `gsap.matchMedia()`, and the vanilla `reveal.css` fallback handles it via the media query below. If you write custom GSAP timelines beyond what `gsap-starter.js` covers (e.g. a bespoke hero sequence), branch them through `gsap.matchMedia()` the same way rather than skipping the check:
 
 ```css
+/* only needed for custom animation outside gsap-starter.js / reveal.css */
 @media (prefers-reduced-motion: reduce) {
   * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
 }
