@@ -111,7 +111,13 @@ def main():
             f.write("# Photo attribution (required by Unsplash API Guidelines)\n\n")
         f.write("\n".join(attribution_lines) + "\n")
 
-    print(f"\nAttribution written to {attribution_path} — surface this credit near each photo in the UI (not just in this file). Unsplash's guidelines require the photographer + Unsplash to be credited and linked wherever the photo is actually displayed.")
+    print(
+        f"\nAttribution written to {attribution_path} — this file alone does not satisfy "
+        "Unsplash's API Guidelines. The credit must also appear visibly on the site itself "
+        "(a code comment or a file that never reaches the browser does not count). It can be "
+        "small and unobtrusive — see references/illustration-sources.md for two compliant, "
+        "low-key patterns (a subtle photo caption, or grouped footer credits)."
+    )
 
 
 if __name__ == "__main__":

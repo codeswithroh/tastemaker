@@ -16,9 +16,11 @@ Drop the `tastemaker/` folder into your project's skills directory (or wherever 
 
 Requires Python 3 + Pillow for the deterministic color extraction script (`pip install Pillow`). Falls back gracefully to a vision-based read if Pillow isn't installed.
 
-**Optional, for real photography**: register a free app at [unsplash.com/developers](https://unsplash.com/developers) and set `export UNSPLASH_ACCESS_KEY=your_key_here`. `scripts/fetch_unsplash.py` uses Unsplash's official API and handles the attribution + download-tracking their API Guidelines require — nothing extra to configure beyond the key.
+**Optional, for real photography**: register a free app at [unsplash.com/developers](https://unsplash.com/developers) and set `export UNSPLASH_ACCESS_KEY=your_key_here`. `scripts/fetch_unsplash.py` uses Unsplash's official API and handles the download-tracking their API Guidelines require. **Attribution stays visible on the site** — Unsplash's guidelines require photographer + Unsplash credit wherever a photo is displayed, and that's a condition of API access, not a style choice; it can be small and unobtrusive (see `references/illustration-sources.md`), but it can't be hidden in a code comment.
 
-**A deliberate non-feature**: this skill does not auto-fetch from unDraw. unDraw's license explicitly prohibits automated scraping/downloading of their assets (a prior third-party CDN for it was shut down over exactly this), so instead the workflow asks you to spend one minute at [undraw.co/illustrations](https://undraw.co/illustrations), use *their own* built-in recolor tool, and drop the SVGs into the project — everything after that is automatic.
+**Illustrations default to the sibling [`ideagram`](https://github.com/codeswithroh/ideagram) skill** — original artwork, matched to the project's locked accent, zero manual steps. When that's not available or doesn't fit, `references/illustration-sources.md` covers unDraw and Streamline as co-equal fallbacks (neither is a hard dependency on the other). Both explicitly prohibit automated scraping/bulk downloading in their own terms — unDraw's license bans it outright, and Streamline's Fair Use Policy states downloading via scripts "does not fall within fair use" — so both are wired as a one-time manual step (browse, pick, download, drop in) rather than an auto-fetch, same as unDraw always was here.
+
+**For motion**: GSAP + ScrollTrigger, loaded via CDN (plain HTML/CSS) or `npm install gsap` (React/Vue/etc.) — see `references/tech-stack-guides.md`. Free for commercial use, including ScrollTrigger and every previously-paid plugin, since Webflow's 2024 acquisition of GreenSock.
 
 ## How it's different from "design system" skills
 
@@ -41,16 +43,18 @@ tastemaker/
 │   ├── style-tokens.md               — starter palettes/type/shape by mood (cold-start fallback)
 │   ├── component-patterns.md         — layout patterns by screen type
 │   ├── anti-slop-checklist.md        — pre-delivery checks
-│   ├── tech-stack-guides.md          — wiring tokens into React/Vue/SwiftUI/Flutter/plain CSS
-│   └── animation-guidelines.md       — motion principles + how to use assets/reveal.*
+│   ├── tech-stack-guides.md          — wiring tokens (and GSAP) into React/Vue/SwiftUI/Flutter/plain CSS
+│   ├── animation-guidelines.md       — GSAP as the default motion engine, reveal.* as fallback
+│   └── illustration-sources.md       — ideagram / unDraw / Streamline priority, fair-use terms, Unsplash attribution patterns
 ├── scripts/
 │   ├── extract_palette.py            — deterministic color/contrast extraction from images
 │   ├── validate_assets.py            — SVG well-formedness validation
 │   ├── fetch_unsplash.py             — real photography via Unsplash's official API
 │   └── recolor_svg.py                — recolor local SVGs (already on disk) to the locked accent
 └── assets/
-    ├── reveal.css                    — scroll-reveal/stagger starter (prefers-reduced-motion aware)
-    └── reveal.js                     — pairs with reveal.css, no dependencies
+    ├── gsap-starter.js               — default motion: wires data-reveal/data-reveal-group to GSAP + ScrollTrigger
+    ├── reveal.css                    — dependency-free scroll-reveal fallback (same markup convention)
+    └── reveal.js                     — pairs with reveal.css
 ```
 
 ## License
