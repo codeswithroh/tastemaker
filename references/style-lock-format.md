@@ -37,7 +37,7 @@ Established: <date>. Source: <"reference images: list them" | "starter scaffoldi
 ## Assets
 - Anchor asset: <path> — everything else should visually match this
 - Asset style: <e.g. "outline icons, 1.5px stroke, rounded caps" | "flat geometric illustrations, palette-matched">
-- Illustration vs. photography split: <e.g. "illustrations for mission/values/team personality; real Unsplash photography for office/location sections">
+- Illustration vs. photography split: <e.g. "ideagram illustrations for mission/values/team personality; real Pixabay photography for office/location sections">
 
 ## Motion
 - Feel: <e.g. "quick and restrained" | "soft and slightly bouncy" — should match the mood descriptors above>

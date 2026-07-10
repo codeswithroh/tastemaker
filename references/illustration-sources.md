@@ -1,57 +1,32 @@
-# Illustration sources, and keeping Unsplash attribution honest
+# Asset sourcing — attribution-free by design
 
-## Priority order
+The governing rule: **every default source here requires zero attribution on the finished site.** A visible photo credit or "icons by X" line on a real marketing site is a visual hindrance no shipped product tolerates — so this skill sources only from places whose license lets the asset be used cleanly, with nothing for the end user to see. Sources that *require* on-site attribution (notably Unsplash's API) are deliberately not used as defaults, even though the imagery is good, because that requirement fights the end-user experience.
 
-1. **`ideagram` skill** — original artwork generated on the spot, matched to the locked accent color, zero manual steps, zero licensing gray area. Default whenever it's available.
-2. **unDraw or Streamline** — human-assisted fallback, used only when `ideagram` isn't available or its flat-primitive style genuinely isn't the right fit for what a section needs. Neither is "the" fallback over the other — pick whichever's actual illustration style is the closer visual match for the project. Both require the same one-time manual step and both explicitly prohibit automated bulk downloading; see below for why, and what stays compliant.
-3. **Image-generation tool + custom style**, or **code-native fallback** — covered in `SKILL.md`'s Step 3, for when neither of the above fits.
+## Photos — Pixabay (default), Pexels (alt)
 
-## unDraw
+- **Pixabay** — `scripts/fetch_photos.py`. The Pixabay Content License requires **no attribution** for downloaded assets used in a site: no caption, no footer credit, nothing. (Its API terms ask for source display only if you're building an app that shows Pixabay *search results* to your own users — a stock-photo browser UI — which a finished website is not.) Use the fetched photos directly. Needs a free `PIXABAY_API_KEY`.
+- **Pexels** — equally attribution-free for downloaded photos used in a site (credit "appreciated, not required"). A fine alternative if its library has a better match for a given brief; would need a small `fetch_pexels.py` sibling or the user's own Pexels MCP if connected. Same net result: no on-site attribution.
+- **Why not Unsplash** — its imagery is excellent, but its API Guidelines require *visible* photographer + Unsplash attribution wherever a photo appears, enforced as a condition of API access. That's an on-site hindrance with no compliant way around it, so it's off the default path on purpose.
 
-- **License**: free for commercial and personal use, no attribution required for their standard sets.
-- **What's prohibited**: automated scraping or bulk downloading — their license explicitly excludes "automated and non-automated ways to link, embed, scrape, search or download the assets without consent," and a prior third-party CDN mirroring their catalog was shut down over exactly this.
-- **Compliant flow**: ask the user to spend a minute at undraw.co/illustrations, use unDraw's own built-in recolor tool to tint their pick to the locked accent color, then drop the downloaded SVG into `design/assets/`. Everything after that (validation via `scripts/validate_assets.py`, reuse across screens) proceeds automatically.
+## Illustrations — ideagram (default)
 
-## Streamline
+The sibling `ideagram` skill generates original flat illustrations on the spot, tinted to the project's locked accent color. Original artwork → no attribution, no licensing question, no manual step. This is the default for every concept-driven section whenever `ideagram` is available in the session.
 
-- **License**: free tier permits commercial use with no per-project asset cap, but requires visible attribution (credited, linked to streamlinehq.com) for open-source/Creative-Commons sets. Their Premium plans remove the attribution requirement.
-- **What's prohibited**: their own Fair Use Policy states plainly that "downloading a high volume of assets with the help of scripts or automation tools does not fall within fair use," and can lead to account suspension — so this skill does not scrape streamlinehq.com or guess at undocumented API calls. Streamline does offer an official API/MCP for developers, but their public docs don't expose enough concrete technical detail (endpoints, auth) to wire up here with confidence — if the user has Streamline's own MCP connected in their session, use its tools directly (that's the sanctioned channel); otherwise, treat this the same as unDraw.
-- **Also prohibited**: using Streamline assets as selectable assets exposed to *other* end users inside a product you're building (e.g. a "pick your icon" feature in a website builder or Canva-style app) — that's a distinct restriction from using an asset directly in a client site's design, which is what this skill does. Don't extend usage into that territory.
-- **Compliant flow**: ask the user to browse streamlinehq.com/illustrations (or use Streamline's official app/MCP if they have it), pick and download whatever matches the project's style, drop the SVG into `design/assets/`. If the set requires attribution, add a small, unobtrusive credit + link to streamlinehq.com near the illustration or grouped in the footer — same spirit as the Unsplash pattern below.
+## Icons — Iconify (default)
 
-## Keeping Unsplash's required attribution unobtrusive, not hidden
+`scripts/fetch_icons.py` hits Iconify's public API (`api.iconify.design`) — **no API key required**. It draws from permissively-licensed open sets (Lucide ISC, Tabler MIT, Phosphor MIT, Material Symbols Apache-2.0, …) that need **no attribution** in a finished product, and returns SVGs already tinted to the accent color server-side. Pick one set per project and stay in it so every icon shares a stroke weight and corner style — mixing sets is a fast way to look unintentional. Discover names with `--search`, then fetch with `--icons`.
 
-Unsplash's API Guidelines require visible attribution (photographer name + Unsplash, both linked) wherever a photo is actually displayed — this is enforced, not a suggestion, and there is no compliant version of this that hides it in a code comment or a file that never ships to the browser. What *is* legitimate is making it small and quiet rather than prominent. Two patterns that satisfy the requirement without fighting the design:
+> One nuance to respect: Iconify/its sets are for using icons *in* your design. Don't build a product feature that re-exposes these icons as a *pickable library to your own end users* (an "insert icon" picker in a builder app) — that's a different use some sets restrict. Using an icon directly in a client's UI, which is all this skill does, is fine.
 
-**Subtle caption directly on the photo** (good for a single hero image):
-```html
-<figure class="hero-photo">
-  <img src="design/assets/photos/office-1.jpg" alt="...">
-  <figcaption class="photo-credit">
-    Photo by <a href="https://unsplash.com/@photographer?utm_source=...">Name</a> on
-    <a href="https://unsplash.com/?utm_source=...">Unsplash</a>
-  </figcaption>
-</figure>
-```
-```css
-.photo-credit {
-  position: absolute;
-  bottom: 8px;
-  right: 8px;
-  font-size: 11px;
-  color: rgba(255, 255, 255, 0.7);
-  background: rgba(0, 0, 0, 0.35);
-  padding: 2px 8px;
-  border-radius: 4px;
-}
-```
+## Manual exceptions — unDraw, Streamline
 
-**Grouped footer credits** (good for multiple photos across a page — keeps every individual photo caption-free):
-```html
-<footer>
-  ...
-  <p class="photo-credits">Photos: <a href="...">Name</a>, <a href="...">Name</a> — via Unsplash</p>
-</footer>
-```
+Only when `ideagram` genuinely doesn't fit a section (needs more detail than its flat-primitive style produces) or a bespoke image-gen style is wanted:
 
-Either pattern is fine; what's not fine is omitting both and relying on a source-code comment, since the requirement is specifically that it's visible on the site a viewer actually sees.
+- **unDraw** (undraw.co) — free, **no attribution required**, has an on-site recolor tool. Constraint is only that automated scraping/bulk-download is prohibited by its license, so this is a manual browse-pick-download step, not an auto-fetch.
+- **Streamline** (streamlinehq.com) — larger, more detailed library. Free tier requires visible attribution for open-source sets (premium removes it); their Fair Use Policy also prohibits scripted bulk downloading. Because the free tier *does* carry an attribution string, prefer unDraw or ideagram when the goal is a clean, credit-free site — reach for Streamline only if the user has a premium license (attribution-free) or explicitly accepts the credit. If the user has Streamline's own official MCP connected, that's the sanctioned automated channel; otherwise it's a manual step.
+
+After any manual download: validate with `scripts/validate_assets.py`, recolor to the locked accent with `scripts/recolor_svg.py` if needed, then reuse across screens.
+
+## The through-line
+
+Defaults (Pixabay + ideagram + Iconify) are all automatic *and* attribution-free — which is what makes a complete, credit-free, single-pass site possible. The manual exceptions exist for fit, not because the defaults are lacking. If you ever find yourself about to add an on-site credit line to satisfy a source's license, stop: that means the wrong source was chosen for this skill's goal. Switch to an attribution-free one instead.

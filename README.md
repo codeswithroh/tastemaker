@@ -16,11 +16,16 @@ Drop the `tastemaker/` folder into your project's skills directory (or wherever 
 
 Requires Python 3 + Pillow for the deterministic color extraction script (`pip install Pillow`). Falls back gracefully to a vision-based read if Pillow isn't installed.
 
-**Optional, for real photography**: register a free app at [unsplash.com/developers](https://unsplash.com/developers) and set `export UNSPLASH_ACCESS_KEY=your_key_here`. `scripts/fetch_unsplash.py` uses Unsplash's official API and handles the download-tracking their API Guidelines require. **Attribution stays visible on the site** — Unsplash's guidelines require photographer + Unsplash credit wherever a photo is displayed, and that's a condition of API access, not a style choice; it can be small and unobtrusive (see `references/illustration-sources.md`), but it can't be hidden in a code comment.
+### Assets are automatic *and* attribution-free — the whole pipeline runs in one pass
 
-**Illustrations default to the sibling [`ideagram`](https://github.com/codeswithroh/ideagram) skill** — original artwork, matched to the project's locked accent, zero manual steps. When that's not available or doesn't fit, `references/illustration-sources.md` covers unDraw and Streamline as co-equal fallbacks (neither is a hard dependency on the other). Both explicitly prohibit automated scraping/bulk downloading in their own terms — unDraw's license bans it outright, and Streamline's Fair Use Policy states downloading via scripts "does not fall within fair use" — so both are wired as a one-time manual step (browse, pick, download, drop in) rather than an auto-fetch, same as unDraw always was here.
+The design goal: a single prompt produces a complete site — real photos, illustrations, icons, and scroll animation all present the first time — with **nothing the end user ever has to see as a credit line**. Every default source is API-first (fetchable without a human browsing step) and attribution-free by license:
 
-**For motion**: GSAP + ScrollTrigger, loaded via CDN (plain HTML/CSS) or `npm install gsap` (React/Vue/etc.) — see `references/tech-stack-guides.md`. Free for commercial use, including ScrollTrigger and every previously-paid plugin, since Webflow's 2024 acquisition of GreenSock.
+- **Photos → Pixabay** (`scripts/fetch_photos.py`, free `PIXABAY_API_KEY`). The Pixabay Content License requires no attribution for photos used in a site — no caption, no footer credit. Unsplash was deliberately dropped as a default because its API *forces* visible on-site attribution, which is a UX hindrance.
+- **Illustrations → [`ideagram`](https://github.com/codeswithroh/ideagram)** — original generated artwork, matched to the project's accent, zero attribution.
+- **Icons → Iconify** (`scripts/fetch_icons.py`, **no API key at all**) — permissively-licensed open sets (Lucide, Tabler, Phosphor…), pre-tinted to the accent, no attribution.
+- **Manual exceptions** (unDraw, Streamline) are covered in `references/illustration-sources.md` for when a section needs something the defaults don't fit — but they're the exception, not the norm.
+
+**Motion → GSAP + ScrollTrigger**, loaded via CDN (plain HTML/CSS) or `npm install gsap` (React/Vue/etc.) — see `references/tech-stack-guides.md`. Free for commercial use, including ScrollTrigger and every previously-paid plugin, since Webflow's 2024 acquisition of GreenSock. Includes scroll-storytelling patterns (pinned sections, scrubbed reveals, sequenced hero timelines) so a landing page unfolds as you scroll rather than sitting static.
 
 ## How it's different from "design system" skills
 
@@ -44,12 +49,13 @@ tastemaker/
 │   ├── component-patterns.md         — layout patterns by screen type
 │   ├── anti-slop-checklist.md        — pre-delivery checks
 │   ├── tech-stack-guides.md          — wiring tokens (and GSAP) into React/Vue/SwiftUI/Flutter/plain CSS
-│   ├── animation-guidelines.md       — GSAP as the default motion engine, reveal.* as fallback
-│   └── illustration-sources.md       — ideagram / unDraw / Streamline priority, fair-use terms, Unsplash attribution patterns
+│   ├── animation-guidelines.md       — GSAP as default motion engine + scroll-storytelling patterns
+│   └── illustration-sources.md       — the attribution-free asset map (Pixabay / ideagram / Iconify), manual exceptions
 ├── scripts/
 │   ├── extract_palette.py            — deterministic color/contrast extraction from images
 │   ├── validate_assets.py            — SVG well-formedness validation
-│   ├── fetch_unsplash.py             — real photography via Unsplash's official API
+│   ├── fetch_photos.py               — real photography via Pixabay (attribution-free)
+│   ├── fetch_icons.py                — icons via Iconify (no key, attribution-free, pre-tinted)
 │   └── recolor_svg.py                — recolor local SVGs (already on disk) to the locked accent
 └── assets/
     ├── gsap-starter.js               — default motion: wires data-reveal/data-reveal-group to GSAP + ScrollTrigger
