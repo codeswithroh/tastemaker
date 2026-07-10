@@ -18,12 +18,15 @@ Requires Python 3 + Pillow for the deterministic color extraction script (`pip i
 
 ### Assets are automatic *and* attribution-free — the whole pipeline runs in one pass
 
-The design goal: a single prompt produces a complete site — real photos, illustrations, icons, and scroll animation all present the first time — with **nothing the end user ever has to see as a credit line**. Every default source is API-first (fetchable without a human browsing step) and attribution-free by license:
+The design goal: a single prompt produces a complete site — real photos, illustrations, icons, and scroll animation all present the first time — with **nothing the end user ever has to see as a credit line, and no accounts to set up**. Every default source is keyless, API-first, and attribution-free by license:
 
-- **Photos → Pixabay** (`scripts/fetch_photos.py`, free `PIXABAY_API_KEY`). The Pixabay Content License requires no attribution for photos used in a site — no caption, no footer credit. Unsplash was deliberately dropped as a default because its API *forces* visible on-site attribution, which is a UX hindrance.
+- **Photos → Openverse** (`scripts/fetch_photos.py`, **no API key**). Searches 800M+ openly-licensed images, filtered to CC0 / public-domain, which require zero attribution. Unsplash was dropped because its API *forces* visible on-site attribution; Pixabay remains an optional `--source pixabay` upgrade (needs a key) for higher-curation imagery.
 - **Illustrations → [`ideagram`](https://github.com/codeswithroh/ideagram)** — original generated artwork, matched to the project's accent, zero attribution.
-- **Icons → Iconify** (`scripts/fetch_icons.py`, **no API key at all**) — permissively-licensed open sets (Lucide, Tabler, Phosphor…), pre-tinted to the accent, no attribution.
-- **Manual exceptions** (unDraw, Streamline) are covered in `references/illustration-sources.md` for when a section needs something the defaults don't fit — but they're the exception, not the norm.
+- **Icons → Iconify** (`scripts/fetch_icons.py`, **no API key**) — permissively-licensed open sets (Lucide, Tabler, Phosphor…), pre-tinted to the accent, no attribution.
+- **Credit in the code, never on the page.** `fetch_photos.py` writes a `CREDITS` comment block (creator + source + license per photo) to drop into your HTML/CSS source as a voluntary thank-you — visible to developers reading the code, invisible to end users. Generous credit, zero visual hindrance.
+- **Manual exceptions** (unDraw, Streamline) are in `references/illustration-sources.md` for when a section needs something the defaults don't fit — the exception, not the norm.
+
+The upshot: photos, icons, and illustrations all fetch with **no keys and no signups**, so the single-prompt, complete-site promise holds out of the box.
 
 **Motion → GSAP + ScrollTrigger**, loaded via CDN (plain HTML/CSS) or `npm install gsap` (React/Vue/etc.) — see `references/tech-stack-guides.md`. Free for commercial use, including ScrollTrigger and every previously-paid plugin, since Webflow's 2024 acquisition of GreenSock. Includes scroll-storytelling patterns (pinned sections, scrubbed reveals, sequenced hero timelines) so a landing page unfolds as you scroll rather than sitting static.
 
@@ -54,7 +57,7 @@ tastemaker/
 ├── scripts/
 │   ├── extract_palette.py            — deterministic color/contrast extraction from images
 │   ├── validate_assets.py            — SVG well-formedness validation
-│   ├── fetch_photos.py               — real photography via Pixabay (attribution-free)
+│   ├── fetch_photos.py               — real photography via Openverse (keyless, CC0) + code-comment credits; optional Pixabay upgrade
 │   ├── fetch_icons.py                — icons via Iconify (no key, attribution-free, pre-tinted)
 │   └── recolor_svg.py                — recolor local SVGs (already on disk) to the locked accent
 └── assets/
