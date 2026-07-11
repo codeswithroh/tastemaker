@@ -1,0 +1,8 @@
+<svg width="400" height="400" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bar chart, growth or data concept">
+  <line x1="70" y1="320" x2="330" y2="320" stroke="#262631" stroke-width="10" stroke-linecap="round"/>
+  <rect x="100" y="240" width="46" height="80" rx="8" fill="#262631"/>
+  <rect x="177" y="180" width="46" height="140" rx="8" fill="#262631"/>
+  <rect x="254" y="110" width="46" height="210" rx="8" fill="#6C5CE7"/>
+  <path d="M100 150 L177 120 L254 70 L300 40" stroke="#262631" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <circle cx="300" cy="40" r="14" fill="#6C5CE7"/>
+</svg>

@@ -1,0 +1,7 @@
+<svg width="400" height="400" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Envelope, email or messaging concept">
+  <rect x="60" y="120" width="280" height="190" rx="16" fill="#262631"/>
+  <rect x="84" y="144" width="232" height="142" rx="8" fill="#6C5CE7"/>
+  <path d="M84 150 L200 235 L316 150" stroke="#262631" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <circle cx="290" cy="105" r="34" fill="#6C5CE7"/>
+  <path d="M278 105 L288 115 L305 95" stroke="#262631" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+</svg>

@@ -1,0 +1,14 @@
+<svg width="400" height="400" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Lightbulb, idea concept">
+  <g stroke="#262631" stroke-width="10" stroke-linecap="round">
+    <line x1="200" y1="40" x2="200" y2="70"/>
+    <line x1="290" y1="80" x2="270" y2="100"/>
+    <line x1="110" y1="80" x2="130" y2="100"/>
+    <line x1="320" y1="170" x2="290" y2="170"/>
+    <line x1="80" y1="170" x2="110" y2="170"/>
+  </g>
+  <circle cx="200" cy="170" r="95" fill="#6C5CE7"/>
+  <rect x="168" y="248" width="64" height="24" fill="#262631"/>
+  <rect x="172" y="278" width="56" height="18" rx="6" fill="#262631"/>
+  <rect x="178" y="302" width="44" height="14" rx="6" fill="#262631"/>
+  <path d="M180 150 L200 190 L175 190 L200 230" stroke="#262631" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+</svg>

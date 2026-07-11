@@ -1,0 +1,8 @@
+<svg width="400" height="400" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Rocket, launch or speed concept">
+  <path d="M200 50 C250 100 260 180 260 230 H140 C140 180 150 100 200 50 Z" fill="#262631"/>
+  <path d="M140 230 L100 300 L150 280 Z" fill="#262631"/>
+  <path d="M260 230 L300 300 L250 280 Z" fill="#262631"/>
+  <circle cx="200" cy="165" r="34" fill="#6C5CE7"/>
+  <path d="M170 230 H230 L215 300 H185 Z" fill="#6C5CE7"/>
+  <path d="M188 300 C188 330 175 345 175 345 C205 345 212 330 212 300 Z" fill="#6C5CE7"/>
+</svg>

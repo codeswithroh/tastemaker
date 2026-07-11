@@ -1,0 +1,7 @@
+<svg width="400" height="400" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Speech bubble, communication concept">
+  <path d="M70 90 H330 C341 90 350 99 350 110 V240 C350 251 341 260 330 260 H190 L130 310 L140 260 H70 C59 260 50 251 50 240 V110 C50 99 59 90 70 90 Z" fill="#262631"/>
+  <path d="M96 116 H304 C309.5 116 314 120.5 314 126 V224 C314 229.5 309.5 234 304 234 H185 L145 270 L152 234 H96 C90.5 234 86 229.5 86 224 V126 C86 120.5 90.5 116 96 116 Z" fill="#6C5CE7"/>
+  <circle cx="140" cy="175" r="14" fill="#262631"/>
+  <circle cx="200" cy="175" r="14" fill="#262631"/>
+  <circle cx="260" cy="175" r="14" fill="#262631"/>
+</svg>
