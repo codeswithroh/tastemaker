@@ -2,11 +2,28 @@
 
 Pick the pattern that fits the PRD's actual goal for the screen, not the first one on the list. These are structural starting points — the locked style tokens (palette/type/shape) from `.tastemaker/style-lock.md` determine how they're skinned.
 
+## Show, don't tell — the default that overrides all the patterns below
+
+Before picking any pattern, apply the visual-over-text default from SKILL.md Step 4. The failure mode every layout below can collapse into is "heading + two sentences of prose," repeated down the page. Each pattern has a *show* version that carries the same meaning with a visual and a caption instead of a paragraph — reach for that version first:
+
+| Instead of telling (text) | Show it (visual) |
+|---|---|
+| A feature card: heading + 2-sentence description | A small mockup of the feature's actual UI, with a one-line caption |
+| "Fast / powerful / real-time analytics" | An actual chart or dashboard fragment rendered in the locked palette |
+| "Simple 3-step setup" as a bulleted list | Three side-by-side visual panels, each a screen state, numbered |
+| "See the difference" prose | A literal before/after split or slider |
+| A stat buried in a sentence | A big number + one-word label, as its own tile |
+| "Works with your stack" paragraph | A logo/icon grid of the integrations |
+| "Trusted by teams" claim | The actual logo strip, or a real testimonial with a face |
+| An abstract benefit (calm, focus, security) | The project's `ideagram` illustration for that concept |
+
+The point isn't to delete all copy — a headline, a short subhead, captions, and CTA labels are text doing real work. The point is that the *primary content of each section is something to look at*, and text captions it. A section that's mostly words with a decorative icon on top is the thing to catch and rebuild.
+
 ## Landing / marketing page
 - **Hero-centric**: single bold headline + subhead + one CTA + supporting visual. Use when the product needs a single clear pitch (most SaaS).
 - **Social-proof-first**: logos/testimonials above the fold, hero secondary. Use when credibility is the biggest conversion blocker (enterprise, higher price point).
 - **Problem/solution narrative**: scroll-driven sections walking through a pain point then the fix. Use for products solving a non-obvious problem that needs explaining before the pitch lands.
-- Common failure: stacking 6+ generic feature cards with icon + heading + one line, identical structure repeated. If every section has the same shape, at least vary rhythm (a full-width visual, an alternating two-column, a comparison table) so the page doesn't read as a template.
+- Common failure: stacking 6+ generic feature cards with icon + heading + one line, identical structure repeated — the text-wall tell. Apply the show-don't-tell table above: convert feature cards into feature *mockups*, vary rhythm (a full-width visual, an alternating two-column showing the feature in use, a comparison table, a real chart) so the page is a sequence of things to look at, not a stack of paragraphs.
 
 ## Dashboard
 - Lead with the one number/status the user opens the app to check — don't bury it below navigation chrome.
