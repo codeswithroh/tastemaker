@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calmly — a tastemaker demo (Warm / approachable preset)</title>
+<meta name="description" content="A fictional mindfulness app landing page, built entirely from tastemaker's Warm/approachable preset: verified palette, Zain + Nunito type pairing, a constructed lotus mark, GSAP motion.">
+<link rel="icon" type="image/svg+xml" href="assets/mark-calmly.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zain:wght@700;800&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<script>document.documentElement.classList.add('has-js');</script>
+<style>
+  :root {
+    --text: #2B2118;
+    --bg: #FBF7F0;
+    --primary: #B85A38;
+    --secondary: #F0E4D3;
+    --accent: #7A8C6E;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Nunito', sans-serif; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+  h1, h2, h3 { font-family: 'Zain', sans-serif; font-weight: 800; }
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 0 24px; }
+  a { color: inherit; }
+  svg { display: block; }
+
+  .demo-banner { background: var(--text); color: var(--bg); text-align: center; font-size: 12.5px; padding: 8px 12px; }
+  .demo-banner a { color: var(--secondary); text-decoration: underline; }
+
+  header { padding: 22px 0; }
+  nav { display: flex; align-items: center; justify-content: space-between; }
+  .brand { display: flex; align-items: center; gap: 10px; font-size: 21px; text-decoration: none; color: var(--text); font-family: 'Zain', sans-serif; font-weight: 800; }
+  .brand svg { width: 34px; height: 34px; }
+  .nav-links { display: flex; gap: 28px; font-size: 14.5px; font-weight: 600; }
+  .btn-primary { background: var(--primary); color: #fff; border: none; border-radius: 999px; padding: 11px 22px; font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 14px; text-decoration: none; display: inline-flex; align-items: center; transition: transform .12s, background .15s; }
+  .btn-primary:hover { background: #a34f2f; transform: translateY(-1px); }
+
+  .hero { padding: 52px 0 76px; }
+  .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+  .eyebrow { display: inline-flex; align-items: center; gap: 8px; font-weight: 700; font-size: 13px; color: var(--primary); background: var(--secondary); border-radius: 999px; padding: 6px 14px; }
+  .hero h1 { font-size: 46px; line-height: 1.08; margin: 18px 0 18px; }
+  .hero p { font-size: 16.5px; color: #5A4E40; max-width: 40ch; margin-bottom: 28px; }
+  .cta-row { display: flex; gap: 14px; flex-wrap: wrap; }
+  .btn-ghost { border: 2px solid var(--secondary); border-radius: 999px; color: var(--text); padding: 10px 22px; font-weight: 700; font-size: 14px; text-decoration: none; }
+  .hero-art { display: flex; justify-content: center; }
+  .hero-art svg { width: 100%; max-width: 380px; height: auto; }
+
+  section { padding: 60px 0; }
+  .section-head { text-align: center; max-width: 540px; margin: 0 auto 40px; }
+  .section-head h2 { font-size: 32px; margin-bottom: 10px; }
+  .section-head p { color: #5A4E40; font-size: 15px; }
+
+  .feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  .feature-card { background: #fff; border: 1px solid var(--secondary); border-radius: 20px; padding: 26px; text-align: center; }
+  .feature-viz { height: 90px; display: flex; align-items: center; justify-content: center; margin-bottom: 14px; }
+  .feature-card h3 { font-size: 20px; margin-bottom: 6px; }
+  .feature-card p { font-size: 13.5px; color: #5A4E40; }
+
+  .cta-band { background: var(--primary); color: #fff; border-radius: 24px; padding: 56px; text-align: center; margin: 0 24px; }
+  .cta-band h2 { font-size: 30px; margin-bottom: 12px; }
+  .cta-band p { color: #F6E4DA; margin-bottom: 26px; font-size: 15px; }
+  .cta-band .btn-primary { background: #fff; color: var(--primary); }
+
+  footer { padding: 40px 24px; text-align: center; font-size: 13px; color: #8C7C68; }
+  footer a { color: var(--primary); text-decoration: none; font-weight: 700; }
+
+  .has-js [data-reveal] { opacity: 0; }
+  @media (prefers-reduced-motion: reduce) { .has-js [data-reveal] { opacity: 1; } }
+
+  @media (max-width: 760px) {
+    .hero-grid { grid-template-columns: 1fr; }
+    .hero-art { order: -1; }
+    .feature-grid { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="demo-banner">This entire page is a tastemaker demo — Warm/approachable preset, verified palette + fonts + constructed mark. <a href='/'>← back to tastemaker</a></div>
+
+<header>
+  <div class="wrap">
+    <nav>
+      <a class="brand" href="#">
+        <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Calmly lotus mark">
+          <path d="M20 30 C10 26 6 18 8 11 C15 14 19 21 20 30 Z" fill="#9BAF8E"/>
+          <path d="M20 30 C30 26 34 18 32 11 C25 14 21 21 20 30 Z" fill="#9BAF8E"/>
+          <path d="M20 31 C15 24 15 15 20 7 C25 15 25 24 20 31 Z" fill="#7A8C6E"/>
+          <path d="M9 32 Q20 37 31 32" stroke="#B85A38" stroke-width="3" stroke-linecap="round" fill="none"/>
+        </svg>
+        Calmly
+      </a>
+      <div class="nav-links">
+        <a href="#why">Why Calmly</a>
+        <a href="#start">Start</a>
+      </div>
+      <a class="btn-primary" href="#">Start free</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow" data-hero>🌿 5-minute daily practice</div>
+      <h1 data-hero>A quieter mind, ten minutes at a time.</h1>
+      <p data-hero>Guided mindfulness for people who don't have an hour to spare. Short sessions, real breathing, no subscription guilt-trip.</p>
+      <div class="cta-row" data-hero>
+        <a class="btn-primary" href="#">Start your first session</a>
+        <a class="btn-ghost" href="#why">Why it works</a>
+      </div>
+    </div>
+    <div class="hero-art" aria-hidden="true" data-hero-art>
+      <svg width="480" height="420" viewBox="0 0 480 420" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A seated figure meditating beneath a rising sun, with leaves">
+        <ellipse cx="240" cy="392" rx="150" ry="14" fill="#2B2118" opacity="0.07"/>
+        <circle class="sun" cx="240" cy="120" r="56" fill="#7A8C6E"/>
+        <g class="rays" stroke="#7A8C6E" stroke-width="8" stroke-linecap="round">
+          <line x1="240" y1="30" x2="240" y2="12"/>
+          <line x1="316" y1="120" x2="336" y2="120"/>
+          <line x1="144" y1="120" x2="164" y2="120"/>
+          <line x1="294" y1="66" x2="308" y2="52"/>
+          <line x1="186" y1="66" x2="172" y2="52"/>
+        </g>
+        <path d="M180 300 Q240 340 300 300 L300 320 Q240 360 180 320 Z" fill="#B85A38"/>
+        <ellipse cx="240" cy="230" rx="70" ry="76" fill="#B85A38"/>
+        <circle cx="240" cy="150" r="38" fill="#2B2118"/>
+        <circle cx="176" cy="272" r="16" fill="#2B2118"/>
+        <circle cx="304" cy="272" r="16" fill="#2B2118"/>
+        <path class="leaf" d="M100 260 C130 220 130 170 100 140 C70 170 70 220 100 260 Z" fill="#7A8C6E"/>
+        <path d="M100 145 L100 255" stroke="#F0E4D3" stroke-width="3" stroke-linecap="round"/>
+        <path class="leaf" d="M380 260 C410 220 410 170 380 140 C350 170 350 220 380 260 Z" fill="#7A8C6E"/>
+        <path d="M380 145 L380 255" stroke="#F0E4D3" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<section id="why">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <h2>Why people stick with it</h2>
+      <p>Not another wellness app you download once and forget.</p>
+    </div>
+    <div class="feature-grid">
+      <div class="feature-card" data-reveal>
+        <div class="feature-viz">
+          <svg width="90" height="80" viewBox="0 0 90 80"><circle cx="45" cy="40" r="30" fill="none" stroke="#F0E4D3" stroke-width="8"/><path d="M45 40 m0 -30 a30 30 0 0 1 26 15" fill="none" stroke="#B85A38" stroke-width="8" stroke-linecap="round"/><text x="45" y="46" font-family="Zain, sans-serif" font-size="22" font-weight="800" fill="#2B2118" text-anchor="middle">10:00</text></svg>
+        </div>
+        <h3>Actually 10 minutes</h3>
+        <p>Timed and honest — no "quick 5-minute" that runs to twenty.</p>
+      </div>
+      <div class="feature-card" data-reveal>
+        <div class="feature-viz">
+          <svg width="120" height="80" viewBox="0 0 120 80"><g stroke="#B85A38" stroke-width="5" stroke-linecap="round"><line x1="12" y1="40" x2="12" y2="40"/><line x1="26" y1="30" x2="26" y2="50"/><line x1="40" y1="18" x2="40" y2="62"/><line x1="54" y1="26" x2="54" y2="54"/><line x1="68" y1="14" x2="68" y2="66"/><line x1="82" y1="30" x2="82" y2="50"/><line x1="96" y1="22" x2="96" y2="58"/><line x1="108" y1="34" x2="108" y2="46"/></g></svg>
+        </div>
+        <h3>Real human voices</h3>
+        <p>Recorded by actual teachers, not a text-to-speech engine.</p>
+      </div>
+      <div class="feature-card" data-reveal>
+        <div class="feature-viz">
+          <svg width="110" height="80" viewBox="0 0 110 80"><rect x="15" y="16" width="80" height="52" rx="8" fill="#F0E4D3"/><rect x="15" y="16" width="80" height="16" rx="8" fill="#7A8C6E"/><g fill="#fff"><rect x="26" y="40" width="10" height="10" rx="2"/><rect x="42" y="40" width="10" height="10" rx="2"/><rect x="58" y="40" width="10" height="10" rx="2"/><rect x="74" y="40" width="10" height="10" rx="2"/><rect x="26" y="54" width="10" height="10" rx="2"/></g><circle cx="63" cy="59" r="14" fill="#B85A38"/><path d="M57 59 l4 4 l8 -9" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h3>No streak guilt</h3>
+        <p>Miss a day and the app just… doesn't care. Come back anytime.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="start">
+  <div class="cta-band" data-reveal>
+    <h2>Ten minutes, whenever you need it.</h2>
+    <p>Free to start. No credit card, no streak to protect.</p>
+    <a class="btn-primary" href="#">Start your first session</a>
+  </div>
+</section>
+
+<footer>
+  Calmly is a fictional demo product — built entirely with <a href='/'>tastemaker</a>'s Warm/approachable preset to prove the design system out, not a real app.
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>
+  window.addEventListener('load', function () {
+    var revealEls = document.querySelectorAll('[data-reveal]');
+    if (!window.gsap) {
+      revealEls.forEach(function (el) { el.style.opacity = 1; });
+      return;
+    }
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      gsap.set('[data-reveal], [data-hero], [data-hero-art]', { opacity: 1, y: 0 });
+      return;
+    }
+
+    var tl = gsap.timeline({ defaults: { ease: 'power2.out', duration: 0.5 } });
+    tl.from('[data-hero]', { opacity: 0, y: 18, stagger: 0.09 })
+      .from('[data-hero-art]', { opacity: 0, y: 24, duration: 0.7 }, '-=0.4')
+      .from('.sun', { opacity: 0, scale: 0.5, transformOrigin: '240px 120px', duration: 0.6, ease: 'back.out(1.7)' }, '-=0.4')
+      .from('.rays', { opacity: 0, duration: 0.5 }, '-=0.2')
+      .from('.leaf', { opacity: 0, scale: 0.6, transformOrigin: '50% 100%', stagger: 0.1, duration: 0.4 }, '-=0.3');
+
+    gsap.set(revealEls, { y: 20 });
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) {
+          gsap.to(en.target, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' });
+          io.unobserve(en.target);
+        }
+      });
+    }, { rootMargin: '0px 0px -8% 0px' });
+    revealEls.forEach(function (el) { io.observe(el); });
+
+    setTimeout(function () {
+      gsap.set('[data-hero], [data-hero-art]', { opacity: 1, y: 0 });
+      gsap.set('.sun, .rays, .leaf', { opacity: 1, scale: 1, clearProps: 'transform' });
+    }, 2600);
+    setTimeout(function () {
+      revealEls.forEach(function (el) { if (+getComputedStyle(el).opacity < 0.05) gsap.set(el, { opacity: 1, y: 0 }); });
+    }, 4000);
+  });
+</script>
+
+</body>
+</html>

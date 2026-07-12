@@ -1,0 +1,9 @@
+<svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Calmly mark: a lotus flower">
+  <!-- side petals -->
+  <path d="M20 30 C10 26 6 18 8 11 C15 14 19 21 20 30 Z" fill="#9BAF8E"/>
+  <path d="M20 30 C30 26 34 18 32 11 C25 14 21 21 20 30 Z" fill="#9BAF8E"/>
+  <!-- center petal -->
+  <path d="M20 31 C15 24 15 15 20 7 C25 15 25 24 20 31 Z" fill="#7A8C6E"/>
+  <!-- water base -->
+  <path d="M9 32 Q20 37 31 32" stroke="#B85A38" stroke-width="3" stroke-linecap="round" fill="none"/>
+</svg>
