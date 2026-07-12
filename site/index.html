@@ -97,6 +97,37 @@
   .pass { color: var(--accent); }
   .fail { color: #E06A4A; }
 
+  .gh-star:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* install / getting started */
+  .install-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+  .steps { display: flex; flex-direction: column; gap: 18px; }
+  .step { display: flex; gap: 16px; align-items: flex-start; }
+  .step-num { flex: 0 0 34px; height: 34px; border-radius: 9px; background: rgba(52,211,153,0.12); color: var(--accent); font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 15px; display: flex; align-items: center; justify-content: center; }
+  .step h4 { font-size: 16px; font-weight: 700; margin-bottom: 3px; }
+  .step p { font-size: 13.5px; color: #A6ADBB; }
+  .step p a { color: var(--accent); text-decoration: none; }
+  .step p a:hover { text-decoration: underline; }
+
+  .terminal { background: #05070B; border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+  .terminal-bar { display: flex; align-items: center; gap: 8px; padding: 11px 14px; border-bottom: 1px solid var(--border); }
+  .terminal-bar .tdot { width: 10px; height: 10px; border-radius: 50%; }
+  .terminal-bar .tpath { margin-left: 8px; font-size: 12px; color: var(--muted); }
+  .copy-btn { margin-left: auto; background: var(--secondary); border: 1px solid var(--border); color: var(--text); font-family: 'IBM Plex Mono', monospace; font-size: 12px; padding: 5px 12px; border-radius: 7px; cursor: pointer; transition: border-color .15s, color .15s; }
+  .copy-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .terminal pre { padding: 18px 16px; margin: 0; overflow-x: auto; }
+  .terminal code { font-family: 'IBM Plex Mono', monospace; font-size: 13px; line-height: 1.7; color: var(--text); white-space: pre; }
+  .terminal .tprompt { color: var(--accent); }
+  .terminal .tcomment { color: var(--muted); }
+  .term-note { font-size: 12px; color: var(--muted); margin-top: 14px; }
+
+  /* star CTA band */
+  .star-band { text-align: center; }
+  .star-inner { background: linear-gradient(180deg, var(--secondary), #12161D); border: 1px solid var(--border); border-radius: 20px; padding: 52px 32px; }
+  .star-inner .bigstar { font-size: 34px; color: var(--accent); margin-bottom: 6px; }
+  .star-inner h2 { font-size: 28px; font-weight: 800; margin-bottom: 12px; }
+  .star-inner p { color: #A6ADBB; font-size: 15px; max-width: 46ch; margin: 0 auto 26px; }
+
   footer { border-top: 1px solid var(--border); padding: 44px 0 60px; }
   .footer-grid { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 24px; }
   .footer-links { display: flex; gap: 24px; font-size: 13px; color: var(--muted); }
@@ -115,6 +146,7 @@
     .pipeline { grid-template-columns: repeat(2, 1fr); }
     .feature-grid { grid-template-columns: 1fr; }
     .proof { grid-template-columns: 1fr; }
+    .install-wrap { grid-template-columns: 1fr; gap: 28px; }
     .nav-links { display: none; }
   }
 </style>
@@ -136,10 +168,10 @@
         <a href="#how">How it works</a>
         <a href="#features">Features</a>
         <a href="#demo">Live demo</a>
+        <a href="#install">Install</a>
       </div>
       <div class="gh-buttons">
-        <a class="gh-btn" href="https://github.com/codeswithroh/tastemaker" target="_blank" rel="noopener"><span class="dot"></span>tastemaker</a>
-        <a class="gh-btn" href="https://github.com/codeswithroh/ideagram" target="_blank" rel="noopener"><span class="dot"></span>ideagram</a>
+        <a class="gh-btn gh-star" href="https://github.com/codeswithroh/tastemaker" target="_blank" rel="noopener">★ Star on GitHub</a>
       </div>
     </nav>
   </div>
@@ -278,7 +310,7 @@
           <svg width="200" height="90" viewBox="0 0 200 90"><ellipse cx="100" cy="80" rx="46" ry="5" fill="#34D399" opacity="0.12"/><rect x="70" y="36" width="60" height="40" rx="20" fill="#047857"/><circle cx="100" cy="26" r="15" fill="#E6E6EA"/><rect x="52" y="44" width="12" height="30" rx="6" fill="#047857"/><rect x="136" y="44" width="12" height="30" rx="6" fill="#047857"/><circle cx="150" cy="30" r="8" fill="#34D399"/></svg>
         </div>
         <h3>Real illustrations</h3>
-        <p>Bundles <span style="color:var(--accent)">ideagram</span> — matches concepts to illustrator-grade art, not LLM-drawn limbs.</p>
+        <p>Matches each concept to real illustrator-grade art, recolored to your palette — not LLM-drawn limbs.</p>
       </div>
 
       <div class="feature-card" data-reveal>
@@ -325,6 +357,60 @@
   </div>
 </section>
 
+<section id="install">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <div class="eyebrow">Get started</div>
+      <h2>Install once. Then just build.</h2>
+      <p>tastemaker is an open-source Claude Code skill. Drop it in your skills folder — it activates on its own, no config, no API keys.</p>
+    </div>
+    <div class="install-wrap">
+      <div class="steps">
+        <div class="step" data-reveal>
+          <div class="step-num">1</div>
+          <div>
+            <h4>Get it from GitHub</h4>
+            <p>It's free and MIT-licensed. Clone it straight into your skills folder — and while you're there, <a href="https://github.com/codeswithroh/tastemaker" target="_blank" rel="noopener">drop a ★ star</a>, it genuinely helps.</p>
+          </div>
+        </div>
+        <div class="step" data-reveal>
+          <div class="step-num">2</div>
+          <div>
+            <h4>That's the whole install</h4>
+            <p>No build step, no keys, no dashboard. The skill just lives in <code>~/.claude/skills/</code>. Restart Claude Code and it's picked up.</p>
+          </div>
+        </div>
+        <div class="step" data-reveal>
+          <div class="step-num">3</div>
+          <div>
+            <h4>Just ask Claude to build</h4>
+            <p>Say "build a landing page for a coffee subscription." tastemaker triggers automatically — locks a palette + type, sources assets, wires motion, and builds. You don't invoke anything.</p>
+          </div>
+        </div>
+      </div>
+      <div data-reveal>
+        <div class="terminal">
+          <div class="terminal-bar">
+            <span class="tdot" style="background:#E06A4A"></span>
+            <span class="tdot" style="background:#E0B84A"></span>
+            <span class="tdot" style="background:#34D399"></span>
+            <span class="tpath">terminal</span>
+            <button class="copy-btn" data-copy="git clone https://github.com/codeswithroh/tastemaker ~/.claude/skills/tastemaker">Copy</button>
+          </div>
+          <pre><code><span class="tcomment"># 1 · install into your Claude Code skills folder</span>
+<span class="tprompt">$</span> git clone https://github.com/codeswithroh/tastemaker \
+    ~/.claude/skills/tastemaker
+
+<span class="tcomment"># 2 · restart Claude Code, then just ask —</span>
+<span class="tcomment">#     "build me a landing page for X"</span>
+<span class="tcomment"># tastemaker handles the rest, automatically.</span></code></pre>
+        </div>
+        <p class="term-note">Also works with Cursor &amp; Windsurf — drop the folder in their skills directory instead.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section style="padding-top:20px;">
   <div class="wrap">
     <div class="proof" data-reveal>
@@ -346,6 +432,17 @@
   </div>
 </section>
 
+<section class="star-band" style="padding-top:20px;">
+  <div class="wrap">
+    <div class="star-inner" data-reveal>
+      <div class="bigstar">★</div>
+      <h2>Saved you from one more indigo gradient?</h2>
+      <p>tastemaker is free and open source. A star on GitHub is the whole thanks it asks for — and it helps other builders find it.</p>
+      <a class="btn-primary" href="https://github.com/codeswithroh/tastemaker" target="_blank" rel="noopener">★ Star tastemaker on GitHub</a>
+    </div>
+  </div>
+</section>
+
 <footer>
   <div class="wrap footer-grid">
     <div>
@@ -360,8 +457,8 @@
       <div class="footer-note">MIT licensed · open source · built for Claude Code</div>
     </div>
     <div class="footer-links">
-      <a href="https://github.com/codeswithroh/tastemaker" target="_blank" rel="noopener">GitHub — tastemaker</a>
-      <a href="https://github.com/codeswithroh/ideagram" target="_blank" rel="noopener">GitHub — ideagram</a>
+      <a href="https://github.com/codeswithroh/tastemaker" target="_blank" rel="noopener">★ Star on GitHub</a>
+      <a href="#install">Install</a>
       <a href='/demo' rel='noopener' target='_blank'>Live demo</a>
     </div>
   </div>
@@ -372,6 +469,17 @@
   // Reduced-motion-aware scroll reveals (IntersectionObserver-driven GSAP — a more
   // reliable trigger than a rAF scroll loop) + a sequenced hero timeline. Motion is
   // a build-time default here, not a later polish step.
+  // Copy-to-clipboard for the install command
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest('.copy-btn');
+    if (!btn) return;
+    navigator.clipboard.writeText(btn.getAttribute('data-copy')).then(function () {
+      var prev = btn.textContent;
+      btn.textContent = 'Copied ✓';
+      setTimeout(function () { btn.textContent = prev; }, 1600);
+    });
+  });
+
   window.addEventListener('load', function () {
     var revealEls = document.querySelectorAll('[data-reveal]');
     // Fallback: if GSAP is blocked (offline/CDN-blocked), never leave content hidden.

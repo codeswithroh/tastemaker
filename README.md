@@ -2,6 +2,16 @@
 
 A Claude Code / Cursor / Windsurf skill for building UI that doesn't look AI-generated.
 
+**[▶ See the live site & demo](https://tastemaker-ai-skill.netlify.app)**  ·  **⭐ [Star this repo](https://github.com/codeswithroh/tastemaker)** if it saves you from one more indigo gradient — that star is the whole thanks the project asks for, and it helps other builders find it.
+
+### Quick start
+
+```bash
+git clone https://github.com/codeswithroh/tastemaker ~/.claude/skills/tastemaker
+```
+
+Restart Claude Code, then just ask it to build any UI — *"build a landing page for a coffee subscription"* — and tastemaker triggers automatically. No config, no API keys, nothing to invoke. (Using Cursor or Windsurf? Drop the folder in their skills directory instead.)
+
 Ask an LLM to build a UI and you get the same handful of defaults every time: indigo-to-purple gradients, the same soft-shadow rounded card, a generic hero. That's not a prompting problem — it's what happens when a model has to invent visual taste from scratch, with no grounding and no memory of what you actually like.
 
 Tastemaker fixes this with three ideas instead of a bigger catalog of presets:
@@ -21,7 +31,7 @@ Requires Python 3 + Pillow for the deterministic color extraction script (`pip i
 The design goal: a single prompt produces a complete site — real photos, illustrations, icons, and scroll animation all present the first time — with **nothing the end user ever has to see as a credit line, and no accounts to set up**. Every default source is keyless, API-first, and attribution-free by license:
 
 - **Photos → Openverse** (`scripts/fetch_photos.py`, **no API key**). Searches 800M+ openly-licensed images, filtered to CC0 / public-domain, which require zero attribution. Unsplash was dropped because its API *forces* visible on-site attribution; Pixabay remains an optional `--source pixabay` upgrade (needs a key) for higher-curation imagery.
-- **Illustrations → [`ideagram`](https://github.com/codeswithroh/ideagram)** — original generated artwork, matched to the project's accent, zero attribution.
+- **Illustrations → built in** — each concept is matched to real illustrator-grade art and recolored to the project's accent, zero attribution.
 - **Icons → Iconify** (`scripts/fetch_icons.py`, **no API key**) — permissively-licensed open sets (Lucide, Tabler, Phosphor…), pre-tinted to the accent, no attribution.
 - **Credit in the code, never on the page.** `fetch_photos.py` writes a `CREDITS` comment block (creator + source + license per photo) to drop into your HTML/CSS source as a voluntary thank-you — visible to developers reading the code, invisible to end users. Generous credit, zero visual hindrance.
 - **Manual exceptions** (unDraw, Streamline) are in `references/illustration-sources.md` for when a section needs something the defaults don't fit — the exception, not the norm.
@@ -53,7 +63,7 @@ tastemaker/
 │   ├── anti-slop-checklist.md        — pre-delivery checks
 │   ├── tech-stack-guides.md          — wiring tokens (and GSAP) into React/Vue/SwiftUI/Flutter/plain CSS
 │   ├── animation-guidelines.md       — GSAP as default motion engine + scroll-storytelling patterns
-│   └── illustration-sources.md       — the attribution-free asset map (Pixabay / ideagram / Iconify), manual exceptions
+│   └── illustration-sources.md       — the attribution-free asset map (Openverse photos / built-in illustrations / Iconify icons), manual exceptions
 ├── scripts/
 │   ├── extract_palette.py            — deterministic color/contrast extraction from images
 │   ├── validate_assets.py            — SVG well-formedness validation
