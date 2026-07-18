@@ -1,0 +1,43 @@
+<svg width="1280" height="420" viewBox="0 0 1280 420" fill="none" xmlns="http://www.w3.org/2000/svg" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif">
+  <rect width="1280" height="420" fill="#0B0D12"/>
+  <rect x="0.5" y="0.5" width="1279" height="419" rx="0" stroke="#1B2028"/>
+
+  <!-- left column -->
+  <g>
+    <rect x="80" y="86" width="196" height="30" rx="15" fill="none" stroke="#232A33"/>
+    <circle cx="98" cy="101" r="4" fill="#34D399"/>
+    <text x="112" y="105" fill="#34D399" font-size="12" letter-spacing="1.5" font-weight="600">CLAUDE CODE SKILL</text>
+
+    <!-- mark -->
+    <g transform="translate(80,150) scale(1.5)">
+      <rect x="4" y="13" width="20" height="20" rx="5" fill="#065F46" stroke="#0B0D12" stroke-width="2"/>
+      <rect x="10" y="9" width="20" height="20" rx="5" fill="#047857" stroke="#0B0D12" stroke-width="2"/>
+      <rect x="16" y="5" width="20" height="20" rx="5" fill="#34D399" stroke="#0B0D12" stroke-width="2"/>
+    </g>
+    <text x="152" y="205" fill="#E6E6EA" font-size="54" font-weight="800" letter-spacing="-1.5">tastemaker</text>
+
+    <text x="80" y="268" font-size="27" font-weight="700" fill="#E6E6EA">Design taste for <tspan fill="#34D399">AI-generated UI.</tspan></text>
+    <text x="80" y="308" font-size="16" fill="#8A93A3">Ground it in real taste, lock it, reuse it. Stop shipping the same indigo gradient.</text>
+  </g>
+
+  <!-- right column: browser mockup with palette -->
+  <g transform="translate(742,44) scale(0.8)">
+    <ellipse cx="260" cy="392" rx="180" ry="14" fill="#E6E6EA" opacity="0.05"/>
+    <rect x="60" y="40" width="400" height="320" rx="18" fill="#161A21" stroke="#2A3038" stroke-width="2"/>
+    <rect x="60" y="40" width="400" height="48" rx="18" fill="#161A21"/>
+    <rect x="60" y="70" width="400" height="18" fill="#161A21"/>
+    <circle cx="92" cy="64" r="7" fill="#047857"/>
+    <circle cx="116" cy="64" r="7" fill="#2A3038"/>
+    <circle cx="140" cy="64" r="7" fill="#2A3038"/>
+    <rect x="96" y="120" width="70" height="70" rx="10" fill="#34D399"/>
+    <rect x="180" y="120" width="70" height="70" rx="10" fill="#047857"/>
+    <rect x="264" y="120" width="70" height="70" rx="10" fill="#0B0D12" stroke="#34D399" stroke-width="2"/>
+    <text x="96" y="248" font-size="46" font-weight="700" fill="#E6E6EA">Aa</text>
+    <rect x="200" y="222" width="164" height="14" rx="7" fill="#2A3038"/>
+    <rect x="200" y="246" width="120" height="14" rx="7" fill="#2A3038"/>
+    <rect x="96" y="290" width="140" height="34" rx="17" fill="#047857"/>
+    <rect x="248" y="290" width="90" height="34" rx="17" fill="#161A21" stroke="#2A3038" stroke-width="2"/>
+    <circle cx="430" cy="150" r="34" fill="#34D399"/>
+    <path d="M415 150 L426 161 L448 137" stroke="#0B0D12" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  </g>
+</svg>

@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Read the story behind tastemaker
+    url: https://dev.to/codeswithroh/every-ai-built-site-looks-the-same-so-i-built-a-skill-that-locks-taste-before-any-code-is-written-4f6d
+    about: The article on why this exists and how it works.
+  - name: See the live site and demo
+    url: https://tastemaker-ai-skill.netlify.app
+    about: Try the skill's output before filing an issue.

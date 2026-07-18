@@ -1,0 +1,51 @@
+name: New preset
+description: Propose a new palette and font pairing
+title: "[Preset]: "
+labels: ["preset"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Presets are the easiest contribution to review. Before you submit, run the contrast check and make sure it passes. See CONTRIBUTING.md for the exact steps.
+  - type: input
+    id: mood
+    attributes:
+      label: Mood name
+      description: e.g. Elegant / editorial
+    validations:
+      required: true
+  - type: textarea
+    id: fits
+    attributes:
+      label: What app ideas does it fit
+      description: A few words or phrases so the skill can match it.
+      placeholder: publishing, portfolio, luxury, boutique, agency
+    validations:
+      required: true
+  - type: input
+    id: palette
+    attributes:
+      label: Palette (five roles)
+      description: text, background, primary, secondary, accent
+      placeholder: text=211f1c bg=f7f4ee primary=2f2a24 secondary=e8e1d3 accent=b5762c
+    validations:
+      required: true
+  - type: input
+    id: fonts
+    attributes:
+      label: Font pairing
+      description: Both must be Google Fonts. Heading + body.
+      placeholder: Gloock + Inter
+    validations:
+      required: true
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Contrast check
+      options:
+        - label: Body text vs background passes 4.5:1
+          required: true
+        - label: White label vs primary passes 4.5:1
+          required: true
+        - label: I ran scripts/check_contrast.py and it exits clean
+          required: true

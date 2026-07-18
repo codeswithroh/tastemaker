@@ -1,0 +1,41 @@
+name: Feature or idea
+description: Suggest an improvement to the skill
+title: "[Idea]: "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What is the problem
+      description: What is missing or awkward today?
+      placeholder: The skill has no preset for a serious editorial news product.
+    validations:
+      required: true
+  - type: textarea
+    id: idea
+    attributes:
+      label: What would you like instead
+      description: Describe the change. Concrete beats vague.
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Which part
+      options:
+        - A new preset (palette and type)
+        - A layout or component pattern
+        - Motion guidance
+        - Asset sourcing
+        - A script
+        - The docs
+        - Something else
+    validations:
+      required: true
+  - type: textarea
+    id: extra
+    attributes:
+      label: Anything else
+      description: Links, references, or examples that show what you mean.
+    validations:
+      required: false

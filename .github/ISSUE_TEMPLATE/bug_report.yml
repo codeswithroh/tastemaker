@@ -1,0 +1,54 @@
+name: Bug report
+description: Something in the skill or a script behaved wrong
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: Thanks for reporting. Clear steps help a lot.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: What went wrong, and what did you expect instead?
+      placeholder: I asked the agent to build X, and the palette it locked failed contrast.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: The prompt you used, or the command you ran.
+      placeholder: |
+        1. Prompt or command
+        2. What you saw
+      render: shell
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Which part
+      options:
+        - A script in scripts/
+        - A preset or reference in references/
+        - The SKILL.md workflow
+        - Motion or assets
+        - The site in site/
+        - Not sure
+    validations:
+      required: true
+  - type: input
+    id: agent
+    attributes:
+      label: Agent and OS
+      description: e.g. Claude Code on macOS, Cursor on Windows
+    validations:
+      required: false
+  - type: textarea
+    id: extra
+    attributes:
+      label: Anything else
+      description: Logs, screenshots, or notes.
+    validations:
+      required: false

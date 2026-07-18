@@ -1,81 +1,126 @@
-# Tastemaker
+<div align="center">
+  <img src=".github/assets/banner.svg" alt="tastemaker" width="100%">
 
-A Claude Code / Cursor / Windsurf skill for building UI that doesn't look AI-generated.
+  <p>
+    <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-34D399?style=flat-square" alt="MIT License"></a>
+    <a href="https://github.com/codeswithroh/tastemaker/stargazers"><img src="https://img.shields.io/github/stars/codeswithroh/tastemaker?style=flat-square&color=34D399&label=stars" alt="Stars"></a>
+    <a href="CONTRIBUTING.md"><img src="https://img.shields.io/badge/PRs-welcome-047857?style=flat-square" alt="PRs welcome"></a>
+    <img src="https://img.shields.io/badge/Claude%20Code-skill-34D399?style=flat-square" alt="Claude Code skill">
+    <a href="https://tastemaker-ai-skill.netlify.app"><img src="https://img.shields.io/badge/live-demo-047857?style=flat-square" alt="Live demo"></a>
+  </p>
 
-**[▶ See the live site & demo](https://tastemaker-ai-skill.netlify.app)**  ·  **⭐ [Star this repo](https://github.com/codeswithroh/tastemaker)** if it saves you from one more indigo gradient — that star is the whole thanks the project asks for, and it helps other builders find it.
+  <p><b>A skill that gives AI real design taste, so the UI it builds does not look AI-generated.</b></p>
 
-### Quick start
+  <p>
+    <a href="#quick-start">Quick start</a> &nbsp;·&nbsp;
+    <a href="#why-ai-ui-all-looks-the-same">Why</a> &nbsp;·&nbsp;
+    <a href="#what-you-get">Features</a> &nbsp;·&nbsp;
+    <a href="#the-five-presets">Presets</a> &nbsp;·&nbsp;
+    <a href="#how-it-works">How it works</a> &nbsp;·&nbsp;
+    <a href="#contributing">Contributing</a>
+  </p>
+
+  <p><a href="https://tastemaker-ai-skill.netlify.app"><b>See it live and try the demo &rarr;</b></a></p>
+</div>
+
+<br>
+
+## What this is
+
+Tastemaker is a skill for coding agents (Claude Code, Cursor, Windsurf). You install it once and forget it. Whenever you ask your agent to build or style a UI, tastemaker steps in and gives it a real design system to work from, instead of the generic defaults every model reaches for.
+
+It is plain Markdown and small Python scripts. Everything runs on your machine. There is no hosted backend, no account, and no API key.
+
+## Why AI UI all looks the same
+
+Ask any model to build a UI and you tend to get the same thing: an indigo to purple gradient, a soft shadow card, a generic hero. This is not a prompting problem. It happens because the model has to invent taste from a text description, with nothing real to ground it and no memory of what you actually like.
+
+Tastemaker fixes this with three ideas, not a bigger pile of presets:
+
+1. **Ground in real pixels, not words.** Give it a screenshot or a reference and it reads the real colors and contrast from the actual image, using a script. It does not write a vague summary of the vibe and rebuild from that. Text summaries lose most of what made the reference feel specific.
+2. **Remember, do not re-derive.** Once a project locks a style, every later screen reuses it. Nothing drifts. Across projects, a small profile file learns what you keep and what you reject, so your next project starts warm.
+3. **Scope to the real work.** It reads your spec first and figures out which screens actually need design, instead of dumping a design system that has nothing to do with what you are shipping.
+
+## Quick start
+
+Install it into your Claude Code skills folder:
 
 ```bash
 git clone https://github.com/codeswithroh/tastemaker ~/.claude/skills/tastemaker
 ```
 
-Restart Claude Code, then just ask it to build any UI — *"build a landing page for a coffee subscription"* — and tastemaker triggers automatically. No config, no API keys, nothing to invoke. (Using Cursor or Windsurf? Drop the folder in their skills directory instead.)
+Restart Claude Code, then just ask:
 
-Ask an LLM to build a UI and you get the same handful of defaults every time: indigo-to-purple gradients, the same soft-shadow rounded card, a generic hero. That's not a prompting problem — it's what happens when a model has to invent visual taste from scratch, with no grounding and no memory of what you actually like.
+```
+build a landing page for a coffee subscription
+```
 
-Tastemaker fixes this with three ideas instead of a bigger catalog of presets:
+Tastemaker triggers on its own. It picks a palette and type pairing, sources real assets, wires up motion, and builds. You do not invoke anything.
 
-1. **Ground in real pixels, not descriptions.** Give it reference images and it extracts real color/contrast tokens deterministically from the actual pixels (`scripts/extract_palette.py`) — not a text summary of the vibe, regenerated from that summary. Text-mediated style transfer is lossy; that's most of why AI UI looks generic even from a detailed prompt.
-2. **Remember, don't re-derive.** Once a project's style is locked (`.tastemaker/style-lock.md`), every later screen/component reuses it instead of drifting. Across projects, a lightweight personal profile (`~/.tastemaker/profile.md`) carries forward what you keep vs. reject, so your second project starts warm instead of cold.
-3. **Scope to what's actually being built.** Reads your PRD/spec first to figure out which screens/components need design work, instead of dumping a generic design system disconnected from the real product.
+> Using Cursor or Windsurf? Drop the same folder into their skills directory.
 
-## Install
+For the deterministic color extraction script you need Python 3 and Pillow (`pip install Pillow`). If Pillow is missing, it falls back to a vision based read instead of failing.
 
-Drop the `tastemaker/` folder into your project's skills directory (or wherever your agent loads skills from — Claude Code, Cursor, and Windsurf all support this). Everything here runs locally; no hosted backend.
+## What you get
 
-Requires Python 3 + Pillow for the deterministic color extraction script (`pip install Pillow`). Falls back gracefully to a vision-based read if Pillow isn't installed.
+| | |
+|---|---|
+| **Grounded in real pixels** | Reference images become real color tokens through `scripts/extract_palette.py`, not a text guess. |
+| **Auto matched palette and type** | Five mood presets, each a verified palette and font pairing chosen together. No color picker to fill in. |
+| **Contrast that is checked, not eyeballed** | `scripts/check_contrast.py` catches the button label failure a swatch preview hides. Two presets failed this on the first pass and were fixed. |
+| **Real illustrations** | Each concept is matched to real illustrator grade art and recolored to your palette, not drawn from scratch by the model. |
+| **A real logo, not a letter in a box** | A constructed geometric mark plus a full favicon set, readable down to 16px. |
+| **Motion by default** | GSAP and ScrollTrigger reveals plus a sequenced hero, wired during the build and not left as a follow up. |
+| **Attribution free assets** | Photos (Openverse), icons (Iconify), and illustrations all need no keys and no visible credit line. |
+| **Taste that compounds** | A local profile remembers what you keep across projects, so the tool gets more accurate the more you use it. |
 
-### Assets are automatic *and* attribution-free — the whole pipeline runs in one pass
+## The five presets
 
-The design goal: a single prompt produces a complete site — real photos, illustrations, icons, and scroll animation all present the first time — with **nothing the end user ever has to see as a credit line, and no accounts to set up**. Every default source is keyless, API-first, and attribution-free by license:
+When you have no reference to work from, tastemaker reads your app idea and picks a matched set. It never asks you to fill in a color form.
 
-- **Photos → Openverse** (`scripts/fetch_photos.py`, **no API key**). Searches 800M+ openly-licensed images, filtered to CC0 / public-domain, which require zero attribution. Unsplash was dropped because its API *forces* visible on-site attribution; Pixabay remains an optional `--source pixabay` upgrade (needs a key) for higher-curation imagery.
-- **Illustrations → built in** — each concept is matched to real illustrator-grade art and recolored to the project's accent, zero attribution.
-- **Icons → Iconify** (`scripts/fetch_icons.py`, **no API key**) — permissively-licensed open sets (Lucide, Tabler, Phosphor…), pre-tinted to the accent, no attribution.
-- **Credit in the code, never on the page.** `fetch_photos.py` writes a `CREDITS` comment block (creator + source + license per photo) to drop into your HTML/CSS source as a voluntary thank-you — visible to developers reading the code, invisible to end users. Generous credit, zero visual hindrance.
-- **Manual exceptions** (unDraw, Streamline) are in `references/illustration-sources.md` for when a section needs something the defaults don't fit — the exception, not the norm.
+<div align="center">
+  <img src=".github/assets/presets.svg" alt="The five built-in presets: verified palettes and font pairings" width="100%">
+</div>
 
-The upshot: photos, icons, and illustrations all fetch with **no keys and no signups**, so the single-prompt, complete-site promise holds out of the box.
+Each palette is checked for WCAG AA contrast on both body text and button labels before it ships. Every font is a Google Font, so there is no licensing question.
 
-**Motion → GSAP + ScrollTrigger**, loaded via CDN (plain HTML/CSS) or `npm install gsap` (React/Vue/etc.) — see `references/tech-stack-guides.md`. Free for commercial use, including ScrollTrigger and every previously-paid plugin, since Webflow's 2024 acquisition of GreenSock. Includes scroll-storytelling patterns (pinned sections, scrubbed reveals, sequenced hero timelines) so a landing page unfolds as you scroll rather than sitting static.
+## How it works
 
-## How it's different from "design system" skills
+```
+1. Read the idea      references, or the app concept itself
+2. Lock the style     palette and type, contrast checked, written to a lock file
+3. Source assets      photos, illustrations, icons, logo, favicons, in one pass
+4. Build the screens  visual first, motion wired in, checked against an anti-slop list
+5. Remember taste     what you keep rolls into a profile for the next project
+```
 
-Most existing design skills for coding agents (e.g. curated style/palette libraries with search) give the model a bigger menu of canned presets to pick from. That's still generic — a library of options, not *your* taste, and it forgets everything once the session ends.
+The full workflow lives in [`SKILL.md`](SKILL.md). The reference files in [`references/`](references/) hold the deep material and are read only when a step needs them.
 
-Tastemaker's actual differentiators:
-- Reference images are the primary input, extracted deterministically, not just described in a prompt.
-- Style, once established for a project, is locked and reused — no drift between screens generated in separate sessions.
-- Personal taste persists and compounds across projects via a local profile file — the tool gets more accurate for a given developer the more they use it.
-- Includes an asset-consistency step (one anchor asset, everything else conditioned on it) and an SVG validator (`scripts/validate_assets.py`) that catches malformed generated assets before they ship — a real bug class (illegal `--` inside SVG `<!-- -->` comments silently breaking rendering) this project found during its own testing.
-- A curated style/pattern library (`references/`) exists as a fallback for cold starts with no references — but it's explicitly scaffolding to adapt, not a catalog to apply unchanged.
+## Read the story
 
-## Structure
+I wrote up why I built this and how it works:
+
+**[Every AI built site looks the same, so I built a skill that locks taste before any code is written](https://dev.to/codeswithroh/every-ai-built-site-looks-the-same-so-i-built-a-skill-that-locks-taste-before-any-code-is-written-4f6d)**
+
+## Project layout
 
 ```
 tastemaker/
-├── SKILL.md                          — the workflow, read this first
-├── references/
-│   ├── style-lock-format.md          — schema for .tastemaker/style-lock.md
-│   ├── style-tokens.md               — starter palettes/type/shape by mood (cold-start fallback)
-│   ├── component-patterns.md         — layout patterns by screen type
-│   ├── anti-slop-checklist.md        — pre-delivery checks
-│   ├── tech-stack-guides.md          — wiring tokens (and GSAP) into React/Vue/SwiftUI/Flutter/plain CSS
-│   ├── animation-guidelines.md       — GSAP as default motion engine + scroll-storytelling patterns
-│   └── illustration-sources.md       — the attribution-free asset map (Openverse photos / built-in illustrations / Iconify icons), manual exceptions
-├── scripts/
-│   ├── extract_palette.py            — deterministic color/contrast extraction from images
-│   ├── validate_assets.py            — SVG well-formedness validation
-│   ├── fetch_photos.py               — real photography via Openverse (keyless, CC0) + code-comment credits; optional Pixabay upgrade
-│   ├── fetch_icons.py                — icons via Iconify (no key, attribution-free, pre-tinted)
-│   └── recolor_svg.py                — recolor local SVGs (already on disk) to the locked accent
-└── assets/
-    ├── gsap-starter.js               — default motion: wires data-reveal/data-reveal-group to GSAP + ScrollTrigger
-    ├── reveal.css                    — dependency-free scroll-reveal fallback (same markup convention)
-    └── reveal.js                     — pairs with reveal.css
+├── SKILL.md                     the workflow, read this first
+├── references/                  palettes, patterns, motion, asset sourcing, checklists
+├── scripts/                     palette extraction, contrast check, asset fetch, recolor
+├── assets/                      GSAP motion starter and a dependency free fallback
+└── site/                        the marketing site and live demo
 ```
+
+## Contributing
+
+Contributions are very welcome. Bug reports, new presets, better docs, and new patterns all help.
+
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) before you start, and see the [Code of Conduct](CODE_OF_CONDUCT.md). Good first issues are labeled [`good first issue`](https://github.com/codeswithroh/tastemaker/labels/good%20first%20issue).
+
+If tastemaker saved you from one more indigo gradient, a star helps other builders find it.
 
 ## License
 
-MIT.
+[MIT](LICENSE). Use it freely, including in commercial work.
