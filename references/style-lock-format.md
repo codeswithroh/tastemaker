@@ -19,6 +19,29 @@ Established: <date>. Source: <"reference images: list them" | "starter scaffoldi
 - Button label color: <"white" | "text primary"> — contrast vs Primary: X.XX (from `scripts/check_contrast.py`; don't assume white without checking, see `references/style-tokens.md`'s Contrast floor section for why)
 - Dark mode: <"not needed for this project" | the companion palette (same roles/format as above) — see `references/style-tokens.md`'s per-preset Dark mode entries for the pattern: reuse a light-mode color only if it independently re-verifies against the dark background, don't assume it carries over>
 
+## Color contract
+
+The palette above is not a set of five approved hexes the model may combine freely. It is a contract: for each pairing of colors, a required contrast ratio. This is what stops the palette from passing at authoring time and then failing the first time the model uses two of its colors in a pairing you never listed (a badge fill with a white label, a disabled state, a hover). Record the contract, not just the colors.
+
+Required ratios by pairing:
+
+| Foreground on background | Floor | Why |
+|---|---|---|
+| body/muted text on bg or surface | 4.5:1 | WCAG AA text |
+| button label on its fill (Primary, or any color used as a solid fill) | 4.5:1 | text on a fill |
+| link/accent used as text | 4.5:1 | text |
+| a fill vs the page (does the button/badge show up at all) | 3:1 | UI component (1.4.11) |
+| accent used as a highlight or icon | 3:1 | graphical object |
+| a border that conveys state (focus ring, error/active edge, the only boundary between two regions) | 3:1 | UI component. A purely decorative hairline is exempt: record it as decorative. |
+
+Legal pairings (run `scripts/check_contrast.py --matrix text=.. bg=.. surface=.. primary=.. accent=.. border=.. on-primary=..` and paste the summary):
+
+- Text-safe (>=4.5): <list the pairings the matrix cleared for text/labels>
+- UI-safe (>=3.0 and <4.5): <the pairings usable for large text, icons, and state-carrying borders>
+- Decorative (<3.0): <the pairings that must never carry text or be the only thing conveying state>
+
+The model may only compose color pairings that appear in the text-safe or UI-safe lists (matched to the pairing's purpose). If it needs a pairing that lands in Decorative for a purpose that requires more (a fill that needs a readable label, a border that must convey state), that is a flag: switch to a legal pairing, or darken/lighten a color and re-run the matrix. Do not ship the failing pairing. **Re-run the matrix whenever the palette grows** (a new semantic color, a locked hex used in a new role). The lock is only true for the tokens the matrix last covered.
+
 ## Typography
 - Display/heading font: <name> — <why: e.g. "matches reference's geometric sans">
 - Body font: <name>
