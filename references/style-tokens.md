@@ -39,9 +39,9 @@ Each mood below is a **matched set**: palette and type were chosen together and 
 
 ### Technical / builder-facing (dev tools, infra, CLI-adjacent products)
 - **Palette**: Text `#E6E6EA` · Background `#0B0D12` · Primary `#047857` · Secondary `#161A21` · Accent `#34D399`
-  Preview: `realtimecolors.com/?colors=e6e6ea-0b0d12-047857-161a21-34d399&fonts=Archivo-IBMPlexMono`
+  Preview: `realtimecolors.com/?colors=e6e6ea-0b0d12-047857-161a21-34d399&fonts=Archivo-IBMPlexSans`
   (Primary darkened from an earlier `#10B981` — that brighter emerald only cleared 2.54:1 with white button labels, well below AA; `#047857` clears 5.48:1 and still reads as "terminal green" against the near-black background. Keep the brighter `#34D399` as Accent, used sparingly for highlights rather than solid button fills.)
-- **Type**: Archivo (headings) + IBM Plex Mono (body/data/accent) — one cohesive family, mono reads as "technical" without needing a second unrelated typeface.
+- **Type**: Archivo (headings) + IBM Plex Sans (body) + IBM Plex Mono for code, data, timestamps, and short technical labels. Keeping the Plex family across sans and mono holds the cohesive, technical feel, and Archivo carries the display headings. **Do not set long-form body copy in mono.** Monospace body text is a recognizable AI-template tell (see `references/anti-slop-checklist.md`), even for a builder-facing product. Mono earns its place on the code and data it was designed for, not on paragraphs.
 - **Shape**: sharp corners or none, visible grid/borders over shadows.
 - **Avoid**: playful illustration, rounded-full buttons, pastel colors.
 - **Dark mode**: this preset is dark-mode-native (per the mood's own "dark mode by default" convention) — no separate light companion is provided here. If a project genuinely needs a light variant of this mood, treat it as a fresh derivation (swap Background/Text, re-pick a Primary that clears both floors against a light surface) rather than assuming a naive invert of these values will pass — run `scripts/check_contrast.py` on whatever comes out, same as any other new palette.
