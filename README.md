@@ -14,9 +14,10 @@
   <p>
     <a href="#quick-start">Quick start</a> &nbsp;·&nbsp;
     <a href="#why-ai-ui-all-looks-the-same">Why</a> &nbsp;·&nbsp;
+    <a href="#can-i-not-just-tell-the-ai-to-write-the-decisions-down">Why not just prompt it?</a> &nbsp;·&nbsp;
+    <a href="#what-is-verified-and-what-is-judgment">What is verified</a> &nbsp;·&nbsp;
     <a href="#what-you-get">Features</a> &nbsp;·&nbsp;
     <a href="#the-five-presets">Presets</a> &nbsp;·&nbsp;
-    <a href="#how-it-works">How it works</a> &nbsp;·&nbsp;
     <a href="#contributing">Contributing</a>
   </p>
 
@@ -35,11 +36,37 @@ It is plain Markdown and small Python scripts. Everything runs on your machine. 
 
 Ask any model to build a UI and you tend to get the same thing: an indigo to purple gradient, a soft shadow card, a generic hero. This is not a prompting problem. It happens because the model has to invent taste from a text description, with nothing real to ground it and no memory of what you actually like.
 
-Tastemaker fixes this with three ideas, not a bigger pile of presets:
+Tastemaker fixes this with four ideas, not a bigger pile of presets:
 
-1. **Ground in real pixels, not words.** Give it a screenshot or a reference and it reads the real colors and contrast from the actual image, using a script. It does not write a vague summary of the vibe and rebuild from that. Text summaries lose most of what made the reference feel specific.
-2. **Remember, do not re-derive.** Once a project locks a style, every later screen reuses it. Nothing drifts. Across projects, a small profile file learns what you keep and what you reject, so your next project starts warm.
-3. **Scope to the real work.** It reads your spec first and figures out which screens actually need design, instead of dumping a design system that has nothing to do with what you are shipping.
+1. **Constrain with a check that actually runs.** The palette is not five approved colors the model may combine however it likes. It is a contract: `check_contrast.py --matrix` computes every pairing in the token set and says which may carry text, which may carry a border, and which may carry neither. A rule that runs is different in kind from a rule you wrote down, because it returns the same answer no matter how confident anyone felt.
+2. **Ground in real pixels, not words.** Give it a screenshot or a reference and it reads the real colors and contrast from the actual image, using a script. It does not write a vague summary of the vibe and rebuild from that. Text summaries lose most of what made the reference feel specific.
+3. **Remember, do not re-derive.** Once a project locks a style, every later screen reuses it. Nothing drifts. Across projects, a small profile file learns what you keep and what you reject, so your next project starts warm.
+4. **Scope to the real work.** It reads your spec first and figures out which screens actually need design, instead of dumping a design system that has nothing to do with what you are shipping.
+
+## "Can I not just tell the AI to write the decisions down?"
+
+Yes, partly, and it is worth being straight about where the line is.
+
+If you say *"lock these decisions as a design bible and use it as our anchor,"* you get the decisions written down in the current context. For keeping three screens consistent inside one chat, that genuinely works, and you do not need this skill for it.
+
+Here is what that does not give you:
+
+- **It does not survive the session.** The bible lives in context. Close the chat and it is gone, or you re-paste it and hope. Tastemaker writes `.tastemaker/style-lock.md` to your repo and `~/.tastemaker/profile.md` to your home directory, so the decision outlives the conversation and carries into the next project.
+- **It has no check that runs.** A written-down preference is still a judgment you can talk yourself out of. `check_contrast.py --matrix` is a computation. It does not care how good the palette looked to you, and it returns the same verdict every time. That is the difference between an intention and a constraint.
+- **It cannot read pixels.** "Match this reference" through a conversation becomes a text description of an image, then a rebuild from the description. `extract_palette.py` reads the actual pixel values.
+- **It leaves the combinations to improvisation.** A written bible lists your colors. It does not enumerate which of those colors may legally touch which, so the model still guesses when it invents a badge fill or a disabled state. The matrix answers that up front.
+
+Short version: a conversation gives you the decision. This gives you the decision plus something that enforces it after you have stopped paying attention.
+
+## What is verified, and what is judgment
+
+Worth separating these two clearly, because it is easy to let one stand in for the other, and this project has been guilty of that.
+
+**Verified (a computation, not taste).** Contrast and readability. `check_contrast.py` runs real WCAG math over the palette and reports pass or fail. This is accessibility, not aesthetics. A palette that clears every ratio can still be ugly. The reason it belongs here anyway is that it catches a class of failure your eyes genuinely cannot: contrast is a calculation, and looking at a color confidently is not running it. Two of the five presets shipped in this repo failed that check on the first pass, and only the script caught it.
+
+**Judgment (heuristics and memory, not proof).** Everything that is actually taste: the reference extraction, the mood-to-palette matching, the accumulated profile, and the anti-slop checklist. These are informed defaults and accumulated preference. They are not verified, and this README should not imply they are. They get better with your references and your rejections, not with more math.
+
+Do not read the contrast script as evidence that the design is good. Read it as evidence that the design is legible, which is a smaller and more checkable claim.
 
 ## Quick start
 
@@ -66,8 +93,8 @@ For the deterministic color extraction script you need Python 3 and Pillow (`pip
 | | |
 |---|---|
 | **Grounded in real pixels** | Reference images become real color tokens through `scripts/extract_palette.py`, not a text guess. |
-| **Auto matched palette and type** | Five mood presets, each a verified palette and font pairing chosen together. No color picker to fill in. |
-| **Contrast that is checked, not eyeballed** | `scripts/check_contrast.py` catches the button label failure a swatch preview hides. Two presets failed this on the first pass and were fixed. |
+| **Auto matched palette and type** | Five mood presets, each a contrast verified palette with a font pairing chosen alongside it. No color picker to fill in. ("Verified" here means the ratios were computed, not that the taste was proven. See [what is verified](#what-is-verified-and-what-is-judgment).) |
+| **A contrast contract, not a one time check** | `check_contrast.py --matrix` computes every pairing in the palette and reports which may carry text, which may carry a border, and which may carry neither. It catches the button label failure a swatch preview hides. Two presets failed this on the first pass and were fixed. This buys readability, not taste. |
 | **Real illustrations** | Each concept is matched to real illustrator grade art and recolored to your palette, not drawn from scratch by the model. |
 | **A real logo, not a letter in a box** | A constructed geometric mark plus a full favicon set, readable down to 16px. |
 | **Motion by default** | GSAP and ScrollTrigger reveals plus a sequenced hero, wired during the build and not left as a follow up. |
