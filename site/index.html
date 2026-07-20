@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tastemaker — Design taste for AI-generated UI</title>
-<meta name="description" content="A Claude Code skill that grounds AI-generated UI in real reference images, auto-selected palette/type pairings, verified contrast, and a persistent per-developer taste profile — instead of generic AI-slop defaults.">
+<title>Tastemaker: Design taste for AI-generated UI</title>
+<meta name="description" content="A Claude Code skill that grounds AI-generated UI in real reference images, auto-selected palette/type pairings, verified contrast, and a persistent per-developer taste profile, instead of generic AI-slop defaults.">
 <link rel="icon" type="image/svg+xml" href="assets/mark-tastemaker.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script>document.documentElement.classList.add('has-js');</script>
 <style>
   :root {
@@ -21,7 +21,8 @@
     --muted: #8A93A3;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: var(--bg); color: var(--text); font-family: 'IBM Plex Mono', monospace; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+  body { background: var(--bg); color: var(--text); font-family: 'IBM Plex Sans', system-ui, sans-serif; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+  /* Mono is reserved for genuine code/data (the install command, contrast readouts), not body copy. */
   h1, h2, h3, h4, .display { font-family: 'Archivo', sans-serif; letter-spacing: -0.02em; }
   a { color: inherit; }
   .wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
@@ -45,7 +46,7 @@
   .hero h1 span { color: var(--accent); }
   .hero p { font-size: 16px; color: #A6ADBB; max-width: 40ch; margin-bottom: 30px; }
   .cta-row { display: flex; gap: 14px; flex-wrap: wrap; }
-  .btn-primary { background: var(--primary); color: #fff; border: none; border-radius: 10px; padding: 13px 22px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; font-weight: 500; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: transform .12s, background .15s; }
+  .btn-primary { background: var(--primary); color: #fff; border: none; border-radius: 10px; padding: 13px 22px; font-family: inherit; font-size: 14px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: transform .12s, background .15s; }
   .btn-primary:hover { background: #059669; transform: translateY(-1px); }
   .btn-ghost { border: 1px solid var(--border); color: var(--text); border-radius: 10px; padding: 13px 22px; font-size: 14px; text-decoration: none; transition: border-color .15s; }
   .btn-ghost:hover { border-color: var(--accent); }
@@ -59,11 +60,13 @@
 
   section { padding: 84px 0; }
   .section-head { max-width: 620px; margin-bottom: 44px; }
-  .section-head .eyebrow { margin-bottom: 16px; }
+  /* Section kickers are plain letter-spaced labels, not the same bordered pill on every
+     section. The pill badge is kept only for the hero, where a single badge reads as a badge. */
+  .section-head .eyebrow { display: inline-block; border: none; background: none; padding: 0; border-radius: 0; color: var(--accent); font-size: 12px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; margin-bottom: 14px; }
   .section-head h2 { font-size: 32px; font-weight: 800; margin-bottom: 12px; }
   .section-head p { color: #A6ADBB; font-size: 15px; }
 
-  /* how it works — visual pipeline */
+  /* how it works: visual pipeline */
   .pipeline { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
   .pipe-step { background: var(--secondary); border: 1px solid var(--border); border-radius: 14px; padding: 18px 16px; }
   .pipe-viz { height: 76px; display: flex; align-items: center; justify-content: center; margin-bottom: 14px; }
@@ -71,7 +74,7 @@
   .pipe-step p { font-size: 11.5px; color: var(--muted); line-height: 1.45; }
   .pipe-num { font-family: 'Archivo', sans-serif; font-weight: 800; color: var(--accent); font-size: 12px; }
 
-  /* features — visual proof cards, not paragraphs */
+  /* features: visual proof cards, not paragraphs */
   .feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
   .feature-card { background: var(--secondary); border: 1px solid var(--border); border-radius: 16px; padding: 22px; }
   .feature-viz { height: 116px; border-radius: 10px; background: var(--bg); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; margin-bottom: 16px; overflow: hidden; }
@@ -134,7 +137,7 @@
   .footer-links a:hover { color: var(--text); }
   .footer-note { font-size: 12.5px; color: #5B6472; margin-top: 8px; }
 
-  /* Only hide when JS is present (has-js set synchronously in <head>, before paint) —
+  /* Only hide when JS is present (has-js set synchronously in <head>, before paint):
      so a no-JS / broken-JS load shows everything, and there's no flash-of-content. */
   .has-js [data-reveal] { opacity: 0; }
   @media (prefers-reduced-motion: reduce) { .has-js [data-reveal] { opacity: 1; } }
@@ -180,9 +183,9 @@
 <section class="hero">
   <div class="wrap hero-grid">
     <div>
-      <div class="eyebrow" data-hero>● Claude Code skill · MIT licensed</div>
+      <div class="eyebrow" data-hero>Claude Code skill · MIT licensed</div>
       <h1 data-hero>Design taste for <span>AI-generated UI.</span></h1>
-      <p data-hero>Stop shipping the same indigo gradient every AI tool defaults to. Tastemaker locks a real palette, type, and motion system — then builds to it.</p>
+      <p data-hero>Stop shipping the same indigo gradient every AI tool defaults to. Tastemaker locks a real palette, type, and motion system, then builds to it.</p>
       <div class="cta-row" data-hero>
         <a class="btn-primary" href="https://github.com/codeswithroh/tastemaker" target="_blank" rel="noopener">★ Star on GitHub</a>
         <a class="btn-ghost" href="#demo">See a live demo →</a>
@@ -277,7 +280,7 @@
     <div class="section-head" data-reveal>
       <div class="eyebrow">Features</div>
       <h2>Verified, not vibes.</h2>
-      <p>Each of these is something the skill actually does — checked with a script, shown here, not just claimed.</p>
+      <p>Each of these is something the skill actually does, checked with a script, shown here, not just claimed.</p>
     </div>
     <div class="feature-grid">
 
@@ -310,7 +313,7 @@
           <svg width="200" height="90" viewBox="0 0 200 90"><ellipse cx="100" cy="80" rx="46" ry="5" fill="#34D399" opacity="0.12"/><rect x="70" y="36" width="60" height="40" rx="20" fill="#047857"/><circle cx="100" cy="26" r="15" fill="#E6E6EA"/><rect x="52" y="44" width="12" height="30" rx="6" fill="#047857"/><rect x="136" y="44" width="12" height="30" rx="6" fill="#047857"/><circle cx="150" cy="30" r="8" fill="#34D399"/></svg>
         </div>
         <h3>Real illustrations</h3>
-        <p>Matches each concept to real illustrator-grade art, recolored to your palette — not LLM-drawn limbs.</p>
+        <p>Matches each concept to real illustrator-grade art, recolored to your palette, not LLM-drawn limbs.</p>
       </div>
 
       <div class="feature-card" data-reveal>
@@ -326,7 +329,7 @@
           <svg width="200" height="90" viewBox="0 0 200 90"><rect x="30" y="20" width="40" height="18" rx="4" fill="#232A33"/><rect x="30" y="46" width="40" height="18" rx="4" fill="#047857"/><g opacity="0.5"><rect x="90" y="20" width="40" height="18" rx="4" fill="#232A33"/></g><rect x="90" y="46" width="40" height="18" rx="4" fill="#232A33"/><path d="M150 30 v24 m-6 -6 l6 6 l6 -6" stroke="#34D399" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/><text x="156" y="34" font-family="IBM Plex Mono, monospace" font-size="9" fill="#8A93A3">scroll</text></svg>
         </div>
         <h3>Motion by default</h3>
-        <p>GSAP + ScrollTrigger reveals and a sequenced hero — wired in the build, not deferred.</p>
+        <p>GSAP + ScrollTrigger reveals and a sequenced hero, wired in the build, not deferred.</p>
       </div>
 
     </div>
@@ -338,11 +341,11 @@
     <div class="section-head" data-reveal>
       <div class="eyebrow">Live demo</div>
       <h2>Same system, a completely different register.</h2>
-      <p>This page is the Technical/builder preset. Below, the Warm/approachable preset builds a mindfulness app — verified palette, Zain/Nunito type, a constructed lotus mark.</p>
+      <p>This page is the Technical/builder preset. Below, the Warm/approachable preset builds a mindfulness app with a verified palette, Zain/Nunito type, and a constructed lotus mark.</p>
     </div>
     <div class="demo-card" data-reveal>
       <div class="demo-frame-wrap">
-        <iframe src="demo.html" title="Calmly — live tastemaker demo" loading="lazy"></iframe>
+        <iframe src="demo.html" title="Calmly, live tastemaker demo" loading="lazy"></iframe>
       </div>
       <div class="demo-tagbar">
         <div class="tags">
@@ -362,7 +365,7 @@
     <div class="section-head" data-reveal>
       <div class="eyebrow">Get started</div>
       <h2>Install once. Then just build.</h2>
-      <p>tastemaker is an open-source Claude Code skill. Drop it in your skills folder — it activates on its own, no config, no API keys.</p>
+      <p>tastemaker is an open-source Claude Code skill. Drop it in your skills folder. It activates on its own, no config, no API keys.</p>
     </div>
     <div class="install-wrap">
       <div class="steps">
@@ -370,7 +373,7 @@
           <div class="step-num">1</div>
           <div>
             <h4>Get it from GitHub</h4>
-            <p>It's free and MIT-licensed. Clone it straight into your skills folder — and while you're there, <a href="https://github.com/codeswithroh/tastemaker" target="_blank" rel="noopener">drop a ★ star</a>, it genuinely helps.</p>
+            <p>It's free and MIT-licensed. Clone it straight into your skills folder, and while you're there, <a href="https://github.com/codeswithroh/tastemaker" target="_blank" rel="noopener">drop a ★ star</a>, it genuinely helps.</p>
           </div>
         </div>
         <div class="step" data-reveal>
@@ -384,7 +387,7 @@
           <div class="step-num">3</div>
           <div>
             <h4>Just ask Claude to build</h4>
-            <p>Say "build a landing page for a coffee subscription." tastemaker triggers automatically — locks a palette + type, sources assets, wires motion, and builds. You don't invoke anything.</p>
+            <p>Say "build a landing page for a coffee subscription." tastemaker triggers automatically. It locks a palette and type, sources assets, wires motion, and builds. You don't invoke anything.</p>
           </div>
         </div>
       </div>
@@ -401,11 +404,11 @@
 <span class="tprompt">$</span> git clone https://github.com/codeswithroh/tastemaker \
     ~/.claude/skills/tastemaker
 
-<span class="tcomment"># 2 · restart Claude Code, then just ask —</span>
+<span class="tcomment"># 2 · restart Claude Code, then just ask,</span>
 <span class="tcomment">#     "build me a landing page for X"</span>
 <span class="tcomment"># tastemaker handles the rest, automatically.</span></code></pre>
         </div>
-        <p class="term-note">Also works with Cursor &amp; Windsurf — drop the folder in their skills directory instead.</p>
+        <p class="term-note">Also works with Cursor &amp; Windsurf. Drop the folder in their skills directory instead.</p>
       </div>
     </div>
   </div>
@@ -416,7 +419,7 @@
     <div class="proof" data-reveal>
       <div>
         <h3>This page is the proof</h3>
-        <p>Its palette is tastemaker's own Technical/builder preset, run through <code>check_contrast.py</code> before it shipped. Two of the five preset primaries actually <span class="fail">failed</span> that check on the first pass and were fixed in the repo — not hand-waved.</p>
+        <p>Its palette is tastemaker's own Technical/builder preset, run through <code>check_contrast.py</code> before it shipped. Two of the five preset primaries actually <span class="fail">failed</span> that check on the first pass and were fixed in the repo, not hand-waved.</p>
       </div>
       <div class="contrast-demo">
         <div class="cbar">
@@ -437,7 +440,7 @@
     <div class="star-inner" data-reveal>
       <div class="bigstar">★</div>
       <h2>Saved you from one more indigo gradient?</h2>
-      <p>tastemaker is free and open source. A star on GitHub is the whole thanks it asks for — and it helps other builders find it.</p>
+      <p>tastemaker is free and open source. A star on GitHub is the whole thanks it asks for, and it helps other builders find it.</p>
       <a class="btn-primary" href="https://github.com/codeswithroh/tastemaker" target="_blank" rel="noopener">★ Star tastemaker on GitHub</a>
     </div>
   </div>
@@ -466,7 +469,7 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script>
-  // Reduced-motion-aware scroll reveals (IntersectionObserver-driven GSAP — a more
+  // Reduced-motion-aware scroll reveals (IntersectionObserver-driven GSAP, a more
   // reliable trigger than a rAF scroll loop) + a sequenced hero timeline. Motion is
   // a build-time default here, not a later polish step.
   // Copy-to-clipboard for the install command
@@ -494,7 +497,7 @@
       return;
     }
 
-    // Sequenced hero timeline — eyebrow → headline → subhead → CTA → art
+    // Sequenced hero timeline: eyebrow → headline → subhead → CTA → art
     var tl = gsap.timeline({ defaults: { ease: 'power2.out', duration: 0.5 } });
     tl.from('[data-hero]', { opacity: 0, y: 18, stagger: 0.09 })
       .from('[data-hero-art]', { opacity: 0, y: 24, duration: 0.7 }, '-=0.4')
