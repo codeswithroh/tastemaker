@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Calmly — a tastemaker demo (Warm / approachable preset)</title>
+<title>Calmly, a tastemaker demo (Warm / approachable preset)</title>
 <meta name="description" content="A fictional mindfulness app landing page, built entirely from tastemaker's Warm/approachable preset: verified palette, Zain + Nunito type pairing, a constructed lotus mark, GSAP motion.">
 <link rel="icon" type="image/svg+xml" href="assets/mark-calmly.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -51,7 +51,14 @@
   .section-head h2 { font-size: 32px; margin-bottom: 10px; }
   .section-head p { color: #5A4E40; font-size: 15px; }
 
-  .feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  .why-lead { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 36px; align-items: center; background: #fff; border: 1px solid var(--secondary); border-radius: 24px; padding: 40px; margin-bottom: 20px; }
+  .why-lead-viz { display: flex; justify-content: center; }
+  .why-lead-viz svg { width: 200px; height: 200px; }
+  .why-tag { display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: 0.02em; color: var(--primary); background: var(--secondary); border-radius: 999px; padding: 5px 13px; margin-bottom: 16px; }
+  .why-lead-body h3 { font-size: 30px; margin-bottom: 12px; line-height: 1.05; }
+  .why-lead-body p { font-size: 16px; color: #5A4E40; max-width: 44ch; }
+
+  .why-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
   .feature-card { background: #fff; border: 1px solid var(--secondary); border-radius: 20px; padding: 26px; text-align: center; }
   .feature-viz { height: 90px; display: flex; align-items: center; justify-content: center; margin-bottom: 14px; }
   .feature-card h3 { font-size: 20px; margin-bottom: 6px; }
@@ -71,14 +78,16 @@
   @media (max-width: 760px) {
     .hero-grid { grid-template-columns: 1fr; }
     .hero-art { order: -1; }
-    .feature-grid { grid-template-columns: 1fr; }
+    .why-lead { grid-template-columns: 1fr; gap: 20px; text-align: center; padding: 32px 24px; }
+    .why-lead-body p { max-width: none; }
+    .why-pair { grid-template-columns: 1fr; }
     .nav-links { display: none; }
   }
 </style>
 </head>
 <body>
 
-<div class="demo-banner">This entire page is a tastemaker demo — Warm/approachable preset, verified palette + fonts + constructed mark. <a href='/'>← back to tastemaker</a></div>
+<div class="demo-banner">This entire page is a tastemaker demo, built on the Warm/approachable preset with a verified palette, real fonts, and a constructed mark. <a href='/'>&larr; back to tastemaker</a></div>
 
 <header>
   <div class="wrap">
@@ -104,7 +113,10 @@
 <section class="hero">
   <div class="wrap hero-grid">
     <div>
-      <div class="eyebrow" data-hero>🌿 5-minute daily practice</div>
+      <div class="eyebrow" data-hero>
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 1.5 C11.5 5 11.5 10 8 14.5 C4.5 10 4.5 5 8 1.5 Z" fill="#7A8C6E"/><path d="M8 4 L8 13" stroke="#FBF7F0" stroke-width="1.1" stroke-linecap="round"/></svg>
+        5-minute daily practice
+      </div>
       <h1 data-hero>A quieter mind, ten minutes at a time.</h1>
       <p data-hero>Guided mindfulness for people who don't have an hour to spare. Short sessions, real breathing, no subscription guilt-trip.</p>
       <div class="cta-row" data-hero>
@@ -143,27 +155,37 @@
       <h2>Why people stick with it</h2>
       <p>Not another wellness app you download once and forget.</p>
     </div>
-    <div class="feature-grid">
-      <div class="feature-card" data-reveal>
-        <div class="feature-viz">
-          <svg width="90" height="80" viewBox="0 0 90 80"><circle cx="45" cy="40" r="30" fill="none" stroke="#F0E4D3" stroke-width="8"/><path d="M45 40 m0 -30 a30 30 0 0 1 26 15" fill="none" stroke="#B85A38" stroke-width="8" stroke-linecap="round"/><text x="45" y="46" font-family="Zain, sans-serif" font-size="22" font-weight="800" fill="#2B2118" text-anchor="middle">10:00</text></svg>
-        </div>
-        <h3>Actually 10 minutes</h3>
-        <p>Timed and honest — no "quick 5-minute" that runs to twenty.</p>
+    <!-- Lead feature: the core promise, given real weight and an asymmetric,
+         left-aligned layout so this section is not three identical centered cards. -->
+    <div class="why-lead" data-reveal>
+      <div class="why-lead-viz">
+        <svg width="200" height="200" viewBox="0 0 200 200" aria-hidden="true">
+          <circle cx="100" cy="100" r="78" fill="none" stroke="#F0E4D3" stroke-width="14"/>
+          <path d="M100 100 m0 -78 a78 78 0 0 1 68 39" fill="none" stroke="#B85A38" stroke-width="14" stroke-linecap="round"/>
+          <text x="100" y="112" font-family="Zain, sans-serif" font-size="46" font-weight="800" fill="#2B2118" text-anchor="middle">10:00</text>
+        </svg>
       </div>
+      <div class="why-lead-body">
+        <span class="why-tag">the whole idea</span>
+        <h3>Actually ten minutes</h3>
+        <p>Every session is timed and honest. No "quick five minutes" that quietly runs to twenty, no endless scroll of courses to pick from. You open it, you breathe, you leave.</p>
+      </div>
+    </div>
+
+    <div class="why-pair">
       <div class="feature-card" data-reveal>
         <div class="feature-viz">
-          <svg width="120" height="80" viewBox="0 0 120 80"><g stroke="#B85A38" stroke-width="5" stroke-linecap="round"><line x1="12" y1="40" x2="12" y2="40"/><line x1="26" y1="30" x2="26" y2="50"/><line x1="40" y1="18" x2="40" y2="62"/><line x1="54" y1="26" x2="54" y2="54"/><line x1="68" y1="14" x2="68" y2="66"/><line x1="82" y1="30" x2="82" y2="50"/><line x1="96" y1="22" x2="96" y2="58"/><line x1="108" y1="34" x2="108" y2="46"/></g></svg>
+          <svg width="120" height="80" viewBox="0 0 120 80" aria-hidden="true"><g stroke="#B85A38" stroke-width="5" stroke-linecap="round"><line x1="12" y1="40" x2="12" y2="40"/><line x1="26" y1="30" x2="26" y2="50"/><line x1="40" y1="18" x2="40" y2="62"/><line x1="54" y1="26" x2="54" y2="54"/><line x1="68" y1="14" x2="68" y2="66"/><line x1="82" y1="30" x2="82" y2="50"/><line x1="96" y1="22" x2="96" y2="58"/><line x1="108" y1="34" x2="108" y2="46"/></g></svg>
         </div>
         <h3>Real human voices</h3>
         <p>Recorded by actual teachers, not a text-to-speech engine.</p>
       </div>
       <div class="feature-card" data-reveal>
         <div class="feature-viz">
-          <svg width="110" height="80" viewBox="0 0 110 80"><rect x="15" y="16" width="80" height="52" rx="8" fill="#F0E4D3"/><rect x="15" y="16" width="80" height="16" rx="8" fill="#7A8C6E"/><g fill="#fff"><rect x="26" y="40" width="10" height="10" rx="2"/><rect x="42" y="40" width="10" height="10" rx="2"/><rect x="58" y="40" width="10" height="10" rx="2"/><rect x="74" y="40" width="10" height="10" rx="2"/><rect x="26" y="54" width="10" height="10" rx="2"/></g><circle cx="63" cy="59" r="14" fill="#B85A38"/><path d="M57 59 l4 4 l8 -9" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg width="110" height="80" viewBox="0 0 110 80" aria-hidden="true"><rect x="15" y="16" width="80" height="52" rx="8" fill="#F0E4D3"/><rect x="15" y="16" width="80" height="16" rx="8" fill="#7A8C6E"/><g fill="#fff"><rect x="26" y="40" width="10" height="10" rx="2"/><rect x="42" y="40" width="10" height="10" rx="2"/><rect x="58" y="40" width="10" height="10" rx="2"/><rect x="74" y="40" width="10" height="10" rx="2"/><rect x="26" y="54" width="10" height="10" rx="2"/></g><circle cx="63" cy="59" r="14" fill="#B85A38"/><path d="M57 59 l4 4 l8 -9" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </div>
         <h3>No streak guilt</h3>
-        <p>Miss a day and the app just… doesn't care. Come back anytime.</p>
+        <p>Miss a day and the app just does not care. Come back whenever you are ready.</p>
       </div>
     </div>
   </div>
@@ -178,7 +200,7 @@
 </section>
 
 <footer>
-  Calmly is a fictional demo product — built entirely with <a href='/'>tastemaker</a>'s Warm/approachable preset to prove the design system out, not a real app.
+  Calmly is a fictional demo product, built entirely with <a href='/'>tastemaker</a>'s Warm/approachable preset to prove the design system out. Not a real app.
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
