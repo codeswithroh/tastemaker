@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Solstice Coffee, built with tastemaker</title>
+<meta name="description" content="The same prompt as before.html, built with tastemaker: generated Elegant/editorial palette, real icons, a constructed mark, and motion, all in one pass.">
+<link rel="icon" type="image/svg+xml" href="assets/coffee/mark-solstice.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gloock&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script>document.documentElement.classList.add('has-js');</script>
+<style>
+  :root {
+    --text: #221816;
+    --bg: #fff5f3;
+    --surface: #f5eae8;
+    --primary: #986157;
+    --on-primary: #ffffff;
+    --secondary: #efd8d4;
+    --accent: #4e7b58;
+    --border: #e5dad8;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+  h1, h2, h3 { font-family: 'Gloock', serif; font-weight: 400; }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+  a { color: inherit; }
+  svg { display: block; }
+  img { display: block; max-width: 100%; }
+
+  .demo-banner { background: var(--text); color: var(--bg); text-align: center; font-size: 12.5px; padding: 8px 12px; }
+  .demo-banner a { color: var(--secondary); text-decoration: underline; }
+
+  header { padding: 22px 0; }
+  nav { display: flex; align-items: center; justify-content: space-between; }
+  .brand { display: flex; align-items: center; gap: 11px; font-size: 21px; text-decoration: none; color: var(--text); }
+  .brand svg { width: 32px; height: 32px; }
+  .nav-links { display: flex; gap: 28px; font-size: 14px; font-weight: 500; }
+  .btn-primary { background: var(--primary); color: var(--on-primary); border: none; border-radius: 999px; padding: 12px 24px; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 14px; text-decoration: none; display: inline-flex; align-items: center; transition: transform .12s, background .15s; }
+  .btn-primary:hover { background: #7d4f46; transform: translateY(-1px); }
+  .btn-ghost { border: 1px solid var(--border); border-radius: 999px; color: var(--text); padding: 11px 23px; font-weight: 500; font-size: 14px; text-decoration: none; }
+
+  .hero { padding: 56px 0 80px; }
+  .hero-grid { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 48px; align-items: center; }
+  .eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--primary); }
+  .hero h1 { font-size: 46px; line-height: 1.08; margin: 16px 0 20px; }
+  .hero p { font-size: 17px; color: #5a4844; max-width: 42ch; margin-bottom: 30px; }
+  .cta-row { display: flex; gap: 14px; flex-wrap: wrap; }
+  .hero-art { display: flex; justify-content: center; }
+  .hero-art img { width: 100%; max-width: 380px; }
+
+  section { padding: 60px 0; }
+  .section-head { text-align: center; max-width: 560px; margin: 0 auto 44px; }
+  .section-head .eyebrow { display: block; margin-bottom: 10px; }
+  .section-head h2 { font-size: 30px; margin-bottom: 10px; }
+  .section-head p { color: #5a4844; font-size: 15px; }
+
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  .step { background: #fff; border: 1px solid var(--border); border-radius: 18px; padding: 30px 24px; text-align: center; }
+  .step .icon-wrap { width: 56px; height: 56px; border-radius: 14px; background: var(--secondary); display: flex; align-items: center; justify-content: center; margin: 0 auto 18px; }
+  .step .icon-wrap img { width: 26px; height: 26px; }
+  .step h3 { font-size: 19px; margin-bottom: 8px; }
+  .step p { font-size: 13.5px; color: #5a4844; }
+
+  .lead { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 40px; align-items: center; background: #fff; border: 1px solid var(--border); border-radius: 24px; padding: 40px; }
+  .lead-viz { background: var(--surface); border-radius: 16px; padding: 28px; }
+  .lead-viz .num { font-family: 'Gloock', serif; font-size: 54px; color: var(--primary); line-height: 1; }
+  .lead-viz .label { font-size: 13px; color: #5a4844; margin-top: 8px; }
+  .lead-tag { display: inline-block; font-size: 12px; font-weight: 600; color: var(--accent); background: var(--secondary); border-radius: 999px; padding: 5px 13px; margin-bottom: 16px; }
+  .lead h3 { font-size: 28px; margin-bottom: 12px; line-height: 1.1; }
+  .lead p { color: #5a4844; font-size: 15.5px; max-width: 46ch; }
+
+  .stats { border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 40px 0; margin-top: 50px; }
+  .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; text-align: center; }
+  .stat-num { font-family: 'Gloock', serif; font-size: 36px; color: var(--primary); }
+  .stat-label { font-size: 13px; color: #5a4844; margin-top: 4px; }
+
+  .cta-band { background: var(--text); color: var(--bg); border-radius: 24px; padding: 56px; text-align: center; margin: 0 24px; }
+  .cta-band h2 { font-size: 30px; margin-bottom: 12px; }
+  .cta-band p { color: #d9c9c4; margin-bottom: 26px; font-size: 15px; }
+  .cta-band .btn-primary { background: var(--accent); }
+
+  footer { padding: 40px 24px; text-align: center; font-size: 13px; color: #8a7772; }
+  footer a { color: var(--primary); text-decoration: none; font-weight: 600; }
+
+  .has-js [data-reveal] { opacity: 0; }
+  @media (prefers-reduced-motion: reduce) { .has-js [data-reveal] { opacity: 1; } }
+
+  @media (max-width: 800px) {
+    .hero-grid { grid-template-columns: 1fr; }
+    .hero-art { order: -1; }
+    .steps { grid-template-columns: 1fr; }
+    .lead { grid-template-columns: 1fr; }
+    .stats-grid { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="demo-banner">The same prompt as before.html, built with tastemaker: generated palette, real icons, a constructed mark, motion. <a href="compare.html">&larr; see them side by side</a></div>
+
+<header>
+  <div class="wrap">
+    <nav>
+      <a class="brand" href="#">
+        <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Solstice mark">
+          <path d="M20 4 C30 4 34 13 34 20 C34 27 30 36 20 36 C10 36 6 27 6 20 C6 13 10 4 20 4 Z" fill="#986157"/>
+          <path d="M20 6 C14 12 14 28 20 34" stroke="#221816" stroke-width="3.4" stroke-linecap="round" fill="none"/>
+        </svg>
+        Solstice
+      </a>
+      <div class="nav-links">
+        <a href="#how">How it works</a>
+        <a href="#why">Why Solstice</a>
+      </div>
+      <a class="btn-primary" href="#">Start your subscription</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow" data-hero>Direct trade, roasted weekly</div>
+      <h1 data-hero>Coffee, delivered on your terms.</h1>
+      <p data-hero>Solstice sources beans directly from 40 partner farms and roasts within 48 hours of shipping. Pick a roast, set a schedule, change either whenever you like.</p>
+      <div class="cta-row" data-hero>
+        <a class="btn-primary" href="#">Start your subscription</a>
+        <a class="btn-ghost" href="#how">See how it works</a>
+      </div>
+    </div>
+    <div class="hero-art" aria-hidden="true" data-hero-art>
+      <img src="assets/coffee/hero-illustration.svg" alt="">
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <span class="eyebrow">How it works</span>
+      <h2>Three decisions, then it's automatic</h2>
+    </div>
+    <div class="steps">
+      <div class="step" data-reveal>
+        <div class="icon-wrap"><img src="assets/coffee/coffee-outline-rounded.svg" alt=""></div>
+        <h3>Pick your roast</h3>
+        <p>Light, medium, or dark, from a rotating list of single-origin lots.</p>
+      </div>
+      <div class="step" data-reveal>
+        <div class="icon-wrap"><img src="assets/coffee/local-shipping-outline-rounded.svg" alt=""></div>
+        <h3>Set your schedule</h3>
+        <p>Weekly, every two weeks, or monthly. Skip or change it anytime.</p>
+      </div>
+      <div class="step" data-reveal>
+        <div class="icon-wrap"><img src="assets/coffee/nest-eco-leaf-outline-rounded.svg" alt=""></div>
+        <h3>Sourced sustainably</h3>
+        <p>Every farm is direct-trade and paid above commodity price.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="why">
+  <div class="wrap">
+    <div class="lead" data-reveal>
+      <div class="lead-viz">
+        <div class="num">48hrs</div>
+        <div class="label">from roast to your door, on average</div>
+      </div>
+      <div>
+        <span class="lead-tag">the whole idea</span>
+        <h3>Fresh means recently roasted, not recently shipped</h3>
+        <p>Most "fresh" coffee sat in a warehouse for weeks first. Solstice roasts to order, in small batches, and ships within two days, so what arrives is what you'd get standing in the roastery.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="stats">
+  <div class="wrap stats-grid">
+    <div data-reveal><div class="stat-num">40+</div><div class="stat-label">partner farms, direct trade</div></div>
+    <div data-reveal><div class="stat-num">12,000+</div><div class="stat-label">active subscribers</div></div>
+    <div data-reveal><div class="stat-num">0</div><div class="stat-label">warehouse months before it ships</div></div>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <div class="cta-band" data-reveal>
+      <h2>Your first bag ships this week.</h2>
+      <p>Cancel or change your roast anytime. No contracts.</p>
+      <a class="btn-primary" href="#">Start your subscription</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    Solstice is a fictional example built to demonstrate tastemaker, not a real company.
+    Illustration and mark are hand-constructed for this example (no unDraw library was populated in this environment; icons are real, fetched live from Iconify's material-symbols set for the Elegant mood).
+    <a href="compare.html">Back to the comparison</a>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>
+  window.addEventListener('load', function () {
+    var revealEls = document.querySelectorAll('[data-reveal]');
+    if (!window.gsap) {
+      revealEls.forEach(function (el) { el.style.opacity = 1; });
+      return;
+    }
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      gsap.set('[data-reveal], [data-hero], [data-hero-art]', { opacity: 1, y: 0 });
+      return;
+    }
+
+    var tl = gsap.timeline({ defaults: { ease: 'power2.out', duration: 0.5 } });
+    tl.from('[data-hero]', { opacity: 0, y: 18, stagger: 0.09 })
+      .from('[data-hero-art]', { opacity: 0, y: 24, duration: 0.7 }, '-=0.4');
+
+    gsap.set(revealEls, { y: 20 });
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) {
+          gsap.to(en.target, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' });
+          io.unobserve(en.target);
+        }
+      });
+    }, { rootMargin: '0px 0px -8% 0px' });
+    revealEls.forEach(function (el) { io.observe(el); });
+
+    setTimeout(function () { gsap.set('[data-hero], [data-hero-art]', { opacity: 1, y: 0 }); }, 2600);
+    setTimeout(function () {
+      revealEls.forEach(function (el) { if (+getComputedStyle(el).opacity < 0.05) gsap.set(el, { opacity: 1, y: 0 }); });
+    }, 4000);
+  });
+</script>
+
+</body>
+</html>

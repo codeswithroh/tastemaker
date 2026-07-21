@@ -12,6 +12,7 @@
   <p><b>A skill that gives AI real design taste, so the UI it builds does not look AI-generated.</b></p>
 
   <p>
+    <a href="#see-the-difference-not-just-the-claim">Before / after</a> &nbsp;·&nbsp;
     <a href="#quick-start">Quick start</a> &nbsp;·&nbsp;
     <a href="#why-ai-ui-all-looks-the-same">Why</a> &nbsp;·&nbsp;
     <a href="#can-i-not-just-tell-the-ai-to-write-the-decisions-down">Why not just prompt it?</a> &nbsp;·&nbsp;
@@ -31,6 +32,16 @@
 Tastemaker is a skill for coding agents (Claude Code, Cursor, Windsurf). You install it once and forget it. Whenever you ask your agent to build or style a UI, tastemaker steps in and gives it a real design system to work from, instead of the generic defaults every model reaches for.
 
 It is plain Markdown and small Python scripts. Everything runs on your machine. There is no hosted backend, no account, and no API key.
+
+## See the difference, not just the claim
+
+One prompt, `build a landing page for a coffee subscription`, built twice: once with no skill, once with tastemaker installed. Same request, unchanged, both times.
+
+<div align="center">
+  <a href="https://tastemaker-ai-skill.netlify.app/compare"><b>Open the live before/after &rarr;</b></a>
+</div>
+
+Left is the indigo-gradient, letter-in-a-box-logo, emoji-icon default most agents reach for. Right is the same prompt with tastemaker: a palette generated fresh for the project's mood, real fetched icons, a constructed mark, and motion, in one pass. Both are real, live pages, not mockups or screenshots.
 
 ## Why AI UI all looks the same
 
