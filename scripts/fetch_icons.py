@@ -12,17 +12,30 @@ Why this is the default icon source:
   - The API applies the color server-side, so an icon comes back already
     tinted to the project's locked accent — one fewer recolor step.
 
-Pick ONE icon set per project and stay in it (e.g. all "lucide:*") so
-every icon shares one stroke weight and corner style — mixing sets is a
-fast way to look unintentional. `--set lucide` enforces this.
+Pick ONE icon set per project and stay in it so every icon shares one
+stroke weight and corner style — mixing sets is a fast way to look
+unintentional. But "one set per project" does not mean "one set for every
+project": every Tastemaker install defaulting to the same Lucide icons
+regardless of what's being built is its own kind of sameness. Use --mood
+to pick a set that actually matches the project's locked mood instead of
+always reaching for the same default:
+
+    premium    -> heroicons   (clean solid/outline, professional)
+    warm       -> tabler      (friendly, rounded stroke)
+    technical  -> lucide      (crisp, minimal, developer-tool default)
+    playful    -> ph          (Phosphor; bold/duotone weights read playful)
+    elegant    -> material-symbols  (thin weight reads considered, editorial)
 
 Usage:
-    # search to discover the right icon names within a set
-    python3 fetch_icons.py --search "chart growth analytics" --set lucide
+    # search to discover the right icon names within a set (mood picks the set)
+    python3 fetch_icons.py --search "chart growth analytics" --mood technical
 
     # fetch specific icons, tinted, into the project
     python3 fetch_icons.py --icons rocket shield mail chart-line \\
-        --set lucide --color "#6C5CE7" --out design/assets/icons
+        --mood warm --color "#6C5CE7" --out design/assets/icons
+
+    # or name the set explicitly if the mood mapping doesn't fit this project
+    python3 fetch_icons.py --icons rocket --set tabler --color "#6C5CE7"
 """
 
 import sys
@@ -33,6 +46,14 @@ import urllib.request
 import urllib.parse
 
 API = "https://api.iconify.design"
+
+MOOD_ICON_SETS = {
+    "premium": "heroicons",
+    "warm": "tabler",
+    "technical": "lucide",
+    "playful": "ph",
+    "elegant": "material-symbols",
+}
 
 
 def http_get(url):
@@ -77,11 +98,28 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--search", help="Discover icon names matching these terms")
     parser.add_argument("--icons", nargs="+", help="Icon names to fetch (within --set)")
-    parser.add_argument("--set", dest="icon_set", default="lucide", help="Iconify set prefix, e.g. lucide, tabler, ph (default: lucide)")
+    parser.add_argument("--set", dest="icon_set", default=None,
+                         help="Iconify set prefix, e.g. lucide, tabler, ph. Overrides --mood if both are given.")
+    parser.add_argument("--mood", choices=list(MOOD_ICON_SETS.keys()),
+                         help="Pick the icon set from the project's locked mood instead of naming --set directly "
+                              "(see the mapping in this script's module docstring). Recommended over a bare default.")
     parser.add_argument("--color", default=None, help='Hex tint applied server-side, e.g. "#6C5CE7"')
     parser.add_argument("--width", type=int, default=48, help="Icon width in px (default 48)")
     parser.add_argument("--out", default="design/assets/icons", help="Output directory")
     args = parser.parse_args()
+
+    if args.icon_set:
+        pass  # explicit --set always wins
+    elif args.mood:
+        args.icon_set = MOOD_ICON_SETS[args.mood]
+    else:
+        args.icon_set = "lucide"
+        print(
+            "No --set or --mood given; defaulting to 'lucide'. This is how every project ends up with the same "
+            "icons — pass --mood <premium|warm|technical|playful|elegant> to match this project's locked mood, "
+            "or --set to name one directly.",
+            file=sys.stderr,
+        )
 
     if args.search:
         try:
