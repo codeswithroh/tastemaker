@@ -20,9 +20,10 @@ Before picking any pattern, apply the visual-over-text default from SKILL.md Ste
 The point isn't to delete all copy — a headline, a short subhead, captions, and CTA labels are text doing real work. The point is that the *primary content of each section is something to look at*, and text captions it. A section that's mostly words with a decorative icon on top is the thing to catch and rebuild.
 
 ## Landing / marketing page
-- **Hero-centric**: single bold headline + subhead + one CTA + supporting visual. Use when the product needs a single clear pitch (most SaaS).
+- **Hero-centric**: one sharp promise + one short explanation + one primary CTA (optionally one secondary) + one supporting visual. This is the default for most products. Read `references/hero-guidelines.md` before building it; the hero is an attention hierarchy, not a compressed feature tour.
 - **Social-proof-first**: logos/testimonials above the fold, hero secondary. Use when credibility is the biggest conversion blocker (enterprise, higher price point).
 - **Problem/solution narrative**: scroll-driven sections walking through a pain point then the fix. Use for products solving a non-obvious problem that needs explaining before the pitch lands.
+- **Default fold boundary**: keep workflow steps, metrics, integration grids, detailed proof, and secondary product states below the hero. If the pitch needs them to make sense, simplify the pitch rather than attaching more modules above the fold.
 - Common failure: stacking 6+ generic feature cards with icon + heading + one line, identical structure repeated — the text-wall tell. Apply the show-don't-tell table above: convert feature cards into feature *mockups*, vary rhythm (a full-width visual, an alternating two-column showing the feature in use, a comparison table, a real chart) so the page is a sequence of things to look at, not a stack of paragraphs.
 
 ## Dashboard

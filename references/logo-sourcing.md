@@ -1,6 +1,8 @@
 # Logo design
 
-Every project scoped in Step 1 with a landing page, nav bar, or favicon needs a logo: a **mark** (a small symbol) paired with a **wordmark** (the product name set in the locked heading font). This file is about producing a mark that looks *designed*, not defaulted.
+Every project scoped in Step 1 with a landing page, nav bar, or favicon needs a logo. First determine whether the project already has one. Search the repository, public assets, manifest, favicon links, brief, and supplied references. An existing mark is a brand constraint, especially if it is already distributed: reuse the exact asset and do not recolor, redraw, or replace it unless the user explicitly asks for a rebrand. If it feels visually disconnected from the new page, adapt spacing, surrounding color, scale, or lockup—not the mark itself.
+
+Only when no identity exists should you create a **mark** (a small symbol) paired with a **wordmark** (the product name set in the locked heading font). The rest of this file covers that cold-start path.
 
 ## The one rule that matters most: no letter-in-a-box
 

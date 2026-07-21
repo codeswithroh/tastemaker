@@ -1,564 +1,226 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tastemaker: Design taste for AI-generated UI</title>
-<meta name="description" content="A Claude Code skill that grounds AI-generated UI in real reference images, auto-selected palette/type pairings, verified contrast, and a persistent per-developer taste profile, instead of generic AI-slop defaults.">
-<link rel="icon" type="image/svg+xml" href="assets/mark-tastemaker.svg">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-<script>document.documentElement.classList.add('has-js');</script>
-<style>
-  :root {
-    --text: #E6E6EA;
-    --bg: #0B0D12;
-    --primary: #047857;
-    --secondary: #161A21;
-    --accent: #34D399;
-    --border: #232A33;
-    --muted: #8A93A3;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: var(--bg); color: var(--text); font-family: 'IBM Plex Sans', system-ui, sans-serif; line-height: 1.6; -webkit-font-smoothing: antialiased; }
-  /* Mono is reserved for genuine code/data (the install command, contrast readouts), not body copy. */
-  h1, h2, h3, h4, .display { font-family: 'Archivo', sans-serif; letter-spacing: -0.02em; }
-  a { color: inherit; }
-  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
-  svg { display: block; }
-
-  header { position: sticky; top: 0; z-index: 20; background: var(--bg); border-bottom: 1px solid var(--border); }
-  nav { display: flex; align-items: center; justify-content: space-between; padding: 16px 0; }
-  .brand { display: flex; align-items: center; gap: 11px; font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 18px; text-decoration: none; }
-  .brand svg { width: 30px; height: 30px; }
-  .nav-links { display: flex; gap: 28px; font-size: 14px; color: var(--muted); }
-  .nav-links a:hover { color: var(--text); }
-  .gh-buttons { display: flex; gap: 10px; }
-  .gh-btn { display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--border); border-radius: 8px; padding: 7px 12px; font-size: 13px; text-decoration: none; color: var(--text); transition: border-color .15s; }
-  .gh-btn:hover { border-color: var(--accent); }
-  .gh-btn .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
-
-  .hero { padding: 92px 0 68px; }
-  .hero-grid { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 48px; align-items: center; }
-  .eyebrow { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); border: 1px solid var(--border); border-radius: 999px; padding: 6px 14px; }
-  .hero h1 { font-size: 48px; font-weight: 800; line-height: 1.07; margin: 22px 0 18px; }
-  .hero h1 span { color: var(--accent); }
-  .hero p { font-size: 16px; color: #A6ADBB; max-width: 40ch; margin-bottom: 30px; }
-  .cta-row { display: flex; gap: 14px; flex-wrap: wrap; }
-  .btn-primary { background: var(--primary); color: #fff; border: none; border-radius: 10px; padding: 13px 22px; font-family: inherit; font-size: 14px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: transform .12s, background .15s; }
-  .btn-primary:hover { background: #059669; transform: translateY(-1px); }
-  .btn-ghost { border: 1px solid var(--border); color: var(--text); border-radius: 10px; padding: 13px 22px; font-size: 14px; text-decoration: none; transition: border-color .15s; }
-  .btn-ghost:hover { border-color: var(--accent); }
-  .hero-art { display: flex; justify-content: center; }
-  .hero-art svg { width: 100%; max-width: 460px; height: auto; }
-
-  .stats { border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 34px 0; }
-  .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; text-align: center; }
-  .stat-num { font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 30px; color: var(--accent); }
-  .stat-label { font-size: 12px; color: var(--muted); margin-top: 4px; }
-
-  section { padding: 84px 0; }
-  .section-head { max-width: 620px; margin-bottom: 44px; }
-  /* Section kickers are plain letter-spaced labels, not the same bordered pill on every
-     section. The pill badge is kept only for the hero, where a single badge reads as a badge. */
-  .section-head .eyebrow { display: inline-block; border: none; background: none; padding: 0; border-radius: 0; color: var(--accent); font-size: 12px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; margin-bottom: 14px; }
-  .section-head h2 { font-size: 32px; font-weight: 800; margin-bottom: 12px; }
-  .section-head p { color: #A6ADBB; font-size: 15px; }
-
-  /* how it works: visual pipeline */
-  .pipeline { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
-  .pipe-step { background: var(--secondary); border: 1px solid var(--border); border-radius: 14px; padding: 18px 16px; }
-  .pipe-viz { height: 76px; display: flex; align-items: center; justify-content: center; margin-bottom: 14px; }
-  .pipe-step h4 { font-size: 13.5px; font-weight: 700; margin-bottom: 3px; }
-  .pipe-step p { font-size: 11.5px; color: var(--muted); line-height: 1.45; }
-  .pipe-num { font-family: 'Archivo', sans-serif; font-weight: 800; color: var(--accent); font-size: 12px; }
-
-  /* features: visual proof cards, not paragraphs */
-  .feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
-  .feature-card { background: var(--secondary); border: 1px solid var(--border); border-radius: 16px; padding: 22px; }
-  .feature-viz { height: 116px; border-radius: 10px; background: var(--bg); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; margin-bottom: 16px; overflow: hidden; }
-  .feature-card h3 { font-size: 15px; font-weight: 700; }
-  .feature-card p { font-size: 12.5px; color: var(--muted); margin-top: 4px; }
-
-  .demo-card { border: 1px solid var(--border); border-radius: 16px; overflow: hidden; background: var(--secondary); }
-  .demo-frame-wrap { background: #FBF7F0; }
-  .demo-frame-wrap iframe { width: 100%; height: 480px; border: 0; display: block; }
-  .demo-tagbar { display: flex; align-items: center; justify-content: space-between; padding: 16px 22px; flex-wrap: wrap; gap: 10px; }
-  .demo-tagbar .tags { display: flex; gap: 8px; flex-wrap: wrap; }
-  .tag { font-size: 11.5px; border: 1px solid var(--border); border-radius: 999px; padding: 4px 11px; color: var(--muted); }
-  .demo-tagbar a { font-size: 13px; color: var(--accent); text-decoration: none; }
-
-  .proof { background: var(--secondary); border: 1px solid var(--border); border-radius: 16px; padding: 30px; display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: center; }
-  .proof h3 { font-size: 17px; margin-bottom: 10px; }
-  .proof p { font-size: 13.5px; color: #A6ADBB; }
-  .proof code { color: var(--accent); font-size: 12.5px; }
-  .contrast-demo { display: flex; flex-direction: column; gap: 10px; }
-  .cbar { display: flex; align-items: center; gap: 12px; }
-  .cbar .swatch { width: 96px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; font-family: 'Archivo', sans-serif; }
-  .cbar .verdict { font-size: 12.5px; }
-  .pass { color: var(--accent); }
-  .fail { color: #E06A4A; }
-
-  .gh-star:hover { border-color: var(--accent); color: var(--accent); }
-
-  /* install / getting started */
-  .install-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
-  .steps { display: flex; flex-direction: column; gap: 18px; }
-  .step { display: flex; gap: 16px; align-items: flex-start; }
-  .step-num { flex: 0 0 34px; height: 34px; border-radius: 9px; background: rgba(52,211,153,0.12); color: var(--accent); font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 15px; display: flex; align-items: center; justify-content: center; }
-  .step h4 { font-size: 16px; font-weight: 700; margin-bottom: 3px; }
-  .step p { font-size: 13.5px; color: #A6ADBB; }
-  .step p a { color: var(--accent); text-decoration: none; }
-  .step p a:hover { text-decoration: underline; }
-
-  .terminal { background: #05070B; border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
-  .terminal-bar { display: flex; align-items: center; gap: 8px; padding: 11px 14px; border-bottom: 1px solid var(--border); }
-  .terminal-bar .tdot { width: 10px; height: 10px; border-radius: 50%; }
-  .terminal-bar .tpath { margin-left: 8px; font-size: 12px; color: var(--muted); }
-  .copy-btn { margin-left: auto; background: var(--secondary); border: 1px solid var(--border); color: var(--text); font-family: 'IBM Plex Mono', monospace; font-size: 12px; padding: 5px 12px; border-radius: 7px; cursor: pointer; transition: border-color .15s, color .15s; }
-  .copy-btn:hover { border-color: var(--accent); color: var(--accent); }
-  .terminal pre { padding: 18px 16px; margin: 0; overflow-x: auto; }
-  .terminal code { font-family: 'IBM Plex Mono', monospace; font-size: 13px; line-height: 1.7; color: var(--text); white-space: pre; }
-  .terminal .tprompt { color: var(--accent); }
-  .terminal .tcomment { color: var(--muted); }
-  .term-note { font-size: 12px; color: var(--muted); margin-top: 14px; }
-
-  /* star CTA band */
-  .star-band { text-align: center; }
-  .star-inner { background: linear-gradient(180deg, var(--secondary), #12161D); border: 1px solid var(--border); border-radius: 20px; padding: 52px 32px; }
-  .star-inner .bigstar { font-size: 34px; color: var(--accent); margin-bottom: 6px; }
-  .star-inner h2 { font-size: 28px; font-weight: 800; margin-bottom: 12px; }
-  .star-inner p { color: #A6ADBB; font-size: 15px; max-width: 46ch; margin: 0 auto 26px; }
-
-  footer { border-top: 1px solid var(--border); padding: 44px 0 60px; }
-  .footer-grid { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 24px; }
-  .footer-links { display: flex; gap: 24px; font-size: 13px; color: var(--muted); }
-  .footer-links a:hover { color: var(--text); }
-  .footer-note { font-size: 12.5px; color: #5B6472; margin-top: 8px; }
-
-  /* Only hide when JS is present (has-js set synchronously in <head>, before paint):
-     so a no-JS / broken-JS load shows everything, and there's no flash-of-content. */
-  .has-js [data-reveal] { opacity: 0; }
-  @media (prefers-reduced-motion: reduce) { .has-js [data-reveal] { opacity: 1; } }
-
-  @media (max-width: 900px) {
-    .hero-grid { grid-template-columns: 1fr; }
-    .hero-art { order: -1; }
-    .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 28px 24px; }
-    .pipeline { grid-template-columns: repeat(2, 1fr); }
-    .feature-grid { grid-template-columns: 1fr; }
-    .proof { grid-template-columns: 1fr; }
-    .install-wrap { grid-template-columns: 1fr; gap: 28px; }
-    .nav-links { display: none; }
-  }
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tastemaker — design taste your coding agent can execute</title>
+  <meta name="description" content="Tastemaker gives coding agents a repeatable design workflow: grounded references, generated palettes, contrast contracts, real assets, motion, and taste that persists across sessions.">
+  <meta property="og:title" content="Tastemaker — design taste your coding agent can execute">
+  <meta property="og:description" content="Stop prompting for better taste. Give your coding agent a workflow that grounds, checks, builds, and remembers it.">
+  <meta name="theme-color" content="#0C1414">
+  <link rel="icon" type="image/svg+xml" href="assets/mark-tastemaker.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;family=IBM+Plex+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
-<header>
-  <div class="wrap">
-    <nav>
-      <a class="brand" href="#">
-        <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="tastemaker mark">
-          <rect x="4" y="13" width="20" height="20" rx="5" fill="#065F46" stroke="#0B0D12" stroke-width="2"/>
-          <rect x="10" y="9" width="20" height="20" rx="5" fill="#047857" stroke="#0B0D12" stroke-width="2"/>
-          <rect x="16" y="5" width="20" height="20" rx="5" fill="#34D399" stroke="#0B0D12" stroke-width="2"/>
-        </svg>
-        tastemaker
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="shell nav-shell">
+      <a class="brand" href="#top" aria-label="Tastemaker home">
+        <img src="assets/mark-tastemaker.svg" alt="">
+        <span>tastemaker</span>
       </a>
-      <div class="nav-links">
-        <a href="#proof">Before / after</a>
-        <a href="#how">How it works</a>
-        <a href="#features">Features</a>
-        <a href="#demo">Live demo</a>
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="#proof">Proof</a>
+        <a href="#workflow">Workflow</a>
+        <a href="#capabilities">What changed</a>
         <a href="#install">Install</a>
-      </div>
-      <div class="gh-buttons">
-        <a class="gh-btn gh-star" href="https://github.com/codeswithroh/tastemaker" target="_blank" rel="noopener">★ Star on GitHub</a>
-      </div>
-    </nav>
-  </div>
-</header>
-
-<section class="hero">
-  <div class="wrap hero-grid">
-    <div>
-      <div class="eyebrow" data-hero>Claude Code skill · MIT licensed</div>
-      <h1 data-hero>Design taste for <span>AI-generated UI.</span></h1>
-      <p data-hero>Stop shipping the same indigo gradient every AI tool defaults to. Tastemaker locks a real palette, type, and motion system, then builds to it.</p>
-      <div class="cta-row" data-hero>
-        <a class="btn-primary" href="https://github.com/codeswithroh/tastemaker" target="_blank" rel="noopener">★ Star on GitHub</a>
-        <a class="btn-ghost" href="#proof">See the before/after →</a>
+      </nav>
+      <div class="nav-actions">
+        <a class="icon-link" href="https://github.com/codeswithroh/tastemaker" target="_blank" rel="noopener" aria-label="Open Tastemaker on GitHub"><img src="assets/icons/github.svg" alt=""></a>
+        <a class="mini-cta" href="#install">Give your agent taste</a>
       </div>
     </div>
-    <div class="hero-art" aria-hidden="true" data-hero-art>
-      <svg width="520" height="420" viewBox="0 0 520 420" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A browser window showing an auto-generated palette and type sample, with a verified checkmark badge">
-        <ellipse cx="260" cy="392" rx="180" ry="14" fill="#E6E6EA" opacity="0.06"/>
-        <rect x="60" y="40" width="400" height="320" rx="18" fill="#161A21" stroke="#2A3038" stroke-width="2"/>
-        <rect x="60" y="40" width="400" height="48" rx="18" fill="#161A21"/>
-        <rect x="60" y="70" width="400" height="18" fill="#161A21"/>
-        <circle cx="92" cy="64" r="7" fill="#047857"/>
-        <circle cx="116" cy="64" r="7" fill="#2A3038"/>
-        <circle cx="140" cy="64" r="7" fill="#2A3038"/>
-        <rect class="art-swatch" x="96" y="120" width="70" height="70" rx="10" fill="#34D399"/>
-        <rect class="art-swatch" x="180" y="120" width="70" height="70" rx="10" fill="#047857"/>
-        <rect class="art-swatch" x="264" y="120" width="70" height="70" rx="10" fill="#0B0D12" stroke="#34D399" stroke-width="2"/>
-        <text x="96" y="248" font-family="Archivo, sans-serif" font-size="46" font-weight="700" fill="#E6E6EA">Aa</text>
-        <rect x="200" y="222" width="164" height="14" rx="7" fill="#2A3038"/>
-        <rect x="200" y="246" width="120" height="14" rx="7" fill="#2A3038"/>
-        <rect x="96" y="290" width="140" height="34" rx="17" fill="#047857"/>
-        <rect x="248" y="290" width="90" height="34" rx="17" fill="#161A21" stroke="#2A3038" stroke-width="2"/>
-        <circle class="art-badge" cx="430" cy="150" r="34" fill="#34D399"/>
-        <path class="art-badge" d="M415 150 L426 161 L448 137" stroke="#0B0D12" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-      </svg>
-    </div>
-  </div>
-</section>
+  </header>
 
-<section id="proof" style="padding-top:8px;padding-bottom:8px;">
-  <div class="wrap">
-    <div class="section-head" data-reveal style="margin-bottom:28px;">
-      <div class="eyebrow">Same prompt, both times</div>
-      <h2>Not a claim. A comparison.</h2>
-      <p>The prompt was <code style="background:var(--secondary);border:1px solid var(--border);border-radius:5px;padding:2px 7px;color:var(--text);">build a landing page for a coffee subscription</code>, unchanged. Left: no skill installed. Right: tastemaker installed. Same request, two outputs.</p>
-    </div>
-    <div class="demo-card" data-reveal>
-      <div style="display:grid;grid-template-columns:1fr 1fr;">
-        <div style="border-right:1px solid var(--border);">
-          <div style="padding:12px 18px;border-bottom:1px solid var(--border);font-size:13px;font-weight:700;color:#E06A4A;">Before &mdash; no skill</div>
-          <iframe src="before.html" title="Before: generic output" loading="lazy" style="width:100%;height:360px;border:0;display:block;background:#fff;"></iframe>
-        </div>
-        <div>
-          <div style="padding:12px 18px;border-bottom:1px solid var(--border);font-size:13px;font-weight:700;color:var(--accent);">After &mdash; with tastemaker</div>
-          <iframe src="after.html" title="After: built with tastemaker" loading="lazy" style="width:100%;height:360px;border:0;display:block;background:#fff;"></iframe>
-        </div>
-      </div>
-      <div class="demo-tagbar">
-        <div class="tags">
-          <span class="tag">Elegant / editorial mood</span>
-          <span class="tag">Generated palette</span>
-          <span class="tag">Real icons</span>
-          <span class="tag">Constructed mark</span>
-        </div>
-        <a href="compare.html">Open the full comparison &rarr;</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="stats">
-  <div class="wrap stats-grid">
-    <div data-reveal><div class="stat-num">5</div><div class="stat-label">moods, a new palette generated for each</div></div>
-    <div data-reveal><div class="stat-num">24</div><div class="stat-label">curated Google Font pairings</div></div>
-    <div data-reveal><div class="stat-num">AA</div><div class="stat-label">WCAG contrast, verified not assumed</div></div>
-    <div data-reveal><div class="stat-num">0</div><div class="stat-label">API keys for the asset pipeline</div></div>
-  </div>
-</div>
-
-<section id="how">
-  <div class="wrap">
-    <div class="section-head" data-reveal>
-      <div class="eyebrow">How it works</div>
-      <h2>Idea → shipped, on-brand site. One pass.</h2>
-    </div>
-    <div class="pipeline">
-      <div class="pipe-step" data-reveal>
-        <div class="pipe-viz">
-          <svg width="70" height="60" viewBox="0 0 70 60"><rect x="6" y="8" width="40" height="30" rx="4" fill="#232A33"/><circle cx="18" cy="20" r="4" fill="#34D399"/><path d="M12 34 L24 24 L34 32 L44 22" stroke="#047857" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M50 23 h14 M50 30 h9" stroke="#34D399" stroke-width="3" stroke-linecap="round"/></svg>
-        </div>
-        <div class="pipe-num">01</div>
-        <h4>Read the idea</h4>
-        <p>References or the app concept itself.</p>
-      </div>
-      <div class="pipe-step" data-reveal>
-        <div class="pipe-viz">
-          <svg width="70" height="60" viewBox="0 0 70 60"><rect x="8" y="18" width="18" height="24" rx="4" fill="#34D399"/><rect x="28" y="18" width="18" height="24" rx="4" fill="#047857"/><rect x="48" y="18" width="14" height="24" rx="4" fill="#0B0D12" stroke="#34D399" stroke-width="2"/></svg>
-        </div>
-        <div class="pipe-num">02</div>
-        <h4>Lock the style</h4>
-        <p>Palette + type, contrast-checked.</p>
-      </div>
-      <div class="pipe-step" data-reveal>
-        <div class="pipe-viz">
-          <svg width="70" height="60" viewBox="0 0 70 60"><rect x="8" y="12" width="22" height="16" rx="3" fill="#232A33"/><circle cx="48" cy="20" r="9" fill="#047857"/><rect x="8" y="34" width="16" height="14" rx="3" fill="#34D399"/><path d="M34 38 l6 6 l10 -12" stroke="#34D399" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </div>
-        <div class="pipe-num">03</div>
-        <h4>Source real assets</h4>
-        <p>Photos, illustrations, icons, logo.</p>
-      </div>
-      <div class="pipe-step" data-reveal>
-        <div class="pipe-viz">
-          <svg width="70" height="60" viewBox="0 0 70 60"><rect x="10" y="8" width="50" height="44" rx="5" fill="#232A33"/><rect x="16" y="14" width="24" height="6" rx="3" fill="#34D399"/><rect x="16" y="24" width="38" height="4" rx="2" fill="#3A424D"/><rect x="16" y="32" width="30" height="4" rx="2" fill="#3A424D"/><rect x="16" y="42" width="20" height="7" rx="3.5" fill="#047857"/></svg>
-        </div>
-        <div class="pipe-num">04</div>
-        <h4>Build the screens</h4>
-        <p>Visual-first, motion wired in.</p>
-      </div>
-      <div class="pipe-step" data-reveal>
-        <div class="pipe-viz">
-          <svg width="70" height="60" viewBox="0 0 70 60"><path d="M35 10 a12 12 0 1 1 -0.1 0" stroke="#047857" stroke-width="4" fill="none"/><path d="M35 10 a12 12 0 0 1 12 12" stroke="#34D399" stroke-width="4" fill="none" stroke-linecap="round"/><path d="M30 32 l4 4 l8 -9" stroke="#34D399" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </div>
-        <div class="pipe-num">05</div>
-        <h4>Remember taste</h4>
-        <p>Keeps warm the next project.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="features">
-  <div class="wrap">
-    <div class="section-head" data-reveal>
-      <div class="eyebrow">Features</div>
-      <h2>Verified, not vibes.</h2>
-      <p>Each of these is something the skill actually does, checked with a script, shown here, not just claimed.</p>
-    </div>
-    <div class="feature-grid">
-
-      <div class="feature-card" data-reveal>
-        <div class="feature-viz">
-          <svg width="200" height="90" viewBox="0 0 200 90"><rect x="16" y="20" width="52" height="50" rx="5" fill="#232A33"/><circle cx="30" cy="36" r="5" fill="#8A93A3"/><path d="M20 62 L36 46 L48 56 L62 42" stroke="#8A93A3" stroke-width="2.5" fill="none"/><path d="M78 45 h20 m-6 -5 l6 5 l-6 5" stroke="#34D399" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/><rect x="112" y="30" width="18" height="30" rx="3" fill="#34D399"/><rect x="134" y="30" width="18" height="30" rx="3" fill="#047857"/><rect x="156" y="30" width="18" height="30" rx="3" fill="#0EA372"/></svg>
-        </div>
-        <h3>Grounded in real pixels</h3>
-        <p>Reference images → deterministic color extraction. Not a text summary of "the vibe."</p>
-      </div>
-
-      <div class="feature-card" data-reveal>
-        <div class="feature-viz">
-          <svg width="200" height="90" viewBox="0 0 200 90"><text x="20" y="58" font-family="Archivo, sans-serif" font-size="40" font-weight="800" fill="#E6E6EA">Aa</text><rect x="86" y="34" width="20" height="22" rx="4" fill="#34D399"/><rect x="110" y="34" width="20" height="22" rx="4" fill="#047857"/><rect x="134" y="34" width="20" height="22" rx="4" fill="#065F46"/><rect x="158" y="34" width="20" height="22" rx="4" fill="#0B0D12" stroke="#34D399" stroke-width="2"/></svg>
-        </div>
-        <h3>Auto-matched palette + type</h3>
-        <p>Five moods, each generating a fresh palette and a chosen font pairing. No "pick your colors" form.</p>
-      </div>
-
-      <div class="feature-card" data-reveal>
-        <div class="feature-viz">
-          <svg width="200" height="90" viewBox="0 0 200 90"><rect x="24" y="26" width="70" height="24" rx="5" fill="#047857"/><text x="59" y="42" font-family="IBM Plex Mono, monospace" font-size="11" fill="#fff" text-anchor="middle">Button</text><text x="59" y="66" font-family="IBM Plex Mono, monospace" font-size="10" fill="#34D399" text-anchor="middle">9.1:1 ✓</text><rect x="112" y="26" width="64" height="24" rx="5" fill="#8A93A3"/><text x="144" y="42" font-family="IBM Plex Mono, monospace" font-size="11" fill="#fff" text-anchor="middle">Button</text><text x="144" y="66" font-family="IBM Plex Mono, monospace" font-size="10" fill="#E06A4A" text-anchor="middle">2.5:1 ✕</text></svg>
-        </div>
-        <h3>Contrast checked, not eyeballed</h3>
-        <p>A WCAG script catches the button-label failure a swatch preview hides. Two early hand-picked drafts failed it.</p>
-      </div>
-
-      <div class="feature-card" data-reveal>
-        <div class="feature-viz">
-          <svg width="200" height="90" viewBox="0 0 200 90"><ellipse cx="100" cy="80" rx="46" ry="5" fill="#34D399" opacity="0.12"/><rect x="70" y="36" width="60" height="40" rx="20" fill="#047857"/><circle cx="100" cy="26" r="15" fill="#E6E6EA"/><rect x="52" y="44" width="12" height="30" rx="6" fill="#047857"/><rect x="136" y="44" width="12" height="30" rx="6" fill="#047857"/><circle cx="150" cy="30" r="8" fill="#34D399"/></svg>
-        </div>
-        <h3>Real illustrations</h3>
-        <p>Matches each concept to real illustrator-grade art, recolored to your palette, not LLM-drawn limbs.</p>
-      </div>
-
-      <div class="feature-card" data-reveal>
-        <div class="feature-viz">
-          <svg width="200" height="90" viewBox="0 0 200 90"><g transform="translate(30,25)"><rect x="0" y="8" width="20" height="20" rx="4" fill="#065F46"/><rect x="6" y="4" width="20" height="20" rx="4" fill="#047857"/><rect x="12" y="0" width="20" height="20" rx="4" fill="#34D399"/></g><g transform="translate(96,33)"><rect x="0" y="5" width="12" height="12" rx="2.5" fill="#065F46"/><rect x="4" y="2.5" width="12" height="12" rx="2.5" fill="#047857"/><rect x="8" y="0" width="12" height="12" rx="2.5" fill="#34D399"/></g><g transform="translate(140,36)"><rect x="0" y="3" width="7" height="7" rx="1.5" fill="#065F46"/><rect x="2.5" y="1.5" width="7" height="7" rx="1.5" fill="#047857"/><rect x="5" y="0" width="7" height="7" rx="1.5" fill="#34D399"/></g><text x="176" y="46" font-family="IBM Plex Mono, monospace" font-size="9" fill="#8A93A3">16px</text></svg>
-        </div>
-        <h3>A real mark, not a letter in a box</h3>
-        <p>Constructed geometric logo + full favicon set, recognizable down to 16px.</p>
-      </div>
-
-      <div class="feature-card" data-reveal>
-        <div class="feature-viz">
-          <svg width="200" height="90" viewBox="0 0 200 90"><rect x="30" y="20" width="40" height="18" rx="4" fill="#232A33"/><rect x="30" y="46" width="40" height="18" rx="4" fill="#047857"/><g opacity="0.5"><rect x="90" y="20" width="40" height="18" rx="4" fill="#232A33"/></g><rect x="90" y="46" width="40" height="18" rx="4" fill="#232A33"/><path d="M150 30 v24 m-6 -6 l6 6 l6 -6" stroke="#34D399" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/><text x="156" y="34" font-family="IBM Plex Mono, monospace" font-size="9" fill="#8A93A3">scroll</text></svg>
-        </div>
-        <h3>Motion by default</h3>
-        <p>GSAP + ScrollTrigger reveals and a sequenced hero, wired in the build, not deferred.</p>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<section id="demo" style="padding-top:20px;">
-  <div class="wrap">
-    <div class="section-head" data-reveal>
-      <div class="eyebrow">Live demo</div>
-      <h2>Same system, a completely different register.</h2>
-      <p>This page uses the Technical/builder mood. Below, the Warm/approachable mood builds a mindfulness app with a freshly generated palette, Zain/Nunito type, and a constructed lotus mark.</p>
-    </div>
-    <div class="demo-card" data-reveal>
-      <div class="demo-frame-wrap">
-        <iframe src="demo.html" title="Calmly, live tastemaker demo" loading="lazy"></iframe>
-      </div>
-      <div class="demo-tagbar">
-        <div class="tags">
-          <span class="tag">Warm / approachable</span>
-          <span class="tag">Zain + Nunito</span>
-          <span class="tag">Contrast verified</span>
-          <span class="tag">Constructed lotus mark</span>
-        </div>
-        <a href='/demo' rel='noopener' target='_blank'>Open full demo →</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="install">
-  <div class="wrap">
-    <div class="section-head" data-reveal>
-      <div class="eyebrow">Get started</div>
-      <h2>Install once. Then just build.</h2>
-      <p>tastemaker is an open-source Claude Code skill. Drop it in your skills folder. It activates on its own, no config, no API keys.</p>
-    </div>
-    <div class="install-wrap">
-      <div class="steps">
-        <div class="step" data-reveal>
-          <div class="step-num">1</div>
-          <div>
-            <h4>Get it from GitHub</h4>
-            <p>It's free and MIT-licensed. Clone it straight into your skills folder, and while you're there, <a href="https://github.com/codeswithroh/tastemaker" target="_blank" rel="noopener">drop a ★ star</a>, it genuinely helps.</p>
+  <main id="main">
+    <section class="hero" id="top">
+      <div class="shell hero-layout">
+        <div class="hero-copy">
+          <div class="kicker">Design taste for coding agents</div>
+          <h1>Make your agent’s UI <em>worth shipping.</em></h1>
+          <p>Tastemaker turns real references into a visual system your coding agent can build with—and remember.</p>
+          <div class="button-row">
+            <a class="button primary" href="#install">Install Tastemaker <span aria-hidden="true">↓</span></a>
+            <a class="button" href="#proof">See the proof</a>
           </div>
         </div>
-        <div class="step" data-reveal>
-          <div class="step-num">2</div>
-          <div>
-            <h4>That's the whole install</h4>
-            <p>No build step, no keys, no dashboard. The skill just lives in <code>~/.claude/skills/</code>. Restart Claude Code and it's picked up.</p>
+
+        <div class="hero-showcase" aria-label="Landing page built with Tastemaker">
+          <div class="showcase-bar">
+            <div aria-hidden="true"><span></span><span></span><span></span></div>
+            <span>Built with Tastemaker</span>
+            <strong><i></i> style locked</strong>
           </div>
-        </div>
-        <div class="step" data-reveal>
-          <div class="step-num">3</div>
-          <div>
-            <h4>Just ask Claude to build</h4>
-            <p>Say "build a landing page for a coffee subscription." tastemaker triggers automatically. It locks a palette and type, sources assets, wires motion, and builds. You don't invoke anything.</p>
+          <div class="showcase-canvas">
+            <div class="output-preview">
+              <div class="preview-nav"><span class="preview-brand"><i></i> SOLSTICE</span><span>THE ROASTS&nbsp;&nbsp; ABOUT&nbsp;&nbsp; CART 0</span></div>
+              <div class="preview-body">
+                <div class="preview-copy"><small>SMALL-BATCH / WEEKLY</small><strong>Make room for a slower morning.</strong><p>One remarkable roast, delivered when it is ready.</p><span>DISCOVER THIS WEEK’S ROAST →</span></div>
+                <div class="preview-art" aria-hidden="true"><i></i><b></b><span></span></div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-      <div data-reveal>
-        <div class="terminal">
-          <div class="terminal-bar">
-            <span class="tdot" style="background:#E06A4A"></span>
-            <span class="tdot" style="background:#E0B84A"></span>
-            <span class="tdot" style="background:#34D399"></span>
-            <span class="tpath">terminal</span>
-            <button class="copy-btn" data-copy="git clone https://github.com/codeswithroh/tastemaker ~/.claude/skills/tastemaker">Copy</button>
+    </section>
+
+    <div class="trust-bar" aria-label="Tastemaker facts">
+      <div class="shell trust-grid">
+        <div><strong>Local-first</strong><span>Markdown + small Python scripts</span></div>
+        <div><strong>Fresh by design</strong><span>No fixed palette catalog</span></div>
+        <div><strong>WCAG math</strong><span>Contrast checked, not eyeballed</span></div>
+        <div><strong>Agent-friendly</strong><span>Claude Code, Cursor, Windsurf</span></div>
+      </div>
+    </div>
+
+    <section class="section" id="proof">
+      <div class="shell">
+        <div class="section-intro" data-reveal>
+          <div class="section-index">01 / SEE IT</div>
+          <div><h2>Same prompt. The difference is the process.</h2><p>The left page is the familiar default. The right page was built with Tastemaker: generated palette, constructed mark, real icons, and motion, in the same pass.</p></div>
+        </div>
+        <div class="compare-stage" data-reveal>
+          <div class="compare-frame">
+            <div class="compare-toolbar"><span>live / before-after</span><div class="compare-key"><span>without skill</span><span>with Tastemaker</span></div></div>
+            <iframe src="compare.html" title="Live before and after comparison of a coffee subscription landing page" loading="lazy"></iframe>
           </div>
-          <pre><code><span class="tcomment"># 1 · install into your Claude Code skills folder</span>
-<span class="tprompt">$</span> git clone https://github.com/codeswithroh/tastemaker \
-    ~/.claude/skills/tastemaker
-
-<span class="tcomment"># 2 · restart Claude Code, then just ask,</span>
-<span class="tcomment">#     "build me a landing page for X"</span>
-<span class="tcomment"># tastemaker handles the rest, automatically.</span></code></pre>
-        </div>
-        <p class="term-note">Also works with Cursor &amp; Windsurf. Drop the folder in their skills directory instead.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section style="padding-top:20px;">
-  <div class="wrap">
-    <div class="proof" data-reveal>
-      <div>
-        <h3>This page is the proof</h3>
-        <p>Its palette is generated from tastemaker's own Technical/builder mood, run through <code>check_contrast.py</code> before it shipped. Two early hand-picked drafts for that mood actually <span class="fail">failed</span> that check on the first pass, which is why color is generated against the contract now instead of hand-tuned.</p>
-      </div>
-      <div class="contrast-demo">
-        <div class="cbar">
-          <div class="swatch" style="background:#047857;color:#fff;">Button</div>
-          <div class="verdict"><span class="pass">9.12:1 PASS</span><br><span style="color:var(--muted);font-size:11px;">white on #047857</span></div>
-        </div>
-        <div class="cbar">
-          <div class="swatch" style="background:#10B981;color:#fff;">Button</div>
-          <div class="verdict"><span class="fail">2.54:1 FAIL</span><br><span style="color:var(--muted);font-size:11px;">the rejected first draft</span></div>
+          <a class="compare-link" href="compare.html" target="_blank">Open full comparison <img src="assets/icons/arrow-up-right.svg" alt=""></a>
         </div>
       </div>
+    </section>
+
+    <section class="section workflow" id="workflow">
+      <div class="shell workflow-layout">
+        <div class="workflow-copy">
+          <div class="kicker">The workflow</div>
+          <h2>Five moves. No taste drift.</h2>
+          <p>Each stage leaves something concrete behind, so the next screen starts from a system instead of a fresh guess.</p>
+          <div class="workflow-meter"><span data-step-count>01</span><div class="meter-track"><div class="meter-fill"></div></div><span>05</span></div>
+        </div>
+
+        <div class="workflow-steps">
+          <article class="workflow-step is-active">
+            <span class="step-number">STEP 01</span><h3>Read what is actually being built.</h3><p>Tastemaker scopes the screens from the product brief before it touches color or type.</p>
+            <div class="proof-panel">
+              <div class="proof-panel-head"><img src="assets/icons/scan-search.svg" alt="">scope / screens.md</div>
+              <div class="scope-grid"><div class="scope-card active"><strong>Landing page</strong>hero · proof · pricing · CTA</div><div class="scope-card"><strong>Onboarding</strong>3 real product states</div><div class="scope-card"><strong>Dashboard</strong>empty + loading + populated</div><div class="scope-card"><strong>Settings</strong>account + destructive zone</div></div>
+            </div>
+          </article>
+          <article class="workflow-step">
+            <span class="step-number">STEP 02</span><h3>Ground and lock the visual system.</h3><p>Read actual reference pixels, or generate a fresh palette for the product mood. Then compute every legal color pairing.</p>
+            <div class="proof-panel">
+              <div class="proof-panel-head"><img src="assets/icons/palette.svg" alt="">style-lock.md / color contract</div>
+              <div class="palette-panel"><div class="swatches"><span></span><span></span><span></span><span></span><span></span></div><div class="matrix-list"><span>text / background</span><b>16.74 PASS</b><span>label / primary</span><b>4.63 PASS</b><span>accent / background</span><b>6.60 PASS</b></div></div>
+            </div>
+          </article>
+          <article class="workflow-step">
+            <span class="step-number">STEP 03</span><h3>Source the whole visual language.</h3><p>One coherent icon family, real imagery when needed, a constructed mark, favicons, and validated assets. No emoji placeholders.</p>
+            <div class="proof-panel">
+              <div class="proof-panel-head"><img src="assets/icons/image.svg" alt="">design / assets</div>
+              <div class="asset-strip"><div class="asset-tile logo-tile"><img src="assets/mark-tastemaker.svg" alt=""><span>mark.svg</span></div><div class="asset-tile"><img src="assets/icons/sparkles.svg" alt=""><span>lucide / icons</span></div><div class="asset-tile"><img src="assets/icons/image.svg" alt=""><span>visual / scenes</span></div><div class="asset-tile"><img src="assets/icons/shield-check.svg" alt=""><span>validated</span></div></div>
+            </div>
+          </article>
+          <article class="workflow-step">
+            <span class="step-number">STEP 04</span><h3>Build the proof, not the paragraph.</h3><p>Features become UI mockups, flows, charts, and before/after states. GSAP motion ships in the same pass.</p>
+            <div class="proof-panel">
+              <div class="proof-panel-head"><img src="assets/icons/monitor-play.svg" alt="">screen / built + moving</div>
+              <div class="build-preview"><div class="build-sidebar"><span></span><span></span><span></span><span></span></div><div class="build-canvas"><b>Visuals carry the claim.</b><i></i></div></div>
+            </div>
+          </article>
+          <article class="workflow-step">
+            <span class="step-number">STEP 05</span><h3>Remember what the developer kept.</h3><p>Project decisions survive the chat. Resolved preferences compound into a local profile for the next project.</p>
+            <div class="proof-panel">
+              <div class="proof-panel-head"><img src="assets/icons/brain.svg" alt="">decisions.log → profile.md</div>
+              <div class="decision-log"><div><span class="line-no">01</span>hero density <span class="keep">KEEP</span></div><div><span class="line-no">02</span>soft shadows <span class="reject">REJECT</span></div><div><span class="line-no">03</span>editorial type <span class="keep">KEEP</span></div><div><span class="line-no">04</span>project memory <span class="keep">UPDATED</span></div></div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="capabilities">
+      <div class="shell">
+        <div class="section-intro" data-reveal>
+          <div class="section-index">02 / WHAT CHANGED</div>
+          <div><h2>The skill grew teeth.</h2><p>These are not more adjectives for the agent to imitate. They are scripts, assets, files, and checks the agent can actually run.</p></div>
+        </div>
+        <div class="capability-grid">
+          <article class="cap-card large" data-reveal><div class="cap-icon"><img src="assets/icons/palette.svg" alt=""></div><h3>A different palette every project</h3><p>Five moods guide hue ranges and type pairings, but every color system is generated fresh and solved against the contrast floor.</p><div class="palette-runs"><div class="palette-run">warm<span></span><span></span><span></span><span></span><span></span></div><div class="palette-run">technical<span></span><span></span><span></span><span></span><span></span></div><div class="palette-run">elegant<span></span><span></span><span></span><span></span><span></span></div></div></article>
+          <article class="cap-card pixel-card" data-reveal><div class="cap-icon"><img src="assets/icons/scan-search.svg" alt=""></div><h3>References become real tokens</h3><p>The script samples the source image itself, then returns exact colors instead of a vague description.</p><div class="pixel-extractor"><div class="reference-sample" aria-label="Reference image sample"><span></span><span></span><span></span><span></span><b>reference.png</b></div><div class="sample-arrow"><span>PIXELS</span><i>→</i></div><div class="token-stack"><span><i></i><b>#C7563F</b></span><span><i></i><b>#E9C675</b></span><span><i></i><b>#253D34</b></span></div></div></article>
+          <article class="cap-card" data-reveal><div class="cap-icon"><img src="assets/icons/shield-check.svg" alt=""></div><h3>Contrast is a contract</h3><p>Every color pairing is classified before the agent invents a badge or state.</p><div class="contract-viz"><div class="ratio"><b>AA</b>text</div><div class="ratio"><b>3:1</b>UI</div><div class="ratio"><b>&lt;3</b>decorative</div></div></article>
+          <article class="cap-card wide" data-reveal><div class="cap-icon"><img src="assets/icons/brain.svg" alt=""></div><h3>Taste survives the session</h3><p>A project-level style lock prevents drift. A developer profile learns only from real keep/reject decisions, never fabricated approval.</p><div class="memory-viz">.tastemaker/style-lock.md<br>↳ decisions.log<br>↳ ~/.tastemaker/profile.md</div></article>
+          <article class="cap-card" data-reveal><div class="cap-icon"><img src="assets/icons/image.svg" alt=""></div><h3>Assets in the first pass</h3><p>Photos, coherent icons, illustrations, a constructed logo, and favicons arrive with the screen.</p></article>
+          <article class="cap-card" data-reveal><div class="cap-icon"><img src="assets/icons/monitor-play.svg" alt=""></div><h3>Motion is part of the build</h3><p>Landing pages get scroll storytelling. App shells get state transitions and loading motion.</p></article>
+          <article class="cap-card" data-reveal><div class="cap-icon"><img src="assets/icons/square-mouse-pointer.svg" alt=""></div><h3>Visuals do the explaining</h3><p>Product mockups, flows, and comparisons replace the familiar wall of feature copy.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section versus">
+      <div class="shell">
+        <h2 class="versus-headline" data-reveal>Not a prompt<span>pack.</span></h2>
+        <div class="versus-table" data-reveal>
+          <div class="versus-row header"><div>What changes</div><div>“Use good design” prompt</div><div class="wins">Tastemaker</div></div>
+          <div class="versus-row"><strong>After the chat closes</strong><span>The decisions disappear with context.</span><span class="wins">Style lock persists in the repository.</span></div>
+          <div class="versus-row"><strong>When color confidence is wrong</strong><span>Nothing catches it.</span><span class="wins">WCAG math returns the same verdict every time.</span></div>
+          <div class="versus-row"><strong>When given a reference</strong><span>The image becomes a vague text summary.</span><span class="wins">The script reads the actual pixel values.</span></div>
+          <div class="versus-row"><strong>On the next screen</strong><span>The style gets reinvented.</span><span class="wins">Tokens, assets, and legal pairings are reused.</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="shell">
+        <div class="section-intro" data-reveal><div class="section-index">03 / RECEIPTS</div><div><h2>You can inspect what taste left behind.</h2><p>Tastemaker is plain Markdown, Python, SVG, CSS, and JavaScript. The outputs live beside the product, not behind a hosted black box.</p></div></div>
+        <div class="artifact-layout" data-reveal>
+          <div class="file-tree"><b>your-project/</b><br>├── <span class="new">.tastemaker/</span><br>│&nbsp;&nbsp; ├── <span class="new">style-lock.md</span><br>│&nbsp;&nbsp; └── decisions.log<br>├── design/assets/<br>│&nbsp;&nbsp; ├── logo/<br>│&nbsp;&nbsp; ├── icons/<br>│&nbsp;&nbsp; └── illustrations/<br>└── src/<br>&nbsp;&nbsp;&nbsp; └── the actual screens</div>
+          <div class="lock-file"><div class="proof-panel-head"><img src="assets/icons/lock-keyhole.svg" alt="">.tastemaker/style-lock.md</div><div class="lock-code"><span class="key">## Color contract</span>
+<span class="value">Text-safe:</span> text/bg · text/surface · accent/bg
+<span class="value">UI-safe:</span> bg/primary · surface/primary
+<span class="value">Decorative:</span> primary/accent · bg/border
+
+<span class="key">## Typography</span>
+Display: <span class="value">Archivo / 800</span>
+Body: <span class="value">IBM Plex Sans / 400</span>
+
+<span class="key">## Motion</span>
+Feel: <span class="value">quick, precise, state-driven</span>
+Entrance: <span class="value">420ms · 18px · power3.out</span></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="install">
+      <div class="shell">
+        <div class="install-card" data-reveal>
+          <h2>Install once. Then ask normally.</h2>
+          <p>Tastemaker triggers when you ask your coding agent to build, style, or improve a UI. No magic phrase, account, or hosted API.</p>
+          <div class="terminal">
+            <div class="terminal-bar"><span>terminal / install</span><button class="copy-button" type="button" data-copy="git clone https://github.com/codeswithroh/tastemaker ~/.claude/skills/tastemaker"><img src="assets/icons/copy.svg" alt=""><span>Copy</span></button></div>
+            <pre><code><span class="prompt">$</span> git clone https://github.com/codeswithroh/tastemaker \
+  ~/.claude/skills/tastemaker
+
+<span class="prompt">›</span> “Build a landing page for my product.”</code></pre>
+          </div>
+          <div class="support-note">Also works with Cursor and Windsurf by placing the same folder in their skills directory.</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="shell footer-layout">
+      <a class="brand" href="#top"><img src="assets/mark-tastemaker.svg" alt=""><span>tastemaker</span></a>
+      <div class="footer-note">Built with the workflow it documents.</div>
+      <div class="footer-links"><a href="https://github.com/codeswithroh/tastemaker" target="_blank" rel="noopener">GitHub</a><a href="https://github.com/codeswithroh/tastemaker/blob/main/README.md" target="_blank" rel="noopener">Docs</a><a href="https://github.com/codeswithroh/tastemaker/blob/main/LICENSE" target="_blank" rel="noopener">MIT License</a></div>
     </div>
-  </div>
-</section>
+  </footer>
 
-<section class="star-band" style="padding-top:20px;">
-  <div class="wrap">
-    <div class="star-inner" data-reveal>
-      <div class="bigstar">★</div>
-      <h2>Saved you from one more indigo gradient?</h2>
-      <p>tastemaker is free and open source. A star on GitHub is the whole thanks it asks for, and it helps other builders find it.</p>
-      <a class="btn-primary" href="https://github.com/codeswithroh/tastemaker" target="_blank" rel="noopener">★ Star tastemaker on GitHub</a>
-    </div>
-  </div>
-</section>
-
-<footer>
-  <div class="wrap footer-grid">
-    <div>
-      <a class="brand" href="#">
-        <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="tastemaker mark">
-          <rect x="4" y="13" width="20" height="20" rx="5" fill="#065F46" stroke="#0B0D12" stroke-width="2"/>
-          <rect x="10" y="9" width="20" height="20" rx="5" fill="#047857" stroke="#0B0D12" stroke-width="2"/>
-          <rect x="16" y="5" width="20" height="20" rx="5" fill="#34D399" stroke="#0B0D12" stroke-width="2"/>
-        </svg>
-        tastemaker
-      </a>
-      <div class="footer-note">MIT licensed · open source · built for Claude Code</div>
-    </div>
-    <div class="footer-links">
-      <a href="https://github.com/codeswithroh/tastemaker" target="_blank" rel="noopener">★ Star on GitHub</a>
-      <a href="#install">Install</a>
-      <a href='/demo' rel='noopener' target='_blank'>Live demo</a>
-    </div>
-  </div>
-</footer>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script>
-  // Reduced-motion-aware scroll reveals (IntersectionObserver-driven GSAP, a more
-  // reliable trigger than a rAF scroll loop) + a sequenced hero timeline. Motion is
-  // a build-time default here, not a later polish step.
-  // Copy-to-clipboard for the install command
-  document.addEventListener('click', function (e) {
-    var btn = e.target.closest('.copy-btn');
-    if (!btn) return;
-    navigator.clipboard.writeText(btn.getAttribute('data-copy')).then(function () {
-      var prev = btn.textContent;
-      btn.textContent = 'Copied ✓';
-      setTimeout(function () { btn.textContent = prev; }, 1600);
-    });
-  });
-
-  window.addEventListener('load', function () {
-    var revealEls = document.querySelectorAll('[data-reveal]');
-    // Fallback: if GSAP is blocked (offline/CDN-blocked), never leave content hidden.
-    if (!window.gsap) {
-      revealEls.forEach(function (el) { el.style.opacity = 1; });
-      return;
-    }
-
-    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (reduce) {
-      gsap.set('[data-reveal], [data-hero], [data-hero-art]', { opacity: 1, y: 0 });
-      return;
-    }
-
-    // Sequenced hero timeline: eyebrow → headline → subhead → CTA → art
-    var tl = gsap.timeline({ defaults: { ease: 'power2.out', duration: 0.5 } });
-    tl.from('[data-hero]', { opacity: 0, y: 18, stagger: 0.09 })
-      .from('[data-hero-art]', { opacity: 0, y: 24, duration: 0.7 }, '-=0.4')
-      .from('.art-swatch', { opacity: 0, scale: 0.6, transformOrigin: '50% 50%', stagger: 0.08, duration: 0.4 }, '-=0.3')
-      .from('.art-badge', { opacity: 0, scale: 0.2, transformOrigin: '430px 150px', duration: 0.45, ease: 'back.out(2)' }, '-=0.1');
-
-    // Scroll reveals via IntersectionObserver
-    gsap.set(revealEls, { y: 20 });
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (en) {
-        if (en.isIntersecting) {
-          gsap.to(en.target, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' });
-          io.unobserve(en.target);
-        }
-      });
-    }, { rootMargin: '0px 0px -8% 0px' });
-    revealEls.forEach(function (el) { io.observe(el); });
-
-    // Safety nets: never leave content permanently hidden if the tab was backgrounded
-    // during load (rAF throttled) or the observer never fired. Harmless once motion ran.
-    setTimeout(function () {
-      gsap.set('[data-hero], [data-hero-art]', { opacity: 1, y: 0 });
-      gsap.set('.art-swatch, .art-badge', { opacity: 1, scale: 1, clearProps: 'transform' });
-    }, 2600);
-    setTimeout(function () {
-      revealEls.forEach(function (el) { if (+getComputedStyle(el).opacity < 0.05) gsap.set(el, { opacity: 1, y: 0 }); });
-    }, 4000);
-  });
-</script>
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
