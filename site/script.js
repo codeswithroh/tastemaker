@@ -25,11 +25,21 @@ const initSite = () => {
     });
   }
 
-  if (!window.gsap || !window.ScrollTrigger) return;
+  // Safety net: if GSAP never loads (CDN blocked/slow), never leave the page
+  // permanently hidden behind a .from()-authored start state that nothing
+  // resolved. Every other motion page in this project carries this same
+  // fallback (see site/after.html, site/demo.html) — a page whose CDN script
+  // fails should degrade to the plain HTML, not a blank hero.
+  if (!window.gsap || !window.ScrollTrigger) {
+    document.querySelectorAll("[data-reveal]").forEach((el) => { el.style.opacity = "1"; });
+    return;
+  }
   gsap.registerPlugin(ScrollTrigger);
   const mm = gsap.matchMedia();
 
   mm.add("(prefers-reduced-motion: no-preference)", () => {
+    const heroTargets = ".site-header, .hero-copy .kicker, .hero-copy h1, .hero-copy > p, .hero-copy .button-row, .hero-showcase, .hero-showcase .output-preview";
+
     gsap.timeline({ defaults: { ease: "power3.out" } })
       .from(".site-header", { y: -16, opacity: 0, duration: .35 })
       .from(".hero-copy .kicker", { y: 12, opacity: 0, duration: .35 }, "-=.05")
@@ -37,6 +47,15 @@ const initSite = () => {
       .from(".hero-copy > p, .hero-copy .button-row", { y: 14, opacity: 0, stagger: .08, duration: .4 }, "-=.3")
       .from(".hero-showcase", { y: 24, opacity: 0, duration: .62 }, "-=.48")
       .from(".hero-showcase .output-preview", { clipPath: "inset(0 100% 0 0)", duration: .72, ease: "power3.inOut" }, "-=.28");
+
+    // Safety net: a backgrounded tab (browsers throttle rAF there), a slow
+    // CDN, or any other stall can leave a .from() timeline parked at its
+    // start state indefinitely. Force the resting state after a timeout so
+    // the hero is never permanently invisible, same pattern as every other
+    // motion page here.
+    window.setTimeout(() => {
+      gsap.set(heroTargets, { opacity: 1, y: 0, clipPath: "inset(0 0% 0 0)" });
+    }, 2600);
 
     gsap.utils.toArray("[data-reveal]").forEach((element) => {
       gsap.from(element, {
@@ -47,6 +66,12 @@ const initSite = () => {
         scrollTrigger: { trigger: element, start: "top 88%", once: true },
       });
     });
+
+    window.setTimeout(() => {
+      document.querySelectorAll("[data-reveal]").forEach((el) => {
+        if (parseFloat(getComputedStyle(el).opacity) < 0.05) gsap.set(el, { opacity: 1, y: 0 });
+      });
+    }, 4000);
 
     const steps = gsap.utils.toArray(".workflow-step");
     steps.forEach((step, index) => {
