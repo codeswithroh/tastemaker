@@ -17,7 +17,7 @@
     <a href="#can-i-not-just-tell-the-ai-to-write-the-decisions-down">Why not just prompt it?</a> &nbsp;·&nbsp;
     <a href="#what-is-verified-and-what-is-judgment">What is verified</a> &nbsp;·&nbsp;
     <a href="#what-you-get">Features</a> &nbsp;·&nbsp;
-    <a href="#five-moods-a-fresh-palette-every-time">Palettes</a> &nbsp;·&nbsp;
+    <a href="#the-palette-generator">Palette generator</a> &nbsp;·&nbsp;
     <a href="#contributing">Contributing</a>
   </p>
 
@@ -62,7 +62,7 @@ Short version: a conversation gives you the decision. This gives you the decisio
 
 Worth separating these two clearly, because it is easy to let one stand in for the other, and this project has been guilty of that.
 
-**Verified (a computation, not taste).** Contrast and readability. `check_contrast.py` runs real WCAG math over the palette and reports pass or fail. This is accessibility, not aesthetics. A palette that clears every ratio can still be ugly. The reason it belongs here anyway is that it catches a class of failure your eyes genuinely cannot: contrast is a calculation, and looking at a color confidently is not running it. Two of the five presets shipped in this repo failed that check on the first pass, and only the script caught it.
+**Verified (a computation, not taste).** Contrast and readability. `check_contrast.py` runs real WCAG math over the palette and reports pass or fail. This is accessibility, not aesthetics. A palette that clears every ratio can still be ugly. The reason it belongs here anyway is that it catches a class of failure your eyes genuinely cannot: contrast is a calculation, and looking at a color confidently is not running it. Early hand-picked palette drafts for two moods failed that check on the first pass, and only the script caught it. That failure is the reason color is generated against the contract now instead of hand-tuned and hoped.
 
 **Judgment (heuristics and memory, not proof).** Everything that is actually taste: the reference extraction, the mood-to-palette matching, the accumulated profile, and the anti-slop checklist. These are informed defaults and accumulated preference. They are not verified, and this README should not imply they are. They get better with your references and your rejections, not with more math.
 
@@ -82,7 +82,7 @@ Restart Claude Code, then just ask:
 build a landing page for a coffee subscription
 ```
 
-Tastemaker triggers on its own. It picks a palette and type pairing, sources real assets, wires up motion, and builds. You do not invoke anything.
+Tastemaker triggers on its own. It generates a palette, picks a matching type pairing, sources real assets, wires up motion, and builds. You do not invoke anything.
 
 > Using Cursor or Windsurf? Drop the same folder into their skills directory.
 
@@ -101,17 +101,29 @@ For the deterministic color extraction script you need Python 3 and Pillow (`pip
 | **Attribution free assets** | Photos (Openverse), icons (Iconify), and illustrations all need no keys and no visible credit line. |
 | **Taste that compounds** | A local profile remembers what you keep across projects, so the tool gets more accurate the more you use it. |
 
-## Five moods, a fresh palette every time
+## The palette generator
 
-When you have no reference, tastemaker reads your app idea, classifies it into one of five moods, and then **generates** a palette for that mood. It does not pick one of five fixed presets, because five presets is just a smaller monoculture. Every run produces a new palette: a base hue chosen within the mood's range, a color-harmony rule for the accent (analogous, complementary, triadic, split, mono), and each color's lightness tuned so the required contrast pairings pass by construction. This is the same target-ratio idea behind Adobe Leonardo, worked in OKLCH so contrast stays predictable.
+When you have no reference, tastemaker does not hand you a color picker, and it does not pick from a shelf of preset palettes either. **It generates one, on the spot, for your project.** A shelf of five presets is still a shelf: install the skill twice for two different products and you would get the same five outcomes. That is a smaller monoculture, not a solved one.
 
-The five swatches below are the *character* each mood aims for, not the palette you get. Your palette is generated, and two projects in the same mood come out genuinely different.
+Instead, `scripts/generate_palette.py` classifies your app idea into a mood (premium, warm, technical, playful, or elegant, by keyword), then builds a genuinely new palette for it every run:
+
+- A **base hue** chosen at random within the mood's hue range.
+- A **color-harmony rule** for the accent: analogous, complementary, triadic, split-complementary, or monochromatic.
+- Every role's **lightness solved against the contrast contract**, in OKLCH, so text, button labels, and accents clear their WCAG floors by construction, not by hand-tuning after the fact. This is the same target-ratio idea behind Adobe Leonardo's color engine.
+
+The proof is that the same mood produces different, and equally legible, output every time:
 
 <div align="center">
-  <img src=".github/assets/presets.svg" alt="The five moods the generator is tuned around, shown as reference palettes" width="100%">
+  <img src=".github/assets/generator-variety.svg" alt="Three different runs of --mood warm: three genuinely different palettes, each contrast-clean" width="100%">
 </div>
 
-Because the lightness is solved against the contract, a generated palette is legible on the first try: body text, button labels, and accents all clear their WCAG floors without hand-tuning. Fonts stay curated (a Google Font pairing per mood, so no licensing question); only the color is generated.
+Run it yourself:
+
+```bash
+python3 scripts/generate_palette.py --mood technical
+```
+
+It prints the roles as hex, a live preview link, and the full contrast matrix, which pairing may carry text, which may only carry a border, and which is decorative, ready to paste straight into `.tastemaker/style-lock.md`. Pass `--seed <n>` to reproduce an exact result; omit it and every run is new. Fonts stay curated per mood (a real Google Font pairing, chosen for the mood's character, so there is no licensing question); only the color is generated.
 
 ## How it works
 
@@ -137,14 +149,14 @@ I wrote up why I built this and how it works:
 tastemaker/
 ├── SKILL.md                     the workflow, read this first
 ├── references/                  palettes, patterns, motion, asset sourcing, checklists
-├── scripts/                     palette extraction, contrast check, asset fetch, recolor
+├── scripts/                     palette generation, contrast check, extraction, asset fetch, recolor
 ├── assets/                      GSAP motion starter and a dependency free fallback
 └── site/                        the marketing site and live demo
 ```
 
 ## Contributing
 
-Contributions are very welcome. Bug reports, new presets, better docs, and new patterns all help.
+Contributions are very welcome. Bug reports, new mood ranges or harmony rules for the generator, better docs, and new layout patterns all help.
 
 Please read [CONTRIBUTING.md](CONTRIBUTING.md) before you start, and see the [Code of Conduct](CODE_OF_CONDUCT.md). Good first issues are labeled [`good first issue`](https://github.com/codeswithroh/tastemaker/labels/good%20first%20issue).
 
