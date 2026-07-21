@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bloom & Bean, before</title>
+<meta name="description" content="The same prompt, built without tastemaker. Every default AI-UI tell, on purpose, for comparison.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', sans-serif; color: #1a1a2e; line-height: 1.5; }
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+  header { padding: 20px 0; }
+  nav { display: flex; align-items: center; justify-content: space-between; }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 18px; }
+  .logo-box { width: 34px; height: 34px; border-radius: 10px; background: linear-gradient(135deg, #6366f1, #a855f7); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 800; }
+  .btn { background: linear-gradient(135deg, #6366f1, #a855f7); color: #fff; border: none; border-radius: 10px; padding: 12px 22px; font-weight: 700; font-size: 14px; cursor: pointer; }
+
+  .hero { background: linear-gradient(135deg, #eef0ff 0%, #f5edff 100%); padding: 90px 0; text-align: center; }
+  .pill { display: inline-flex; align-items: center; gap: 6px; background: #fff; border-radius: 999px; padding: 6px 16px; font-size: 12px; font-weight: 600; color: #6366f1; margin-bottom: 20px; }
+  .dot { width: 6px; height: 6px; border-radius: 50%; background: #6366f1; }
+  h1 { font-size: 44px; font-weight: 800; margin-bottom: 18px; line-height: 1.5; }
+  h1 span { background: linear-gradient(135deg, #6366f1, #a855f7); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .hero p { font-size: 17px; color: #555; max-width: 520px; margin: 0 auto 30px; }
+  .hero-img { width: 100%; max-width: 480px; height: 260px; background: linear-gradient(135deg, #6366f1, #a855f7); border-radius: 16px; margin: 40px auto 0; opacity: 0.15; }
+
+  section { padding: 70px 0; }
+  .section-title { text-align: center; font-size: 30px; font-weight: 800; margin-bottom: 44px; }
+
+  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .card { background: #fff; border-radius: 16px; padding: 30px; box-shadow: 0 10px 30px rgba(99,102,241,0.08); text-align: center; }
+  .card .icon { font-size: 32px; margin-bottom: 16px; }
+  .card h3 { font-size: 18px; margin-bottom: 10px; }
+  .card p { color: #666; font-size: 14px; }
+
+  .cta { background: linear-gradient(135deg, #6366f1, #a855f7); color: #fff; text-align: center; padding: 70px 24px; border-radius: 20px; margin: 0 24px 60px; }
+  .cta h2 { font-size: 30px; margin-bottom: 14px; }
+  .cta p { margin-bottom: 26px; opacity: 0.9; }
+  .cta .btn { background: #fff; color: #6366f1; }
+
+  footer { text-align: center; padding: 30px; color: #888; font-size: 13px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <nav>
+      <div class="brand"><div class="logo-box">B</div>Bloom &amp; Bean</div>
+      <button class="btn">Get Started</button>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="pill"><span class="dot"></span>NEW SUBSCRIPTION PLANS</div>
+    <h1>The best coffee, <span>delivered to your door.</span></h1>
+    <p>We handpick the finest beans from around the world so you don't have to. Fresh roasted, delivered on your schedule.</p>
+    <button class="btn">Start Your Subscription</button>
+    <div class="hero-img"></div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-title">Why Choose Us</div>
+    <div class="cards">
+      <div class="card">
+        <div class="icon">☕</div>
+        <h3>Premium Quality</h3>
+        <p>We source only the finest coffee beans to ensure every cup is perfect.</p>
+      </div>
+      <div class="card">
+        <div class="icon">🚚</div>
+        <h3>Fast Delivery</h3>
+        <p>Get your coffee delivered right to your doorstep on a schedule that works for you.</p>
+      </div>
+      <div class="card">
+        <div class="icon">🌱</div>
+        <h3>Sustainably Sourced</h3>
+        <p>We partner with farms that care about the environment and their communities.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta">
+  <h2>Ready to get started?</h2>
+  <p>Join thousands of happy customers today.</p>
+  <button class="btn">Subscribe Now</button>
+</section>
+
+<footer>
+  <div class="wrap">This page was built to demonstrate the default: no palette lock, no real assets, no motion. <a href="compare.html" style="color:#6366f1">See the comparison &rarr;</a></div>
+</footer>
+
+</body>
+</html>

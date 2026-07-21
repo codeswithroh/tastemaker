@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Same prompt, before and after tastemaker</title>
+<meta name="description" content="One prompt, build a landing page for a coffee subscription, built twice: once with no skill, once with tastemaker installed. Same prompt, two outputs, side by side.">
+<link rel="icon" type="image/svg+xml" href="assets/mark-tastemaker.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root { --text: #E6E6EA; --bg: #0B0D12; --primary: #047857; --secondary: #161A21; --accent: #34D399; --border: #232A33; --muted: #8A93A3; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'IBM Plex Sans', sans-serif; line-height: 1.6; }
+  h1, h2 { font-family: 'Archivo', sans-serif; }
+  a { color: var(--accent); }
+  .wrap { max-width: 1280px; margin: 0 auto; padding: 32px 24px 60px; }
+  .top { text-align: center; max-width: 720px; margin: 0 auto 36px; }
+  .eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); }
+  h1 { font-size: 34px; font-weight: 800; margin: 14px 0 12px; }
+  .top p { color: var(--muted); font-size: 15px; }
+  .top code { background: var(--secondary); border: 1px solid var(--border); border-radius: 6px; padding: 2px 8px; color: var(--text); }
+
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .panel { border: 1px solid var(--border); border-radius: 16px; overflow: hidden; background: var(--secondary); }
+  .panel-head { display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; border-bottom: 1px solid var(--border); }
+  .panel-head .label { font-weight: 700; font-size: 14px; }
+  .panel.before .label { color: #E06A4A; }
+  .panel.after .label { color: var(--accent); }
+  .panel-head a { font-size: 12.5px; text-decoration: none; }
+  .panel iframe { width: 100%; height: 780px; border: 0; display: block; background: #fff; }
+
+  .tells { max-width: 900px; margin: 40px auto 0; }
+  .tells h2 { font-size: 20px; margin-bottom: 14px; }
+  .tells ul { color: var(--muted); font-size: 14px; padding-left: 20px; line-height: 1.9; }
+  .tells strong { color: var(--text); }
+
+  @media (max-width: 900px) {
+    .grid { grid-template-columns: 1fr; }
+    .panel iframe { height: 640px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div class="eyebrow">Same prompt, both times</div>
+    <h1>Before and after tastemaker</h1>
+    <p>The prompt was <code>build a landing page for a coffee subscription</code>, unchanged, in both panels. Left is what a plain agent produces with no skill installed. Right is the same request with tastemaker installed: a generated Elegant/editorial palette, real fetched icons, a constructed mark, and motion, in one pass.</p>
+  </div>
+
+  <div class="grid">
+    <div class="panel before">
+      <div class="panel-head"><span class="label">Before — no skill</span><a href="before.html" target="_blank" rel="noopener">Open full page &rarr;</a></div>
+      <iframe src="before.html" title="Before: generic output" loading="lazy"></iframe>
+    </div>
+    <div class="panel after">
+      <div class="panel-head"><span class="label">After — with tastemaker</span><a href="after.html" target="_blank" rel="noopener">Open full page &rarr;</a></div>
+      <iframe src="after.html" title="After: built with tastemaker" loading="lazy"></iframe>
+    </div>
+  </div>
+
+  <div class="tells">
+    <h2>What actually changed, and why</h2>
+    <ul>
+      <li><strong>Palette:</strong> indigo-to-purple gradient (the single most recognizable "AI made this" signal) vs. a palette generated fresh for this project's mood, verified against the contrast contract before it shipped.</li>
+      <li><strong>Logo:</strong> a letter in a gradient box vs. a constructed geometric mark (a coffee bean), the same rule as any letter-in-a-box logo the checklist flags.</li>
+      <li><strong>Icons:</strong> emoji standing in for icons vs. real fetched icons from a set matched to the mood, tinted to the accent.</li>
+      <li><strong>Sections:</strong> three identical cards, heading plus two sentences vs. a visual step-by-step, an asymmetric lead feature with a real stat, and a stat row, show-don't-tell instead of a text wall.</li>
+      <li><strong>Motion:</strong> a fully static page vs. a sequenced hero entrance and scroll reveals, reduced-motion-aware.</li>
+      <li><strong>Type:</strong> default line-height on a 44px headline vs. tightened leading on the display type, a real heading/body pairing instead of one font doing both jobs.</li>
+    </ul>
+    <p style="margin-top:18px;color:var(--muted);font-size:13px;">Both pages are real, live HTML, not mockups. <a href="index.html">&larr; back to tastemaker</a></p>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<svg width="440" height="420" viewBox="0 0 440 420" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A steaming cup of coffee beside a sprig of coffee leaves">
+  <ellipse cx="220" cy="380" rx="150" ry="14" fill="#221816" opacity="0.06"/>
+
+  <!-- steam -->
+  <g class="steam" stroke="#986157" stroke-width="6" stroke-linecap="round" opacity="0.55" fill="none">
+    <path d="M180 90 C170 75 190 65 180 50"/>
+    <path d="M220 90 C210 75 230 65 220 50"/>
+    <path d="M260 90 C250 75 270 65 260 50"/>
+  </g>
+
+  <!-- cup -->
+  <path d="M120 140 H300 L288 300 Q286 320 264 320 H156 Q134 320 132 300 Z" fill="#986157"/>
+  <rect x="120" y="140" width="180" height="26" rx="13" fill="#221816"/>
+  <path d="M300 165 C340 165 340 225 300 225" stroke="#221816" stroke-width="14" fill="none" stroke-linecap="round"/>
+
+  <!-- saucer -->
+  <ellipse cx="210" cy="330" rx="120" ry="16" fill="#efd8d4"/>
+
+  <!-- leaf sprig -->
+  <g class="leaf">
+    <path d="M70 260 C40 240 40 200 70 180 C100 200 100 240 70 260 Z" fill="#4e7b58"/>
+    <path d="M70 185 L70 255" stroke="#fff5f3" stroke-width="3" stroke-linecap="round"/>
+    <path d="M340 250 C310 230 310 190 340 170 C370 190 370 230 340 250 Z" fill="#4e7b58"/>
+    <path d="M340 175 L340 245" stroke="#fff5f3" stroke-width="3" stroke-linecap="round"/>
+  </g>
+</svg>
