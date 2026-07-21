@@ -36,9 +36,9 @@ It is plain Markdown and small Python scripts. Everything runs on your machine. 
 
 Ask any model to build a UI and you tend to get the same thing: an indigo to purple gradient, a soft shadow card, a generic hero. This is not a prompting problem. It happens because the model has to invent taste from a text description, with nothing real to ground it and no memory of what you actually like.
 
-Tastemaker fixes this with four ideas, not a bigger pile of presets:
+Tastemaker fixes this with four ideas, not a bigger catalog of canned options to pick from:
 
-1. **Generate within a check that actually runs.** The palette is not one of five fixed presets, and it is not five approved colors the model may combine however it likes. It is generated per project (a fresh hue and harmony each time) against a contract: `check_contrast.py --matrix` computes every pairing and says which may carry text, which may carry a border, and which may carry neither. So the constraint produces variety instead of sameness, and a rule that runs is different in kind from a rule you wrote down, because it returns the same answer no matter how confident anyone felt.
+1. **Generate within a check that actually runs.** There is no fixed list of color combinations shipped with this skill, and the palette is not five approved colors the model may combine however it likes either. A new one is generated per project (a fresh hue and harmony each time) against a contract: `check_contrast.py --matrix` computes every pairing and says which may carry text, which may carry a border, and which may carry neither. So the constraint produces variety instead of sameness, and a rule that runs is different in kind from a rule you wrote down, because it returns the same answer no matter how confident anyone felt.
 2. **Ground in real pixels, not words.** Give it a screenshot or a reference and it reads the real colors and contrast from the actual image, using a script. It does not write a vague summary of the vibe and rebuild from that. Text summaries lose most of what made the reference feel specific.
 3. **Remember, do not re-derive.** Once a project locks a style, every later screen reuses it. Nothing drifts. Across projects, a small profile file learns what you keep and what you reject, so your next project starts warm.
 4. **Scope to the real work.** It reads your spec first and figures out which screens actually need design, instead of dumping a design system that has nothing to do with what you are shipping.
@@ -93,7 +93,7 @@ For the deterministic color extraction script you need Python 3 and Pillow (`pip
 | | |
 |---|---|
 | **Grounded in real pixels** | Reference images become real color tokens through `scripts/extract_palette.py`, not a text guess. |
-| **A fresh palette every time, not one of five** | `generate_palette.py` builds a new palette per project: a base hue in the mood's range, a color-harmony rule for the accent, and per-role lightness solved so the contrast pairings clear their floors. Two similar prompts get two different, legible palettes instead of the same preset. |
+| **A new palette every time, never reused** | `generate_palette.py` builds a fresh palette per project: a base hue in the mood's range, a color-harmony rule for the accent, and per-role lightness solved so the contrast pairings clear their floors. Two similar prompts get two different, legible palettes, never the same one twice. |
 | **A contrast contract, not a one time check** | `check_contrast.py --matrix` computes every pairing in the palette and reports which may carry text, which may carry a border, and which may carry neither. The generator satisfies this by construction, so a fresh palette is still a legible one. This buys readability, not taste. |
 | **Real illustrations** | Each concept is matched to real illustrator grade art and recolored to your palette, not drawn from scratch by the model. |
 | **A real logo, not a letter in a box** | A constructed geometric mark plus a full favicon set, readable down to 16px. |
@@ -103,7 +103,7 @@ For the deterministic color extraction script you need Python 3 and Pillow (`pip
 
 ## The palette generator
 
-When you have no reference, tastemaker does not hand you a color picker, and it does not pick from a shelf of preset palettes either. **It generates one, on the spot, for your project.** A shelf of five presets is still a shelf: install the skill twice for two different products and you would get the same five outcomes. That is a smaller monoculture, not a solved one.
+When you have no reference, tastemaker does not hand you a color picker, and it does not hand you a fixed color scheme to choose from either. **It generates one, on the spot, for your project.** A menu of five fixed options is still a menu: install the skill twice for two different products and you would get the same five outcomes. That is a smaller monoculture, not a solved one.
 
 Instead, `scripts/generate_palette.py` classifies your app idea into a mood (premium, warm, technical, playful, or elegant, by keyword), then builds a genuinely new palette for it every run:
 

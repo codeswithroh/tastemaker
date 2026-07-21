@@ -39,7 +39,7 @@ python3 scripts/validate_assets.py .github/assets/
 
 ## Improving the palette generator
 
-Color is not a fixed list of presets anymore. `scripts/generate_palette.py` generates a fresh palette per project: a base hue within the target mood's range, a color-harmony rule for the accent, and each role's lightness solved against the contrast contract. This is the most common contribution surface now, and it splits into a few concrete shapes:
+Color is not a fixed list of options anymore. `scripts/generate_palette.py` generates a fresh palette per project: a base hue within the target mood's range, a color-harmony rule for the accent, and each role's lightness solved against the contrast contract. This is the most common contribution surface now, and it splits into a few concrete shapes:
 
 **Adding a new mood.** Open `scripts/generate_palette.py` and add an entry to the `MOODS` dict: a hue range (or a few disjoint ranges), a chroma range, and a default light/dark mode. Then add the mood to the keyword table in `references/style-tokens.md` (Step A) so the skill can classify an app idea into it, and a font pairing to the type-pairing table in Step B. Run the generator a dozen times with different seeds and look at the output, both as hex and rendered (paste into `realtimecolors.com` or a quick HTML swatch) before opening the PR.
 
@@ -67,7 +67,7 @@ print("OK: contract holds across moods and seeds")
 PY
 ```
 
-Do not ship a change that makes this fail. A palette that sometimes fails its own contract is worse than the fixed presets it replaced.
+Do not ship a change that makes this fail. A palette that sometimes fails its own contract is worse than the fixed color scheme it replaced.
 
 ## Guidelines
 
