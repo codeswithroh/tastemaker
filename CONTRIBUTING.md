@@ -1,11 +1,11 @@
 # Contributing to tastemaker
 
-Thanks for being here. Tastemaker gets better every time someone adds a preset, fixes a rough edge, or makes the docs clearer. This guide keeps that easy.
+Thanks for being here. Tastemaker gets better every time someone improves the palette generator, fixes a rough edge, or makes the docs clearer. This guide keeps that easy.
 
 ## Ways to help
 
 - **Report a bug.** Something in the workflow or a script behaved wrong. Open a bug report.
-- **Add a preset.** A new mood, palette, or font pairing. This is the highest value contribution and the easiest to review.
+- **Improve the palette generator.** A new mood, a wider or better-tuned hue range for an existing mood, a new color-harmony rule, or a better font pairing. This is the highest value contribution and the easiest to review.
 - **Improve a pattern.** Better layout guidance, a sharper anti-slop check, a clearer reference file.
 - **Fix the docs.** Typos, confusing wording, missing steps. Small doc PRs are always welcome.
 - **Improve a script.** The Python helpers in `scripts/` can always be made more robust.
@@ -15,8 +15,8 @@ If you are not sure where to start, look at issues labeled [`good first issue`](
 ## How the repo is laid out
 
 - `SKILL.md` is the workflow the agent follows. Read it first.
-- `references/` holds the deep material: presets, layout patterns, motion rules, asset sourcing, and checklists.
-- `scripts/` holds small Python helpers (color extraction, contrast checking, asset fetching, recoloring).
+- `references/` holds the deep material: mood ranges and type pairings, layout patterns, motion rules, asset sourcing, and checklists.
+- `scripts/` holds small Python helpers (palette generation, color extraction, contrast checking, asset fetching, recoloring).
 - `assets/` holds the GSAP motion starter and a dependency free fallback.
 - `site/` is the marketing site and live demo.
 
@@ -37,19 +37,37 @@ python3 scripts/check_contrast.py --palette text=050315 bg=fbfbfe primary=2f27ce
 python3 scripts/validate_assets.py .github/assets/
 ```
 
-## Adding a new preset
+## Improving the palette generator
 
-This is the most common contribution, so here is the exact path:
+Color is not a fixed list of options anymore. `scripts/generate_palette.py` generates a fresh palette per project: a base hue within the target mood's range, a color-harmony rule for the accent, and each role's lightness solved against the contrast contract. This is the most common contribution surface now, and it splits into a few concrete shapes:
 
-1. Open `references/style-tokens.md` and add your preset under the mood list, following the shape of the existing five.
-2. Pick a palette (five roles: text, background, primary, secondary, accent) and a Google Font pairing.
-3. Verify it with the contrast script. Both checks must pass:
-   ```bash
-   python3 scripts/check_contrast.py --palette text=<hex> bg=<hex> primary=<hex> secondary=<hex> accent=<hex>
-   ```
-   Body text vs background and white label vs primary both need to clear 4.5:1. If a color fails, adjust it and run again. Do not ship a preset that fails.
-4. Add a short note on which app ideas the mood fits, so the skill can match it.
-5. If you add a dark mode companion, run the same check against the dark background.
+**Adding a new mood.** Open `scripts/generate_palette.py` and add an entry to the `MOODS` dict: a hue range (or a few disjoint ranges), a chroma range, and a default light/dark mode. Then add the mood to the keyword table in `references/style-tokens.md` (Step A) so the skill can classify an app idea into it, and a font pairing to the type-pairing table in Step B. Run the generator a dozen times with different seeds and look at the output, both as hex and rendered (paste into `realtimecolors.com` or a quick HTML swatch) before opening the PR.
+
+**Adding or tuning a color-harmony rule.** Open the `HARMONIES` dict in `scripts/generate_palette.py`. Each entry is a function from a base hue to the accent and secondary hues it implies. Keep it a pure hue transform; the lightness solving is handled separately and should not need to change.
+
+**Tuning an existing mood's range.** If a mood's generated palettes are drifting somewhere that does not feel like the mood (too muted, too saturated, hues that do not read as intended), narrow or shift its `hues`/`chroma` ranges in `MOODS`. This is a judgment call, so include a few example generated palettes (hex values, or a screenshot) in the PR description showing before and after.
+
+**Whatever you change, verify the contract still holds.** Run the stress check before opening the PR:
+
+```bash
+python3 - <<'PY'
+import subprocess, sys, re
+sys.path.insert(0, 'scripts')
+from check_contrast import ratio
+for mood in ["premium","warm","technical","playful","elegant"]:
+    for seed in range(30):
+        out = subprocess.run(["python3","scripts/generate_palette.py","--mood",mood,"--seed",str(seed)],
+                             capture_output=True, text=True).stdout
+        roles = dict(re.findall(r"\s+([\w-]+)\s+#([0-9a-f]{6})", out))
+        assert ratio(roles["text"], roles["bg"]) >= 4.5, (mood, seed, "text/bg")
+        assert ratio(roles["on-primary"], roles["primary"]) >= 4.5, (mood, seed, "on-primary/primary")
+        assert ratio(roles["primary"], roles["bg"]) >= 3.0, (mood, seed, "primary/bg")
+        assert ratio(roles["accent"], roles["bg"]) >= 3.0, (mood, seed, "accent/bg")
+print("OK: contract holds across moods and seeds")
+PY
+```
+
+Do not ship a change that makes this fail. A palette that sometimes fails its own contract is worse than the fixed color scheme it replaced.
 
 ## Guidelines
 

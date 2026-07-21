@@ -1,0 +1,59 @@
+<svg width="1200" height="430" viewBox="0 0 1200 430" fill="none" xmlns="http://www.w3.org/2000/svg" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif">
+  <rect width="1200" height="430" rx="18" fill="#0B0D12" stroke="#1B2028"/>
+  <text x="40" y="56" fill="#E6E6EA" font-size="22" font-weight="800">Same mood, three different runs</text>
+  <text x="40" y="82" fill="#8A93A3" font-size="14">generate_palette.py --mood warm, run three times. No two are the same, and every one clears its contrast floors.</text>
+
+  <!-- column headers -->
+  <text x="40" y="128" fill="#5B6472" font-size="11" letter-spacing="1">SEED</text>
+  <text x="140" y="128" fill="#5B6472" font-size="11" letter-spacing="1">PALETTE</text>
+  <text x="640" y="128" fill="#5B6472" font-size="11" letter-spacing="1">HARMONY</text>
+  <text x="900" y="128" fill="#5B6472" font-size="11" letter-spacing="1">SAMPLE UI</text>
+
+  <!-- Row 1: seed 11, triadic, terracotta/teal -->
+  <g font-size="15" font-weight="700" fill="#E6E6EA"><text x="40" y="176">11</text></g>
+  <g transform="translate(140,156)">
+    <rect width="42" height="26" rx="6" fill="#211813"/><rect x="48" width="42" height="26" rx="6" fill="#fffaf7"/>
+    <rect x="96" width="42" height="26" rx="6" fill="#a15f2e"/><rect x="144" width="42" height="26" rx="6" fill="#f3d8c7"/>
+    <rect x="192" width="42" height="26" rx="6" fill="#10816b"/>
+  </g>
+  <text x="640" y="174" fill="#A6ADBB" font-size="14">triadic</text>
+  <g transform="translate(900,158)">
+    <rect width="260" height="26" rx="6" fill="#fffaf7"/>
+    <rect x="8" y="6" width="70" height="14" rx="7" fill="#a15f2e"/>
+    <rect x="86" y="6" width="50" height="14" rx="7" fill="#f3d8c7"/>
+    <circle cx="246" cy="13" r="6" fill="#10816b"/>
+  </g>
+
+  <!-- Row 2: seed 22, monochromatic, coral -->
+  <g font-size="15" font-weight="700" fill="#E6E6EA"><text x="40" y="242">22</text></g>
+  <g transform="translate(140,222)">
+    <rect width="42" height="26" rx="6" fill="#221816"/><rect x="48" width="42" height="26" rx="6" fill="#fff5f4"/>
+    <rect x="96" width="42" height="26" rx="6" fill="#b54b3e"/><rect x="144" width="42" height="26" rx="6" fill="#fdd3cb"/>
+    <rect x="192" width="42" height="26" rx="6" fill="#b84f41"/>
+  </g>
+  <text x="640" y="240" fill="#A6ADBB" font-size="14">monochromatic</text>
+  <g transform="translate(900,224)">
+    <rect width="260" height="26" rx="6" fill="#fff5f4"/>
+    <rect x="8" y="6" width="70" height="14" rx="7" fill="#b54b3e"/>
+    <rect x="86" y="6" width="50" height="14" rx="7" fill="#fdd3cb"/>
+    <circle cx="246" cy="13" r="6" fill="#b84f41"/>
+  </g>
+
+  <!-- Row 3: seed 33, split-complementary, ochre/teal -->
+  <g font-size="15" font-weight="700" fill="#E6E6EA"><text x="40" y="308">33</text></g>
+  <g transform="translate(140,288)">
+    <rect width="42" height="26" rx="6" fill="#221814"/><rect x="48" width="42" height="26" rx="6" fill="#fffaf8"/>
+    <rect x="96" width="42" height="26" rx="6" fill="#a55b38"/><rect x="144" width="42" height="26" rx="6" fill="#f5d7ca"/>
+    <rect x="192" width="42" height="26" rx="6" fill="#007f7f"/>
+  </g>
+  <text x="640" y="306" fill="#A6ADBB" font-size="14">split-complementary</text>
+  <g transform="translate(900,290)">
+    <rect width="260" height="26" rx="6" fill="#fffaf8"/>
+    <rect x="8" y="6" width="70" height="14" rx="7" fill="#a55b38"/>
+    <rect x="86" y="6" width="50" height="14" rx="7" fill="#f5d7ca"/>
+    <circle cx="246" cy="13" r="6" fill="#007f7f"/>
+  </g>
+
+  <rect x="40" y="352" width="1120" height="46" rx="10" fill="#161A21" stroke="#232A33"/>
+  <text x="58" y="380" fill="#34D399" font-size="13" font-family="'IBM Plex Mono', monospace">$ python3 scripts/generate_palette.py --mood warm</text>
+</svg>
