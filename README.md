@@ -17,7 +17,7 @@
     <a href="#can-i-not-just-tell-the-ai-to-write-the-decisions-down">Why not just prompt it?</a> &nbsp;·&nbsp;
     <a href="#what-is-verified-and-what-is-judgment">What is verified</a> &nbsp;·&nbsp;
     <a href="#what-you-get">Features</a> &nbsp;·&nbsp;
-    <a href="#the-five-presets">Presets</a> &nbsp;·&nbsp;
+    <a href="#five-moods-a-fresh-palette-every-time">Palettes</a> &nbsp;·&nbsp;
     <a href="#contributing">Contributing</a>
   </p>
 
@@ -38,7 +38,7 @@ Ask any model to build a UI and you tend to get the same thing: an indigo to pur
 
 Tastemaker fixes this with four ideas, not a bigger pile of presets:
 
-1. **Constrain with a check that actually runs.** The palette is not five approved colors the model may combine however it likes. It is a contract: `check_contrast.py --matrix` computes every pairing in the token set and says which may carry text, which may carry a border, and which may carry neither. A rule that runs is different in kind from a rule you wrote down, because it returns the same answer no matter how confident anyone felt.
+1. **Generate within a check that actually runs.** The palette is not one of five fixed presets, and it is not five approved colors the model may combine however it likes. It is generated per project (a fresh hue and harmony each time) against a contract: `check_contrast.py --matrix` computes every pairing and says which may carry text, which may carry a border, and which may carry neither. So the constraint produces variety instead of sameness, and a rule that runs is different in kind from a rule you wrote down, because it returns the same answer no matter how confident anyone felt.
 2. **Ground in real pixels, not words.** Give it a screenshot or a reference and it reads the real colors and contrast from the actual image, using a script. It does not write a vague summary of the vibe and rebuild from that. Text summaries lose most of what made the reference feel specific.
 3. **Remember, do not re-derive.** Once a project locks a style, every later screen reuses it. Nothing drifts. Across projects, a small profile file learns what you keep and what you reject, so your next project starts warm.
 4. **Scope to the real work.** It reads your spec first and figures out which screens actually need design, instead of dumping a design system that has nothing to do with what you are shipping.
@@ -93,23 +93,25 @@ For the deterministic color extraction script you need Python 3 and Pillow (`pip
 | | |
 |---|---|
 | **Grounded in real pixels** | Reference images become real color tokens through `scripts/extract_palette.py`, not a text guess. |
-| **Auto matched palette and type** | Five mood presets, each a contrast verified palette with a font pairing chosen alongside it. No color picker to fill in. ("Verified" here means the ratios were computed, not that the taste was proven. See [what is verified](#what-is-verified-and-what-is-judgment).) |
-| **A contrast contract, not a one time check** | `check_contrast.py --matrix` computes every pairing in the palette and reports which may carry text, which may carry a border, and which may carry neither. It catches the button label failure a swatch preview hides. Two presets failed this on the first pass and were fixed. This buys readability, not taste. |
+| **A fresh palette every time, not one of five** | `generate_palette.py` builds a new palette per project: a base hue in the mood's range, a color-harmony rule for the accent, and per-role lightness solved so the contrast pairings clear their floors. Two similar prompts get two different, legible palettes instead of the same preset. |
+| **A contrast contract, not a one time check** | `check_contrast.py --matrix` computes every pairing in the palette and reports which may carry text, which may carry a border, and which may carry neither. The generator satisfies this by construction, so a fresh palette is still a legible one. This buys readability, not taste. |
 | **Real illustrations** | Each concept is matched to real illustrator grade art and recolored to your palette, not drawn from scratch by the model. |
 | **A real logo, not a letter in a box** | A constructed geometric mark plus a full favicon set, readable down to 16px. |
 | **Motion by default** | GSAP and ScrollTrigger reveals plus a sequenced hero, wired during the build and not left as a follow up. |
 | **Attribution free assets** | Photos (Openverse), icons (Iconify), and illustrations all need no keys and no visible credit line. |
 | **Taste that compounds** | A local profile remembers what you keep across projects, so the tool gets more accurate the more you use it. |
 
-## The five presets
+## Five moods, a fresh palette every time
 
-When you have no reference to work from, tastemaker reads your app idea and picks a matched set. It never asks you to fill in a color form.
+When you have no reference, tastemaker reads your app idea, classifies it into one of five moods, and then **generates** a palette for that mood. It does not pick one of five fixed presets, because five presets is just a smaller monoculture. Every run produces a new palette: a base hue chosen within the mood's range, a color-harmony rule for the accent (analogous, complementary, triadic, split, mono), and each color's lightness tuned so the required contrast pairings pass by construction. This is the same target-ratio idea behind Adobe Leonardo, worked in OKLCH so contrast stays predictable.
+
+The five swatches below are the *character* each mood aims for, not the palette you get. Your palette is generated, and two projects in the same mood come out genuinely different.
 
 <div align="center">
-  <img src=".github/assets/presets.svg" alt="The five built-in presets: verified palettes and font pairings" width="100%">
+  <img src=".github/assets/presets.svg" alt="The five moods the generator is tuned around, shown as reference palettes" width="100%">
 </div>
 
-Each palette is checked for WCAG AA contrast on both body text and button labels before it ships. Every font is a Google Font, so there is no licensing question.
+Because the lightness is solved against the contract, a generated palette is legible on the first try: body text, button labels, and accents all clear their WCAG floors without hand-tuning. Fonts stay curated (a Google Font pairing per mood, so no licensing question); only the color is generated.
 
 ## How it works
 
