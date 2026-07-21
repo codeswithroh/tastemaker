@@ -16,9 +16,35 @@ Read the user's description of what they're building and match it against these 
 
 If the request already states or implies the mood directly (e.g. "premium fintech tool for freelancers," "playful app for teens"), use that instead of re-deriving from the table — the user already answered the question.
 
-## Step B — Apply the matched palette + font pair for that mood
+## Step B — Generate a fresh palette for that mood (do not reuse a fixed preset)
 
-Each mood below is a **matched set**: palette and type were chosen together and should be applied together, not mixed across moods. Every palette uses the five-role model (Text / Background / Primary / Secondary / Accent) — paste the hex string straight into a `realtimecolors.com/?colors=text-bg-primary-secondary-accent&fonts=Heading-Body` URL to preview it live before locking it in. Font names with spaces should have the spaces stripped for the URL param (e.g. "Albert Sans" → `AlbertSans`) — this is the pattern, not independently re-verified for every font on this list, so open the link once and eyeball it before committing.
+**The palette is generated per project, not picked from a list.** Five fixed presets would mean two similar prompts produce the same site, which is just a new monoculture in five flavors. Instead, run:
+
+```
+python3 scripts/generate_palette.py --mood <mood> [--mode light|dark]
+```
+
+This produces a **new** palette every run: a base hue chosen within the mood's range, a color-harmony rule for the accent (analogous / complementary / triadic / split / mono), and per-role lightness solved so the required contrast pairings clear their floors by construction (the same target-ratio idea Adobe Leonardo uses, worked in OKLCH so contrast stays predictable). Two projects in the same mood get two genuinely different, legible palettes. Omit `--seed` for a fresh result each time; pass `--seed <n>` only when you need to reproduce one exactly.
+
+The script prints the roles (text, bg, surface, primary, on-primary, secondary, accent, border), a realtimecolors preview URL, and the contrast matrix. Take the matrix output straight into `.tastemaker/style-lock.md`'s Color contract section (see `references/style-lock-format.md`). Pair it with a font set for the mood from the **type pairing catalog** below.
+
+If a generated palette genuinely doesn't fit after a couple of tries (a specific brand constraint, a client's fixed color), fall back to hand-picking, but still run `scripts/check_contrast.py --matrix` on the result and record the legal pairings the same way.
+
+### Mood → type pairing (the fonts stay curated; the color is generated)
+
+Each mood has a font character that pairs with its generated palette. Use these pairings (all Google Fonts, so no licensing question); the hex values under each mood below are **reference anchors** that show the intended character of the mood, not the palette to ship.
+
+| Mood | Type pairing (heading + body) | Alt |
+|---|---|---|
+| Premium / confident | Unbounded + Albert Sans | Inter + Inter, tight heading tracking |
+| Warm / approachable | Zain + Nunito | Epilogue + Baskervville (softer, editorial) |
+| Technical / builder | Archivo + IBM Plex Sans (mono reserved for code/data) | IBM Plex Sans + IBM Plex Mono-for-data |
+| Playful / consumer | Urbanist + Open Sans | Fredoka + Nunito |
+| Elegant / editorial | Gloock + Inter | EB Garamond + DM Mono (accents) |
+
+### Reference anchors (the character each mood aims for, not fixed palettes to ship)
+
+The hex values below are what the generator's mood ranges were tuned to produce the *character* of. Read them to understand each mood's intended feel; do not paste them as the project palette (that is what the generator is for). Each still uses the five-role model (Text / Background / Primary / Secondary / Accent), previewable via `realtimecolors.com/?colors=text-bg-primary-secondary-accent&fonts=Heading-Body`.
 
 ### Premium / confident (fintech, B2B SaaS, professional tools)
 - **Palette**: Text `#050315` · Background `#FBFBFE` · Primary `#2F27CE` · Secondary `#DEDCFF` · Accent `#433BFF`
