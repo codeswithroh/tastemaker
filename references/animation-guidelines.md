@@ -45,11 +45,24 @@ Install it per `references/tech-stack-guides.md` (CDN tags for plain HTML, `npm 
 
 Keep it coherent with the locked motion feel (`.tastemaker/style-lock.md`): a "premium/confident" project storytells with restraint (slow, smooth, minimal), a "playful" one can be more energetic. And every one of these must degrade under `prefers-reduced-motion` — wrap them in the same `gsap.matchMedia()` pattern `gsap-starter.js` uses, showing the end state without the scroll-driven motion.
 
+## App shell motion — for internal tools, dashboards, and anything that isn't a scroll narrative
+
+The scroll-storytelling track above is the right model for a page the user scrolls through once, top to bottom. It is close to meaningless for a sidebar-plus-topbar internal tool: most of the screen loads once and stays in place while the user works, there is no scroll narrative to tell, and a scrubbed hero reveal or a pinned section has nothing to attach to. Motion is still not optional here (per this file's own "motion should clarify, not decorate" rule), it just answers different questions: what changed, what's about to happen, is this still loading.
+
+- **Panel/tab switches**: a short cross-fade or directional slide (8-12px translate + opacity) tied to the navigation direction, so moving forward and back through the app reads consistently rather than a generic fade every time. Ties to the "page/state transitions" rule below.
+- **List/table entrances**: when a view first populates, stagger rows/cards in with the same `data-reveal`/`data-reveal-group` convention `gsap-starter.js` already provides, just triggered on data-load instead of on scroll-into-view, rather than letting the whole table snap into existence at once.
+- **State changes**: a KPI ticking to a new value, a status badge changing, a row being added or removed, a field validating. Animate the specific thing that changed, not the surrounding layout. This is what "what changed" from the top of this file actually looks like in an app shell.
+- **Loading states, promoted to first-class**: skeleton screens that mirror the real layout, not a generic spinner. This used to be a single bullet under the marketing-oriented guidance below; it earns the promotion because it is the motion moment most internal tools actually need right, and it is a genuinely different problem from a scroll reveal.
+
+None of this needs ScrollTrigger. `gsap.to()`/`gsap.from()` with the same duration and easing recorded in `.tastemaker/style-lock.md`'s Motion section is enough, wired reduced-motion-aware the same way as everything else in this file.
+
+**Which track applies is a per-screen decision, not a per-project one.** A marketing/landing page uses scroll storytelling; a dashboard, settings screen, or any persistent app shell uses this track instead. A single project can need both (a public landing page plus an authenticated app behind it), in which case each screen gets the track that actually fits it rather than one default applied everywhere. See `SKILL.md` Step 4 for where this branch happens in the build.
+
 ## What to animate, and how much
 
 - **Entrances** (page load, scroll-into-view): a small, consistent fade + upward translate (8-16px) is almost always right. Bouncy easing, large distances, or rotation on entrance reads as playful/consumer — only use it if the locked mood (`.tastemaker/style-lock.md`) actually calls for playful. A "premium/confident" project should use a quick, restrained fade (150-250ms, ease-out), not a bounce.
 - **Hover/focus states**: fast (100-150ms), subtle (a slight scale, a border/background shift, a shadow lift) — the point is to confirm interactivity, not to perform. Anything longer than ~200ms on hover starts to feel laggy rather than smooth.
-- **Loading states**: skeleton screens that mirror the actual layout beat a generic spinner — they set an expectation of what's coming, which is what makes a wait feel shorter.
+- **Loading states**: skeleton screens that mirror the actual layout beat a generic spinner — they set an expectation of what's coming, which is what makes a wait feel shorter. See the App shell motion section above for this promoted to a first-class pattern, not an afterthought.
 - **Page/state transitions**: keep direction consistent (things that mean "forward" always animate the same way) — inconsistent transition direction is disorienting even when each individual transition looks fine in isolation.
 
 ## Performance rule, non-negotiable regardless of style
