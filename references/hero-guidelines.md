@@ -15,7 +15,7 @@ Turn the valuable outcome into the headline. Let the subhead clarify the mechani
 Treat this as the starting limit, not a quota to fill:
 
 - One optional eyebrow, only when it adds context the headline cannot.
-- One headline: one promise, usually 6-12 words. Tighten display line-height and allow the strongest phrase to carry the accent.
+- One headline: one promise, usually 6-12 words. Tighten display line-height and allow the strongest phrase to carry the accent — but tightening has a floor: at the weight and size actually used, descenders (g/y/p/j/q) and punctuation (apostrophes, commas) on one line must clear the line below without touching or overlapping it. Check this visually, not just by the line-height number — the same value that's safe at 400-weight/3rem can clip at 800-weight/6rem+. `line-height: 0.87` or lower on a bold, large-clamp display headline is a known way to cause this; see `references/anti-slop-checklist.md`'s line-height item for the numeric floor.
 - One subhead: one sentence, ideally 16-28 words and no more than two lines on desktop.
 - One primary CTA. Add one secondary CTA only when it serves a distinct lower-commitment path such as proof, demo, or documentation.
 - One focused visual that proves the outcome.
