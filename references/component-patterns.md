@@ -26,7 +26,53 @@ The point isn't to delete all copy — a headline, a short subhead, captions, an
 - **Default fold boundary**: keep workflow steps, metrics, integration grids, detailed proof, and secondary product states below the hero. If the pitch needs them to make sense, simplify the pitch rather than attaching more modules above the fold.
 - Common failure: stacking 6+ generic feature cards with icon + heading + one line, identical structure repeated — the text-wall tell. Apply the show-don't-tell table above: convert feature cards into feature *mockups*, vary rhythm (a full-width visual, an alternating two-column showing the feature in use, a comparison table, a real chart) so the page is a sequence of things to look at, not a stack of paragraphs.
 
-## Dashboard
+## App shell (dashboards, internal tools, anything behind a sidebar)
+
+This is a first-class pattern, not a footnote under "Dashboard." A meaningful share of what gets built with a coding agent is internal tooling, not a marketing site, and it has a genuinely different shape: a persistent navigation frame the user works *inside*, not a page they scroll through once. Don't reach for `references/hero-guidelines.md` here — there is no hero, the shell is the whole first impression, every session.
+
+### The shape
+
+The default shell for anything with more than a handful of screens is sidebar plus topbar, content in between:
+
+```
+┌─────────┬──────────────────────────────┐
+│         │  topbar: breadcrumb / search / account   │
+│ sidebar │──────────────────────────────│
+│  nav    │                              │
+│         │        content area          │
+│         │   (the one thing this        │
+│         │    screen is actually for)   │
+└─────────┴──────────────────────────────┘
+```
+
+- **Sidebar**: primary navigation, persistent across every screen. Sections/groups if the product has more than ~7 top-level destinations; a flat list otherwise. Collapsible to icon-only on narrow viewports, not hidden entirely — internal tool users live in this thing for hours, don't make them reopen it constantly.
+- **Topbar**: contextual, not navigational. Breadcrumb or current-section label, search, account/notifications. It should never duplicate what the sidebar already tells the user.
+- **Content area**: exactly one job per screen. See the existing dashboard guidance below for how to lead with it.
+
+### Map the locked palette onto persistent chrome, not just one-off sections
+
+A marketing page skins each section once. A shell skins the *frame* once and reuses it on every screen, so get this mapping right at Step 2, record it in `.tastemaker/style-lock.md`, and don't re-derive it per screen:
+
+- **Sidebar background**: usually `Surface`, one step off `Background`, so the content area reads as the "canvas" and the sidebar reads as structural chrome around it. In a dark-mode-native project (e.g. the Technical/builder mood), this can invert — a near-black sidebar against a very slightly lighter content area — either direction is fine as long as it's deliberate and consistent.
+- **Content area background**: `Background`. This is where the user's actual work/data lives; it should be the quietest surface in the shell.
+- **Topbar**: usually shares the content area's `Background` with a `Border` hairline underneath, not its own distinct fill — it's contextual chrome, not a second nav surface competing with the sidebar.
+- **Active nav item**: the one place `Primary` earns a dedicated treatment outside a button — a filled pill/row, or a `Primary`-colored left-border accent on an otherwise-transparent row. Pick one treatment and use it for every active state in the shell, not a different one per section.
+- **Hover state on inactive nav items**: a subtle `Surface`-on-`Surface` shift (or `Background`-on-`Surface`, whichever is lighter in context) — never the same visual weight as the active state, or users lose track of where they actually are.
+- **Breadcrumbs**: `Text muted` for all but the current segment, which gets `Text primary`. Don't spend `Primary` or `Accent` on breadcrumb links; they're wayfinding, not calls to action.
+
+Run every pairing this introduces (active-row text on its fill, hover-state text on its background) through `scripts/check_contrast.py --matrix` the same as any other new pairing — Step 4's color-contract non-negotiable applies to shell chrome exactly like it applies to a marketing hero.
+
+### Density is correct here, not a mistake to fix
+
+A "premium/confident" marketing page wants generous whitespace. An app shell showing the same mood should still be *denser* than its own marketing page — more rows visible without scrolling, tighter row height, smaller default type size in data-heavy areas. This is not a contradiction of the locked mood; it is what that mood looks like applied to a tool instead of a pitch. Don't inherit the marketing page's spacing scale wholesale into the shell; use `references/style-tokens.md`'s "dense/information-heavy" spacing guidance instead, per project.
+
+### Motion in the shell
+
+Covered in full in `references/animation-guidelines.md`'s "App shell motion" section — panel/tab-switch transitions, staggered list/table entrances on data-load, animated state changes, skeleton loading. The scroll-storytelling track from that same file does not apply to a shell; there is no scroll narrative to tell.
+
+### The screen content itself
+
+Once the shell and its chrome are locked, individual screens follow:
 - Lead with the one number/status the user opens the app to check — don't bury it below navigation chrome.
 - Group related metrics; don't scatter unrelated KPIs in one uniform grid just because a grid is easy to build.
 - Empty and loading states matter as much as the populated state — design them explicitly, don't leave them as an afterthought default.
