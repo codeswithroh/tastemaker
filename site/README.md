@@ -5,10 +5,10 @@ with GSAP (loaded from CDN) — no build step.
 
 It is itself built to the skill's own rules, as proof:
 
-- **`index.html`** — the marketing page, using tastemaker's **Technical/builder** preset
+- **`index.html`** — the marketing page, using tastemaker's **Technical/builder** mood
   (verified palette `#0B0D12` / `#047857` / `#34D399`, Archivo + IBM Plex Mono).
 - **`demo.html`** — a fictional mindfulness app ("Calmly") using the **Warm/approachable**
-  preset (Zain + Nunito), embedded on the landing page as the live demo.
+  mood (Zain + Nunito), embedded on the landing page as the live demo.
 - **`assets/mark-tastemaker.svg`**, **`assets/mark-calmly.svg`** — constructed geometric
   logo marks (a layered-swatch mark; a lotus), not letters-in-boxes, legible down to 16px.
 
