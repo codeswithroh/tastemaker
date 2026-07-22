@@ -56,6 +56,14 @@ The model may only compose color pairings that appear in the text-safe or UI-saf
 - Base spacing unit: <e.g. "8px grid">
 - Overall density: <e.g. "generous whitespace, editorial" | "dense, information-heavy">
 
+## Navigation chrome
+Only for projects with an app shell (sidebar plus topbar) — see `references/component-patterns.md`'s App shell section. Omit this whole section for marketing-only projects.
+- Sidebar background: <role, e.g. "Surface"> · Content area background: <role, e.g. "Background">
+- Active nav item treatment: <e.g. "Primary-filled pill" | "transparent row, 3px Primary left-border">
+- Inactive hover treatment: <e.g. "Surface-on-Surface shift, 8% lighter">
+- Breadcrumb treatment: <e.g. "Text muted for parents, Text primary for current segment">
+- Shell density: <e.g. "36px row height, 13px body type" — per `references/style-tokens.md`'s dense/information-heavy guidance, distinct from the marketing-page spacing above>
+
 ## Mood descriptors
 2-4 words that capture the intent, e.g. "quiet, confident, technical" — useful as a quick gut-check when reviewing new output ("does this still feel quiet and confident?").
 

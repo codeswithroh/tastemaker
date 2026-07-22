@@ -100,7 +100,7 @@ This is what makes the second project faster than the first, and the tenth faste
 |---|---|
 | `references/style-lock-format.md` | Writing or updating `.tastemaker/style-lock.md` |
 | `references/style-tokens.md` | Cold start with no references — auto-selects a matched palette + Google-Font pairing from the app idea's mood, plus spacing/radius/shadow scales |
-| `references/component-patterns.md` | Choosing a layout pattern for a given screen type (landing, dashboard, pricing, onboarding, empty states) |
+| `references/component-patterns.md` | Choosing a layout pattern for a given screen type (landing, app shell/dashboard, pricing, onboarding, empty states) |
 | `references/hero-guidelines.md` | Building or revising any landing-page hero — attention budget, copy limits, single-focus visual, responsive and motion checks |
 | `references/logo-sourcing.md` | Step 3 — preserving an existing identity, or designing a real cold-start mark (no letter-in-a-box) + wordmark and favicons |
 | `references/anti-slop-checklist.md` | Before handing back any generated UI (Step 4) |
