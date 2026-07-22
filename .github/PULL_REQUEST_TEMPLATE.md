@@ -6,7 +6,7 @@
 
 ## Type
 
-- [ ] New preset (palette and type)
+- [ ] New mood (palette generation and type pairing)
 - [ ] Layout or component pattern
 - [ ] Script fix or improvement
 - [ ] Docs

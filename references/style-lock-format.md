@@ -17,7 +17,7 @@ Established: <date>. Source: <"reference images: list them" | "starter scaffoldi
 - Text primary: #hex — contrast vs background: X.XX (WCAG AA pass/fail, from `scripts/check_contrast.py`)
 - Text muted: #hex
 - Button label color: <"white" | "text primary"> — contrast vs Primary: X.XX (from `scripts/check_contrast.py`; don't assume white without checking, see `references/style-tokens.md`'s Contrast floor section for why)
-- Dark mode: <"not needed for this project" | the companion palette (same roles/format as above) — see `references/style-tokens.md`'s per-preset Dark mode entries for the pattern: reuse a light-mode color only if it independently re-verifies against the dark background, don't assume it carries over>
+- Dark mode: <"not needed for this project" | the companion palette (same roles/format as above) — see `references/style-tokens.md`'s per-mood Dark mode entries for the pattern: reuse a light-mode color only if it independently re-verifies against the dark background, don't assume it carries over>
 
 ## Color contract
 
@@ -53,7 +53,12 @@ The model may only compose color pairings that appear in the text-safe or UI-saf
 - Border usage: <e.g. "1px hairline borders instead of shadows for separation">
 
 ## Density & spacing
-- Base spacing unit: <e.g. "8px grid">
+See `references/style-tokens.md`'s Spacing scale section for the token set and the internal ≤ external rule this records.
+- Base unit: 4px (the scale's foundation; name the specific tokens actually in use below, don't just restate this)
+- Section padding: <the one token chosen for this project's section top/bottom padding, e.g. "space-16 (64px)">
+- Content card internal padding: <the token used as the floor for feature/pricing/testimonial cards, e.g. "space-6 (24px)">
+- Compact/dense card internal padding: <the token used for stat tiles, nav rows, app-shell list items, e.g. "space-3 (12px)" — only if the project has this context>
+- Showcase/hero card internal padding: <the token used for the one highest-weight card in the layout, e.g. "space-8 (32px)">
 - Overall density: <e.g. "generous whitespace, editorial" | "dense, information-heavy">
 
 ## Navigation chrome

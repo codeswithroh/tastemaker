@@ -16,9 +16,9 @@ Read the user's description of what they're building and match it against these 
 
 If the request already states or implies the mood directly (e.g. "premium fintech tool for freelancers," "playful app for teens"), use that instead of re-deriving from the table — the user already answered the question.
 
-## Step B — Generate a fresh palette for that mood (do not reuse a fixed preset)
+## Step B — Generate a fresh palette for that mood (don't reuse a fixed set)
 
-**The palette is generated per project, not picked from a list.** Five fixed presets would mean two similar prompts produce the same site, which is just a new monoculture in five flavors. Instead, run:
+**The palette is generated per project, not picked from a list.** A fixed catalog of options would mean two similar prompts produce the same site, which is just a new monoculture in five flavors. Instead, run:
 
 ```
 python3 scripts/generate_palette.py --mood <mood> [--mode light|dark]
@@ -70,7 +70,7 @@ The hex values below are what the generator's mood ranges were tuned to produce 
 - **Type**: Archivo (headings) + IBM Plex Sans (body) + IBM Plex Mono for code, data, timestamps, and short technical labels. Keeping the Plex family across sans and mono holds the cohesive, technical feel, and Archivo carries the display headings. **Do not set long-form body copy in mono.** Monospace body text is a recognizable AI-template tell (see `references/anti-slop-checklist.md`), even for a builder-facing product. Mono earns its place on the code and data it was designed for, not on paragraphs.
 - **Shape**: sharp corners or none, visible grid/borders over shadows.
 - **Avoid**: playful illustration, rounded-full buttons, pastel colors.
-- **Dark mode**: this preset is dark-mode-native (per the mood's own "dark mode by default" convention) — no separate light companion is provided here. If a project genuinely needs a light variant of this mood, treat it as a fresh derivation (swap Background/Text, re-pick a Primary that clears both floors against a light surface) rather than assuming a naive invert of these values will pass — run `scripts/check_contrast.py` on whatever comes out, same as any other new palette.
+- **Dark mode**: this mood is dark-mode-native (per the mood's own "dark mode by default" convention) — no separate light companion is provided here. If a project genuinely needs a light variant of this mood, treat it as a fresh derivation (swap Background/Text, re-pick a Primary that clears both floors against a light surface) rather than assuming a naive invert of these values will pass — run `scripts/check_contrast.py` on whatever comes out, same as any other new palette.
 
 ### Playful / consumer social (games, creator tools, youth-oriented)
 - **Palette**: Text `#14042B` · Background `#FFFFFF` · Primary `#4361EE` · Secondary `#7209B7` · Accent `#F72585`
@@ -88,7 +88,7 @@ The hex values below are what the generator's mood ranges were tuned to produce 
 - **Type**: Gloock (headings, serif display) + Inter (body) — classic editorial pairing, serif carries the "considered" feel while the sans body stays fast to read. Alt with a technical edge: EB Garamond (headings) + DM Mono (small caps/accents, e.g. bylines, dates).
 - **Shape**: generous margins, minimal or no shadow, thin hairline rules between sections instead of cards.
 - **Avoid**: rounded-full buttons, playful iconography, tight line length on body copy.
-- **Dark mode**: Text `#EFE9DC` · Background `#171310` · Primary `#9C6524` · Secondary `#241E17` · Accent `#D9A54A`. This is the one preset where Primary can't just carry over: light-mode Primary (`#2F2A24`) is a near-black text-adjacent color chosen for a light background, so on a dark background it nearly disappears (1.30:1 vs. the 3:1 visibility floor). `#9C6524` — a darkened version of the mood's own gold Accent — replaces it as the dark-mode Primary. Verified clean.
+- **Dark mode**: Text `#EFE9DC` · Background `#171310` · Primary `#9C6524` · Secondary `#241E17` · Accent `#D9A54A`. This is the one mood where Primary can't just carry over: light-mode Primary (`#2F2A24`) is a near-black text-adjacent color chosen for a light background, so on a dark background it nearly disappears (1.30:1 vs. the 3:1 visibility floor). `#9C6524` — a darkened version of the mood's own gold Accent — replaces it as the dark-mode Primary. Verified clean.
 
 ## When to actually ask instead of auto-selecting
 
@@ -100,18 +100,62 @@ Otherwise, pick the matched set, write it to `.tastemaker/style-lock.md`, and sa
 
 ## Broader font-pairing catalog
 
-All fonts referenced above are Google Fonts (loadable via the standard Google Fonts `<link>`/`@import`, no license question). If none of the five matched sets fits a specific project's mood, fontpair.co (fontpair.co/all) is a larger curated catalog of Google Font pairings to browse manually — pick a pairing there and slot it into the same five-role palette structure rather than inventing a sixth mood category ad hoc, unless the project genuinely recurs enough to be worth formalizing as a new preset here.
+All fonts referenced above are Google Fonts (loadable via the standard Google Fonts `<link>`/`@import`, no license question). If none of the five matched sets fits a specific project's mood, fontpair.co (fontpair.co/all) is a larger curated catalog of Google Font pairings to browse manually — pick a pairing there and slot it into the same five-role palette structure rather than inventing a sixth mood category ad hoc, unless the project genuinely recurs enough to be worth formalizing as a new mood here.
 
-## Spacing & radius baseline
-- 8px base grid unless the mood calls for tighter (dense dashboards: 4px) or looser (editorial/marketing: sometimes 12px)
-- Pick one radius scale and stick to it project-wide (e.g. 4/8/16px for sm/md/lg) — mixing arbitrary radius values across components is a fast way to look unintentional
+## Spacing scale
+
+"8px base grid" is a starting unit, not a spacing system on its own — it doesn't say how much padding a pricing card needs, or how a section's outer padding should relate to what's inside it. Both of those were real, visible failures in generated output (cramped pricing cards, sections that felt sparse in one place and empty in another) traced back to having no actual scale to reach for. This is that scale.
+
+### The token set
+
+Built on a 4px base unit (Tailwind's default, and half of the 8px grid Material Design and Apple's HIG both standardize on — halving cleanly is what makes 4px/8px multiples the industry default rather than an arbitrary choice). Named steps, each with a role, not just a number:
+
+| Token | Value | Use for |
+|---|---|---|
+| `space-1` | 4px | Hairline gaps: icon-to-label, a badge's internal padding, the tightest relationship on the page |
+| `space-2` | 8px | Tightly related elements: a label and its value, stacked lines of related text |
+| `space-3` | 12px | Compact component internals: a dense table cell, an app-shell nav row (see `references/component-patterns.md`'s App shell density note — this is the floor for that context, not a violation of it) |
+| `space-4` | 16px | Standard component padding: a button's internal padding, a compact stat tile |
+| `space-6` | 24px | Group separation: gap between a card's internal sections (heading / body / footer), minimum internal padding for a **content card** (pricing tier, feature card, testimonial) |
+| `space-8` | 32px | Spacious card padding for a card carrying real weight (a highlighted pricing tier, a hero showcase panel); gap between distinct groups within a section |
+| `space-12` | 48px | Small section padding (a compact/dense-mood project); gap between major elements within a hero |
+| `space-16` | 64px | Default section padding (top/bottom) for most moods |
+| `space-24` | 96px | Generous section padding (premium/editorial moods, hero sections specifically) |
+
+Skip the gaps between named steps deliberately — 20px, 28px, 40px, 56px are legal but should be rare, reached for only when a specific alignment genuinely needs it, not a default choice. A project that uses six different arbitrary values between 16 and 32 reads as unintentional the same way mixed radius values do.
+
+### The rule that decides which token applies: internal ≤ external
+
+This is the actual governing principle, not the token list by itself. **The space around a group of elements should be equal to or greater than the space within it.** This is Gestalt proximity: elements spaced closer together read as one group, elements spaced farther apart read as separate groups. If a card's internal padding is larger than the gap between that card and its neighbor, the eye can't tell where one card ends and the next begins — which is exactly the "cramped but also somehow unclear" feeling dense, badly-spaced layouts produce.
+
+Concretely: if three pricing cards sit in a row with `space-6` (24px) between them, each card's internal padding should be `space-6` or more, not less. If a section uses `space-16` (64px) of outer padding, the gaps between its internal content groups should generally be smaller than that, not competing with it.
+
+### Card padding minimums by type
+
+Generic "add padding" instructions are how cards end up inconsistent. Use a floor per card type instead:
+
+- **Compact/dense card** (a stat tile, a nav row, an app-shell list item): `space-3`–`space-4` (12–16px) internal padding. This is the one place tighter is correct — see the App shell density guidance in `references/component-patterns.md`.
+- **Content card** (a feature card, a pricing tier, a testimonial, anything holding a heading plus body copy): `space-6` (24px) minimum internal padding. This is the floor that was being violated in the pricing-card example that motivated this section — tier name, price, and description sitting close together with no room to breathe.
+- **Showcase/hero card** (a hero's proof visual frame, a highlighted/featured pricing tier): `space-8` (32px) or more. The one card in a layout meant to carry the most visual weight should have the most internal room, not the same padding as everything around it.
+
+### Section-level padding
+
+Pick one section padding value for the whole project (from `space-12` through `space-24` depending on density and mood — a "dense/information-heavy" project per `references/style-tokens.md`'s mood-to-density mapping stays at the low end, an "editorial/generous whitespace" project goes higher) and apply it consistently top and bottom on every section. A project that varies section padding per section without a reason reads as unplanned. Column-length imbalance within a section (a tall headline column next to a short card stack) is a separate, real problem, not fixed by more padding — that's tracked and addressed on its own, not by this section.
+
+### Radius scale
+
+Pick one radius scale and stick to it project-wide (e.g. 4/8/16px for sm/md/lg) — mixing arbitrary radius values across components is a fast way to look unintentional, the same failure mode as spacing.
+
+### Recording the scale
+
+Once a project's spacing decisions are made, record the actual tokens used (not just "8px grid") in `.tastemaker/style-lock.md`'s Density & spacing section — see `references/style-lock-format.md` — so the second screen reuses the same scale instead of re-deriving it.
 
 ## Contrast floor
-Whatever palette gets chosen — including the presets above — verify with `scripts/check_contrast.py <hex1> <hex2>` (or `--palette text=.. bg=.. primary=.. accent=..` for all the pairings that matter at once) rather than eyeballing it. Two separate checks matter, not just one:
+Whatever palette gets chosen — including the reference anchors above — verify with `scripts/check_contrast.py <hex1> <hex2>` (or `--palette text=.. bg=.. primary=.. accent=..` for all the pairings that matter at once) rather than eyeballing it. Two separate checks matter, not just one:
 
 1. **Body text vs. background** — 4.5:1 minimum (WCAG AA). This is the pairing people usually remember to check.
-2. **Button label vs. Primary fill** — also 4.5:1, and easy to miss because it's a downstream consequence of the palette rather than a value in the palette itself. Two of the five presets above originally shipped a Primary color (a terracotta and an emerald green) that looked fine as a swatch but only cleared ~2.5-3.6:1 with white button text — below the floor. Both were caught and fixed by actually running the numbers instead of trusting the hex value on sight; the same failure mode applies to any new palette derived from a reference image or a user-supplied brand color, so re-run the check rather than assuming a "reasonable-looking" primary is safe for its label color.
+2. **Button label vs. Primary fill** — also 4.5:1, and easy to miss because it's a downstream consequence of the palette rather than a value in the palette itself. Two of the five reference-anchor drafts above originally shipped a Primary color (a terracotta and an emerald green) that looked fine as a swatch but only cleared ~2.5-3.6:1 with white button text — below the floor. Both were caught and fixed by actually running the numbers instead of trusting the hex value on sight; the same failure mode applies to any new palette derived from a reference image or a user-supplied brand color, so re-run the check rather than assuming a "reasonable-looking" primary is safe for its label color.
 
-All five presets above are now verified: `scripts/check_contrast.py --palette ...` exits clean for each, and **white is the correct button-label color on every one of their Primary fills** (dark-text-on-primary fails for all five — don't default to the mood's text color for button labels, use white). Accent is checked only against the background at the lighter 3:1 UI-component floor, not a full text-contrast check, because its role (hyperlinks, highlights, small pops) isn't a solid button fill the way Primary is.
+All five reference anchors above are now verified: `scripts/check_contrast.py --palette ...` exits clean for each, and **white is the correct button-label color on every one of their Primary fills** (dark-text-on-primary fails for all five — don't default to the mood's text color for button labels, use white). Accent is checked only against the background at the lighter 3:1 UI-component floor, not a full text-contrast check, because its role (hyperlinks, highlights, small pops) isn't a solid button fill the way Primary is.
 
 A beautiful palette that fails either check just looks broken (or illegible), not stylish — this is non-negotiable regardless of mood.
