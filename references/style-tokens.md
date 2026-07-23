@@ -98,6 +98,28 @@ The hex values below are what the generator's mood ranges were tuned to produce 
 
 Otherwise, pick the matched set, write it to `.tastemaker/style-lock.md`, and say in one line which mood you classified the idea as and why — that's enough for the user to redirect if the read was wrong, without making them answer a design questionnaire before seeing anything.
 
+## Runtime dark/light toggle (when a project needs both modes, not one locked mode)
+
+Everything above locks a single palette for the project. Plenty of real products, especially internal tools, instead ship a light **and** dark mode with an actual switch — that's a different, explicit decision to make at Step 2, not a default, and it changes what gets generated and recorded.
+
+**Generate a true companion pair, not two unrelated palettes.** `scripts/generate_palette.py` draws its base hue, harmony rule, and chroma from the RNG before mode-specific lightness solving branches — so running the **same `--seed` with `--mode light` and `--mode dark`** produces two palettes sharing the same hue family and harmony, each independently solved against its own mode's contrast floors:
+
+```bash
+python3 scripts/generate_palette.py --mood warm --mode light --seed 7
+python3 scripts/generate_palette.py --mood warm --mode dark --seed 7
+```
+
+Both come back as the same triadic warm-orange family — a genuine light/dark companion pair, not two coincidentally-similar runs. Using two different seeds (or letting one run go unseeded) produces two palettes that merely share a mood, not a coherent pair; don't do that for a project that needs a real toggle.
+
+**Verify both, not just the one you happened to look at.** Run `scripts/check_contrast.py --matrix` against each mode's full role set before considering the style genuinely locked. A palette that's clean in light mode and unchecked in dark mode is not "dark mode done," it's dark mode assumed.
+
+**Implementation pattern:**
+- Define both role sets as CSS custom properties, one set per mode, swapped via a `data-theme="light"`/`data-theme="dark"` attribute on `<html>` (a class works too; the attribute is more common). Every component reads `var(--text)`, `var(--bg)`, etc. — never a hardcoded hex — so the swap is a single attribute change, not a re-render.
+- Default from `prefers-color-scheme` on first load (`@media (prefers-color-scheme: dark)` sets the initial attribute, or a small inline script reads `matchMedia` before first paint to avoid a flash of the wrong theme).
+- An explicit user toggle overrides the system default and persists (`localStorage`), read back on load ahead of the `prefers-color-scheme` check so a returning user's choice sticks.
+
+**Record the decision in `.tastemaker/style-lock.md`.** The Palette section's Dark mode line should state plainly whether this project ships one locked mode or both as a runtime toggle — see `references/style-lock-format.md` — so a later screen in the same project doesn't have to rediscover which case it's in.
+
 ## Broader font-pairing catalog
 
 All fonts referenced above are Google Fonts (loadable via the standard Google Fonts `<link>`/`@import`, no license question). If none of the five matched sets fits a specific project's mood, fontpair.co (fontpair.co/all) is a larger curated catalog of Google Font pairings to browse manually — pick a pairing there and slot it into the same five-role palette structure rather than inventing a sixth mood category ad hoc, unless the project genuinely recurs enough to be worth formalizing as a new mood here.
