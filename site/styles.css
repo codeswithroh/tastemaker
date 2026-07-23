@@ -77,7 +77,7 @@ button { color: inherit; }
 .kicker, .mono-label { font: 600 .72rem/1.2 var(--font-mono); letter-spacing: .13em; text-transform: uppercase; }
 .kicker { display: flex; align-items: center; gap: 10px; color: var(--accent); }
 .kicker::before { width: 36px; height: 1px; background: currentColor; content: ""; }
-.hero h1 { max-width: 620px; margin: 26px 0 24px; font: 800 clamp(4rem, 5.4vw, 6.3rem)/.87 var(--font-display); letter-spacing: -.078em; }
+.hero h1 { max-width: 620px; margin: 26px 0 24px; font: 800 clamp(4rem, 5.4vw, 6.3rem)/1.02 var(--font-display); letter-spacing: -.03em; }
 .hero h1 em { display: block; color: var(--accent); font-style: normal; }
 .hero-copy > p { max-width: 43ch; margin: 0 0 32px; color: var(--muted); font-size: clamp(1.05rem, 1.25vw, 1.18rem); }
 .button-row { display: flex; flex-wrap: wrap; gap: 12px; }
