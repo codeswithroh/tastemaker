@@ -136,6 +136,10 @@ python3 scripts/generate_palette.py --mood technical
 
 It prints the roles as hex, a live preview link, and the full contrast matrix, which pairing may carry text, which may only carry a border, and which is decorative, ready to paste straight into `.tastemaker/style-lock.md`. Pass `--seed <n>` to reproduce an exact result; omit it and every run is new. Fonts stay curated per mood (a real Google Font pairing, chosen for the mood's character, so there is no licensing question); only the color is generated.
 
+Icons follow the same idea at a smaller scale: each mood maps to two candidate Iconify sets, not one, and `fetch_icons.py` picks between them per run the same way the palette generator picks a fresh hue — so two "technical" projects aren't guaranteed the same Lucide icons any more than two "premium" projects are guaranteed the same palette.
+
+**What's still fixed, honestly:** font pairing (5 curated pairs, one per mood) and illustration matching (each concept maps to the closest fit in a finite local unDraw library) are not generated the way color and icons now are. Two projects in the same mood can still land on the same font pairing, and two projects needing the same abstract concept (a "team collaboration" illustration, say) can match the same source SVG — though the recolor itself differs, since it's tinted to that project's independently generated accent, not a shared default. This is a real, acknowledged limit, not a solved problem dressed up as one; widening either axis further is open work, not a claim already made good on.
+
 ## How it works
 
 ```

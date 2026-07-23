@@ -15,32 +15,36 @@ Why this is the default icon source:
 Pick ONE icon set per project and stay in it so every icon shares one
 stroke weight and corner style — mixing sets is a fast way to look
 unintentional. But "one set per project" does not mean "one set for every
-project": every Tastemaker install defaulting to the same Lucide icons
-regardless of what's being built is its own kind of sameness. Use --mood
-to pick a set that actually matches the project's locked mood instead of
-always reaching for the same default:
+project of that mood": every "technical" project defaulting to the same
+Lucide icons is a narrower version of the same sameness the mood mapping
+was built to fix, just five buckets deep instead of one. So each mood maps
+to two candidate sets, and the choice between them varies per run the same
+way `generate_palette.py --seed` varies the palette — omit --seed for a
+fresh pick each run, pass one for a reproducible choice:
 
-    premium    -> heroicons   (clean solid/outline, professional)
-    warm       -> tabler      (friendly, rounded stroke)
-    technical  -> lucide      (crisp, minimal, developer-tool default)
-    playful    -> ph          (Phosphor; bold/duotone weights read playful)
-    elegant    -> material-symbols  (thin weight reads considered, editorial)
+    premium    -> heroicons, iconoir          (clean outline, professional)
+    warm       -> tabler, solar               (friendly, rounded stroke)
+    technical  -> lucide, carbon              (crisp, minimal, developer-tool)
+    playful    -> ph, mingcute                (bold/duotone or rounded-cute)
+    elegant    -> material-symbols, fluent    (thin weight, considered/editorial)
 
 Usage:
-    # search to discover the right icon names within a set (mood picks the set)
+    # search to discover the right icon names within a set (mood picks the set;
+    # omit --seed for a fresh candidate each run, or pass one to reproduce a choice)
     python3 fetch_icons.py --search "chart growth analytics" --mood technical
 
     # fetch specific icons, tinted, into the project
     python3 fetch_icons.py --icons rocket shield mail chart-line \\
         --mood warm --color "#6C5CE7" --out design/assets/icons
 
-    # or name the set explicitly if the mood mapping doesn't fit this project
+    # or name the set explicitly if neither of the mood's candidates fits this project
     python3 fetch_icons.py --icons rocket --set tabler --color "#6C5CE7"
 """
 
 import sys
 import os
 import json
+import random
 import argparse
 import urllib.request
 import urllib.parse
@@ -48,11 +52,11 @@ import urllib.parse
 API = "https://api.iconify.design"
 
 MOOD_ICON_SETS = {
-    "premium": "heroicons",
-    "warm": "tabler",
-    "technical": "lucide",
-    "playful": "ph",
-    "elegant": "material-symbols",
+    "premium": ["heroicons", "iconoir"],
+    "warm": ["tabler", "solar"],
+    "technical": ["lucide", "carbon"],
+    "playful": ["ph", "mingcute"],
+    "elegant": ["material-symbols", "fluent"],
 }
 
 
@@ -103,6 +107,8 @@ def main():
     parser.add_argument("--mood", choices=list(MOOD_ICON_SETS.keys()),
                          help="Pick the icon set from the project's locked mood instead of naming --set directly "
                               "(see the mapping in this script's module docstring). Recommended over a bare default.")
+    parser.add_argument("--seed", type=int, default=None,
+                         help="Reproducible choice between the mood's two candidate sets; omit for a fresh pick each run.")
     parser.add_argument("--color", default=None, help='Hex tint applied server-side, e.g. "#6C5CE7"')
     parser.add_argument("--width", type=int, default=48, help="Icon width in px (default 48)")
     parser.add_argument("--out", default="design/assets/icons", help="Output directory")
@@ -111,7 +117,10 @@ def main():
     if args.icon_set:
         pass  # explicit --set always wins
     elif args.mood:
-        args.icon_set = MOOD_ICON_SETS[args.mood]
+        candidates = MOOD_ICON_SETS[args.mood]
+        args.icon_set = random.Random(args.seed).choice(candidates)
+        print(f"Mood '{args.mood}' -> '{args.icon_set}' (picked from {candidates}; pass --seed to reproduce this choice).",
+              file=sys.stderr)
     else:
         args.icon_set = "lucide"
         print(
