@@ -104,7 +104,7 @@ Now generate the PRD-scoped screens/components, constrained to `.tastemaker/styl
 
 **Stamp the build and record it in project memory.** The first non-empty line of the built CSS (or the top of an inline `<style>`) is a comment recording the structural picks, mood, palette seed, and contrast result — the format is in `references/diversification.md`. In the same pass, append an entry to `.tastemaker/log.json` (create it if absent) with the macrostructure and archetype picks. This is the durable record the *next* build reads to rotate against — skipping it is how the skill drifts back into building the same shape every time.
 
-Before handing back the result, run through `references/anti-slop-checklist.md` — it catches the specific tells (generic gradient defaults, emoji-as-icons, contrast checked on only one pairing, text-walls where visuals belong, static/no-motion pages, the generic hero→3-cards→CTA→footer template, unearned skeuomorphism) that make output read as AI-generated regardless of how good the underlying tokens were.
+`references/anti-slop-checklist.md` carries two checks that bracket the build. **Before you finalize**, run its pre-emit self-critique: score the planned output 1-5 on six axes (show-don't-tell, philosophy, hierarchy, specificity, restraint, variety) and revise anything scoring below 3 — catching weakness there is cheaper than catching it in the gate sweep. **After you build**, run its numbered gate list (mood-scoped: some gates loosen or tighten per the project's mood) — it catches the specific tells (generic gradient defaults, emoji-as-icons, contrast checked on only one pairing, text-walls where visuals belong, static/no-motion pages, `transition: all` and other motion tells, mid-render token improvisation, the generic hero→3-cards→CTA→footer template, invented metrics) that make output read as AI-generated regardless of how good the underlying tokens were. Record the six critique scores in the build stamp.
 
 ### Step 5 — Close the loop: curate fast, remember what was learned
 
@@ -128,7 +128,7 @@ This is what makes the second project faster than the first, and the tenth faste
 | `references/component-patterns.md` | Choosing a layout pattern for a given screen type (landing, app shell/dashboard, pricing, onboarding, empty states) |
 | `references/hero-guidelines.md` | Building or revising any landing-page hero — attention budget, copy limits, single-focus visual, responsive and motion checks |
 | `references/logo-sourcing.md` | Step 3 — preserving an existing identity, or designing a real cold-start mark (no letter-in-a-box) + wordmark and favicons |
-| `references/anti-slop-checklist.md` | Before handing back any generated UI (Step 4) |
+| `references/anti-slop-checklist.md` | The pre-emit self-critique (before finalizing, Step 4) + the numbered, mood-scoped gate sweep (after building) — the two quality checks that bracket every build |
 | `references/tech-stack-guides.md` | Implementing tokens/components in a specific stack (React/Next/Tailwind, Vue, SwiftUI, Flutter) |
 | `references/animation-guidelines.md` | Adding motion (Step 3/4) — GSAP + ScrollTrigger is the default engine, including scroll-storytelling timelines; read this first |
 | `references/illustration-sources.md` | The attribution-free asset sourcing map (Step 3) — Openverse for photos, the vendored `ideagram/` for illustrations, Iconify for icons, Streamline as a manual exception; plus the "credit in code, never on the page" pattern |
