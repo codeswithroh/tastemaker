@@ -48,6 +48,7 @@ If a token's value was adjusted mid-build to clear a pairing it originally faile
 - Display/heading font: <name> — <why: e.g. "matches reference's geometric sans">
 - Body font: <name>
 - Scale: <e.g. "1.25 ratio, base 16px">
+- <For a non-Latin-script project (Korean, CJK), this section records one family across a weight scale instead of two families — see `references/style-tokens.md`'s Non-Latin script typography section. Replace the two lines above with: "Family: <name> (e.g. Pretendard) — Heading: <weight>, Body: <weight>, UI chrome: <weight>." Also record letter-spacing and word-break decisions here (e.g. "letter-spacing: 0, word-break: keep-all for headings/UI text") since the Latin defaults elsewhere in this lock don't apply.>
 
 ## Shape language
 - Corner radius: <value(s) and where each is used>

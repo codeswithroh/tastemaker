@@ -16,6 +16,8 @@ Read the user's description of what they're building and match it against these 
 
 If the request already states or implies the mood directly (e.g. "premium fintech tool for freelancers," "playful app for teens"), use that instead of re-deriving from the table — the user already answered the question.
 
+**Before locking type, also check the target script.** Mood is one dimension; script is a separate one, and a non-Latin script (Korean, Japanese, Chinese, and others) is not a font-swap inside the same model — it changes the typography model itself. If the PRD, the user's request, or the actual UI copy is in a non-Latin script, stop and read the Non-Latin script typography section below before applying the two-family Latin pairing catalog. Building a Korean product with an English-only font pairing is the same class of mistake as picking a palette that fails contrast — it ships something that doesn't actually work for the real content.
+
 ## Step B — Generate a fresh palette for that mood (don't reuse a fixed set)
 
 **The palette is generated per project, not picked from a list.** A fixed catalog of options would mean two similar prompts produce the same site, which is just a new monoculture in five flavors. Instead, run:
@@ -123,6 +125,60 @@ Both come back as the same triadic warm-orange family — a genuine light/dark c
 ## Broader font-pairing catalog
 
 All fonts referenced above are Google Fonts (loadable via the standard Google Fonts `<link>`/`@import`, no license question). If none of the five matched sets fits a specific project's mood, fontpair.co (fontpair.co/all) is a larger curated catalog of Google Font pairings to browse manually — pick a pairing there and slot it into the same five-role palette structure rather than inventing a sixth mood category ad hoc, unless the project genuinely recurs enough to be worth formalizing as a new mood here.
+
+## Non-Latin script typography (CJK, Korean specifically)
+
+Everything above — the mood table, the display/body font-pairing model, "tighten display line-height," "tight tracking on headings" — is a Latin-typography model. It does not transfer to a non-Latin script by swapping in a font with the right glyphs; the model itself is wrong for CJK, and applying it wholesale produces broken-looking type even with correct glyph coverage.
+
+### The pairing model doesn't carry over
+
+Latin design pairs two families: a display face for headings, a body face for paragraphs. Korean (and CJK generally) typically runs **one well-built family across a full weight scale** instead — mixing families in Hangul reads as visually inconsistent in a way it doesn't in Latin, because CJK glyphs are denser and more structurally rigid, so a second family's different stroke contrast and proportions clash more visibly than a Latin display/body pairing ever would ([Typotheque on CJK typesetting principles](https://www.typotheque.com/articles/typesetting-cjk-text)).
+
+So for a CJK project, the `.tastemaker/style-lock.md` Typography section records **one family with roles assigned by weight**, not two families:
+
+- Heading/display: SemiBold or Bold weight of the one locked family.
+- Body: Regular weight.
+- UI chrome (buttons, labels, nav): Medium weight — a distinct step from body without the jump straight to display weight.
+
+### Korean starting point: Pretendard
+
+[Pretendard](https://github.com/orioncactus/pretendard) is the concrete, well-established starting point for Korean UI type — a system-ui-style variable font covering 9 weights (100 Thin through 900 Black), released under the **SIL Open Font License** (free for commercial use, modification, and redistribution, no attribution required).
+
+**It is not on Google Fonts** — this is a real difference from every other font in this file, which loads via a no-license-question Google Fonts `<link>`. Pretendard loads from its own CDN instead:
+
+```html
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
+```
+
+```css
+body {
+  font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui,
+    Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic",
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+}
+```
+
+(Verified against the project's own README at build time this was written — [pretendard's English webfont docs](https://github.com/orioncactus/pretendard/blob/main/packages/pretendard/docs/en/README.md).)
+
+Verify the CDN link resolves and the font actually renders Hangul glyphs before shipping — don't assume the snippet above still points at a live version; check the current recommended embed on the project's own README/CDN page at build time, since CDN paths for variable-font releases can change between versions.
+
+Japanese and Chinese need their own equivalent research rather than assuming Pretendard's Korean-specific choices transfer — Noto Sans JP / Noto Sans SC (both Google-Fonts-hosted, so they don't have Pretendard's CDN wrinkle) are reasonable starting points for those scripts specifically, but have not been vetted here to the same depth as the Korean case, which had a real tester driving it. Say so plainly rather than presenting Japanese/Chinese guidance as equally verified.
+
+### Letter-spacing: don't reuse the Latin "tighten it" instinct
+
+The Premium/confident mood's Latin guidance leans on tight, even negative, tracking for display headings. **Do not carry that instinct into Hangul.** A Hangul syllable block is already a tightly-composed unit of 2-3 stacked jamo; negative tracking compresses the gaps between whole syllable blocks rather than between individual letterforms the way it does in Latin, and it degrades legibility much faster. Default to `letter-spacing: 0` (or Pretendard's own metrics, unadjusted) and only tighten slightly, visually, if the specific weight/size combination looks loose — never reach for the same negative values used in this file's Latin mood guidance.
+
+### Line-breaking: `word-break: keep-all` for UI text
+
+For headings, buttons, short labels, and most app-shell/marketing copy — the kind of short-to-medium text this skill builds most of — set `word-break: keep-all` so Korean text wraps at word boundaries instead of breaking mid-word at arbitrary character boundaries, which is the default and reads as broken. Long-form article or dense-paragraph content is the one place traditional CJK typesetting instead prefers unrestricted breaking; that's a real exception but not the common case for the layouts in `references/component-patterns.md`. ([SymbolFYI's CJK web typography guide](https://symbolfyi.com/guides/cjk-web-typography/), [W3C klreq](https://www.w3.org/TR/klreq/))
+
+### Line-height: looser than the Latin display convention
+
+`references/hero-guidelines.md`'s tightened display line-height (1.0-1.15 floor) is a Latin-specific instruction tied to Latin ascender/descender geometry. CJK glyphs are visually denser and roughly square, so CJK type — including CJK display headings — generally wants more breathing room between lines than the Latin floor allows; verify visually rather than importing the Latin number directly, and expect to land higher than 1.15 even on a tightened display heading.
+
+### Mixed Latin+CJK content
+
+Product names, numerals, and any deliberately-Latin UI strings inside otherwise-Korean copy commonly need slightly different optical sizing than the surrounding CJK text at the same nominal font-size, since Latin glyphs read smaller next to CJK ones at an identical point size — a real, documented CJK-typesetting concern ([Typotheque](https://www.typotheque.com/articles/typesetting-cjk-text)), not something to fix by guessing; check it visually in the actual rendered UI.
 
 ## Spacing scale
 
