@@ -19,6 +19,30 @@ Before picking any pattern, apply the visual-over-text default from SKILL.md Ste
 
 The point isn't to delete all copy — a headline, a short subhead, captions, and CTA labels are text doing real work. The point is that the *primary content of each section is something to look at*, and text captions it. A section that's mostly words with a decorative icon on top is the thing to catch and rebuild.
 
+## Column balance — a default that applies across every two-column pattern below
+
+Two-column sections show up constantly: a pricing headline next to a stack of tier cards, a feature row of short labels next to a headline-and-CTA block, an About page's alternating text/image rows. Their columns are rarely the same natural height — a headline-and-paragraph column commonly runs taller than a short card stack or a handful of labels next to it.
+
+Left alone, the default failure mode is: each column renders at its own natural height, the shorter one stops short, and the section reads unbalanced — a cluster of content near the top with a block of unclaimed space below it. This isn't a padding problem (see `references/style-tokens.md`'s Spacing scale for that); it's a layout decision nothing was making by default.
+
+When a two-column section's columns differ noticeably in natural height, pick one deliberate treatment instead of leaving it to chance:
+
+1. **Vertically center the shorter column** against the taller column's height (`align-items: center` on the row). Best when the shorter column reads fine as a self-contained block wherever it lands — three pricing cards centered next to a tall headline column, rather than pinned to the top with dead space below.
+2. **Add a real filler element that intentionally uses the remaining height.** A stat callout, a short testimonial, a small supporting illustration, a secondary CTA note. This fills the gap with actual content instead of blank space — the "show, don't tell" default above applies here too, so reach for a visual filler over another paragraph.
+3. **Cap the taller column** so both sides land closer to the same length — tighten the headline, shorten the paragraph, or cap the column's max-width/line count. Best when the taller column's extra length is prose creep rather than content that has to be there.
+
+Pick whichever treatment fits the specific section; the failure to catch is leaving the shorter column to trail into empty space by default because nothing decided otherwise.
+
+## Section-to-section separation
+
+For a page with several stacked sections to read as distinct, intentional beats rather than one long scroll of similar-looking blocks, pick **one** separation mechanism for the whole project and apply it consistently at every section boundary — don't decide it per section:
+
+- **Alternating surface tint** (Background/Surface alternating section by section) — a solid default for a content-dense marketing page with many stacked sections; the tint alone marks the boundary without adding a visible line.
+- **Hairline divider** (a 1px border at the section boundary) — fits a project already using hairline borders elsewhere instead of shadows (the semi-brutalist treatment in `references/anti-slop-checklist.md`); mixing a divider into a project that otherwise uses soft shadows reads as inconsistent.
+- **Fixed minimum section padding**, applied regardless of content, with no tint or divider — works when the mood already commits to generous whitespace (an "editorial/generous" project per `references/style-tokens.md`) and additional visual noise would undercut that.
+
+Record the chosen mechanism once in `.tastemaker/style-lock.md` the same way other per-project decisions are recorded, and reuse it — a page that alternates tint on some boundaries and adds dividers on others reads as unplanned, the same failure mode inconsistent spacing produces.
+
 ## Landing / marketing page
 - **Hero-centric**: one sharp promise + one short explanation + one primary CTA (optionally one secondary) + one supporting visual. This is the default for most products. Read `references/hero-guidelines.md` before building it; the hero is an attention hierarchy, not a compressed feature tour.
 - **Social-proof-first**: logos/testimonials above the fold, hero secondary. Use when credibility is the biggest conversion blocker (enterprise, higher price point).
@@ -81,6 +105,7 @@ Once the shell and its chrome are locked, individual screens follow:
 - 3 tiers is the safe default (2 feels thin, 4+ causes decision paralysis) unless the product genuinely needs more.
 - Highlight one tier visually (border, subtle background shift) — don't rely on a "Most Popular" ribbon alone to do that work.
 - Put the annual/monthly toggle and the actual price close together; don't make users hunt for what a plan costs.
+- If the section pairs a headline column with the tier cards side by side, that's the Column balance case above — a headline column running the full section height next to cards clustered near the top is the concrete failure that rule exists to catch. Center the cards against the headline's height, or add a real element (a short FAQ note, a guarantee callout) below them rather than leaving the gap.
 
 ## Onboarding
 - Map directly to the PRD's step list — don't invent extra steps or collapse necessary ones for the sake of a "clean 3-step flow" if the product actually needs 5.

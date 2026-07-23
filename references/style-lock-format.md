@@ -60,6 +60,7 @@ See `references/style-tokens.md`'s Spacing scale section for the token set and t
 - Compact/dense card internal padding: <the token used for stat tiles, nav rows, app-shell list items, e.g. "space-3 (12px)" — only if the project has this context>
 - Showcase/hero card internal padding: <the token used for the one highest-weight card in the layout, e.g. "space-8 (32px)">
 - Overall density: <e.g. "generous whitespace, editorial" | "dense, information-heavy">
+- Section separation: <"alternating surface tint" | "hairline divider" | "fixed section padding, no tint/divider" — see `references/component-patterns.md`'s Section-to-section separation section; apply the same choice at every section boundary in the project>
 
 ## Navigation chrome
 Only for projects with an app shell (sidebar plus topbar) — see `references/component-patterns.md`'s App shell section. Omit this whole section for marketing-only projects.
