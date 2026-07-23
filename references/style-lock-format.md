@@ -40,7 +40,9 @@ Legal pairings (run `scripts/check_contrast.py --matrix text=.. bg=.. surface=..
 - UI-safe (>=3.0 and <4.5): <the pairings usable for large text, icons, and state-carrying borders>
 - Decorative (<3.0): <the pairings that must never carry text or be the only thing conveying state>
 
-The model may only compose color pairings that appear in the text-safe or UI-safe lists (matched to the pairing's purpose). If it needs a pairing that lands in Decorative for a purpose that requires more (a fill that needs a readable label, a border that must convey state), that is a flag: switch to a legal pairing, or darken/lighten a color and re-run the matrix. Do not ship the failing pairing. **Re-run the matrix whenever the palette grows** (a new semantic color, a locked hex used in a new role). The lock is only true for the tokens the matrix last covered.
+The model may only compose color pairings that appear in the text-safe or UI-safe lists (matched to the pairing's purpose). If it needs a pairing that lands in Decorative for a purpose that requires more (a fill that needs a readable label, a border that must convey state), that is a flag: switch to a legal pairing, or darken/lighten a color and re-run the matrix. Do not ship the failing pairing. **Re-run the matrix whenever the palette grows** (a new semantic color, a locked hex used in a new role). The lock is only true for the tokens the matrix last covered. See `SKILL.md` Step 4's non-negotiable #5 for the ordered failure path (reuse a legal pairing → nudge lightness within the hue family → fall back to a known-safe neutral → surface a genuine conflict to the user) — don't just retry the same failing value.
+
+If a token's value was adjusted mid-build to clear a pairing it originally failed (a lightness nudge per that failure path), note it here — e.g. "Accent nudged from #xxxxxx to #yyyyyy to clear UI-safe against Surface" — so a later session in this project sees the final value already reflects a contrast fix, not an arbitrary change.
 
 ## Typography
 - Display/heading font: <name> — <why: e.g. "matches reference's geometric sans">
