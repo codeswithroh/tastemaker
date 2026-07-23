@@ -46,6 +46,9 @@ For a page with several stacked sections to read as distinct, intentional beats 
 Record the chosen mechanism once in `.tastemaker/style-lock.md` the same way other per-project decisions are recorded, and reuse it — a page that alternates tint on some boundaries and adds dividers on others reads as unplanned, the same failure mode inconsistent spacing produces.
 
 ## Landing / marketing page
+
+For a marketing page, the whole-page *shape* is now picked upstream at Step 2.5 as a named macrostructure (`references/macrostructures.md`) and filled with named archetypes (`references/component-catalog.md`) — that's the layer that makes two landing pages structurally different instead of two color-swaps of one template. This section stays useful as the finer-grained guidance *inside* whatever macrostructure you picked: the fold discipline, the show-don't-tell conversions, the common failures. Read it alongside the macrostructure, not instead of it. The three bullets below are lightweight shape hints; the macrostructure catalog is the real menu.
+
 - **Hero-centric**: one sharp promise + one short explanation + one primary CTA (optionally one secondary) + one supporting visual. This is the default for most products. Read `references/hero-guidelines.md` before building it; the hero is an attention hierarchy, not a compressed feature tour.
 - **Social-proof-first**: logos/testimonials above the fold, hero secondary. Use when credibility is the biggest conversion blocker (enterprise, higher price point).
 - **Problem/solution narrative**: scroll-driven sections walking through a pain point then the fix. Use for products solving a non-obvious problem that needs explaining before the pitch lands.
