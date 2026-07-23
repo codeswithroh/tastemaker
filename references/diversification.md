@@ -51,10 +51,11 @@ The first non-empty line of the built CSS (or the top of an inline `<style>`) re
 ```css
 /* tastemaker · macrostructure: Long-Scroll Narrative · mood: warm · page: landing
  * nav: N3 · hero: H6 · footer: Ft4 · knobs: hero=letter/1-para/typed-signoff
- * palette: seed 4 (warm/light) · contrast: pass (matrix) */
+ * palette: seed 4 (warm/light) · contrast: pass (matrix)
+ * critique: ShowTell 5 · Phil 4 · Hier 5 · Spec 4 · Restr 5 · Var 5 */
 ```
 
-The stamp is the durable record. It carries the structural picks (for diversification), the mood + palette seed (so the exact palette is reproducible), and the contrast result (so a later run knows the color contract was actually verified, not assumed). Keep it in sync with the `log.json` entry — they record the same build from two angles.
+The stamp is the durable record. It carries the structural picks (for diversification), the mood + palette seed (so the exact palette is reproducible), the contrast result (so a later run knows the color contract was actually verified, not assumed), and the pre-emit self-critique scores (see `references/anti-slop-checklist.md`). Keep it in sync with the `log.json` entry — they record the same build from two angles.
 
 ## Recording in the style lock
 
