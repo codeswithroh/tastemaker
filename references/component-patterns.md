@@ -19,6 +19,8 @@ Before picking any pattern, apply the visual-over-text default from SKILL.md Ste
 
 The point isn't to delete all copy — a headline, a short subhead, captions, and CTA labels are text doing real work. The point is that the *primary content of each section is something to look at*, and text captions it. A section that's mostly words with a decorative icon on top is the thing to catch and rebuild.
 
+**A chart is not exempt from this table's own requirement — a chart with axis labels but no title or caption is close to meaningless on its own.** Every chart/graph card needs a one-line heading or caption stating what it shows, the same requirement as a mockup ("with a one-line caption") or a stat tile (its label). If the chart sits next to related numbers or claims elsewhere in the section (a stat list, a headline promise), tie them together explicitly — either visually (the chart and the stats share a caption or a connecting element) or in copy (the caption names what the numbers next to it represent) — don't leave a chart and a stat list floating next to each other with no stated connection.
+
 ## Column balance — a default that applies across every two-column pattern below
 
 Two-column sections show up constantly: a pricing headline next to a stack of tier cards, a feature row of short labels next to a headline-and-CTA block, an About page's alternating text/image rows. Their columns are rarely the same natural height — a headline-and-paragraph column commonly runs taller than a short card stack or a handful of labels next to it.
