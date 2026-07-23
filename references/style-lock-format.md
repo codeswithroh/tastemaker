@@ -17,7 +17,7 @@ Established: <date>. Source: <"reference images: list them" | "starter scaffoldi
 - Text primary: #hex — contrast vs background: X.XX (WCAG AA pass/fail, from `scripts/check_contrast.py`)
 - Text muted: #hex
 - Button label color: <"white" | "text primary"> — contrast vs Primary: X.XX (from `scripts/check_contrast.py`; don't assume white without checking, see `references/style-tokens.md`'s Contrast floor section for why)
-- Dark mode: <"not needed for this project" | the companion palette (same roles/format as above) — see `references/style-tokens.md`'s per-mood Dark mode entries for the pattern: reuse a light-mode color only if it independently re-verifies against the dark background, don't assume it carries over>
+- Dark mode: <"not needed for this project — single mode only" | "companion palette provided, author-time choice only, no runtime switch" | "runtime toggle — both modes ship, user-switchable"> — if either dark-mode case applies, give the companion palette (same roles/format as above) and confirm it independently re-verifies against the dark background, don't assume a light-mode color carries over. If it's the runtime-toggle case, see `references/style-tokens.md`'s Runtime dark/light toggle section: the companion pair must come from the same `generate_palette.py --seed` run in both `--mode light` and `--mode dark` (not two unrelated palettes that merely share a mood), and both role sets need their own passing `check_contrast.py --matrix` before the lock counts as verified.
 
 ## Color contract
 
