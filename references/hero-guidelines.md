@@ -16,6 +16,7 @@ Treat this as the starting limit, not a quota to fill:
 
 - One optional eyebrow, only when it adds context the headline cannot.
 - One headline: one promise, usually 6-12 words. Tighten display line-height and allow the strongest phrase to carry the accent — but tightening has a floor: at the weight and size actually used, descenders (g/y/p/j/q) and punctuation (apostrophes, commas) on one line must clear the line below without touching or overlapping it. Check this visually, not just by the line-height number — the same value that's safe at 400-weight/3rem can clip at 800-weight/6rem+. `line-height: 0.87` or lower on a bold, large-clamp display headline is a known way to cause this; see `references/anti-slop-checklist.md`'s line-height item for the numeric floor.
+  - **Word count and display size move together — they are not independent rules.** A headline within the 6-12 word budget can still render oversized if the type size doesn't scale down as the word count climbs toward the long end. Split the range: **6-8 words** gets the full display size (the top of whatever `clamp()` range the project's type scale defines). **9-12 words** steps down to a visibly smaller size — roughly one clamp tier down, about 15-20% smaller across the whole `clamp()` range, not just the same size left to wrap across more lines. If a headline needs the long end of the word budget *and* the full display size to say what it needs to say, that's a signal to cut the headline, not to let the type carry the overflow.
 - One subhead: one sentence, ideally 16-28 words and no more than two lines on desktop.
 - One primary CTA. Add one secondary CTA only when it serves a distinct lower-commitment path such as proof, demo, or documentation.
 - One focused visual that proves the outcome.
@@ -58,6 +59,7 @@ Animate the visual as one composition. Do not stagger every label, tile, metric,
 
 - At 390px, no horizontal overflow.
 - The headline remains readable in roughly 3-5 lines; no orphaned one-word line caused by an avoidable width constraint.
+- **At the top of the display size range, the headline fits comfortably in 2-3 lines.** If it's wrapping into 5+ lines at full size, that's not a responsive-width problem to accept — it's a signal the headline is too long for the size in use. Step the display size down a tier (see the word-count/size rule above) or shorten the headline; don't let a long headline dominate the hero by taking up more vertical space at full size instead of stepping down.
 - The subhead remains one compact paragraph.
 - CTAs either fit cleanly side by side or stack as full-width actions; they never squeeze into awkward labels.
 - The proof visual remains legible when stacked. Crop or simplify its internals rather than shrinking a dense desktop composition until it becomes unreadable.
