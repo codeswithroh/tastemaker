@@ -177,6 +177,12 @@ Please read [CONTRIBUTING.md](CONTRIBUTING.md) before you start, and see the [Co
 
 If tastemaker saved you from one more indigo gradient, a star helps other builders find it.
 
+## Support the project
+
+tastemaker is free, MIT licensed, and built in the open. If it saves you time or makes something you ship look better, sponsoring helps keep the palette generator, the asset pipeline, and the pattern library maintained.
+
+[Sponsor on GitHub](https://github.com/sponsors/codeswithroh)
+
 ## License
 
 [MIT](LICENSE). Use it freely, including in commercial work.
