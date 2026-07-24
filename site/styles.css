@@ -255,10 +255,7 @@ button { color: inherit; }
 
 .site-footer { padding: 34px 0 44px; }
 .footer-layout { display: flex; align-items: center; justify-content: space-between; gap: 24px; }
-.footer-links { display: flex; align-items: center; gap: 22px; color: var(--muted); font-size: .82rem; }
-.footer-sponsor { display: inline-flex; align-items: center; gap: 6px; color: var(--accent); }
-.footer-sponsor svg { flex: none; }
-.footer-sponsor:hover, .footer-sponsor:focus-visible { color: var(--white); }
+.footer-links { display: flex; gap: 22px; color: var(--muted); font-size: .82rem; }
 .footer-note { color: var(--muted); font: .68rem var(--font-mono); }
 
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
