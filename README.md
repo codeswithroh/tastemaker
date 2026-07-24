@@ -7,6 +7,7 @@
     <a href="CONTRIBUTING.md"><img src="https://img.shields.io/badge/PRs-welcome-047857?style=flat-square" alt="PRs welcome"></a>
     <img src="https://img.shields.io/badge/Claude%20Code-skill-34D399?style=flat-square" alt="Claude Code skill">
     <a href="https://tastemaker-ai-skill.netlify.app"><img src="https://img.shields.io/badge/live-demo-047857?style=flat-square" alt="Live demo"></a>
+    <a href="https://github.com/sponsors/codeswithroh"><img src="https://img.shields.io/github/sponsors/codeswithroh?style=flat-square&color=EA4AAA&label=sponsors&logo=githubsponsors&logoColor=white" alt="GitHub Sponsors"></a>
   </p>
 
   <p><b>A skill that gives AI real design taste, so the UI it builds does not look AI-generated.</b></p>
@@ -19,7 +20,8 @@
     <a href="#what-is-verified-and-what-is-judgment">What is verified</a> &nbsp;·&nbsp;
     <a href="#what-you-get">Features</a> &nbsp;·&nbsp;
     <a href="#the-palette-generator">Palette generator</a> &nbsp;·&nbsp;
-    <a href="#contributing">Contributing</a>
+    <a href="#contributing">Contributing</a> &nbsp;·&nbsp;
+    <a href="#support-the-project">💜 Sponsor</a>
   </p>
 
   <p><a href="https://tastemaker-ai-skill.netlify.app"><b>See it live and try the demo &rarr;</b></a></p>
@@ -179,9 +181,23 @@ If tastemaker saved you from one more indigo gradient, a star helps other builde
 
 ## Support the project
 
-tastemaker is free, MIT licensed, and built in the open. If it saves you time or makes something you ship look better, sponsoring helps keep the palette generator, the asset pipeline, and the pattern library maintained.
+<div align="center">
 
-[Sponsor on GitHub](https://github.com/sponsors/codeswithroh)
+### 💜 Sponsor this project
+
+tastemaker is free, MIT licensed, and built in the open. If it saved you an indigo gradient or a rebuild, sponsoring keeps the palette generator, the asset pipeline, and the pattern library maintained.
+
+<a href="https://github.com/sponsors/codeswithroh">
+  <img src="https://avatars.githubusercontent.com/u/77570394?v=4" width="56" height="56" alt="codeswithroh">
+</a>
+
+**[@codeswithroh](https://github.com/codeswithroh)** · Rohit Purkait
+
+[![Sponsor on GitHub](https://img.shields.io/badge/Sponsor-EA4AAA?style=for-the-badge&logo=githubsponsors&logoColor=white)](https://github.com/sponsors/codeswithroh)
+
+[Learn more about GitHub Sponsors](https://github.com/sponsors)
+
+</div>
 
 ## License
 

@@ -261,6 +261,38 @@ button { color: inherit; }
 .footer-sponsor:hover, .footer-sponsor:focus-visible { color: var(--white); }
 .footer-note { color: var(--muted); font: .68rem var(--font-mono); }
 
+.sponsor-card {
+  position: fixed; right: 20px; bottom: 20px; z-index: 60;
+  width: 240px; padding: 16px;
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+  box-shadow: 10px 10px 0 var(--surface-2);
+  opacity: 0; transform: translateY(12px) scale(.98); pointer-events: none;
+  transition: opacity .25s ease, transform .25s ease;
+}
+.sponsor-card.is-visible { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
+.sponsor-card__close {
+  position: absolute; top: 10px; right: 10px;
+  display: grid; place-items: center; width: 22px; height: 22px;
+  border: none; background: transparent; color: var(--muted); border-radius: var(--radius-sm); cursor: pointer;
+}
+.sponsor-card__close:hover, .sponsor-card__close:focus-visible { color: var(--text); background: var(--surface-2); }
+.sponsor-card__label { margin: 0 0 12px; padding-right: 22px; font-weight: 700; font-size: .88rem; color: var(--text); }
+.sponsor-card__profile {
+  display: grid; grid-template-columns: 32px 1fr auto; align-items: center; gap: 10px;
+  padding: 8px; margin: 0 0 10px; border: 1px solid var(--border); border-radius: var(--radius-sm);
+  background: var(--surface-2); transition: border-color .15s ease;
+}
+.sponsor-card__profile:hover, .sponsor-card__profile:focus-visible { border-color: var(--accent); }
+.sponsor-card__avatar { grid-row: span 1; border-radius: 50%; width: 32px; height: 32px; }
+.sponsor-card__who { display: flex; flex-direction: column; min-width: 0; line-height: 1.3; }
+.sponsor-card__who strong { font-size: .82rem; color: var(--text); }
+.sponsor-card__who span { font-size: .72rem; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sponsor-card__heart { display: grid; place-items: center; flex: none; width: 28px; height: 28px; border: 1px solid var(--border); border-radius: 50%; color: var(--accent); transition: background .15s ease, border-color .15s ease; }
+.sponsor-card__profile:hover .sponsor-card__heart, .sponsor-card__profile:focus-visible .sponsor-card__heart { background: var(--accent); color: var(--white); border-color: var(--accent); }
+.sponsor-card__learn { display: block; font-size: .74rem; color: var(--primary); }
+.sponsor-card__learn:hover, .sponsor-card__learn:focus-visible { color: var(--accent); }
+@media (max-width: 720px) { .sponsor-card { left: 16px; right: 16px; bottom: 16px; width: auto; } }
+
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
 @media (max-width: 980px) {
   .hero-layout, .workflow-layout, .artifact-layout { grid-template-columns: 1fr; }

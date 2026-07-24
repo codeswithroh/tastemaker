@@ -25,6 +25,33 @@ const initSite = () => {
     });
   }
 
+  // Sponsor card: appears once the visitor has scrolled past the hero (so it
+  // never competes with the primary CTA), and respects a dismissal for the
+  // rest of the session so it never becomes a nag.
+  const sponsorCard = document.getElementById("sponsorCard");
+  const sponsorCardClose = document.getElementById("sponsorCardClose");
+  if (sponsorCard && sponsorCardClose) {
+    const DISMISS_KEY = "tastemaker-sponsor-dismissed";
+    let dismissed = false;
+    try { dismissed = sessionStorage.getItem(DISMISS_KEY) === "1"; } catch {}
+
+    if (!dismissed) {
+      const revealOnScroll = () => {
+        if (window.scrollY > window.innerHeight * 0.6) {
+          sponsorCard.classList.add("is-visible");
+          window.removeEventListener("scroll", revealOnScroll);
+        }
+      };
+      window.addEventListener("scroll", revealOnScroll, { passive: true });
+      revealOnScroll();
+    }
+
+    sponsorCardClose.addEventListener("click", () => {
+      sponsorCard.classList.remove("is-visible");
+      try { sessionStorage.setItem(DISMISS_KEY, "1"); } catch {}
+    });
+  }
+
   // Safety net: if GSAP never loads (CDN blocked/slow), never leave the page
   // permanently hidden behind a .from()-authored start state that nothing
   // resolved. Every other motion page in this project carries this same
