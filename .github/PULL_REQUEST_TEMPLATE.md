@@ -16,8 +16,8 @@
 ## Checks
 
 - [ ] I kept the copy simple, with no em-dashes.
-- [ ] If I changed a palette, I ran `scripts/check_contrast.py` and it exits clean.
-- [ ] If I added or edited an SVG, I ran `scripts/validate_assets.py` and it passes.
+- [ ] If I changed a palette, I ran `skills/tastemaker/scripts/check_contrast.py` and it exits clean.
+- [ ] If I added or edited an SVG, I ran `skills/tastemaker/scripts/validate_assets.py` and it passes.
 - [ ] The change does not make the skill violate its own anti-slop checklist.
 
 ## Related issue

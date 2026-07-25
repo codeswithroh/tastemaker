@@ -81,21 +81,29 @@ Do not read the contrast script as evidence that the design is good. Read it as 
 
 ## Quick start
 
-Install it into your Claude Code skills folder:
+**Claude Code plugin (recommended):**
 
 ```bash
-git clone https://github.com/codeswithroh/tastemaker ~/.claude/skills/tastemaker
+/plugin marketplace add codeswithroh/tastemaker
+/plugin install tastemaker@codeswithroh
 ```
 
-Restart Claude Code, then just ask:
+**Manual install**, for Claude Code without the plugin system, or for Cursor/Windsurf: clone the repo, then copy or symlink the `skills/tastemaker` folder specifically (not the whole repo) into your tool's skills directory:
+
+```bash
+git clone https://github.com/codeswithroh/tastemaker /tmp/tastemaker
+cp -r /tmp/tastemaker/skills/tastemaker ~/.claude/skills/tastemaker
+```
+
+> Using Cursor or Windsurf? Same copy, into their skills directory instead.
+
+Restart your agent, then just ask:
 
 ```
 build a landing page for a coffee subscription
 ```
 
 Tastemaker triggers on its own. It generates a palette, picks a matching type pairing, sources real assets, wires up motion, and builds. You do not invoke anything.
-
-> Using Cursor or Windsurf? Drop the same folder into their skills directory.
 
 For the deterministic color extraction script you need Python 3 and Pillow (`pip install Pillow`). If Pillow is missing, it falls back to a vision based read instead of failing.
 
@@ -162,10 +170,13 @@ I wrote up why I built this and how it works:
 
 ```
 tastemaker/
-├── SKILL.md                     the workflow, read this first
-├── references/                  palettes, patterns, motion, asset sourcing, checklists
-├── scripts/                     palette generation, contrast check, extraction, asset fetch, recolor
-├── assets/                      GSAP motion starter and a dependency free fallback
+├── .claude-plugin/              plugin + marketplace manifests (the plugin install path)
+├── skills/tastemaker/           the actual skill, this is what gets installed
+│   ├── SKILL.md                 the workflow, read this first
+│   ├── references/              palettes, patterns, motion, asset sourcing, checklists
+│   ├── scripts/                 palette generation, contrast check, extraction, asset fetch, recolor
+│   ├── assets/                  GSAP motion starter and a dependency free fallback
+│   └── ideagram/                vendored illustration-sourcing sub-skill
 └── site/                        the marketing site and live demo
 ```
 

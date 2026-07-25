@@ -47,5 +47,5 @@ body:
           required: true
         - label: White label vs primary passes 4.5:1
           required: true
-        - label: I ran scripts/check_contrast.py and it exits clean
+        - label: I ran skills/tastemaker/scripts/check_contrast.py and it exits clean
           required: true

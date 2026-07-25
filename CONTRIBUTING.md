@@ -14,27 +14,30 @@ If you are not sure where to start, look at issues labeled [`good first issue`](
 
 ## How the repo is laid out
 
-- `SKILL.md` is the workflow the agent follows. Read it first.
-- `references/` holds the deep material: mood ranges and type pairings, layout patterns, motion rules, asset sourcing, and checklists.
-- `scripts/` holds small Python helpers (palette generation, color extraction, contrast checking, asset fetching, recoloring).
-- `assets/` holds the GSAP motion starter and a dependency free fallback.
+- `.claude-plugin/` holds the plugin + marketplace manifests. This is what makes `/plugin install tastemaker@codeswithroh` work. You will rarely need to touch it.
+- `skills/tastemaker/` is the actual skill. Everything below is relative to this folder, not the repo root:
+  - `SKILL.md` is the workflow the agent follows. Read it first.
+  - `references/` holds the deep material: mood ranges and type pairings, layout patterns, motion rules, asset sourcing, and checklists.
+  - `scripts/` holds small Python helpers (palette generation, color extraction, contrast checking, asset fetching, recoloring).
+  - `assets/` holds the GSAP motion starter and a dependency free fallback.
+  - `ideagram/` is the vendored illustration-sourcing sub-skill.
 - `site/` is the marketing site and live demo.
 
-Most contributions touch `references/` (guidance) or `scripts/` (tools).
+Most contributions touch `references/` (guidance) or `scripts/` (tools), both under `skills/tastemaker/`.
 
 ## Local setup
 
 ```bash
 git clone https://github.com/codeswithroh/tastemaker
-cd tastemaker
+cd tastemaker/skills/tastemaker
 pip install Pillow          # only needed for extract_palette.py
 ```
 
-There is no build step. The scripts run directly:
+There is no build step. The scripts run directly (from `skills/tastemaker/`, per the `cd` above):
 
 ```bash
 python3 scripts/check_contrast.py --palette text=050315 bg=fbfbfe primary=2f27ce secondary=dedcff accent=433bff
-python3 scripts/validate_assets.py .github/assets/
+python3 scripts/validate_assets.py ../../.github/assets/
 ```
 
 ## Improving the palette generator
