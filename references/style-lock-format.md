@@ -58,7 +58,7 @@ If a token's value was adjusted mid-build to clear a pairing it originally faile
 ## Density & spacing
 See `references/style-tokens.md`'s Spacing scale section for the token set and the internal ≤ external rule this records.
 - Base unit: 4px (the scale's foundation; name the specific tokens actually in use below, don't just restate this)
-- Section padding: <the one token chosen for this project's section top/bottom padding, e.g. "space-16 (64px)">
+- Section padding (landing/marketing pages): <the tiers actually in use by section weight, not one flat value, e.g. "connective sections: space-16 (64px) · standard sections: space-24 (96px) · pivotal sections (hero, primary proof): space-40 (160px)" — see `references/style-tokens.md`'s Section-level padding section. Omit for app-shell-only projects, which stay on the density guidance instead.>
 - Content card internal padding: <the token used as the floor for feature/pricing/testimonial cards, e.g. "space-6 (24px)">
 - Compact/dense card internal padding: <the token used for stat tiles, nav rows, app-shell list items, e.g. "space-3 (12px)" — only if the project has this context>
 - Showcase/hero card internal padding: <the token used for the one highest-weight card in the layout, e.g. "space-8 (32px)">
