@@ -67,6 +67,7 @@ button { color: inherit; }
 .nav-links { display: flex; gap: 28px; color: var(--muted); font-size: .875rem; }
 .nav-links a, .footer-links a { transition: color .15s ease; }
 .nav-links a:hover, .nav-links a:focus-visible, .footer-links a:hover { color: var(--accent); }
+.nav-links a[aria-current="page"] { color: var(--text); }
 .nav-actions { justify-self: end; display: flex; align-items: center; gap: 8px; }
 .icon-link { display: grid; place-items: center; width: 38px; height: 38px; border: 1px solid var(--border); border-radius: var(--radius-sm); transition: border-color .15s ease; }
 .icon-link img { width: 18px; }
@@ -262,6 +263,27 @@ button { color: inherit; }
 .footer-sponsor svg { flex: none; }
 .footer-sponsor:hover, .footer-sponsor:focus-visible { color: var(--white); }
 .footer-note { color: var(--muted); font: .68rem var(--font-mono); }
+
+.changelog-hero { padding: clamp(150px, 16vw, 200px) 0 clamp(48px, 6vw, 72px); border-bottom: 1px solid var(--border); }
+.changelog-back { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 28px; color: var(--muted); font-size: .84rem; transition: color .15s ease; }
+.changelog-back:hover, .changelog-back:focus-visible { color: var(--accent); }
+.changelog-hero .kicker { margin-bottom: 18px; }
+.changelog-hero h1 { margin: 0; font: 800 clamp(2.75rem, 6vw, 5rem)/.95 var(--font-display); letter-spacing: -.05em; }
+.changelog-hero p { max-width: 56ch; margin: 20px 0 0; color: var(--muted); }
+
+.changelog-list { padding: clamp(48px, 7vw, 90px) 0 clamp(90px, 11vw, 150px); }
+.changelog-group { max-width: 780px; padding: clamp(32px, 4vw, 48px) 0; border-top: 1px solid var(--border); }
+.changelog-group:first-child { border-top: 0; padding-top: 0; }
+.changelog-date { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; color: var(--accent); font: 700 .78rem var(--font-mono); letter-spacing: .04em; text-transform: uppercase; }
+.changelog-date i { padding: 3px 9px; border: 1px solid var(--accent); border-radius: 999px; color: var(--accent); font-style: normal; font-size: .68rem; }
+.changelog-group h2 { margin: 0 0 12px; font: 800 clamp(1.4rem, 2.2vw, 1.85rem)/1.15 var(--font-display); letter-spacing: -.02em; }
+.changelog-group > p { margin: 0 0 18px; color: var(--muted); font-size: .92rem; line-height: 1.6; }
+.changelog-group ul { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
+.changelog-group li { position: relative; padding-left: 20px; color: var(--text); font-size: .92rem; line-height: 1.6; }
+.changelog-group li::before { position: absolute; left: 0; top: .65em; width: 6px; height: 6px; border-radius: 50%; background: var(--border); content: ""; }
+.changelog-group li a { color: var(--muted); font: 600 .78rem var(--font-mono); }
+.changelog-group li a:hover, .changelog-group li a:focus-visible { color: var(--accent); }
+.changelog-group code { padding: 1px 6px; border: 1px solid var(--border); border-radius: 4px; background: var(--surface); font: .84em var(--font-mono); }
 
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
 @media (max-width: 980px) {
