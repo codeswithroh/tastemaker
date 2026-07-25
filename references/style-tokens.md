@@ -197,8 +197,11 @@ Built on a 4px base unit (Tailwind's default, and half of the 8px grid Material 
 | `space-6` | 24px | Group separation: gap between a card's internal sections (heading / body / footer), minimum internal padding for a **content card** (pricing tier, feature card, testimonial) |
 | `space-8` | 32px | Spacious card padding for a card carrying real weight (a highlighted pricing tier, a hero showcase panel); gap between distinct groups within a section |
 | `space-12` | 48px | Small section padding (a compact/dense-mood project); gap between major elements within a hero |
-| `space-16` | 64px | Default section padding (top/bottom) for most moods |
-| `space-24` | 96px | Generous section padding (premium/editorial moods, hero sections specifically) |
+| `space-16` | 64px | Default section padding (top/bottom) for most moods; the floor for a landing page's *lightest* connective sections (a logo strip, a quick transition band) |
+| `space-24` | 96px | Section padding for a section carrying real weight; the floor, not the ceiling, for a landing page's core sections |
+| `space-32` | 128px | Generous section padding for a landing page's pivotal sections (the hero, the primary proof/demo section) |
+| `space-40` | 160px | Near the top of the range for a section meant to be the page's single strongest beat |
+| `space-48` | 192px | The observed ceiling on real, well-separated landing pages — reach for it on the one section that most needs to dominate the page, not as a default |
 
 Skip the gaps between named steps deliberately — 20px, 28px, 40px, 56px are legal but should be rare, reached for only when a specific alignment genuinely needs it, not a default choice. A project that uses six different arbitrary values between 16 and 32 reads as unintentional the same way mixed radius values do.
 
@@ -216,9 +219,23 @@ Generic "add padding" instructions are how cards end up inconsistent. Use a floo
 - **Content card** (a feature card, a pricing tier, a testimonial, anything holding a heading plus body copy): `space-6` (24px) minimum internal padding. This is the floor that was being violated in the pricing-card example that motivated this section — tier name, price, and description sitting close together with no room to breathe.
 - **Showcase/hero card** (a hero's proof visual frame, a highlighted/featured pricing tier): `space-8` (32px) or more. The one card in a layout meant to carry the most visual weight should have the most internal room, not the same padding as everything around it.
 
-### Section-level padding
+### Section-level padding — and why cramped section rhythm is a real, checkable failure
 
-Pick one section padding value for the whole project (from `space-12` through `space-24` depending on density and mood — a "dense/information-heavy" project per `references/style-tokens.md`'s mood-to-density mapping stays at the low end, an "editorial/generous whitespace" project goes higher) and apply it consistently top and bottom on every section. A project that varies section padding per section without a reason reads as unplanned. Column-length imbalance within a section (a tall headline column next to a short card stack) is a separate, real problem, not fixed by more padding — that's tracked and addressed on its own, not by this section.
+This governs **landing/marketing pages specifically.** App shells stay on the density guidance above (compact, information-dense) — don't import this ceiling into a dashboard; a settings screen padded like a hero just wastes vertical space the user has to scroll past.
+
+For a landing page, this is grounded in measurement, not a guess: real, well-separated landing pages (make.design is the reference case this section was written against) run individual section padding in the **`space-16` (64px) to `space-48` (192px)** range per side — not capped at `space-24` (96px) total the way earlier guidance here implied. The combined **boundary gap** between two adjacent sections (one section's bottom padding plus the next section's top padding) commonly lands around **120–250px** on desktop. That gap is what a visitor actually perceives as the pause before the next idea starts — undershoot it and sections blur into one long scroll where nothing gets its own moment, which is exactly the "everything is cramped, no section gets the attention it needs" failure this section exists to prevent.
+
+**Weight the tier by the section's role — don't flatten every section to one repeated value:**
+
+- **Lightweight/connective section** (a logo strip, a quick trust bar, a short transition band between two bigger ideas): `space-12`–`space-16` (48–64px). Real landing pages do this too — not every section needs to compete for the same attention, and a slim connective section padded like a hero reads as padded-for-padding's-sake.
+- **Standard content section** (a typical feature explanation, a testimonial block): `space-16`–`space-24` (64–96px).
+- **Pivotal section** (the hero, the primary proof/demo section, whatever section carries the page's core argument): `space-32`–`space-48` (128–192px). This is the range that was consistently missing from generated output before this section was rewritten — the instinct to cap every section at `space-24` is exactly what makes a page read as cramped even when every individual value is "on the scale."
+
+Consistency belongs at the level of **the rule** (how a tier gets picked, applied the same way project to project), not at the level of forcing every section to an identical number — that flatness is its own tell, the same way a page with one repeated card padding value everywhere reads as unconsidered. Column-length imbalance within a section (a tall headline column next to a short card stack) is a separate, real problem, not fixed by more padding — that's tracked and addressed on its own, not by this section.
+
+**Whitespace alone is a legitimate, often preferred, separation mechanism at this scale** — real landing pages using this generous a padding range frequently carry the same background color straight through and let the padding itself do the work, no alternating tint or divider required. See `references/component-patterns.md`'s Section-to-section separation section for how this interacts with the tint/divider/whitespace-only choice.
+
+**These are desktop values — step them down at narrower widths, don't apply them literally on a phone.** A `space-48` (192px) hero padding is generous on a 1280px viewport and just makes a visitor scroll through empty space on a 375px one. Drop one to two tiers at the mobile breakpoint (a `space-48` pivotal section becomes `space-24`–`space-32` at ≤40rem, a `space-24` standard section becomes `space-16`) — the same relative weighting (pivotal sections still get more than connective ones) holds, the absolute numbers just compress.
 
 ### Radius scale
 
