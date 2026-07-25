@@ -1,0 +1,19 @@
+{
+  "name": "codeswithroh",
+  "description": "Plugin marketplace for codeswithroh's Claude Code tools.",
+  "owner": {
+    "name": "Rohit Purkait",
+    "email": "codeswithroh@gmail.com"
+  },
+  "plugins": [
+    {
+      "name": "tastemaker",
+      "description": "Generate genuinely beautiful, on-brand UI instead of generic AI slop — a generated-per-project palette with a verified contrast contract, real sourced assets, a structural-variety engine, and a numbered anti-slop gate list.",
+      "source": "./",
+      "homepage": "https://tastemaker-skill.online",
+      "repository": "https://github.com/codeswithroh/tastemaker",
+      "license": "MIT",
+      "keywords": ["design", "ui", "frontend", "taste", "anti-slop", "skill"]
+    }
+  ]
+}

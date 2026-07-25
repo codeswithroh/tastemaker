@@ -1,0 +1,11 @@
+{
+  "name": "tastemaker",
+  "description": "Generate genuinely beautiful, on-brand UI instead of generic AI slop — a generated-per-project palette with a verified contrast contract, real sourced assets, a structural-variety engine, and a numbered anti-slop gate list.",
+  "author": {
+    "name": "codeswithroh"
+  },
+  "homepage": "https://tastemaker-skill.online",
+  "repository": "https://github.com/codeswithroh/tastemaker",
+  "license": "MIT",
+  "keywords": ["design", "ui", "frontend", "taste", "anti-slop", "skill"]
+}
