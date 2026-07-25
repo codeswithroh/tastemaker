@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Changelog — Tastemaker</title>
+  <meta name="description" content="Everything that has shipped in Tastemaker, grouped by date, linked to the real pull request behind each change.">
+  <meta property="og:title" content="Changelog — Tastemaker">
+  <meta property="og:description" content="Every real change, grouped by date, linked to the pull request behind it.">
+  <meta name="theme-color" content="#0C1414">
+  <link rel="icon" type="image/svg+xml" href="assets/mark-tastemaker.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;family=IBM+Plex+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="shell nav-shell">
+      <a class="brand" href="index.html" aria-label="Tastemaker home">
+        <img src="assets/mark-tastemaker.svg" alt="">
+        <span>tastemaker</span>
+      </a>
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="index.html#proof">Proof</a>
+        <a href="index.html#workflow">Workflow</a>
+        <a href="index.html#capabilities">What changed</a>
+        <a href="changelog.html" aria-current="page">Changelog</a>
+        <a href="index.html#install">Install</a>
+      </nav>
+      <div class="nav-actions">
+        <a class="icon-link" href="https://github.com/codeswithroh/tastemaker" target="_blank" rel="noopener" aria-label="Open Tastemaker on GitHub"><img src="assets/icons/github.svg" alt=""></a>
+        <a class="icon-link icon-link--sponsor" href="https://github.com/sponsors/codeswithroh" target="_blank" rel="noopener" aria-label="Sponsor Tastemaker on GitHub">
+          <svg viewBox="0 0 16 16" width="18" height="18" aria-hidden="true" focusable="false"><path fill="currentColor" d="M8 14.25a.75.75 0 0 1-.5-.19C4.42 11.35 2 9.2 2 6.5 2 4.5 3.5 3 5.4 3c1.06 0 2.05.5 2.6 1.28C8.55 3.5 9.54 3 10.6 3 12.5 3 14 4.5 14 6.5c0 2.7-2.42 4.85-5.5 7.56a.75.75 0 0 1-.5.19Z"/></svg>
+        </a>
+        <a class="mini-cta" href="index.html#install">Give your agent taste</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="changelog-hero">
+      <div class="shell">
+        <a class="changelog-back" href="index.html">&larr; Back to Tastemaker</a>
+        <div class="kicker">Real history, not a highlight reel</div>
+        <h1>Changelog</h1>
+        <p>Every entry here maps to a real pull request. Grouped by date, newest first &mdash; no invented version numbers, since the project does not cut them yet.</p>
+      </div>
+    </section>
+
+    <section class="changelog-list">
+      <div class="shell">
+
+        <article class="changelog-group" data-reveal>
+          <div class="changelog-date"><span>24 Jul 2026</span><i>Latest</i></div>
+          <h2>Sponsorship, done honestly</h2>
+          <ul>
+            <li>Added GitHub Sponsors support: a repo sponsor button and a README callout. <a href="https://github.com/codeswithroh/tastemaker/pull/43" target="_blank" rel="noopener">#43</a></li>
+            <li>Added a sponsor icon to the site header and footer, matching the existing chrome. <a href="https://github.com/codeswithroh/tastemaker/pull/46" target="_blank" rel="noopener">#46</a></li>
+          </ul>
+        </article>
+
+        <article class="changelog-group" data-reveal>
+          <div class="changelog-date"><span>23 Jul 2026</span></div>
+          <h2>Closed the structural gap: variety, gates, and verbs</h2>
+          <p>Studied the strongest anti-slop design skill in the field to find what it did that Tastemaker didn't, then shipped a three-phase upgrade that kept Tastemaker's own edge (a generated palette per project, real sourced assets) while closing the structural gap.</p>
+          <ul>
+            <li>Shipped a structure engine: named macrostructures and a component catalog with a project-memory rule, so page shape varies project to project the way color already does. <a href="https://github.com/codeswithroh/tastemaker/pull/40" target="_blank" rel="noopener">#40</a></li>
+            <li>Turned the anti-slop checklist into a numbered, mood-scoped 47-gate list with a pre-emit self-critique pass. <a href="https://github.com/codeswithroh/tastemaker/pull/41" target="_blank" rel="noopener">#41</a></li>
+            <li>Added <code>study</code> and <code>audit</code> modes: extract design DNA from a reference, or grade existing UI against the gate list, without editing it. <a href="https://github.com/codeswithroh/tastemaker/pull/42" target="_blank" rel="noopener">#42</a></li>
+            <li>Fixed a real hero headline clipping bug (descenders touching the line below) and set a hard line-height floor. <a href="https://github.com/codeswithroh/tastemaker/pull/32" target="_blank" rel="noopener">#32</a></li>
+            <li>Hero headline size now scales with word count instead of one fixed size for every length. <a href="https://github.com/codeswithroh/tastemaker/pull/33" target="_blank" rel="noopener">#33</a></li>
+            <li>Added deliberate column-balance and one consistent section-separation rule for two-column layouts. <a href="https://github.com/codeswithroh/tastemaker/pull/34" target="_blank" rel="noopener">#34</a></li>
+            <li>Chart and graph cards now require a caption, and generated chart geometry gets an actual sanity check before shipping. <a href="https://github.com/codeswithroh/tastemaker/pull/35" target="_blank" rel="noopener">#35</a></li>
+            <li>Defined an explicit fallback path for a color pairing that fails contrast, instead of leaving it to chance. <a href="https://github.com/codeswithroh/tastemaker/pull/36" target="_blank" rel="noopener">#36</a></li>
+            <li>Widened icon-set variation per mood and rewrote the README's monoculture claim to match what actually ships. <a href="https://github.com/codeswithroh/tastemaker/pull/37" target="_blank" rel="noopener">#37</a></li>
+            <li>Documented a verified runtime dark/light toggle as a first-class, contrast-checked option. <a href="https://github.com/codeswithroh/tastemaker/pull/38" target="_blank" rel="noopener">#38</a></li>
+            <li>Added a typography model for non-Latin scripts, with Korean and Pretendard as the worked example. <a href="https://github.com/codeswithroh/tastemaker/pull/39" target="_blank" rel="noopener">#39</a></li>
+          </ul>
+        </article>
+
+        <article class="changelog-group" data-reveal>
+          <div class="changelog-date"><span>22 Jul 2026</span></div>
+          <h2>App shells, spacing, and the site's own hero</h2>
+          <ul>
+            <li>Added a real app-shell layout pattern for dashboards and internal tools, replacing a three-bullet stub. <a href="https://github.com/codeswithroh/tastemaker/pull/25" target="_blank" rel="noopener">#25</a></li>
+            <li>Added a proper spacing scale: internal card padding never exceeds the external gap around it. <a href="https://github.com/codeswithroh/tastemaker/pull/30" target="_blank" rel="noopener">#30</a></li>
+            <li>Gave the site's own hero motion a safety net, so a stalled animation can never leave the page invisible. <a href="https://github.com/codeswithroh/tastemaker/pull/23" target="_blank" rel="noopener">#23</a></li>
+            <li>Updated the README banner to match the site's current visual identity. <a href="https://github.com/codeswithroh/tastemaker/pull/24" target="_blank" rel="noopener">#24</a></li>
+          </ul>
+        </article>
+
+        <article class="changelog-group" data-reveal>
+          <div class="changelog-date"><span>21 Jul 2026</span></div>
+          <h2>The palette generator replaces five fixed presets</h2>
+          <ul>
+            <li>Replaced five fixed palettes with a real per-project generator: a fresh hue and harmony, solved against a contrast contract, every run. <a href="https://github.com/codeswithroh/tastemaker/pull/18" target="_blank" rel="noopener">#18</a></li>
+            <li>Rewrote the README and CONTRIBUTING to match, and dropped the preset framing everywhere it had lingered. <a href="https://github.com/codeswithroh/tastemaker/pull/19" target="_blank" rel="noopener">#19</a></li>
+            <li>Rewrote the positioning to answer "why not just prompt it" directly, and separated what's actually verified from what's judgment. <a href="https://github.com/codeswithroh/tastemaker/pull/17" target="_blank" rel="noopener">#17</a></li>
+            <li>Added a motion track for app shells, distinct from marketing-page scroll storytelling. <a href="https://github.com/codeswithroh/tastemaker/pull/20" target="_blank" rel="noopener">#20</a></li>
+            <li>Varied the icon set by mood instead of shipping one fixed set for every project. <a href="https://github.com/codeswithroh/tastemaker/pull/21" target="_blank" rel="noopener">#21</a></li>
+            <li>Added a real, same-prompt before/after comparison, above the fold on the site. <a href="https://github.com/codeswithroh/tastemaker/pull/22" target="_blank" rel="noopener">#22</a></li>
+            <li>Revamped the marketing site and cleaned up the hero defaults.</li>
+          </ul>
+        </article>
+
+        <article class="changelog-group" data-reveal>
+          <div class="changelog-date"><span>20 Jul 2026</span></div>
+          <h2>The contrast contract, and turning the checklist on the site itself</h2>
+          <ul>
+            <li>Added the contrast contract: a <code>--matrix</code> mode that computes every legal color pairing and records it in the style lock. <a href="https://github.com/codeswithroh/tastemaker/pull/16" target="_blank" rel="noopener">#16</a></li>
+            <li>Fixed anti-slop violations on the demo and marketing pages themselves, caught by running the skill's own checklist against its own site. <a href="https://github.com/codeswithroh/tastemaker/pull/13" target="_blank" rel="noopener">#13</a>, <a href="https://github.com/codeswithroh/tastemaker/pull/15" target="_blank" rel="noopener">#15</a></li>
+            <li>Added the "AI taste" aesthetic tells, pill eyebrows and monospace body copy among them, to the anti-slop checklist. <a href="https://github.com/codeswithroh/tastemaker/pull/14" target="_blank" rel="noopener">#14</a></li>
+          </ul>
+        </article>
+
+        <article class="changelog-group" data-reveal>
+          <div class="changelog-date"><span>18 Jul 2026</span></div>
+          <h2>Ready for open source</h2>
+          <ul>
+            <li>Prepared the repo for open source: a real README, CONTRIBUTING, code of conduct, and issue templates.</li>
+          </ul>
+        </article>
+
+        <article class="changelog-group" data-reveal>
+          <div class="changelog-date"><span>12 Jul 2026</span></div>
+          <h2>The marketing site and live demo</h2>
+          <ul>
+            <li>Added the marketing site and a live, real demo, not a screenshot standing in for one.</li>
+          </ul>
+        </article>
+
+        <article class="changelog-group" data-reveal>
+          <div class="changelog-date"><span>11 Jul 2026</span></div>
+          <h2>Real illustrations, real logos</h2>
+          <ul>
+            <li>Vendored the <code>ideagram</code> illustration workflow directly into the skill, so it never depends on a separate install.</li>
+            <li>Enforced visual-over-text as a hard default, and real constructed logo marks instead of a letter in a box.</li>
+          </ul>
+        </article>
+
+        <article class="changelog-group" data-reveal>
+          <div class="changelog-date"><span>10 Jul 2026</span><i>First release</i></div>
+          <h2>Tastemaker, initial version</h2>
+          <ul>
+            <li>Attribution-free asset sourcing by default: Openverse for photos, Streamline as a co-equal illustration source.</li>
+            <li>GSAP motion wired in by default, not an optional add-on.</li>
+            <li>A real illustration and motion system, built to be a first pass, not a placeholder.</li>
+          </ul>
+        </article>
+
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="shell footer-layout">
+      <a class="brand" href="index.html"><img src="assets/mark-tastemaker.svg" alt=""><span>tastemaker</span></a>
+      <div class="footer-note">Built with the workflow it documents.</div>
+      <div class="footer-links"><a href="https://github.com/codeswithroh/tastemaker" target="_blank" rel="noopener">GitHub</a><a href="https://github.com/codeswithroh/tastemaker/blob/main/README.md" target="_blank" rel="noopener">Docs</a><a href="https://github.com/codeswithroh/tastemaker/blob/main/LICENSE" target="_blank" rel="noopener">MIT License</a><a class="footer-sponsor" href="https://github.com/sponsors/codeswithroh" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true" focusable="false"><path fill="currentColor" d="M8 14.25a.75.75 0 0 1-.5-.19C4.42 11.35 2 9.2 2 6.5 2 4.5 3.5 3 5.4 3c1.06 0 2.05.5 2.6 1.28C8.55 3.5 9.54 3 10.6 3 12.5 3 14 4.5 14 6.5c0 2.7-2.42 4.85-5.5 7.56a.75.75 0 0 1-.5.19Z"/></svg>Sponsor</a></div>
+    </div>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
