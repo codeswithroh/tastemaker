@@ -45,7 +45,7 @@
         <a class="changelog-back" href="index.html">&larr; Back to Tastemaker</a>
         <div class="kicker">Real history, not a highlight reel</div>
         <h1>Changelog</h1>
-        <p>Every entry here maps to a real pull request. Grouped by date, newest first &mdash; no invented version numbers, since the project does not cut them yet.</p>
+        <p>Every entry here maps to a real pull request. Grouped by date, newest first &mdash; the skill now carries a real version (<a href="https://github.com/codeswithroh/tastemaker/blob/main/CHANGELOG.md" target="_blank" rel="noopener">see CHANGELOG.md</a> for the version history); this page stays the detailed, per-PR record.</p>
       </div>
     </section>
 
@@ -53,7 +53,33 @@
       <div class="shell">
 
         <article class="changelog-group" data-reveal>
-          <div class="changelog-date"><span>24 Jul 2026</span><i>Latest</i></div>
+          <div class="changelog-date"><span>26 Jul 2026</span><i>Latest</i></div>
+          <h2>Storytelling, sizing, and a scoped motion decision</h2>
+          <p>Real critique of a generated site (headings too big, thin on visual density, no story from section to section) turned into three shipped fixes, ranked and worked in order — plus a from-scratch evaluation of anime.js as a second motion engine, decided on real bundle-size measurements and hands-on browser testing, not a docs skim.</p>
+          <ul>
+            <li>Added a narrative-arc discipline (StoryBrand/PAS-grounded, six beats: hook, problem, solution, how-it-works, proof, close) so generated sections build an argument instead of just varying in shape. <a href="https://github.com/codeswithroh/tastemaker/pull/64" target="_blank" rel="noopener">#64</a></li>
+            <li>Capped headline sizing below 6 words (no more one-word-per-line hero text) and gave non-hero section headlines their own, smaller ceiling. <a href="https://github.com/codeswithroh/tastemaker/pull/65" target="_blank" rel="noopener">#65</a></li>
+            <li>Gave proof/evidence sections a real visual-density floor — a label, description, and small icon is not enough to carry a proof beat. <a href="https://github.com/codeswithroh/tastemaker/pull/66" target="_blank" rel="noopener">#66</a></li>
+            <li>Evaluated anime.js as a motion engine: measured actual bundle sizes, hand-built and browser-tested a starter, and adopted it as a scoped alternative for SVG motion-path/shape-morphing only — GSAP stays the default everywhere else. <a href="https://github.com/codeswithroh/tastemaker/pull/67" target="_blank" rel="noopener">#67</a></li>
+            <li>Added a copyable <code>npx skills add</code> command to the site's hero, matching the reference's placement in our own visual language. <a href="https://github.com/codeswithroh/tastemaker/pull/59" target="_blank" rel="noopener">#59</a></li>
+            <li>Recorded a positioning decision: the generative core stays free and MIT, specialized aesthetic variants become the paid differentiator. <a href="https://github.com/codeswithroh/tastemaker/pull/69" target="_blank" rel="noopener">#69</a></li>
+            <li>Drafted a Vercel Open Source Program application and a sponsor-outreach kit (materials only, not sent). <a href="https://github.com/codeswithroh/tastemaker/pull/70" target="_blank" rel="noopener">#70</a></li>
+          </ul>
+        </article>
+
+        <article class="changelog-group" data-reveal>
+          <div class="changelog-date"><span>25 Jul 2026</span></div>
+          <h2>Plugin marketplace, real section spacing, and this changelog</h2>
+          <ul>
+            <li>Registered as a Claude Code plugin marketplace, restructuring the skill under <code>skills/tastemaker/</code>. <a href="https://github.com/codeswithroh/tastemaker/pull/57" target="_blank" rel="noopener">#57</a></li>
+            <li>Fixed <code>npx skills add</code> compatibility — a colon in the SKILL.md description was breaking a YAML parser, fixed with a one-character change and zero content loss. <a href="https://github.com/codeswithroh/tastemaker/pull/58" target="_blank" rel="noopener">#58</a></li>
+            <li>Measured <a href="https://make.design/" target="_blank" rel="noopener">make.design</a>'s actual section spacing via DOM introspection (not eyeballing) and rewrote the spacing scale's section-padding ceiling to match what real premium pages use. <a href="https://github.com/codeswithroh/tastemaker/pull/48" target="_blank" rel="noopener">#48</a></li>
+            <li>Added this changelog page. <a href="https://github.com/codeswithroh/tastemaker/pull/47" target="_blank" rel="noopener">#47</a></li>
+          </ul>
+        </article>
+
+        <article class="changelog-group" data-reveal>
+          <div class="changelog-date"><span>24 Jul 2026</span></div>
           <h2>Sponsorship, done honestly</h2>
           <ul>
             <li>Added GitHub Sponsors support: a repo sponsor button and a README callout. <a href="https://github.com/codeswithroh/tastemaker/pull/43" target="_blank" rel="noopener">#43</a></li>
