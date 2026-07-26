@@ -2,11 +2,11 @@
   <img src=".github/assets/banner.svg" alt="tastemaker" width="100%">
 
   <p>
-    <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-34D399?style=flat-square" alt="MIT License"></a>
-    <a href="https://github.com/codeswithroh/tastemaker/stargazers"><img src="https://img.shields.io/github/stars/codeswithroh/tastemaker?style=flat-square&color=34D399&label=stars" alt="Stars"></a>
-    <a href="CONTRIBUTING.md"><img src="https://img.shields.io/badge/PRs-welcome-047857?style=flat-square" alt="PRs welcome"></a>
-    <img src="https://img.shields.io/badge/Claude%20Code-skill-34D399?style=flat-square" alt="Claude Code skill">
-    <a href="https://tastemaker-ai-skill.netlify.app"><img src="https://img.shields.io/badge/live-demo-047857?style=flat-square" alt="Live demo"></a>
+    <a href="LICENSE"><img src=".github/assets/badges/license.svg" alt="MIT License"></a>
+    <a href="https://github.com/codeswithroh/tastemaker/stargazers"><img src="https://img.shields.io/github/stars/codeswithroh/tastemaker?style=flat-square&color=BE85CE&label=stars&labelColor=171F1F" alt="Stars"></a>
+    <a href="CONTRIBUTING.md"><img src=".github/assets/badges/prs-welcome.svg" alt="PRs welcome"></a>
+    <img src=".github/assets/badges/claude-code-skill.svg" alt="Claude Code skill">
+    <a href="https://tastemaker-ai-skill.netlify.app"><img src=".github/assets/badges/live-demo.svg" alt="Live demo"></a>
   </p>
 
   <p><b>A skill that gives AI real design taste, so the UI it builds does not look AI-generated.</b></p>
@@ -30,7 +30,7 @@
 
 ## What this is
 
-Tastemaker is a skill for coding agents (Claude Code, Cursor, Windsurf). You install it once and forget it. Whenever you ask your agent to build or style a UI, tastemaker steps in and gives it a real design system to work from, instead of the generic defaults every model reaches for.
+Tastemaker is a skill for coding agents. Native support: Claude Code (recommended) and Windsurf. You install it once and forget it. Whenever you ask your agent to build or style a UI, tastemaker steps in and gives it a real design system to work from, instead of the generic defaults every model reaches for.
 
 It is plain Markdown and small Python scripts. Everything runs on your machine. There is no hosted backend, no account, and no API key.
 
@@ -89,14 +89,16 @@ Do not read the contrast script as evidence that the design is good. Read it as 
 /plugin install tastemaker@codeswithroh
 ```
 
-**Manual install**, for Claude Code without the plugin system, or for Cursor/Windsurf: clone the repo, then copy or symlink the `skills/tastemaker` folder specifically (not the whole repo) into your tool's skills directory:
+**Manual install**, for Claude Code without the plugin system, or for Windsurf: clone the repo, then copy or symlink the `skills/tastemaker` folder specifically (not the whole repo) into your tool's skills directory:
 
 ```bash
 git clone https://github.com/codeswithroh/tastemaker /tmp/tastemaker
 cp -r /tmp/tastemaker/skills/tastemaker ~/.claude/skills/tastemaker
 ```
 
-> Using Cursor or Windsurf? Same copy, into their skills directory instead.
+> Using Windsurf? Same copy, into `.windsurf/skills/` instead. Windsurf reads the native `SKILL.md` format directly, `references/` and all.
+
+**Cursor: not a straight copy, and currently degraded even then.** Cursor doesn't read `SKILL.md` natively; it needs conversion to its own `.mdc` rule format (via a tool like [openskills](https://github.com/numman-ali/openskills)), and that conversion strips out supporting directories entirely. Since nearly all of tastemaker's actual mechanism lives in `references/` (the palette contract, macrostructure catalog, anti-slop gates) and `scripts/` (the palette generator, contrast checker), a Cursor install currently loses the parts that make tastemaker work, not just a cosmetic difference. Verified against Cursor's actual conversion behavior rather than assumed from the plugin-format similarity to Claude Code. Until Cursor ships native `SKILL.md` support with subdirectories intact, don't expect full functionality there.
 
 Restart your agent, then just ask:
 
@@ -204,6 +206,20 @@ If tastemaker saved you from one more indigo gradient, a star helps other builde
 tastemaker is free, MIT licensed, and built in the open. If it saves you time or makes something you ship look better, sponsoring helps keep the palette generator, the asset pipeline, and the pattern library maintained.
 
 [Sponsor on GitHub](https://github.com/sponsors/codeswithroh)
+
+### Community sponsors
+
+No community sponsors yet. The moment GitHub Sponsors gets its first backer, their avatar goes here.
+
+### Star history
+
+<a href="https://star-history.com/#codeswithroh/tastemaker&Date">
+  <img src="https://api.star-history.com/svg?repos=codeswithroh/tastemaker&type=Date" alt="Star history chart for codeswithroh/tastemaker" width="100%">
+</a>
+
+---
+
+**tastemaker has no official token, coin, or crypto project.** Any token using this project's name, logo, or branding is unaffiliated and not endorsed by the maintainer.
 
 ## License
 
