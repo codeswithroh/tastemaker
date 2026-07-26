@@ -20,6 +20,11 @@ The style lock is stack-agnostic; here's how to turn it into real config/code pe
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="gsap-starter.js"></script>
   ```
+- anime.js: only for the scoped case in `references/animation-guidelines.md`'s anime.js section (SVG motion-path/shape-morph, alone or combined with scroll-reveals) — not a general reveal-only substitute for GSAP. `assets/anime-starter.js` is written for this same CDN setup:
+  ```html
+  <script src="https://unpkg.com/animejs@4/dist/bundles/anime.umd.min.js"></script>
+  <script src="anime-starter.js"></script>
+  ```
 
 ## SwiftUI
 - Define a `Color` and `Font` extension (or an `.xcassets` color set) mirroring the lock's palette/type roles, so views reference `Color.accent`/`Font.heading` rather than literal `Color(hex:)` calls scattered through views.
