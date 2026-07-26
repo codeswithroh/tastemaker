@@ -173,6 +173,7 @@ This is what makes the second project faster than the first, and the tenth faste
 |---|---|
 | `assets/gsap-starter.js` | **Default motion for every project.** Wires the `data-reveal`/`data-reveal-group` markup convention to GSAP + ScrollTrigger — reduced-motion-aware via `gsap.matchMedia()`. Requires GSAP/ScrollTrigger loaded first (see `references/tech-stack-guides.md` for CDN vs. npm per stack). |
 | `assets/reveal.css` + `assets/reveal.js` | Fallback only, for contexts that can't take a GSAP dependency — same markup convention as `gsap-starter.js`, so switching between them requires no markup changes. |
+| `assets/anime-starter.js` | Scoped alternative, not a default swap — only when a page needs SVG motion-path/shape-morphing (alone or combined with scroll-reveals), per `references/animation-guidelines.md`'s anime.js section. Same `data-reveal`/`data-reveal-group` markup convention. |
 
 ## A note on honesty
 
