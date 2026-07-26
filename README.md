@@ -19,6 +19,7 @@
     <a href="#what-is-verified-and-what-is-judgment">What is verified</a> &nbsp;·&nbsp;
     <a href="#what-you-get">Features</a> &nbsp;·&nbsp;
     <a href="#the-palette-generator">Palette generator</a> &nbsp;·&nbsp;
+    <a href="#research">Research</a> &nbsp;·&nbsp;
     <a href="#contributing">Contributing</a>
   </p>
 
@@ -166,6 +167,15 @@ I wrote up why I built this and how it works:
 
 **[Every AI built site looks the same, so I built a skill that locks taste before any code is written](https://dev.to/codeswithroh/every-ai-built-site-looks-the-same-so-i-built-a-skill-that-locks-taste-before-any-code-is-written-4f6d)**
 
+## Research
+
+Background writing that shaped tastemaker's rules: a real question, a real method (something measured, read, or tested), and a link to the PR that shipped the result. Not a restatement of a PR description as if it were independent research.
+
+- **[Real section spacing, measured, not guessed](research/section-spacing-measurement.md)**
+- **[Studying Hallmark: what a 15.7k-star anti-slop skill does that we didn't](research/hallmark-architecture-study.md)**
+- **[The contrast check certifies the palette as authored, not as used](research/contrast-as-authored-vs-as-used.md)**
+- **[Non-Latin script typography isn't a font swap, it changes the model](research/non-latin-typography.md)**
+
 ## Project layout
 
 ```
@@ -177,6 +187,7 @@ tastemaker/
 │   ├── scripts/                 palette generation, contrast check, extraction, asset fetch, recolor
 │   ├── assets/                  GSAP motion starter and a dependency free fallback
 │   └── ideagram/                vendored illustration-sourcing sub-skill
+├── research/                    background investigation behind the skill's rules
 └── site/                        the marketing site and live demo
 ```
 
