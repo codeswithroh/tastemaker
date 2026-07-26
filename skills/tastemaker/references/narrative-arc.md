@@ -16,7 +16,7 @@ Six beats, adapted from StoryBrand/PAS into what a page actually builds:
 2. **Problem / stakes** — what's actually broken or at risk. Specific to *this* product, never generic ("teams struggle with X" is not a story beat — it's a placeholder for one). This is StoryBrand's Problem plus a dose of Failure: what happens if nothing changes.
 3. **Solution / mechanism** — how the product actually solves it, *shown* per the show-don't-tell table in `references/component-patterns.md`, not just asserted. This is StoryBrand's Guide moment — the product demonstrates it understands the problem and has the authority to fix it.
 4. **How it works** — the concrete steps or flow. StoryBrand's Plan: keep it simple, a handful of steps, not an exhaustive manual.
-5. **Proof** — real evidence: logos, a testimonial, real numbers. Honest per the existing no-invented-metrics rule (`references/anti-slop-checklist.md` gate 44) — a fabricated proof beat is worse than no proof beat.
+5. **Proof** — real evidence: logos, a testimonial, real numbers. Honest per the existing no-invented-metrics rule (`references/anti-slop-checklist.md` gate 45) — a fabricated proof beat is worse than no proof beat.
 6. **Close / CTA** — the ask, tied back to the hook's promise. StoryBrand's Success: what the visitor's world looks like after they act.
 
 ## Mapping beats to archetypes (the arc picks the job; the catalog still picks the look)
@@ -27,7 +27,7 @@ Six beats, adapted from StoryBrand/PAS into what a page actually builds:
 | Problem / stakes | A section built from prose + a supporting visual (an `F#` band showing the *broken* state, a before/after), or folded into the hero's subhead for a short arc | Rarely needs its own dedicated archetype — often the shortest, sharpest beat on the page. Resist turning it into a wall of text just because it doesn't map to a named archetype. |
 | Solution / mechanism | `F1` alternating bands, `F2` bento tiles, `F5` annotated capture | Pick per the show-don't-tell table — this beat exists specifically to *show* the fix. |
 | How it works | `F4` numbered step sequence, `F3` spec sheet, `F6` spec sheet for technical detail | Keep it simple — 3-5 steps, not an exhaustive walkthrough. |
-| Proof | `P1` logo wall, `P2` pull-quote, `P3` single quote, `P4` stat strip | Every number and quote real, per gate 44. |
+| Proof | `P1` logo wall, `P2` pull-quote, `P3` single quote, `P4` stat strip | Every number and quote real, per gate 45. |
 | Close | `C1` inline form, `C2` statement + action, `C4` sticky bar | Echo the hook's actual promise, don't introduce a new pitch here. |
 
 ## Minimum section count: 4-5

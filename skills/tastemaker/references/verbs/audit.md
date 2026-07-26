@@ -14,7 +14,7 @@ The user says "audit this," "why does this look AI-generated," "what's wrong wit
 
 ## How to score
 
-Grade against `references/anti-slop-checklist.md` — the 49 numbered gates and the six pre-emit axes. For each finding, return:
+Grade against `references/anti-slop-checklist.md` — the 50 numbered gates and the six pre-emit axes. For each finding, return:
 
 - **Gate** — the numbered gate (or critique axis) it fails, by number.
 - **Where** — file path + line range (code), or the section (rendered/screenshot).
@@ -30,7 +30,7 @@ The gate list is mood-scoped — several gates loosen or tighten per mood (zero-
 - If the file carries a tastemaker build stamp naming a mood (`mood: technical`), apply that mood's gate scoping.
 - If there's no stamp, infer the mood from the design and say which you assumed — so the user can correct a wrong read before trusting the grade.
 
-## Two structural checks the gate list alone won't catch
+## Structural checks the gate list's numbering alone won't catch
 
 1. **Structural fingerprint.** Even if every visual token is clean, if the page is the generic AI template — centered hero, three equal feature cards, testimonial, CTA, footer, with no asymmetry or surprise — flag it `critical: generic template` (gate 2). A technically-clean page that's structurally the default still reads as generated.
 2. **Narrative coherence (gate 4).** Independent of the structural fingerprint check: read the page top to bottom and name what each section is doing in the argument (hook/problem/solution/how-it-works/proof/close per `references/narrative-arc.md`). A page can have a real, varied macrostructure and still fail this — flag `major: no throughline` if sections read as an unconnected sequence, `major: thin arc` if fewer than four real beats are present, or `major: generic problem beat` if the problem/stakes section is a placeholder sentence rather than something specific to the actual product.
