@@ -22,15 +22,16 @@ Read this file top to bottom before starting. It's short by design; the referenc
 
 ## Modes
 
-Tastemaker has one default behavior and two explicit verbs. Detect which one the request is before starting — most requests are the default.
+Tastemaker has one default behavior and three explicit verbs. Detect which one the request is before starting — most requests are the default.
 
 | Mode | When | What it does |
 |---|---|---|
 | **build** *(default)* | The user asks to design, build, style, or improve UI. | The **Workflow** below (Steps 0-5). |
 | **study** | The user pastes a screenshot or URL of a design they admire and wants to learn from it — "study this," "what makes this work," "match this vibe." | Extract the reusable **DNA** (macrostructure, archetypes, type pairing, color anchor) — never the pixels — into a diagnosis, then optionally build the user's own content with it or lock it into the style lock. Load `references/verbs/study.md` first. |
 | **audit** | The user points at existing UI and wants a critique, not a change — "audit this," "why does this look AI-generated," "review this page." | Score it against the numbered gate list in `references/anti-slop-checklist.md`, return a ranked punch list by severity. **Does not edit.** Load `references/verbs/audit.md` first. |
+| **comps** | The user wants reference comps only, not a built page — "give me some comps," "mock up a few hero options," a brand-kit board before committing to code. | Reuse the palette generator, macrostructure/component-catalog picks, and logo-sourcing rules to build a structured brief per comp, handed off to the user's own image generator (ChatGPT Images, Codex image mode, etc.) — tastemaker doesn't call an image API itself. Writes `.tastemaker/comps-brief.md` so a later build pass can pick up the same palette/structure decisions instead of re-deriving them. Load `references/verbs/comps.md` first. |
 
-If a request doesn't clearly map to `study` or `audit`, it's the default build. If the user pastes a reference image or URL with no verb, ask once whether to `study` it (extract reusable DNA) or treat it as a reference to ground a fresh build (Step 2's extract-palette path). A follow-up like "now fix it" after an `audit`, or "build it" after a `study`, hands off into the build Workflow.
+If a request doesn't clearly map to `study`, `audit`, or `comps`, it's the default build. If the user pastes a reference image or URL with no verb, ask once whether to `study` it (extract reusable DNA) or treat it as a reference to ground a fresh build (Step 2's extract-palette path). A follow-up like "now fix it" after an `audit`, "build it" after a `study`, or "now build this for real" after `comps`, hands off into the build Workflow.
 
 ## Workflow
 
@@ -142,6 +143,7 @@ This is what makes the second project faster than the first, and the tenth faste
 | `references/diversification.md` | Step 2.5 / Step 4 — the project-memory engine (`.tastemaker/log.json`), the rotation rule that forces each build to differ structurally from the last, and the build-stamp format |
 | `references/verbs/study.md` | The `study` verb — extracting reusable design DNA from a screenshot or URL (never pixels), then building from it or locking it |
 | `references/verbs/audit.md` | The `audit` verb — scoring existing UI against the numbered gate list and returning a ranked punch list, without editing |
+| `references/verbs/comps.md` | The `comps` verb — building an image-generator brief from the palette generator + structure engine + logo-sourcing rules, for reference comps before any code exists |
 | `references/component-patterns.md` | Choosing a layout pattern for a given screen type (landing, app shell/dashboard, pricing, onboarding, empty states) |
 | `references/hero-guidelines.md` | Building or revising any landing-page hero — attention budget, copy limits, single-focus visual, responsive and motion checks |
 | `references/logo-sourcing.md` | Step 3 — preserving an existing identity, or designing a real cold-start mark (no letter-in-a-box) + wordmark and favicons |
