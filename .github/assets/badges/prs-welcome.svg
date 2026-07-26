@@ -1,0 +1,5 @@
+<svg width="140" height="28" viewBox="0 0 140 28" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="PRs Welcome">
+  <rect x="0.5" y="0.5" width="139" height="27" rx="14" fill="#171F1F" stroke="#232B2C"/>
+  <circle cx="18" cy="14" r="4" fill="#BE85CE"/>
+  <text x="32" y="18" font-family="Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="700" fill="#E5F6F6">PRs Welcome</text>
+</svg>

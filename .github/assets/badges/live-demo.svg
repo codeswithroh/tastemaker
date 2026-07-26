@@ -1,0 +1,5 @@
+<svg width="118" height="28" viewBox="0 0 118 28" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Live demo">
+  <rect x="0.5" y="0.5" width="117" height="27" rx="14" fill="#008286" stroke="#008286"/>
+  <circle cx="18" cy="14" r="4" fill="#0C1414"/>
+  <text x="32" y="18" font-family="Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="700" fill="#0C1414">Live demo &#8594;</text>
+</svg>
