@@ -16,7 +16,7 @@ Six beats, adapted from StoryBrand/PAS into what a page actually builds:
 2. **Problem / stakes** — what's actually broken or at risk. Specific to *this* product, never generic ("teams struggle with X" is not a story beat — it's a placeholder for one). This is StoryBrand's Problem plus a dose of Failure: what happens if nothing changes.
 3. **Solution / mechanism** — how the product actually solves it, *shown* per the show-don't-tell table in `references/component-patterns.md`, not just asserted. This is StoryBrand's Guide moment — the product demonstrates it understands the problem and has the authority to fix it.
 4. **How it works** — the concrete steps or flow. StoryBrand's Plan: keep it simple, a handful of steps, not an exhaustive manual.
-5. **Proof** — real evidence: logos, a testimonial, real numbers. Honest per the existing no-invented-metrics rule (`references/anti-slop-checklist.md` gate 45) — a fabricated proof beat is worse than no proof beat.
+5. **Proof** — real evidence: logos, a testimonial, real numbers. Honest per the existing no-invented-metrics rule (`references/anti-slop-checklist.md` gate 45) — a fabricated proof beat is worse than no proof beat. Also has its own visual-density floor: a label + description + small icon in a bordered box is not enough to carry a proof beat — see `references/component-patterns.md`'s show-don't-tell section for the specific floor.
 6. **Close / CTA** — the ask, tied back to the hook's promise. StoryBrand's Success: what the visitor's world looks like after they act.
 
 ## Mapping beats to archetypes (the arc picks the job; the catalog still picks the look)
