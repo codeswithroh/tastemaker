@@ -14,10 +14,10 @@ I maintain **tastemaker**, an open-source Claude Code skill that stops AI coding
 
 **Why [company] specifically:** [insert the one-line rationale from sponsor-targets.md's table — e.g. "your creative-editor SDK solves the exact 'help developers not build ugly UI' problem tastemaker's generative engine solves on the AI-coding side" for IMG.LY, or "tastemaker's asset pipeline already documents Recraft as a recommended tool in its enrichment tiers" for Recraft].
 
-**The ask:** sponsorship at whatever tier makes sense on your end — even a small one. In return: a logo + link placement in the project README's sponsors section and on the marketing site (tastemaker-skill.online), both already built and ready to add a logo to today, not a future promise.
+**The ask:** sponsorship at whatever tier makes sense on your end — even a small one. In return: a logo + link placement in the project README's sponsors section and on the marketing site (tastemaker-ai-skill.netlify.app), both already built and ready to add a logo to today, not a future promise.
 
 Repo: https://github.com/codeswithroh/tastemaker
-Site: https://tastemaker-skill.online
+Site: https://tastemaker-ai-skill.netlify.app
 
 Happy to answer anything or hop on a quick call. Thanks for considering it either way.
 
