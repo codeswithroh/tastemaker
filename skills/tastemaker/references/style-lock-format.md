@@ -66,8 +66,9 @@ See `references/style-tokens.md`'s Spacing scale section for the token set and t
 - Section separation: <"alternating surface tint" | "hairline divider" | "fixed section padding, no tint/divider" — see `references/component-patterns.md`'s Section-to-section separation section; apply the same choice at every section boundary in the project>
 
 ## Structure
-The whole-page composition, recorded so a multi-page project stays coherent and so later builds can rotate against what's been done — see `references/macrostructures.md`, `references/component-catalog.md`, and `references/diversification.md`. Omit for app-shell-only projects (their shape is the sidebar+topbar frame in `references/component-patterns.md`).
+The whole-page composition, recorded so a multi-page project stays coherent and so later builds can rotate against what's been done — see `references/macrostructures.md`, `references/component-catalog.md`, `references/narrative-arc.md`, and `references/diversification.md`. Omit for app-shell-only projects (their shape is the sidebar+topbar frame in `references/component-patterns.md`).
 - Macrostructure(s) used: <the named page shape(s) this project's marketing pages use, e.g. "landing: Feature Stack; about: Editorial Index">
+- Narrative arc per page: <the beat sequence and which archetype carries each, e.g. "landing: hook(H2) -> problem(prose) -> solution(F1) -> how(F4) -> proof(P4) -> close(C2), no beats skipped" — see `references/narrative-arc.md`>
 - Shared chrome (stays consistent across the project's pages): <nav archetype + footer archetype, e.g. "Nav N2 balanced product bar; Footer Ft1 masthead">
 - Per-page body archetypes: <the hero/feature/proof/CTA picks per page, e.g. "landing: H2 split-demo · F1 bands · P1 logo-wall · C2 statement">
 - Build stamp / log: <note that `.tastemaker/log.json` carries the per-build record; the CSS stamp format is in `references/diversification.md`>
