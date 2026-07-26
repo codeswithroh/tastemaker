@@ -1,6 +1,5 @@
 const initSite = () => {
-  const copyButton = document.querySelector("[data-copy]");
-  if (copyButton) {
+  document.querySelectorAll("[data-copy]").forEach((copyButton) => {
     copyButton.addEventListener("click", async () => {
       const value = copyButton.dataset.copy;
       try {
@@ -23,7 +22,7 @@ const initSite = () => {
         copyButton.querySelector("span").textContent = "Select command";
       }
     });
-  }
+  });
 
   // Safety net: if GSAP never loads (CDN blocked/slow), never leave the page
   // permanently hidden behind a .from()-authored start state that nothing

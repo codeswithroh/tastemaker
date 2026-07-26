@@ -46,6 +46,11 @@
           <div class="kicker">Design taste for coding agents</div>
           <h1>Make your agent’s UI <em>worth shipping.</em></h1>
           <p>Tastemaker turns real references into a visual system your coding agent can build with—and remember.</p>
+          <div class="hero-command">
+            <span class="prompt" aria-hidden="true">$</span>
+            <code>npx skills add codeswithroh/tastemaker</code>
+            <button class="copy-button" type="button" data-copy="npx skills add codeswithroh/tastemaker"><img src="assets/icons/copy.svg" alt=""><span>Copy</span></button>
+          </div>
           <div class="button-row">
             <a class="button primary" href="#install">Install Tastemaker <span aria-hidden="true">↓</span></a>
             <a class="button" href="#proof">See the proof</a>
@@ -203,13 +208,12 @@ Entrance: <span class="value">420ms · 18px · power3.out</span></div></div>
           <h2>Install once. Then ask normally.</h2>
           <p>Tastemaker triggers when you ask your coding agent to build, style, or improve a UI. No magic phrase, account, or hosted API.</p>
           <div class="terminal">
-            <div class="terminal-bar"><span>terminal / install</span><button class="copy-button" type="button" data-copy="git clone https://github.com/codeswithroh/tastemaker ~/.claude/skills/tastemaker"><img src="assets/icons/copy.svg" alt=""><span>Copy</span></button></div>
-            <pre><code><span class="prompt">$</span> git clone https://github.com/codeswithroh/tastemaker \
-  ~/.claude/skills/tastemaker
+            <div class="terminal-bar"><span>terminal / install</span><button class="copy-button" type="button" data-copy="npx skills add codeswithroh/tastemaker"><img src="assets/icons/copy.svg" alt=""><span>Copy</span></button></div>
+            <pre><code><span class="prompt">$</span> npx skills add codeswithroh/tastemaker
 
 <span class="prompt">›</span> “Build a landing page for my product.”</code></pre>
           </div>
-          <div class="support-note">Also works with Cursor and Windsurf by placing the same folder in their skills directory.</div>
+          <div class="support-note">Using Claude Code specifically? The <a href="https://github.com/codeswithroh/tastemaker#quick-start">plugin marketplace and manual install</a> work too.</div>
         </div>
       </div>
     </section>

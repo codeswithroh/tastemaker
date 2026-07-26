@@ -77,12 +77,18 @@ button { color: inherit; }
 
 .hero { position: relative; min-height: 100svh; display: grid; align-items: center; overflow: hidden; padding: 132px 0 82px; border-bottom: 1px solid var(--border); }
 .hero-layout { position: relative; z-index: 1; display: grid; grid-template-columns: minmax(390px, .85fr) minmax(560px, 1.15fr); gap: clamp(54px, 7vw, 104px); align-items: center; }
+.hero-copy { min-width: 0; }
 .kicker, .mono-label { font: 600 .72rem/1.2 var(--font-mono); letter-spacing: .13em; text-transform: uppercase; }
 .kicker { display: flex; align-items: center; gap: 10px; color: var(--accent); }
 .kicker::before { width: 36px; height: 1px; background: currentColor; content: ""; }
 .hero h1 { max-width: 620px; margin: 26px 0 24px; font: 800 clamp(4rem, 5.4vw, 6.3rem)/1.02 var(--font-display); letter-spacing: -.03em; }
 .hero h1 em { display: block; color: var(--accent); font-style: normal; }
 .hero-copy > p { max-width: 43ch; margin: 0 0 32px; color: var(--muted); font-size: clamp(1.05rem, 1.25vw, 1.18rem); }
+.hero-command { display: flex; align-items: center; gap: 12px; width: max-content; max-width: 100%; margin: 0 0 24px; padding: 10px 10px 10px 18px; border: 1px solid var(--border); border-radius: 999px; background: var(--surface); }
+.hero-command .prompt { flex: none; color: var(--accent); font: 700 .85rem var(--font-mono); }
+.hero-command code { flex: 1 1 auto; min-width: 0; overflow-x: auto; color: var(--text); font: .85rem var(--font-mono); white-space: nowrap; }
+.hero-command .copy-button { flex: none; border-radius: 999px; background: var(--bg); }
+@media (max-width: 480px) { .hero-command code { font-size: .74rem; } }
 .button-row { display: flex; flex-wrap: wrap; gap: 12px; }
 .button { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 48px; padding: 0 18px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-weight: 700; font-size: .9rem; transition: transform .15s ease, border-color .15s ease; }
 .button img { width: 18px; }
@@ -255,6 +261,8 @@ button { color: inherit; }
 .terminal pre { margin: 0; padding: 24px; overflow-x: auto; color: var(--text); font: .82rem/1.7 var(--font-mono); }
 .terminal .prompt { color: var(--accent); }
 .support-note { position: relative; z-index: 1; margin-top: 18px; color: var(--muted); font: .72rem var(--font-mono); }
+.support-note a { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }
+.support-note a:hover, .support-note a:focus-visible { color: var(--white); }
 
 .site-footer { padding: 34px 0 44px; }
 .footer-layout { display: flex; align-items: center; justify-content: space-between; gap: 24px; }
