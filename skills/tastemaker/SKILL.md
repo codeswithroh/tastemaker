@@ -33,13 +33,19 @@ Tastemaker has one default behavior and three explicit verbs. Detect which one t
 
 If a request doesn't clearly map to `study`, `audit`, or `comps`, it's the default build. If the user pastes a reference image or URL with no verb, ask once whether to `study` it (extract reusable DNA) or treat it as a reference to ground a fresh build (Step 2's extract-palette path). A follow-up like "now fix it" after an `audit`, "build it" after a `study`, or "now build this for real" after `comps`, hands off into the build Workflow.
 
+## Aesthetic modes (optional add-ons, not part of the default skill)
+
+Separate from the four workflow **Modes** above: an aesthetic mode is a named, opt-in style override — brutalist, minimalist, or similar — layered on top of the same shared engine (the palette generator, the structure/diversification system, the anti-slop gates), swapping specific dials (shape language, type character, motion feel, palette constraints) rather than replacing the workflow. None ship with the base skill; they're separate add-ons that, if present, live at `references/modes/<name>.md`.
+
+**Check for one before Step 2's default mood path.** If `references/modes/` exists and contains a file matching what the user's asking for ("build this in brutalist mode," or similar), or the project's `.tastemaker/style-lock.md` already records an active mode from a previous build in this project, read that file first and apply it as the override layer Step 2 (palette) and Step 4 (build defaults) work within — instead of picking one of the five default moods below. A mode file states explicitly which of the base skill's rules it overrides and which stay in force (structure, asset sourcing, and the anti-slop gates it doesn't name are always unchanged) — follow that file's own scope, don't guess at what else might apply. Most projects have no `references/modes/` folder at all; when there isn't one, proceed straight to Step 2's default moods as normal.
+
 ## Workflow
 
 ### Step 0 — Load memory, don't start cold
 
 Check for `.tastemaker/style-lock.md` in the project root first.
 
-- **Exists** → this project already has an established style. Read it and reuse those exact tokens/assets for the new work. Do not re-derive a palette or type pairing from scratch — that's exactly the drift this file exists to prevent. Only revisit it if the user explicitly asks to change direction. Also read `.tastemaker/log.json` if present (the structural build log, see `references/diversification.md`) — it records the macrostructure and archetype picks of previous builds so this build can rotate to a different shape instead of repeating one.
+- **Exists** → this project already has an established style. Read it and reuse those exact tokens/assets for the new work. Do not re-derive a palette or type pairing from scratch — that's exactly the drift this file exists to prevent. Only revisit it if the user explicitly asks to change direction. If it records an active Aesthetic mode (see `references/style-lock-format.md`), read the matching `references/modes/<name>.md` and keep applying it — don't silently fall back to a default mood partway through a project. Also read `.tastemaker/log.json` if present (the structural build log, see `references/diversification.md`) — it records the macrostructure and archetype picks of previous builds so this build can rotate to a different shape instead of repeating one.
 - **Doesn't exist** → this is a fresh project. Also check `~/.tastemaker/profile.md` (outside the repo, in the user's home directory) for a personal taste profile accumulated across their other projects. If it exists, treat it as a strong prior — propose starting from it rather than starting neutral. If neither file exists, this is a genuinely cold start; go to Step 1.
 
 ### Step 1 — Figure out what you're actually building
@@ -136,6 +142,7 @@ This is what makes the second project faster than the first, and the tenth faste
 | File | Read when |
 |---|---|
 | `references/style-lock-format.md` | Writing or updating `.tastemaker/style-lock.md` |
+| `references/modes/<name>.md` | Before Step 2, only if this folder exists and the user's request (or the project's style lock) names an aesthetic mode — see "Aesthetic modes" above. Not present in the base skill; an optional add-on. |
 | `references/style-tokens.md` | Cold start with no references — auto-selects a matched palette + Google-Font pairing from the app idea's mood, plus spacing/radius/shadow scales |
 | `references/narrative-arc.md` | Step 2.5, read before the macrostructure pick — the six-beat story arc (hook/problem/solution/how-it-works/proof/close) grounded in StoryBrand and PAS, so a page's sections build an argument, not just a varied shape |
 | `references/macrostructures.md` | Step 2.5 — picking the whole-page shape for a public/marketing page (Feature Stack, Editorial Index, Long-Scroll Narrative, Bento Showcase, …) so structure varies per project, not just color |
