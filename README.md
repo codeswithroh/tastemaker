@@ -30,7 +30,7 @@
 
 ## What this is
 
-Tastemaker is a skill for coding agents. Native support: Claude Code (recommended) and Windsurf. You install it once and forget it. Whenever you ask your agent to build or style a UI, tastemaker steps in and gives it a real design system to work from, instead of the generic defaults every model reaches for.
+Tastemaker is a skill for coding agents. Native support: Claude Code (recommended), Windsurf, and Gemini CLI. You install it once and forget it. Whenever you ask your agent to build or style a UI, tastemaker steps in and gives it a real design system to work from, instead of the generic defaults every model reaches for.
 
 It is plain Markdown and small Python scripts. Everything runs on your machine. There is no hosted backend, no account, and no API key.
 
@@ -97,6 +97,14 @@ cp -r /tmp/tastemaker/skills/tastemaker ~/.claude/skills/tastemaker
 ```
 
 > Using Windsurf? Same copy, into `.windsurf/skills/` instead. Windsurf reads the native `SKILL.md` format directly, `references/` and all.
+
+**Gemini CLI: one command, no manual copying.** Gemini CLI reads the native `SKILL.md` format directly too, `references/`, `scripts/`, and the vendored `ideagram/` sub-skill included, verified with a real local install, not assumed from the file-format similarity to Claude Code:
+
+```bash
+gemini skills install https://github.com/codeswithroh/tastemaker --path skills/tastemaker
+```
+
+This installs tastemaker (and `ideagram`, its vendored illustration sub-skill) globally for Gemini CLI, byte-for-byte identical to the source. First run in a project may ask you to trust the folder before workspace-scoped skills activate; global installs (the default here) don't need that.
 
 **Cursor: not a straight copy, and currently degraded even then.** Cursor doesn't read `SKILL.md` natively; it needs conversion to its own `.mdc` rule format (via a tool like [openskills](https://github.com/numman-ali/openskills)), and that conversion strips out supporting directories entirely. Since nearly all of tastemaker's actual mechanism lives in `references/` (the palette contract, macrostructure catalog, anti-slop gates) and `scripts/` (the palette generator, contrast checker), a Cursor install currently loses the parts that make tastemaker work, not just a cosmetic difference. Verified against Cursor's actual conversion behavior rather than assumed from the plugin-format similarity to Claude Code. Until Cursor ships native `SKILL.md` support with subdirectories intact, don't expect full functionality there.
 
