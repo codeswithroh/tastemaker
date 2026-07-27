@@ -84,6 +84,9 @@ Only for projects with an app shell (sidebar plus topbar) — see `references/co
 ## Mood descriptors
 2-4 words that capture the intent, e.g. "quiet, confident, technical" — useful as a quick gut-check when reviewing new output ("does this still feel quiet and confident?").
 
+## Aesthetic mode (only if one is active)
+<"none" | the mode's name, e.g. "brutalist"> — if a mode from `references/modes/<name>.md` was applied (see `SKILL.md`'s Aesthetic modes section), record it here so a later build in this same project reads it from Step 0 and reapplies the same override layer instead of falling back to the default moods. Omit this section entirely for projects that never used one.
+
 ## Assets
 - Anchor asset: <path> — everything else should visually match this
 - Asset style: <e.g. "outline icons, 1.5px stroke, rounded caps" | "flat geometric illustrations, palette-matched">
