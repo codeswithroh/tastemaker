@@ -250,6 +250,16 @@ button { color: inherit; }
 .lock-code .key { color: var(--accent); }
 .lock-code .value { color: var(--text); }
 
+.mode-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.mode-card { overflow: hidden; margin: 0; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--surface); transition: border-color .15s ease; }
+.mode-card:hover { border-color: var(--accent); }
+.mode-card img { width: 100%; aspect-ratio: 900 / 534; object-fit: cover; object-position: top; border-bottom: 1px solid var(--border); background: var(--bg); }
+.mode-card figcaption { padding: 16px; }
+.mode-card strong { display: block; font: 800 .95rem var(--font-display); letter-spacing: -.02em; }
+.mode-card span { display: block; margin-top: 4px; color: var(--muted); font-size: .78rem; }
+.mode-cta { display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; margin-top: 16px; padding: 22px clamp(20px, 3vw, 30px); border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--surface); }
+.mode-cta p { max-width: 44ch; margin: 0; color: var(--muted); font: .8rem var(--font-mono); }
+
 .install-card { position: relative; overflow: hidden; padding: clamp(28px, 5vw, 64px); border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--surface); }
 .install-card::after { position: absolute; right: -2vw; bottom: -8vw; color: var(--border); content: "{"; font: 800 26rem/.7 var(--font-display); transform: rotate(10deg); }
 .install-card h2 { position: relative; z-index: 1; max-width: 760px; margin: 0; font: 800 clamp(2.8rem, 6vw, 6.5rem)/.9 var(--font-display); letter-spacing: -.07em; }
@@ -304,6 +314,7 @@ button { color: inherit; }
   .cap-card.large { grid-row: auto; min-height: 420px; }
   .cap-card.wide { grid-column: span 2; }
   .compare-frame iframe { height: 520px; }
+  .mode-grid { grid-template-columns: 1fr 1fr; }
 }
 @media (max-width: 720px) {
   .shell { width: min(100% - 24px, 1180px); }
@@ -331,6 +342,8 @@ button { color: inherit; }
   .capability-grid { grid-template-columns: 1fr; }
   .cap-card, .cap-card.large, .cap-card.wide { grid-column: auto; min-height: 330px; }
   .asset-strip { grid-template-columns: 1fr 1fr; }
+  .mode-grid { grid-template-columns: 1fr; }
+  .mode-cta { flex-direction: column; align-items: flex-start; }
   .versus-row { grid-template-columns: 1fr 1fr; }
   .versus-row > *:first-child { grid-column: 1 / -1; border-right: 0; border-bottom: 1px solid var(--border); }
   .versus-row.header > *:first-child { display: none; }
