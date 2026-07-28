@@ -26,4 +26,4 @@ Static — publish this folder as-is. Currently deployed to Netlify:
 npx netlify deploy --dir=. --prod
 ```
 
-Live: https://tastemaker-ai-skill.netlify.app
+Live: https://tastemaker-skill.online

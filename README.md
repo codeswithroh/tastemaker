@@ -6,7 +6,7 @@
     <a href="https://github.com/codeswithroh/tastemaker/stargazers"><img src="https://img.shields.io/github/stars/codeswithroh/tastemaker?style=flat-square&color=BE85CE&label=stars&labelColor=171F1F" alt="Stars"></a>
     <a href="CONTRIBUTING.md"><img src=".github/assets/badges/prs-welcome.svg" alt="PRs welcome"></a>
     <img src=".github/assets/badges/claude-code-skill.svg" alt="Claude Code skill">
-    <a href="https://tastemaker-ai-skill.netlify.app"><img src=".github/assets/badges/live-demo.svg" alt="Live demo"></a>
+    <a href="https://tastemaker-skill.online"><img src=".github/assets/badges/live-demo.svg" alt="Live demo"></a>
   </p>
 
   <p><b>A skill that gives AI real design taste, so the UI it builds does not look AI-generated.</b></p>
@@ -23,7 +23,7 @@
     <a href="#contributing">Contributing</a>
   </p>
 
-  <p><a href="https://tastemaker-ai-skill.netlify.app"><b>See it live and try the demo &rarr;</b></a></p>
+  <p><a href="https://tastemaker-skill.online"><b>See it live and try the demo &rarr;</b></a></p>
 </div>
 
 <br>
@@ -39,7 +39,7 @@ It is plain Markdown and small Python scripts. Everything runs on your machine. 
 One prompt, `build a landing page for a coffee subscription`, built twice: once with no skill, once with tastemaker installed. Same request, unchanged, both times.
 
 <div align="center">
-  <a href="https://tastemaker-ai-skill.netlify.app/compare"><b>Open the live before/after &rarr;</b></a>
+  <a href="https://tastemaker-skill.online/compare"><b>Open the live before/after &rarr;</b></a>
 </div>
 
 Left is the indigo-gradient, letter-in-a-box-logo, emoji-icon default most agents reach for. Right is the same prompt with tastemaker: a palette generated fresh for the project's mood, real fetched icons, a constructed mark, and motion, in one pass. Both are real, live pages, not mockups or screenshots.
