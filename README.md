@@ -215,6 +215,8 @@ tastemaker is free, MIT licensed, and built in the open. If it saves you time or
 
 [Sponsor on GitHub](https://github.com/sponsors/codeswithroh)
 
+**Want something tangible back, not just a thank-you?** [Unlock sponsor-exclusive Aesthetic Modes](https://buy.polar.sh/polar_cl_tY4OjST0hD2YW36YeNrDJgHs6Ybz9vmsQeHNX0YSbl4) for $8/month: thin style-override layers on top of the same free engine (brutalist, glassmorphic, minimalist, soft/premium-calm, more added over time), each swapping in a specific, fully worked-out design language rather than just a different color. The core skill stays free forever; this is where the paid add-ons live. Modes may graduate into the free repo once they've funded a sponsor threshold, so early subscribers fund the next one, not just this one.
+
 ### Community sponsors
 
 No community sponsors yet. The moment GitHub Sponsors gets its first backer, their avatar goes here.
