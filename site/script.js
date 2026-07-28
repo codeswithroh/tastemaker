@@ -98,7 +98,142 @@ const initSite = () => {
       scrollTrigger: { trigger: ".versus-headline", start: "top 80%", end: "bottom 38%", scrub: true },
     });
   });
+
+  initModeCarousel();
 };
+
+// The mode carousel is the one place on this site that reaches for anime.js
+// instead of GSAP — a deliberate, scoped choice (see
+// references/animation-guidelines.md's anime.js section in the skill itself):
+// the spring-based release feel on hover/press reads as more tactile than an
+// eased GSAP tween for something the user's cursor is directly acting on.
+// Everything else on this page stays on GSAP.
+function initModeCarousel() {
+  const track = document.getElementById("modeCarousel");
+  if (!track) return;
+
+  const cards = Array.from(track.querySelectorAll(".mode-card"));
+  const arrows = document.querySelectorAll(".carousel-arrow");
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // Safety net, same discipline as the GSAP fallback above: if anime.js
+  // failed to load (CDN blocked/slow), the carousel must still be fully
+  // usable — native overflow-x scroll-snap and the plain CSS tilt state
+  // don't depend on JS at all. Just wire the arrow buttons to a native
+  // smooth scroll and stop; never leave a card stuck in a JS-only hidden
+  // state if the library that was supposed to reveal it never arrived.
+  if (!window.anime) {
+    arrows.forEach((arrow) => {
+      arrow.addEventListener("click", () => {
+        const dir = Number(arrow.dataset.dir);
+        track.scrollBy({ left: dir * (cards[0]?.offsetWidth ?? 280) * 1.2, behavior: "smooth" });
+      });
+    });
+    return;
+  }
+
+  const scope = anime.createScope({
+    mediaQueries: { reduce: "(prefers-reduced-motion: reduce)" },
+  }).add((self) => {
+    const reduce = self.matches.reduce;
+
+    // Fan-in entrance: cards start flat and slightly small, then settle into
+    // their resting --tilt rotation with a stagger, once the carousel first
+    // scrolls into view. Runs once; a card that's already been fanned out
+    // never resets on re-scroll.
+    if (!reduce) {
+      cards.forEach((card) => {
+        card.style.transform = "rotate(0deg) scale(0.92)";
+        card.style.opacity = "0";
+      });
+    }
+
+    let fanned = false;
+    const fanIn = () => {
+      if (fanned) return;
+      fanned = true;
+      if (reduce) {
+        cards.forEach((card) => { card.style.opacity = "1"; card.style.transform = ""; });
+        return;
+      }
+      anime.animate(cards, {
+        opacity: [0, 1],
+        rotate: (el) => [0, el.style.getPropertyValue("--tilt") || "0deg"],
+        scale: [0.92, 1],
+        duration: 620,
+        delay: anime.stagger(90),
+        ease: "outQuad",
+      });
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => { if (entry.isIntersecting) fanIn(); });
+    }, { threshold: 0.3 });
+    observer.observe(track);
+
+    // Safety net matching the GSAP one above: force the resting state after
+    // a timeout so a stalled tab or slow observer never leaves cards parked
+    // invisible.
+    window.setTimeout(() => {
+      if (!fanned) fanIn();
+    }, 3000);
+
+    // Hover/focus: straighten, lift, and scale up with a springy release —
+    // this is the one interaction on the page that's genuinely a physical,
+    // user-initiated action (a cursor landing on a card), which is exactly
+    // the case animation-guidelines.md scopes spring motion to.
+    cards.forEach((card) => {
+      const tilt = card.style.getPropertyValue("--tilt") || "0deg";
+      const settle = () => {
+        anime.animate(card, {
+          rotate: 0,
+          translateY: -14,
+          scale: 1.06,
+          duration: reduce ? 1 : 260,
+          ease: reduce ? "linear" : createSpringEase(),
+        });
+        card.style.zIndex = "2";
+      };
+      const release = () => {
+        anime.animate(card, {
+          rotate: tilt,
+          translateY: 0,
+          scale: 1,
+          duration: reduce ? 1 : 320,
+          ease: reduce ? "linear" : createSpringEase(),
+        });
+        card.style.zIndex = "";
+      };
+      card.addEventListener("mouseenter", settle);
+      card.addEventListener("mouseleave", release);
+      card.addEventListener("focusin", settle);
+      card.addEventListener("focusout", release);
+    });
+
+    // Arrow nav: glide the track by one card-width, eased through anime.js
+    // rather than a native instant jump, for the same "cool, considered
+    // motion" the carousel's whole point is to demonstrate.
+    arrows.forEach((arrow) => {
+      arrow.addEventListener("click", () => {
+        const dir = Number(arrow.dataset.dir);
+        const distance = (cards[0]?.offsetWidth ?? 280) * 1.2;
+        const target = Math.max(
+          0,
+          Math.min(track.scrollWidth - track.clientWidth, track.scrollLeft + dir * distance)
+        );
+        anime.animate(track, {
+          scrollLeft: target,
+          duration: reduce ? 1 : 480,
+          ease: reduce ? "linear" : "inOutQuad",
+        });
+      });
+    });
+  });
+
+  function createSpringEase() {
+    return anime.createSpring({ mass: 1, stiffness: 220, damping: 18 });
+  }
+}
 
 if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", initSite, { once: true });

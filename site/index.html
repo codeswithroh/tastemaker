@@ -53,7 +53,7 @@
           </div>
           <div class="button-row">
             <a class="button primary" href="#install">Install Tastemaker <span aria-hidden="true">↓</span></a>
-            <a class="button" href="#proof">See the proof</a>
+            <a class="button" href="#modes">Explore premium modes</a>
           </div>
         </div>
 
@@ -205,23 +205,29 @@ Entrance: <span class="value">420ms · 18px · power3.out</span></div></div>
     <section class="section" id="modes">
       <div class="shell">
         <div class="section-intro" data-reveal><div class="section-index">04 / OTHER REGISTERS</div><div><h2>Same engine. Different visual languages.</h2><p>Sponsor-exclusive modes swap the shape, type, and motion dials on top of the same free core, not a separate tool or a different workflow. Four so far, more shipping over time. Real renders below, not mockups of what they might look like.</p></div></div>
-        <div class="mode-grid" data-reveal>
-          <figure class="mode-card">
-            <img src="assets/modes/brutalist.jpg" width="900" height="534" loading="lazy" alt="A landing page hero built in Tastemaker's brutalist mode: thick black borders, hard-offset flat shadows, oversized type on a near-black background.">
-            <figcaption><strong>Brutalist</strong><span>Thick borders, hard-offset shadows, oversized type.</span></figcaption>
-          </figure>
-          <figure class="mode-card">
-            <img src="assets/modes/glassmorphic.jpg" width="900" height="534" loading="lazy" alt="A landing page hero built in Tastemaker's glassmorphic mode: frosted glass panels over a vibrant sunset-to-violet gradient backdrop.">
-            <figcaption><strong>Glassmorphic</strong><span>Frosted panels over a vibrant backdrop.</span></figcaption>
-          </figure>
-          <figure class="mode-card">
-            <img src="assets/modes/minimalist.jpg" width="900" height="534" loading="lazy" alt="A landing page hero built in Tastemaker's minimalist mode: near-monochrome, huge restrained typography, almost no decoration.">
-            <figcaption><strong>Minimalist</strong><span>Restraint used as the visual craft itself.</span></figcaption>
-          </figure>
-          <figure class="mode-card">
-            <img src="assets/modes/soft-calm.jpg" width="900" height="534" loading="lazy" alt="A landing page hero built in Tastemaker's soft, premium-calm mode: muted warm neutrals, large soft radius, diffused shadows.">
-            <figcaption><strong>Soft / Premium-Calm</strong><span>Muted, gentle, hospitality-grade restraint.</span></figcaption>
-          </figure>
+        <div class="mode-carousel-wrap" data-reveal>
+          <div class="mode-carousel" id="modeCarousel">
+            <figure class="mode-card" style="--tilt:-6deg">
+              <img src="assets/modes/brutalist.jpg" width="900" height="534" loading="lazy" alt="A landing page hero built in Tastemaker's brutalist mode: thick black borders, hard-offset flat shadows, oversized type on a near-black background.">
+              <figcaption><strong>Brutalist</strong><span>Thick borders, hard-offset shadows, oversized type.</span></figcaption>
+            </figure>
+            <figure class="mode-card" style="--tilt:-2deg">
+              <img src="assets/modes/glassmorphic.jpg" width="900" height="534" loading="lazy" alt="A landing page hero built in Tastemaker's glassmorphic mode: frosted glass panels over a vibrant sunset-to-violet gradient backdrop.">
+              <figcaption><strong>Glassmorphic</strong><span>Frosted panels over a vibrant backdrop.</span></figcaption>
+            </figure>
+            <figure class="mode-card" style="--tilt:2deg">
+              <img src="assets/modes/minimalist.jpg" width="900" height="534" loading="lazy" alt="A landing page hero built in Tastemaker's minimalist mode: near-monochrome, huge restrained typography, almost no decoration.">
+              <figcaption><strong>Minimalist</strong><span>Restraint used as the visual craft itself.</span></figcaption>
+            </figure>
+            <figure class="mode-card" style="--tilt:6deg">
+              <img src="assets/modes/soft-calm.jpg" width="900" height="534" loading="lazy" alt="A landing page hero built in Tastemaker's soft, premium-calm mode: muted warm neutrals, large soft radius, diffused shadows.">
+              <figcaption><strong>Soft / Premium-Calm</strong><span>Muted, gentle, hospitality-grade restraint.</span></figcaption>
+            </figure>
+          </div>
+          <div class="mode-carousel-nav">
+            <button class="carousel-arrow" type="button" data-dir="-1" aria-label="Previous mode">‹</button>
+            <button class="carousel-arrow" type="button" data-dir="1" aria-label="Next mode">›</button>
+          </div>
         </div>
         <div class="mode-cta" data-reveal>
           <p>$8/month unlocks all four, plus what ships next. The free core stays free either way.</p>
@@ -258,6 +264,7 @@ Entrance: <span class="value">420ms · 18px · power3.out</span></div></div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/animejs@4/dist/bundles/anime.umd.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
