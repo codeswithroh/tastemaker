@@ -1,6 +1,6 @@
 const showAll = () => {
   document
-    .querySelectorAll("[data-reveal], [data-reveal-group] > *, .hero-copy > *, .hero-stage > *, .asset-board > *, .system-scene > *, .poster-pill, .print-stack > *, .ledger article, .still-life > *")
+    .querySelectorAll("[data-reveal], [data-reveal-group] > *, .hero-copy > *, .hero-stage > *, .story-step, .asset-board > *, .system-scene > *, .poster-pill, .print-stack > *, .ledger article, .still-life > *")
     .forEach((el) => {
       el.style.opacity = "1";
       el.style.transform = "none";
@@ -91,6 +91,26 @@ const initMotion = () => {
       ease: "power3.out",
       immediateRender: false,
       scrollTrigger: { trigger: ".proof-wall", start: "top 78%", once: true },
+    });
+
+    gsap.from(".story-step", {
+      x: 26,
+      opacity: 0,
+      stagger: 0.09,
+      duration: 0.42,
+      ease: "power3.out",
+      immediateRender: false,
+      scrollTrigger: { trigger: ".story-spine", start: "top 78%", once: true },
+    });
+
+    gsap.to(".story-step:nth-child(odd)", {
+      x: -18,
+      scrollTrigger: { trigger: ".story-section", start: "top bottom", end: "bottom top", scrub: true },
+    });
+
+    gsap.to(".story-step:nth-child(even)", {
+      x: 18,
+      scrollTrigger: { trigger: ".story-section", start: "top bottom", end: "bottom top", scrub: true },
     });
 
     gsap.from(".asset-board > *", {
