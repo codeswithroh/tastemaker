@@ -14,7 +14,7 @@
       TastemakerMotion.init({
         duration: 0.22,       // seconds — match .tastemaker/style-lock.md's Motion section
         distance: 16,         // px
-        ease: "power2.out",
+        ease: "power3.out",
         staggerStep: 0.06,    // seconds between staggered children
       });
     </script>
@@ -24,7 +24,7 @@
 
   function init(options) {
     var opts = Object.assign(
-      { duration: 0.22, distance: 16, ease: "power2.out", staggerStep: 0.06 },
+      { duration: 0.22, distance: 16, ease: "power3.out", staggerStep: 0.06 },
       options || {}
     );
 

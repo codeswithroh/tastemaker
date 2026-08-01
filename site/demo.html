@@ -34,7 +34,10 @@
   .brand svg { width: 34px; height: 34px; }
   .nav-links { display: flex; gap: 28px; font-size: 14.5px; font-weight: 600; }
   .btn-primary { background: var(--primary); color: #fff; border: none; border-radius: 999px; padding: 11px 22px; font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 14px; text-decoration: none; display: inline-flex; align-items: center; transition: transform .12s, background .15s; }
-  .btn-primary:hover { background: #a34f2f; transform: translateY(-1px); }
+  .btn-primary:active { transform: scale(.97); }
+  @media (hover: hover) and (pointer: fine) {
+    .btn-primary:hover { background: #a34f2f; transform: translateY(-1px); }
+  }
 
   .hero { padding: 52px 0 76px; }
   .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }

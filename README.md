@@ -128,6 +128,9 @@ For the deterministic color extraction script you need Python 3 and Pillow (`pip
 | **Real illustrations** | Each concept is matched to real illustrator grade art and recolored to your palette, not drawn from scratch by the model. |
 | **A real logo, not a letter in a box** | A constructed geometric mark plus a full favicon set, readable down to 16px. |
 | **Motion by default** | GSAP and ScrollTrigger reveals plus a sequenced hero, wired during the build and not left as a follow up. |
+| **Motion with restraint** | `audit_motion.py` catches common craft failures such as `transition: all`, `ease-in`, `scale(0)`, long UI timing, layout-property animation, ungated hover motion, and missing reduced-motion handling. |
+| **Better app screens** | Screen-type guidance covers dashboards, app shells, data tables, forms, loading, empty, error, focus, pressed, and success states, so the skill does not only shine on landing pages. |
+| **Prototype before guessing** | High-risk UI can branch into real variants behind a picker, then promote the version that feels right. |
 | **Attribution free assets** | Photos (Openverse), icons (Iconify), and illustrations all need no keys and no visible credit line. |
 | **Taste that compounds** | A local profile remembers what you keep across projects, so the tool gets more accurate the more you use it. |
 
@@ -165,8 +168,10 @@ Icons follow the same idea at a smaller scale: each mood maps to two candidate I
 1. Read the idea      references, or the app concept itself
 2. Lock the style     palette and type, contrast checked, written to a lock file
 3. Source assets      photos, illustrations, icons, logo, favicons, in one pass
-4. Build the screens  visual first, motion wired in, checked against an anti-slop list
-5. Remember taste     what you keep rolls into a profile for the next project
+4. Pick libraries     use proven primitives for hard UI behavior instead of hand-rolling
+5. Build screens      visual first, app states covered, motion gated and checked
+6. Prototype variants when direction is uncertain
+7. Remember taste     what you keep rolls into a profile for the next project
 ```
 
 The full workflow lives in [`SKILL.md`](SKILL.md). The reference files in [`references/`](references/) hold the deep material and are read only when a step needs them.

@@ -92,7 +92,10 @@ button { color: inherit; }
 .button-row { display: flex; flex-wrap: wrap; gap: 12px; }
 .button { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 48px; padding: 0 18px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-weight: 700; font-size: .9rem; transition: transform .15s ease, border-color .15s ease; }
 .button img { width: 18px; }
-.button:hover { transform: translateY(-2px); border-color: var(--accent); }
+	.button:active { transform: scale(.97); }
+	@media (hover: hover) and (pointer: fine) {
+	  .button:hover { transform: translateY(-2px); border-color: var(--accent); }
+	}
 .button.primary { background: var(--primary); border-color: var(--primary); color: var(--white); }
 .hero-showcase { position: relative; min-width: 0; overflow: hidden; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--surface); box-shadow: 20px 20px 0 var(--surface-2); }
 .hero-showcase::after { position: absolute; right: -1px; bottom: 11%; width: 5px; height: 31%; background: var(--accent); content: ""; }
@@ -270,7 +273,7 @@ button { color: inherit; }
 .mode-cta p { max-width: 44ch; margin: 0; color: var(--muted); font: .8rem var(--font-mono); }
 
 .install-card { position: relative; overflow: hidden; padding: clamp(28px, 5vw, 64px); border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--surface); }
-.install-card::after { position: absolute; right: -2vw; bottom: -8vw; color: var(--border); content: "{"; font: 800 26rem/.7 var(--font-display); transform: rotate(10deg); }
+.install-card::after { position: absolute; right: -2vw; bottom: -8vw; width: 280px; height: 280px; border: 1px solid var(--border); border-radius: 40px; content: ""; transform: rotate(10deg); }
 .install-card h2 { position: relative; z-index: 1; max-width: 760px; margin: 0; font: 800 clamp(2.8rem, 6vw, 6.5rem)/.9 var(--font-display); letter-spacing: -.07em; }
 .install-card > p { position: relative; z-index: 1; max-width: 55ch; color: var(--muted); }
 .terminal { position: relative; z-index: 2; max-width: 820px; margin-top: 34px; overflow: hidden; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg); }

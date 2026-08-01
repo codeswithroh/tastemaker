@@ -96,8 +96,13 @@ Only for projects with an app shell (sidebar plus topbar) — see `references/co
 
 ## Motion
 - Feel: <e.g. "quick and restrained" | "soft and slightly bouncy" — should match the mood descriptors above>
+- Curves: <exact CSS variables or library spring values, e.g. `--ease-out: cubic-bezier(0.23, 1, 0.32, 1)`>
+- Durations: <press, popover, panel, page/story values>
 - Entrance duration/distance: <e.g. "220ms, 12px rise" — see references/animation-guidelines.md defaults if unset>
-- Easing: <e.g. "ease-out" | "cubic-bezier(0.16, 1, 0.3, 1)">
+- Screen tracks: <marketing pages use scroll storytelling; app shell uses panel/list/state motion; note any exceptions>
+- Frequency rules: <which repeated actions should not animate, or should use only near-instant feedback>
+- Reduced motion: <how movement degrades while preserving state feedback>
+- Verified by: <`scripts/audit_motion.py` paths + browser/DevTools feel check date, or "pending">
 
 ## Do not
 Concrete things to avoid for this project specifically, if any came up during curation (e.g. "no gradients — user rejected twice", "avoid rounded-full buttons, feels too playful for this brand").

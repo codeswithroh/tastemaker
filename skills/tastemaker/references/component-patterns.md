@@ -112,6 +112,15 @@ Once the shell and its chrome are locked, individual screens follow:
 - Lead with the one number/status the user opens the app to check — don't bury it below navigation chrome.
 - Group related metrics; don't scatter unrelated KPIs in one uniform grid just because a grid is easy to build.
 - Empty and loading states matter as much as the populated state — design them explicitly, don't leave them as an afterthought default.
+- Build the action path: what the user checks, what they can change, what happens after the change, and how they recover from a mistake.
+- Provide keyboard focus, hover, pressed, disabled, loading, empty, error, and success states for every primary control.
+
+## Data table / collection view
+- Put filtering, sorting, bulk actions, and visible selection state in the first pass.
+- Avoid bare grids of identical cards when the job is comparison. Tables, compact rows, and split views can be more humane than cards.
+- Show empty, no-results, and error states separately. "No data" and "your filter hid everything" are different messages.
+- If rows can exceed a few hundred, use virtualization. If columns matter, preserve header context with sticky headers or a summary rail.
+- Do not animate rows during normal scanning. Animate row insert/remove only when the list changes occasionally and the motion clarifies what changed.
 
 ## Pricing
 - 3 tiers is the safe default (2 feels thin, 4+ causes decision paralysis) unless the product genuinely needs more.

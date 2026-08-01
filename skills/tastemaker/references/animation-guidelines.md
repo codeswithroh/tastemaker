@@ -1,12 +1,25 @@
 # Motion
 
-Animation is one of the fastest ways to make a UI feel expensive or feel cheap, often more than any single color choice. The rule that separates the two: **motion should clarify, not decorate.** Every animation should answer "what changed" or "what's about to happen" — if it's just movement for its own sake, it reads as noise, not polish.
+Animation is one of the fastest ways to make a UI feel expensive or cheap. The rule that separates the two: **motion should clarify, not decorate.** Every animation should answer "what changed", "where did this come from", or "did the interface hear me?" If movement cannot answer one of those, delete it.
+
+## Motion decision gate
+
+Run this gate before writing animation code.
+
+| Question | Ship motion when | Delete or reduce when |
+|---|---|---|
+| How often will users see it? | Occasional, rare, first-run, or explanatory moments | Keyboard actions, command palettes, core navigation, dense lists, and anything seen dozens of times per day |
+| What purpose does it serve? | Feedback, spatial consistency, state indication, explanation, or preventing a jarring change | The only answer is "it looks cool" |
+| Can it stay within budget? | UI motion stays under 300ms, with smaller pieces under 200ms | The effect needs slow showmanship to work |
+| Does it help the task? | It makes state, hierarchy, or progress clearer | It moves data the user is trying to read or act on |
+
+High-frequency UI should feel instant. Rare moments can carry more personality. A daily-use dashboard often needs less motion than a launch page.
 
 ## GSAP is the default motion engine
 
-A static-looking site is one of the fastest ways a generated UI reads as a template rather than a real product. **GSAP + ScrollTrigger is the default for every Tastemaker project** — not an optional nice-to-have — because it's what actually produces the dynamic, interactive feel (scroll-driven reveals, staggered entrances, smooth hover/press feedback, timeline-sequenced hero moments) that separates a site that feels alive from one that feels like a static mockup. GSAP's full library, including ScrollTrigger and every previously-paid Club plugin, has been free for commercial use since Webflow's 2024 acquisition of GreenSock — there's no licensing reason to reach for anything more limited.
+A static-looking site is one of the fastest ways a generated UI reads as a template rather than a real product. **GSAP + ScrollTrigger is the default for Tastemaker marketing pages** because it handles scroll-driven reveals, staggered entrances, and timeline-sequenced hero moments cleanly. For app shells, use GSAP without ScrollTrigger, CSS transitions, or a motion library that matches the stack.
 
-Install it per `references/tech-stack-guides.md` (CDN tags for plain HTML, `npm install gsap` for React/Vue/etc.), then wire up `assets/gsap-starter.js` — tested end-to-end (immediate-viewport reveal, scroll-triggered reveal, and real staggered timing all verified in a browser, not just written blind):
+Install it per `references/tech-stack-guides.md`, then wire up `assets/gsap-starter.js`:
 
 ```html
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -14,10 +27,10 @@ Install it per `references/tech-stack-guides.md` (CDN tags for plain HTML, `npm 
 <script src="gsap-starter.js"></script>
 <script>
   TastemakerMotion.init({
-    duration: 0.22,      // seconds — pull from .tastemaker/style-lock.md's Motion section
-    distance: 16,        // px
-    ease: "power2.out",
-    staggerStep: 0.06,   // seconds between staggered children
+    duration: 0.22,
+    distance: 16,
+    ease: "power3.out",
+    staggerStep: 0.06,
   });
 </script>
 ```
@@ -25,14 +38,38 @@ Install it per `references/tech-stack-guides.md` (CDN tags for plain HTML, `npm 
 ```html
 <div data-reveal>Fades/rises in on scroll</div>
 <div data-reveal data-reveal-group>
-  <div>Child 1</div>  <!-- staggers automatically within a data-reveal-group -->
+  <div>Child 1</div>
   <div>Child 2</div>
 </div>
 ```
 
-`gsap-starter.js` uses `gsap.matchMedia()` to branch on `prefers-reduced-motion` automatically — no separate reduced-motion code path to remember. Beyond scroll-reveal, reach for GSAP timelines for anything that needs real sequencing (a hero's headline, subhead, and CTA entering in order rather than all at once) and for hover/press micro-interactions where a plain CSS transition feels flat — GSAP handles both without a different library or mental model.
+`gsap-starter.js` uses `gsap.matchMedia()` for reduced motion. The fallback pair, `assets/reveal.css` and `assets/reveal.js`, uses the same `data-reveal` markup and exists for constrained contexts that cannot load GSAP.
 
-**`assets/reveal.css` + `assets/reveal.js`** (the zero-dependency vanilla version) still exist and use the exact same `data-reveal` / `data-reveal-group` markup convention — use them only when a project genuinely can't take on GSAP (a constrained embed context, a CDN-blocked environment). Don't reach for them by default; GSAP is the default, the vanilla pair is the fallback.
+## Exact curves and durations
+
+Use these as CSS tokens unless the project lock has stricter values:
+
+```css
+:root {
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+  --duration-press: 120ms;
+  --duration-popover: 180ms;
+  --duration-panel: 240ms;
+}
+```
+
+| Element | Duration | Easing |
+|---|---:|---|
+| Button press | 100-160ms | `var(--ease-out)` |
+| Tooltip or small popover | 125-200ms | `var(--ease-out)` |
+| Dropdown or select | 150-250ms | `var(--ease-out)` |
+| Modal or drawer | 200-500ms | `var(--ease-drawer)` for sheets, `var(--ease-out)` for centered modals |
+| On-screen movement or morph | 180-300ms | `var(--ease-in-out)` |
+| Scroll storytelling | as needed | `power3.out` or a scrubbed timeline |
+
+Avoid `ease-in` for UI. It starts slow at the exact moment the user expects a response.
 
 ## anime.js — a scoped alternative, not a GSAP replacement
 
@@ -95,17 +132,89 @@ Evaluated GSAP's `Draggable` + `InertiaPlugin` against anime.js's `createDraggab
 
 Animate only `transform` and `opacity`. Anything that animates `width`, `height`, `top`/`left`, or box-shadow spread triggers layout recalculation on every frame and will visibly stutter on anything but a high-end device — this is true no matter how good the animation curve is conceptually.
 
-## Always respect `prefers-reduced-motion`
+## Physicality rules
 
-Every animation must have a reduced-motion fallback (instant or near-instant state change instead of the animated transition). This isn't an accessibility afterthought to bolt on later — `gsap-starter.js` handles it automatically via `gsap.matchMedia()`, and the vanilla `reveal.css` fallback handles it via the media query below. If you write custom GSAP timelines beyond what `gsap-starter.js` covers (e.g. a bespoke hero sequence), branch them through `gsap.matchMedia()` the same way rather than skipping the check:
+- Pressable elements respond on pointer down. Default: `transform: scale(0.97)` and `transition: transform 120ms var(--ease-out)`.
+- Do not animate from `scale(0)`. Start from `scale(0.95)` plus `opacity: 0`.
+- Trigger-anchored popovers, menus, and tooltips scale from their trigger. Use `transform-origin: var(--transform-origin)` when the primitive exposes it.
+- Modals stay centered. `transform-origin: center` is correct for a modal.
+- Enter and exit along the same path. A toast that enters from the top exits to the top.
+- Use percentages for off-screen travel when size varies. `translateY(100%)` means the element's own height.
+- Add a subtle `filter: blur(2px)` only when a crossfade visibly double-exposes two states. Keep blur under `20px`.
+
+## Gesture and spring rules
+
+Use springs for drag, swipe, interruptible layout changes, and any object the user can grab mid-motion. Start with a critically damped feel: no bounce for standard UI, slight bounce only when a gesture carries momentum.
+
+Recommended Motion spring defaults:
+
+```js
+// Standard UI, no overshoot
+{ type: "spring", duration: 0.4, bounce: 0 }
+
+// Momentum-driven gesture release
+{ type: "spring", duration: 0.4, bounce: 0.2 }
+```
+
+Gesture details:
+
+- Respond on pointer down, commit on pointer up.
+- Use Pointer Events and `setPointerCapture`.
+- Respect where the user grabbed the object. Do not snap the object center to the pointer.
+- Track release velocity and hand it to the spring.
+- Use soft resistance at boundaries instead of hard stops.
+
+## Performance rule
+
+Animate only `transform` and `opacity`. Anything that animates `width`, `height`, `margin`, `padding`, `top`, `left`, or box-shadow spread risks layout and paint work every frame.
+
+Also avoid `transition: all`. Name the properties. If a React app uses Motion for animations under load, prefer a full `transform` string over separate `x`, `y`, or `scale` shorthands when frame rate matters.
+
+## Accessibility
+
+Every animation must respect reduced motion. Reduced motion means gentler feedback, not a dead interface: keep opacity/color changes that aid comprehension and drop slides, springs, parallax, and large movement.
 
 ```css
-/* only needed for custom animation outside gsap-starter.js / reveal.css */
 @media (prefers-reduced-motion: reduce) {
-  * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  .sheet {
+    transition: opacity 200ms ease;
+    transform: none !important;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .button:hover {
+    transform: translateY(-1px);
+  }
 }
 ```
 
-## Locking motion per project, same as color
+If a design uses translucent surfaces, also handle `prefers-reduced-transparency` and `prefers-contrast: more` by increasing opacity, dropping blur, and adding clearer borders.
 
-Once a project settles on a motion feel (duration scale, easing curve, how much distance entrances travel), record it in `.tastemaker/style-lock.md`'s Motion section (see `references/style-lock-format.md`) so later screens reuse the same feel instead of each one inventing its own timing — motion inconsistency is as noticeable as color inconsistency, just harder to point at directly.
+## Locking motion per project
+
+Once a project settles on a motion feel, record it in `.tastemaker/style-lock.md`:
+
+- Feel: quick and restrained, soft and bouncy, crisp and operational, or another concrete phrase.
+- Curves: exact cubic-bezier or library spring values.
+- Durations: press, popover, panel, page/story.
+- Distance: reveal and panel travel.
+- Frequency rules: where to delete or reduce motion for this project.
+
+Motion inconsistency is as visible as color inconsistency, just harder to name.
+
+## Motion review before delivery
+
+Run:
+
+```bash
+python3 scripts/audit_motion.py site assets references
+```
+
+Then do a human feel pass:
+
+- Slow key animations to 25% speed in DevTools or by temporarily multiplying durations.
+- Check origin: popovers grow from triggers, modals from center.
+- Spam toggles, tabs, and toasts. Motion should retarget, not restart from zero.
+- Toggle reduced motion. Movement drops, but state feedback remains.
+- Test mobile hover behavior. Touch should not trigger pointer-only hover motion.

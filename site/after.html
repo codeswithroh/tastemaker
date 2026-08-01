@@ -38,7 +38,10 @@
   .brand svg { width: 32px; height: 32px; }
   .nav-links { display: flex; gap: 28px; font-size: 14px; font-weight: 500; }
   .btn-primary { background: var(--primary); color: var(--on-primary); border: none; border-radius: 999px; padding: 12px 24px; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 14px; text-decoration: none; display: inline-flex; align-items: center; transition: transform .12s, background .15s; }
-  .btn-primary:hover { background: #7d4f46; transform: translateY(-1px); }
+  .btn-primary:active { transform: scale(.97); }
+  @media (hover: hover) and (pointer: fine) {
+    .btn-primary:hover { background: #7d4f46; transform: translateY(-1px); }
+  }
   .btn-ghost { border: 1px solid var(--border); border-radius: 999px; color: var(--text); padding: 11px 23px; font-weight: 500; font-size: 14px; text-decoration: none; }
 
   .hero { padding: 56px 0 80px; }
