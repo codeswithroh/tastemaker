@@ -1,5 +1,5 @@
 const showAll = () => {
-  document.querySelectorAll("[data-reveal], [data-reveal-group] > *, .site-header, .hero-copy > *, .art-stage > *").forEach((el) => {
+  document.querySelectorAll("[data-reveal], [data-reveal-group] > *, .hero-copy > *, .hero-collage > *").forEach((el) => {
     el.style.opacity = "1";
     el.style.transform = "none";
   });
@@ -32,26 +32,24 @@ const initMotion = () => {
   mm.add("(prefers-reduced-motion: no-preference)", () => {
     gsap.timeline({ defaults: { ease: "power3.out" } })
       .from(".site-header", { y: -14, opacity: 0, duration: 0.32 })
-      .from(".hero-copy .context-line", { y: 12, opacity: 0, duration: 0.28 }, "-=0.04")
-      .from(".hero h1", { y: 26, opacity: 0, duration: 0.54 }, "-=0.08")
-      .from(".hero-lede, .hero-actions", { y: 16, opacity: 0, stagger: 0.08, duration: 0.36 }, "-=0.24")
-      .from(".hero-art-main", { y: 30, rotation: -2, opacity: 0, duration: 0.64 }, "-=0.34")
-      .from(".canvas-ribbon", { y: 20, opacity: 0, stagger: 0.08, duration: 0.46 }, "-=0.4")
-      .from(".hero-art-proof, .palette-stack, .studio-note", { y: 18, opacity: 0, stagger: 0.08, duration: 0.4 }, "-=0.22");
+      .from(".release-pill", { y: 12, opacity: 0, duration: 0.28 }, "-=0.05")
+      .from(".hero h1", { y: 24, opacity: 0, duration: 0.52 }, "-=0.06")
+      .from(".hero-lede, .command-bar, .hero-actions", { y: 16, opacity: 0, stagger: 0.07, duration: 0.36 }, "-=0.24")
+      .from(".card-main", { y: 26, rotation: -1.5, opacity: 0, duration: 0.62 }, "-=0.34")
+      .from(".card-mode, .card-site, .paper-note, .swatch-rail", { y: 20, opacity: 0, stagger: 0.07, duration: 0.42 }, "-=0.28");
 
-    gsap.to(".ribbon-one", {
-      yPercent: -8,
-      rotation: -12,
+    gsap.to(".card-mode", {
+      yPercent: -12,
+      rotation: -7,
       scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: true },
     });
-    gsap.to(".ribbon-two", {
-      yPercent: 10,
-      rotation: 12,
+    gsap.to(".card-site", {
+      yPercent: -16,
+      rotation: 0,
       scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: true },
     });
-    gsap.to(".hero-art-proof", {
-      yPercent: -14,
-      rotation: -1,
+    gsap.to(".swatch-rail", {
+      yPercent: 12,
       scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: true },
     });
 
@@ -67,55 +65,57 @@ const initMotion = () => {
 
     gsap.utils.toArray("[data-reveal-group]").forEach((group) => {
       gsap.from(group.children, {
-        y: 20,
+        y: 22,
         opacity: 0,
-        stagger: 0.08,
+        stagger: 0.07,
         duration: 0.42,
         ease: "power3.out",
         scrollTrigger: { trigger: group, start: "top 82%", once: true },
       });
     });
 
-    const loom = gsap.timeline({
-      defaults: { ease: "none" },
-      scrollTrigger: {
-        trigger: ".motion-section",
+    gsap.to(".escape-frame figure", {
+      y: -42,
+      rotation: -4,
+      scrollTrigger: { trigger: ".escape-section", start: "top bottom", end: "bottom top", scrub: true },
+    });
+
+    gsap.to(".skill-polaroid", {
+      y: -60,
+      rotation: -2,
+      scrollTrigger: { trigger: ".skills-section", start: "top bottom", end: "bottom top", scrub: true },
+    });
+
+    if (window.matchMedia("(min-width: 681px)").matches) {
+      ScrollTrigger.create({
+        trigger: ".v2-section",
         start: "top top",
         end: "bottom bottom",
-        scrub: true,
-        pin: ".motion-pin",
+        pin: ".v2-layout",
         anticipatePin: 1,
-      },
+      });
+
+      gsap.to(".change-list article", {
+        x: (index) => index % 2 === 0 ? -18 : 18,
+        scrollTrigger: { trigger: ".v2-section", start: "top top", end: "bottom bottom", scrub: true },
+      });
+    }
+
+    gsap.to(".demo-card.large img", {
+      yPercent: -8,
+      scrollTrigger: { trigger: ".demo-section", start: "top bottom", end: "bottom top", scrub: true },
     });
 
-    loom
-      .fromTo(".loom-line", { scaleX: 0 }, { scaleX: 1 }, 0)
-      .fromTo(".card-a", { x: -36, opacity: 0 }, { x: 0, opacity: 1 }, 0.02)
-      .fromTo(".card-b", { y: -42, opacity: 0 }, { y: 0, opacity: 1 }, 0.18)
-      .fromTo(".card-c", { x: -24, y: 32, opacity: 0 }, { x: 0, y: 0, opacity: 1 }, 0.34)
-      .fromTo(".loom-output", { x: 64, opacity: 0 }, { x: 0, opacity: 1 }, 0.5)
-      .to(".loom-output img", { yPercent: -8 }, 0.62);
-
-    gsap.to(".gallery-piece img", {
-      yPercent: -6,
-      ease: "none",
-      scrollTrigger: { trigger: ".proof-section", start: "top bottom", end: "bottom top", scrub: true },
-    });
-
-    gsap.to(".memory-card.one", {
-      y: -24,
+    gsap.to(".memory-stack span:nth-child(1)", {
+      y: -28,
       scrollTrigger: { trigger: ".memory-section", start: "top bottom", end: "bottom top", scrub: true },
     });
-    gsap.to(".memory-card.two", {
-      y: 28,
-      scrollTrigger: { trigger: ".memory-section", start: "top bottom", end: "bottom top", scrub: true },
-    });
-    gsap.to(".memory-card.three", {
-      y: -16,
+    gsap.to(".memory-stack span:nth-child(2)", {
+      y: 26,
       scrollTrigger: { trigger: ".memory-section", start: "top bottom", end: "bottom top", scrub: true },
     });
 
-    window.setTimeout(showAll, 3000);
+    window.setTimeout(showAll, 3200);
   });
 };
 

@@ -11,13 +11,16 @@ Dials: variance 8, motion 7, density 5, art direction 9
 - Linear (https://linear.app/): keeps trust through restraint, sharp hierarchy, and a disciplined system.
 - Framer (https://www.framer.com/): treats visual output as the proof, with polished site examples and clear creation language.
 - 21st.dev (https://21st.dev/): sets a builder-community context where component quality and implementation detail matter.
+- Taste Skill (https://www.tasteskill.dev/): uses an editorial light surface, layered screenshots, sponsor/social proof, agent compatibility, skill catalog, changelog, demo showcase, and sponsor close.
+- Collective OS (https://collectiveos.vercel.app/): shows product value through polished app UI captures, floating interface cards, workflow steps, dark feature band, testimonials, FAQ, and CTA.
+- Floria (https://floria-landing-page.vercel.app/): sets an art-direction bar through strong photography, overlapping cutouts, gallery/archive structure, testimonial depth, and atmospheric CTA/footer.
 
 ## Borrow
-- Palette/material: keep Tastemaker's established dark teal/orchid technical palette, but add larger proof surfaces and screenshot-led panels.
+- Palette/material: shift the homepage to a tactile paper surface with dark technical proof bands, preserving Tastemaker teal/orchid as the brand signal.
 - Type/hierarchy: keep Archivo and IBM Plex; increase contrast between masthead-scale hero type and dense artifact labels.
-- Layout/composition: use Product Demo / Workbench plus Bento Showcase, with a left proof rail and right visual system instead of another centered SaaS hero.
-- Motion/interaction: one hero sequence, scroll progress for workflow, scanner pulse, and restrained reveal motion.
-- Asset language: use existing Tastemaker mark, real before/after embeds, local proof screenshots, local icons, and code-native artifact panels.
+- Layout/composition: use Editorial Index plus Gallery Grid: hero collage, agent compatibility, anti-generic statement, skill catalog, change/proof band, demo gallery, memory close.
+- Motion/interaction: hero collage assembly, scroll-tied screenshot drift, pinned proof/change band, reveal groups, demo parallax, and reduced-motion fallback.
+- Asset language: use existing Tastemaker mark, custom SVG art, real before/after embeds, local proof screenshots, mode screenshots, and paper notes.
 
 ## Avoid
 - Indigo or purple gradient hero.
@@ -26,9 +29,11 @@ Dials: variance 8, motion 7, density 5, art direction 9
 - Feature cards that only explain in text.
 - Invented customer logos, metrics, or testimonials.
 - Generic "AI design" slogans without showing an artifact.
+- Dense dark card wall where the skill feels administrative instead of desirable.
+- Tiny card headers that hide the section story.
 
 ## Direction contract
-- Thesis: Tastemaker is not a style prompt. It is a local design operating system for agents: references, tokens, checks, assets, motion, and memory.
-- First viewport: product name, one sharp promise, install command, and a large live-looking capability console showing the five new capabilities.
-- System: dark technical surface, orchid taste signals, teal execution states, real screenshots, terminal outputs, scanner findings, and persistent memory files.
-- Risk: the page can become too dense. Keep hero focused, move detail below the fold, and let artifacts carry the claims.
+- Thesis: Tastemaker is the taste layer for coding agents: study, art direction, assets, motion, checks, and memory.
+- First viewport: product name, install command, and a layered collage of artwork, proof screenshot, mode screenshot, notes, and swatches.
+- System: tactile paper sections, dark proof bands, orchid taste signals, teal execution states, real screenshots, mode gallery, and local memory files.
+- Risk: over-copying Taste Skill's exact structure. Borrow section roles and craft principles, not its wording or pixels.

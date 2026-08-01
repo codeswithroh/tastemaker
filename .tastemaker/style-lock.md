@@ -3,14 +3,16 @@
 Established: 2026-07-21. Source: Tastemaker technical/builder mood, generated with `scripts/generate_palette.py --mood technical --mode dark --seed 20260721` and adapted around the existing product identity.
 
 ## Palette
-- Background: #0C1414 (role: page background)
-- Surface: #171F1F (role: panels and product mockups)
+- Background: #F4F1EB (role: tactile paper page background)
+- Surface: #FFFAF1 (role: light editorial panels)
+- Dark surface: #0C1414 (role: technical proof bands and command surfaces)
 - Primary: #008286 (role: primary actions and execution states)
 - Accent: #BE85CE (role: judgment, taste, links, and highlights)
-- Text primary: #E5F6F6 — contrast vs background: 16.74 (WCAG AA pass)
-- Text muted: #A8BABA — contrast vs background: 9.24; vs surface: 8.30 (WCAG AA pass)
-- Button label color: #FFFFFF — contrast vs Primary: 4.63 (WCAG AA pass)
-- Border: #232B2C (role: decorative panel boundaries)
+- Text primary: #171514 (role: light-page text)
+- Text muted: #4D4842 (role: light-page secondary copy)
+- On-dark text: #E5F6F6 (role: dark-band text)
+- Button label color: #FFFFFF (role: dark and teal actions)
+- Border: rgba(23, 21, 20, .12) (role: light paper hairlines)
 - Dark mode: native palette; no companion mode required
 
 ## Color contract
@@ -35,10 +37,10 @@ Established: 2026-07-21. Source: Tastemaker technical/builder mood, generated wi
 - Overall density: editorial landing page with information-rich product demonstrations
 
 ## Structure
-- Macrostructure(s) used: homepage uses Long-Scroll Gallery Studio; the proof page remains a live before/after comparison.
-- Narrative arc per page: homepage hook(brand hero + art stage) -> philosophy(visual argument) -> process(pinned motion story) -> proof(gallery comparison) -> range(mode gallery) -> memory(local decisions) -> close(install).
+- Macrostructure(s) used: homepage uses Editorial Index plus Gallery Grid; the proof page remains a live before/after comparison.
+- Narrative arc per page: homepage hook(layered collage hero) -> compatibility(agent wall) -> problem(escape generic AI slop) -> solution(skill catalog) -> proof/change(dark pinned band) -> demos(gallery grid) -> memory(local decisions) -> close(install).
 - Shared chrome: preserved Tastemaker mark, compact product nav, final masthead footer.
-- Per-page body archetypes: homepage clean H1 hero with one art-directed visual, asymmetric studio board, pinned scroll-story, gallery proof piece, mosaic mode gallery, memory collage, command close.
+- Per-page body archetypes: homepage H2 split-demo collage, P1 compatibility wall, H1 poster statement, F2 skill catalog, F3 pinned proof/change band, Gallery Grid demos, memory collage, command close.
 - Build stamp / log: `.tastemaker/log.json` carries structural history; CSS stamp records this revamp.
 
 ## Reference intelligence
@@ -47,24 +49,24 @@ Established: 2026-07-21. Source: Tastemaker technical/builder mood, generated wi
 - Dials: variance 8, motion 7, density 5, art direction 9
 - Foundation: static HTML/CSS/JS in the existing site stack; no new dependency required
 - Quality bar: v0 for artifact-led AI builder framing; Cursor for live-feeling product proof; Linear for restrained hierarchy; Framer for visual-output proof; 21st.dev for builder-community credibility
-- Direction contract: Thesis Tastemaker is a taste layer, not a prompt pack; First viewport product name, concise promise, and one custom art-directed visual; System dark technical surface, orchid taste signals, teal execution states, hand-built SVG art, proof screenshots, visible motion, and local memory files; Risk generic proof-card density, solved by moving from console cards to gallery-studio composition
-- Anti-references: generic AI gradient hero, fake chrome, feature-card text walls, repeated numbered eyebrows, invented proof, dense proof-lab card wall, tiny card headers
+- Direction contract: Thesis Tastemaker is the taste layer for coding agents; First viewport product name, install command, and layered collage; System tactile paper sections, dark proof bands, orchid taste signals, teal execution states, screenshots, visible motion, and memory files; Risk over-copying Taste Skill, solved by borrowing section roles while preserving Tastemaker identity
+- Anti-references: generic AI gradient hero, fake chrome, feature-card text walls, repeated numbered eyebrows, invented proof, dense proof-lab card wall, tiny card headers, dark-only administrative proof board
 
 ## Mood descriptors
 technical, discerning, alive, exact
 
 ## Assets
 - Anchor asset: `site/assets/mark-tastemaker.svg` — the established layered-swatch Tastemaker brand mark already used across distribution channels
-- Asset style: custom SVG orchestration artwork, local proof screenshots, mode-gallery screenshots, minimal utility icons only where the interaction needs them
-- Illustration vs. photography split: abstract concept sections use the custom `site/assets/art/taste-orchestration.svg`; proof sections use real local screenshots; no factual physical section requires photography
+- Asset style: custom SVG orchestration artwork, layered proof screenshots, mode-gallery screenshots, paper notes, minimal utility icons only where the interaction needs them
+- Illustration vs. photography split: abstract concept sections use the custom `site/assets/art/taste-orchestration.svg`; proof/demo sections use real local screenshots; no factual physical section requires photography
 - Illustration source used: hand-built SVG in the repo, not stock artwork
 - Logo: `site/assets/mark-tastemaker.svg` — preserve this exact established logo and do not replace or recolor it; wordmark uses Archivo
 
 ## Motion
-- Feel: visible, art-directed, precise, and narrative
+- Feel: visible, editorial, precise, and narrative
 - Entrance duration/distance: 320-640ms, 12-30px rise depending on visual weight
 - Easing: power3.out
-- Story motion: GSAP hero assembly, scroll-tied art-stage depth, pinned motion loom, gallery parallax, and memory-card drift, all reduced-motion aware
+- Story motion: GSAP hero collage assembly, scroll-tied screenshot drift, pinned proof/change band, reveal groups, demo parallax, and memory-card drift, all reduced-motion aware
 
 ## Do not
 - Never replace or reinterpret the established `site/assets/mark-tastemaker.svg` logo

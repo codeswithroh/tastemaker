@@ -23,4 +23,30 @@
       "variety": 5
     }
   }
+  ,
+  {
+    "ts": "2026-08-01T19:04:00+05:30",
+    "surface": "homepage",
+    "macrostructure": "Editorial Index + Gallery Grid",
+    "archetypes": {
+      "nav": "balanced floating product bar",
+      "hero": "split demo collage with real proof screenshots",
+      "compatibility": "agent compatibility wall",
+      "problem": "poster statement",
+      "solution": "asymmetric skill catalog",
+      "proof": "pinned dark proof/change band",
+      "demos": "project gallery grid",
+      "memory": "layered memory file collage",
+      "close": "paper command card"
+    },
+    "rotation": "moves beyond the previous Long-Scroll Gallery Studio by adding Taste Skill-style proof sections, agent compatibility, skill catalog, and demo gallery while keeping Tastemaker brand tokens",
+    "critique": {
+      "showTell": 5,
+      "philosophy": 5,
+      "hierarchy": 5,
+      "specificity": 5,
+      "restraint": 4,
+      "variety": 5
+    }
+  }
 ]
