@@ -34,6 +34,22 @@ Established: 2026-07-21. Source: Tastemaker technical/builder mood, generated wi
 - Base spacing unit: 8px
 - Overall density: editorial landing page with information-rich product demonstrations
 
+## Structure
+- Macrostructure(s) used: homepage uses Product Demo / Workbench plus Bento Showcase; the proof page remains a live before/after comparison.
+- Narrative arc per page: homepage hook(Product Demo hero) -> problem(anti-default positioning) -> solution(capability console) -> how(workflow rail) -> proof(live before/after + scanner receipts) -> close(install).
+- Shared chrome: preserved Tastemaker mark, compact product nav, final masthead footer.
+- Per-page body archetypes: homepage H2 split demo with artifact console, F2 capability bento, F5 annotated receipt panels, C2 install close.
+- Build stamp / log: `.tastemaker/log.json` carries structural history; CSS stamp records this revamp.
+
+## Reference intelligence
+- Reference board: `.tastemaker/reference-board.md` viewed sources
+- Design read: homepage for builders comparing AI coding tools, mode Persuade, with a technical proof-lab language
+- Dials: variance 8, motion 7, density 5, art direction 9
+- Foundation: static HTML/CSS/JS in the existing site stack; no new dependency required
+- Quality bar: v0 for artifact-led AI builder framing; Cursor for live-feeling product proof; Linear for restrained hierarchy; Framer for visual-output proof; 21st.dev for builder-community credibility
+- Direction contract: Thesis Tastemaker is a local design operating system for agents; First viewport product name, install command, and capability console; System dark technical surface, orchid taste signals, teal execution states, screenshots, scanner findings, and memory files; Risk detail overload, solved by keeping the hero focused and moving receipts below the fold
+- Anti-references: generic AI gradient hero, fake chrome, feature-card text walls, repeated numbered eyebrows, invented proof
+
 ## Mood descriptors
 technical, discerning, alive, exact
 
