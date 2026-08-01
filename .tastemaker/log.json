@@ -1,0 +1,26 @@
+[
+  {
+    "ts": "2026-08-01T18:21:06+05:30",
+    "surface": "homepage",
+    "macrostructure": "Long-Scroll Gallery Studio",
+    "archetypes": {
+      "nav": "compact translucent product rail",
+      "hero": "clean H1 plus custom art stage",
+      "philosophy": "asymmetric studio board",
+      "process": "pinned scroll-story loom",
+      "proof": "gallery comparison piece",
+      "range": "mosaic mode gallery",
+      "memory": "layered memory collage",
+      "close": "command card"
+    },
+    "rotation": "replaces the rejected Product Demo / Workbench plus Bento Showcase proof-lab card wall with an artistic long-scroll gallery system",
+    "critique": {
+      "showTell": 5,
+      "philosophy": 5,
+      "hierarchy": 5,
+      "specificity": 5,
+      "restraint": 4,
+      "variety": 5
+    }
+  }
+]

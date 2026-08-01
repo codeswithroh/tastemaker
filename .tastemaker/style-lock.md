@@ -35,10 +35,10 @@ Established: 2026-07-21. Source: Tastemaker technical/builder mood, generated wi
 - Overall density: editorial landing page with information-rich product demonstrations
 
 ## Structure
-- Macrostructure(s) used: homepage uses Product Demo / Workbench plus Bento Showcase; the proof page remains a live before/after comparison.
-- Narrative arc per page: homepage hook(Product Demo hero) -> problem(anti-default positioning) -> solution(capability console) -> how(workflow rail) -> proof(live before/after + scanner receipts) -> close(install).
+- Macrostructure(s) used: homepage uses Long-Scroll Gallery Studio; the proof page remains a live before/after comparison.
+- Narrative arc per page: homepage hook(brand hero + art stage) -> philosophy(visual argument) -> process(pinned motion story) -> proof(gallery comparison) -> range(mode gallery) -> memory(local decisions) -> close(install).
 - Shared chrome: preserved Tastemaker mark, compact product nav, final masthead footer.
-- Per-page body archetypes: homepage H2 split demo with artifact console, F2 capability bento, F5 annotated receipt panels, C2 install close.
+- Per-page body archetypes: homepage clean H1 hero with one art-directed visual, asymmetric studio board, pinned scroll-story, gallery proof piece, mosaic mode gallery, memory collage, command close.
 - Build stamp / log: `.tastemaker/log.json` carries structural history; CSS stamp records this revamp.
 
 ## Reference intelligence
@@ -47,23 +47,24 @@ Established: 2026-07-21. Source: Tastemaker technical/builder mood, generated wi
 - Dials: variance 8, motion 7, density 5, art direction 9
 - Foundation: static HTML/CSS/JS in the existing site stack; no new dependency required
 - Quality bar: v0 for artifact-led AI builder framing; Cursor for live-feeling product proof; Linear for restrained hierarchy; Framer for visual-output proof; 21st.dev for builder-community credibility
-- Direction contract: Thesis Tastemaker is a local design operating system for agents; First viewport product name, install command, and capability console; System dark technical surface, orchid taste signals, teal execution states, screenshots, scanner findings, and memory files; Risk detail overload, solved by keeping the hero focused and moving receipts below the fold
-- Anti-references: generic AI gradient hero, fake chrome, feature-card text walls, repeated numbered eyebrows, invented proof
+- Direction contract: Thesis Tastemaker is a taste layer, not a prompt pack; First viewport product name, concise promise, and one custom art-directed visual; System dark technical surface, orchid taste signals, teal execution states, hand-built SVG art, proof screenshots, visible motion, and local memory files; Risk generic proof-card density, solved by moving from console cards to gallery-studio composition
+- Anti-references: generic AI gradient hero, fake chrome, feature-card text walls, repeated numbered eyebrows, invented proof, dense proof-lab card wall, tiny card headers
 
 ## Mood descriptors
 technical, discerning, alive, exact
 
 ## Assets
 - Anchor asset: `site/assets/mark-tastemaker.svg` — the established layered-swatch Tastemaker brand mark already used across distribution channels
-- Asset style: Lucide line icons, 2px stroke, orchid tint; code-native product UI mockups
-- Illustration vs. photography split: product UI mockups carry every feature explanation; no factual physical section requires photography and no redistributed illustration is used
-- Illustration source used: not applicable; local unDraw assets were deliberately not redistributed into the public repository
+- Asset style: custom SVG orchestration artwork, local proof screenshots, mode-gallery screenshots, minimal utility icons only where the interaction needs them
+- Illustration vs. photography split: abstract concept sections use the custom `site/assets/art/taste-orchestration.svg`; proof sections use real local screenshots; no factual physical section requires photography
+- Illustration source used: hand-built SVG in the repo, not stock artwork
 - Logo: `site/assets/mark-tastemaker.svg` — preserve this exact established logo and do not replace or recolor it; wordmark uses Archivo
 
 ## Motion
-- Feel: quick, precise, and state-driven
-- Entrance duration/distance: 420ms, 18px rise
+- Feel: visible, art-directed, precise, and narrative
+- Entrance duration/distance: 320-640ms, 12-30px rise depending on visual weight
 - Easing: power3.out
+- Story motion: GSAP hero assembly, scroll-tied art-stage depth, pinned motion loom, gallery parallax, and memory-card drift, all reduced-motion aware
 
 ## Do not
 - Never replace or reinterpret the established `site/assets/mark-tastemaker.svg` logo
