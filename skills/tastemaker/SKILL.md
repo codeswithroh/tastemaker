@@ -44,10 +44,12 @@ Separate from the four workflow **Modes** above: an aesthetic mode is a named, o
 
 ### Step 0 — Load memory, don't start cold
 
-Check for `.tastemaker/style-lock.md` in the project root first.
+Read `references/taste-memory.md` before writing or promoting any preference. Then check for `.tastemaker/style-lock.md` in the project root first.
 
-- **Exists** → this project already has an established style. Read it and reuse those exact tokens/assets for the new work. Do not re-derive a palette or type pairing from scratch — that's exactly the drift this file exists to prevent. Only revisit it if the user explicitly asks to change direction. If it records an active Aesthetic mode (see `references/style-lock-format.md`), read the matching `references/modes/<name>.md` and keep applying it — don't silently fall back to a default mood partway through a project. Also read `.tastemaker/log.json` if present (the structural build log, see `references/diversification.md`) — it records the macrostructure and archetype picks of previous builds so this build can rotate to a different shape instead of repeating one.
-- **Doesn't exist** → this is a fresh project. Also check `~/.tastemaker/profile.md` (outside the repo, in the user's home directory) for a personal taste profile accumulated across their other projects. If it exists, treat it as a strong prior — propose starting from it rather than starting neutral. If neither file exists, this is a genuinely cold start; go to Step 1.
+- **Exists** → this project already has an established style. Read it and reuse those exact tokens/assets for the new work. Do not re-derive a palette or type pairing from scratch — that's exactly the drift this file exists to prevent. Only revisit it if the user explicitly asks to change direction. If it records an active Aesthetic mode (see `references/style-lock-format.md`), read the matching `references/modes/<name>.md` and keep applying it — don't silently fall back to a default mood partway through a project. Also read `.tastemaker/log.json` if present (the structural build log, see `references/diversification.md`) — it records the macrostructure and archetype picks of previous builds so this build can rotate to a different shape instead of repeating one. If `.tastemaker/decisions.log` exists, scan the latest resolved entries for explicit keep/reject decisions before changing a locked choice.
+- **Doesn't exist** → this is a fresh project. Also check `~/.tastemaker/profile.md` (outside the repo, in the user's home directory) for a personal taste profile accumulated across their other projects. If it exists, treat it as a strong prior: state the 1-3 profile priors you are applying, then still ground this project in its own brief and assets. If neither file exists, this is a genuinely cold start; go to Step 1.
+
+Memory precedence is strict: the current user request wins, then `.tastemaker/style-lock.md`, then resolved project decisions in `.tastemaker/decisions.log`, then `~/.tastemaker/profile.md`. Pending-review decisions guide review, but they never count as approval.
 
 ### Step 1 — Figure out what you're actually building
 
@@ -141,21 +143,32 @@ For high-risk UI, prototype before committing. If the user asks for a hero, pric
 
 `references/anti-slop-checklist.md` carries two checks that bracket the build. **Before you finalize**, run its pre-emit self-critique: score the planned output 1-5 on six axes (show-don't-tell, philosophy, hierarchy, specificity, restraint, variety) and revise anything scoring below 3 — catching weakness there is cheaper than catching it in the gate sweep. **After you build**, run its numbered gate list (mood-scoped: some gates loosen or tighten per the project's mood) — it catches the specific tells (generic gradient defaults, emoji-as-icons, contrast checked on only one pairing, text-walls where visuals belong, static/no-motion pages, `transition: all` and other motion tells, mid-render token improvisation, the generic hero→3-cards→CTA→footer template, invented metrics) that make output read as AI-generated regardless of how good the underlying tokens were. Record the six critique scores in the build stamp. Then run the motion review in `references/animation-guidelines.md`; the final check is not "does it animate?" It is "does the interface feel faster, clearer, and more trustworthy because of the motion?"
 
-### Step 5 — Close the loop: curate fast, remember what was learned
+### Step 5 — Close the loop: store taste, then reuse it
 
-Taste lives in what gets kept vs. rejected, not in the first draft. What this looks like depends on whether you can actually get a response back:
+Taste lives in what gets kept vs. rejected. Read `references/taste-memory.md` before writing memory.
 
-- **Interactive session** (the normal case): ask a quick, specific keep/reject question rather than an open-ended "thoughts?" — e.g. "keep this hero treatment, or try a variant?" — and log the real answer to `.tastemaker/decisions.log`.
-- **Autonomous/single-pass run** (no one available to answer, e.g. a background task): don't fabricate an approval that never happened. Log the decision entry as `status: pending-review` with what was shown and why you chose it, so a later session (or the human, whenever they do look) has the reasoning available and can convert it to a real kept/rejected verdict then. A pending entry is honest; an invented "user approved this" is not.
-- Periodically (e.g. every handful of resolved decisions, or when the user says a project is done) summarize durable patterns from *resolved* log entries up into `~/.tastemaker/profile.md` — the kind of preference that would matter on a *different* project too (e.g. "prefers muted/desaturated palettes over saturated ones," "consistently rejects skeuomorphic shadows"), not project-specific detail that belongs only in that project's lock file. Don't promote pending/unresolved entries into the global profile — only real revealed preference should shape future cold starts.
+Every design pass ends with decision capture:
 
-This is what makes the second project faster than the first, and the tenth faster than the second — the tool is meant to get more accurate for a given developer the more they use it, not stay static.
+- **Interactive session** (the normal case): ask one quick, specific keep/reject question rather than an open-ended "thoughts?" Example: "keep this hero density, or try a quieter variant?" Log the real answer to `.tastemaker/decisions.log`.
+- **Autonomous/single-pass run** (no one available to answer, e.g. a background task): do not fabricate approval. Append a `pending-review` entry with the choice, surface, axis, and reason, so a later session can turn it into a real kept/rejected verdict.
+- **Follow-up session**: read pending entries first, ask the user to resolve the relevant one if it affects the new work, then append a fresh kept/rejected entry. Do not edit old log lines to make the history cleaner.
+
+Use three memory layers:
+
+- `.tastemaker/style-lock.md` stores the current project's rules.
+- `.tastemaker/decisions.log` stores append-only keep/reject/pending evidence.
+- `~/.tastemaker/profile.md` stores durable cross-project preferences.
+
+Promote a decision into `~/.tastemaker/profile.md` only when it is resolved and reusable outside this project: the user explicitly asks to carry it forward, the same preference repeats across resolved entries, or it describes a durable axis like density, motion feel, typography, assets, hierarchy, or shape language. Do not promote pending entries, client constraints, one-off brand requirements, time-pressure fallbacks, or hesitant approvals.
+
+At handoff, say exactly what changed: decision log updated or not, style lock updated or not, profile promoted or not. This answers the carry-over question directly: project decisions persist in the repo, and personal preferences persist locally in the user's home directory.
 
 ## Reference files
 
 | File | Read when |
 |---|---|
 | `references/style-lock-format.md` | Writing or updating `.tastemaker/style-lock.md` |
+| `references/taste-memory.md` | Step 0 / Step 5 — reading, logging, resolving, or promoting user design preferences across sessions and projects |
 | `references/modes/<name>.md` | Before Step 2, only if this folder exists and the user's request (or the project's style lock) names an aesthetic mode — see "Aesthetic modes" above. Not present in the base skill; an optional add-on. |
 | `references/style-tokens.md` | Cold start with no references — auto-selects a matched palette + Google-Font pairing from the app idea's mood, plus spacing/radius/shadow scales |
 | `references/narrative-arc.md` | Step 2.5, read before the macrostructure pick — the six-beat story arc (hook/problem/solution/how-it-works/proof/close) grounded in StoryBrand and PAS, so a page's sections build an argument, not just a varied shape |

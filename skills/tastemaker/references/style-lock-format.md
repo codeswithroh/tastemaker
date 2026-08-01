@@ -73,6 +73,15 @@ The whole-page composition, recorded so a multi-page project stays coherent and 
 - Per-page body archetypes: <the hero/feature/proof/CTA picks per page, e.g. "landing: H2 split-demo · F1 bands · P1 logo-wall · C2 statement">
 - Build stamp / log: <note that `.tastemaker/log.json` carries the per-build record; the CSS stamp format is in `references/diversification.md`>
 
+## Taste memory
+See `references/taste-memory.md` before filling this section. It records how user preference shaped this project and whether anything should carry into future projects.
+- Profile priors used: <1-3 entries read from `~/.tastemaker/profile.md`, or "none">
+- Decision log: `.tastemaker/decisions.log`
+- Last resolved decisions: <latest kept/rejected choices that affect this lock, with dates or short ids>
+- Pending review: <choices logged as pending-review that need user confirmation, or "none">
+- Profile promotion: <"none" | "promoted: <preference> to `~/.tastemaker/profile.md` because <evidence>">
+- Memory precedence note: <any conflict resolved between current request, project lock, decisions log, and profile>
+
 ## Navigation chrome
 Only for projects with an app shell (sidebar plus topbar) — see `references/component-patterns.md`'s App shell section. Omit this whole section for marketing-only projects.
 - Sidebar background: <role, e.g. "Surface"> · Content area background: <role, e.g. "Background">

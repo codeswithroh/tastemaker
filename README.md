@@ -32,7 +32,7 @@
 
 Tastemaker is a skill for coding agents. Native support: Claude Code (recommended), Windsurf, and Gemini CLI. You install it once and forget it. Whenever you ask your agent to build or style a UI, tastemaker steps in and gives it a real design system to work from, instead of the generic defaults every model reaches for.
 
-It is plain Markdown and small Python scripts. Everything runs on your machine. There is no hosted backend, no account, and no API key.
+It is plain Markdown and small Python scripts. Everything runs on your machine. There is no hosted backend, no account, and no API key. Design memory is local too: project choices live in `.tastemaker/style-lock.md` and `.tastemaker/decisions.log`; durable personal preferences live in `~/.tastemaker/profile.md`.
 
 ## See the difference, not just the claim
 
@@ -63,7 +63,7 @@ If you say *"lock these decisions as a design bible and use it as our anchor,"* 
 
 Here is what that does not give you:
 
-- **It does not survive the session.** The bible lives in context. Close the chat and it is gone, or you re-paste it and hope. Tastemaker writes `.tastemaker/style-lock.md` to your repo and `~/.tastemaker/profile.md` to your home directory, so the decision outlives the conversation and carries into the next project.
+- **It does not survive the session.** The bible lives in context. Close the chat and it is gone, or you re-paste it and hope. Tastemaker writes `.tastemaker/style-lock.md` and `.tastemaker/decisions.log` to your repo, then promotes durable resolved preferences into `~/.tastemaker/profile.md`. Project decisions survive the conversation, and real keep/reject patterns can carry into the next project.
 - **It has no check that runs.** A written-down preference is still a judgment you can talk yourself out of. `check_contrast.py --matrix` is a computation. It does not care how good the palette looked to you, and it returns the same verdict every time. That is the difference between an intention and a constraint.
 - **It cannot read pixels.** "Match this reference" through a conversation becomes a text description of an image, then a rebuild from the description. `extract_palette.py` reads the actual pixel values.
 - **It leaves the combinations to improvisation.** A written bible lists your colors. It does not enumerate which of those colors may legally touch which, so the model still guesses when it invents a badge fill or a disabled state. The matrix answers that up front.
@@ -132,7 +132,7 @@ For the deterministic color extraction script you need Python 3 and Pillow (`pip
 | **Better app screens** | Screen-type guidance covers dashboards, app shells, data tables, forms, loading, empty, error, focus, pressed, and success states, so the skill does not only shine on landing pages. |
 | **Prototype before guessing** | High-risk UI can branch into real variants behind a picker, then promote the version that feels right. |
 | **Attribution free assets** | Photos (Openverse), icons (Iconify), and illustrations all need no keys and no visible credit line. |
-| **Taste that compounds** | A local profile remembers what you keep across projects, so the tool gets more accurate the more you use it. |
+| **Taste that compounds** | `.tastemaker/style-lock.md` keeps project rules, `.tastemaker/decisions.log` records keep/reject evidence, and `~/.tastemaker/profile.md` carries durable preferences into the next project. |
 
 ## The palette generator
 
