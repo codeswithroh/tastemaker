@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tastemaker Product Hunt shots</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800;900&family=IBM+Plex+Mono:wght@500;700&family=IBM+Plex+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0c1414;
+      --surface: #171f1f;
+      --surface-2: #111a1a;
+      --primary: #008286;
+      --accent: #be85ce;
+      --text: #e5f6f6;
+      --muted: #a8baba;
+      --border: #273232;
+      --ink: #091111;
+      --display: "Archivo", system-ui, sans-serif;
+      --body: "IBM Plex Sans", system-ui, sans-serif;
+      --mono: "IBM Plex Mono", ui-monospace, monospace;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { margin: 0; width: 1270px; height: 760px; overflow: hidden; background: var(--bg); color: var(--text); }
+    body { font-family: var(--body); -webkit-font-smoothing: antialiased; }
+    .shot { position: relative; width: 1270px; height: 760px; overflow: hidden; padding: 54px 62px; background: var(--bg); }
+    .shot::before {
+      position: absolute;
+      inset: 0;
+      content: "";
+      background-image: radial-gradient(circle, rgba(229, 246, 246, .12) 1px, transparent 1px);
+      background-size: 28px 28px;
+      opacity: .62;
+      mask-image: linear-gradient(to bottom, black 0%, transparent 92%);
+    }
+    .shot::after {
+      position: absolute;
+      inset: auto 0 0;
+      height: 6px;
+      content: "";
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+    }
+    .content { position: relative; z-index: 1; height: 100%; }
+    .topline { display: flex; align-items: center; justify-content: space-between; margin-bottom: 34px; }
+    .brand { display: inline-flex; align-items: center; gap: 12px; font: 800 22px/1 var(--display); letter-spacing: -.02em; }
+    .brand img { width: 42px; height: 42px; }
+    .tag { color: var(--accent); font: 700 13px/1 var(--mono); letter-spacing: .16em; text-transform: uppercase; }
+    h1 { margin: 0; font: 900 86px/.9 var(--display); letter-spacing: -.07em; }
+    h1 .accent, h2 .accent { color: var(--accent); }
+    h2 { margin: 0; font: 900 68px/.94 var(--display); letter-spacing: -.06em; }
+    p { margin: 0; color: var(--muted); font-size: 24px; line-height: 1.35; }
+    .mono { font-family: var(--mono); }
+    .pill { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 16px; border: 1px solid var(--border); border-radius: 999px; background: rgba(23, 31, 31, .9); color: var(--text); font: 500 15px/1 var(--mono); }
+    .pill i { color: var(--accent); font-style: normal; }
+    .button { display: inline-flex; align-items: center; justify-content: center; flex: 0 0 auto; min-height: 52px; padding: 0 22px; border-radius: 7px; background: var(--primary); color: #fff; font-weight: 800; white-space: nowrap; }
+    .browser { overflow: hidden; border: 1px solid var(--border); border-radius: 22px; background: var(--surface); box-shadow: 22px 22px 0 rgba(17, 26, 26, .9); }
+    .bar { display: flex; align-items: center; justify-content: space-between; height: 46px; padding: 0 16px; border-bottom: 1px solid var(--border); color: var(--muted); font: 500 12px/1 var(--mono); }
+    .dots { display: flex; gap: 7px; }
+    .dots span { width: 8px; height: 8px; border-radius: 50%; background: var(--border); }
+    .dots span:nth-child(2) { background: var(--primary); }
+    .dots span:nth-child(3) { background: var(--accent); }
+    .browser img { width: 100%; height: 100%; object-fit: cover; }
+
+    .shot-1 .grid { display: grid; grid-template-columns: 465px 1fr; gap: 64px; align-items: center; height: calc(100% - 76px); }
+    .shot-1 h1 { font-size: 78px; }
+    .shot-1 p { max-width: 410px; margin-top: 22px; }
+    .shot-1 .actions { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; margin-top: 34px; }
+    .shot-1 .hero-frame { height: 456px; transform: rotate(-1.2deg); }
+    .shot-1 .hero-frame img { object-position: 50% 46%; }
+    .shot-1 .caption { display: none; }
+
+    .shot-2 .split { display: grid; grid-template-columns: 420px 1fr; gap: 44px; align-items: center; height: calc(100% - 76px); }
+    .shot-2 h2 { max-width: 420px; }
+    .shot-2 p { max-width: 390px; margin-top: 20px; }
+    .shot-2 .compare-frame { height: 498px; }
+    .shot-2 .compare-frame img { object-position: 50% 76%; }
+    .labels { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 22px; }
+    .labels div { padding: 16px; border: 1px solid var(--border); background: rgba(23, 31, 31, .76); }
+    .labels b { display: block; color: var(--accent); font: 800 18px/1 var(--display); }
+    .labels span { display: block; margin-top: 6px; color: var(--muted); font-size: 14px; line-height: 1.3; }
+
+    .shot-3 .headline-row { display: grid; grid-template-columns: 1fr 330px; gap: 44px; align-items: end; margin-bottom: 42px; }
+    .shot-3 h2 { max-width: 760px; }
+    .proof-grid { display: grid; grid-template-columns: 1.05fr .95fr .85fr; gap: 18px; }
+    .proof-card { min-height: 348px; padding: 26px; border: 1px solid var(--border); border-radius: 20px; background: rgba(23, 31, 31, .92); overflow: hidden; }
+    .proof-card h3 { margin: 0 0 10px; font: 800 28px/1 var(--display); letter-spacing: -.035em; }
+    .proof-card p { font-size: 17px; line-height: 1.35; }
+    .palette { display: grid; grid-template-columns: 1.35fr 1fr .8fr .8fr; height: 128px; margin-top: 30px; border: 1px solid var(--border); }
+    .palette span:nth-child(1) { background: #152823; }
+    .palette span:nth-child(2) { background: #9c542f; }
+    .palette span:nth-child(3) { background: #e9d8ad; }
+    .palette span:nth-child(4) { background: #be85ce; }
+    .matrix { display: grid; grid-template-columns: 1fr auto; gap: 12px; margin-top: 24px; color: var(--muted); font: 700 15px/1 var(--mono); }
+    .matrix b { color: var(--accent); }
+    .lock-preview { margin-top: 28px; padding: 18px; border-left: 3px solid var(--accent); background: var(--ink); color: var(--muted); font: 500 16px/1.7 var(--mono); }
+    .lock-preview b { color: var(--text); }
+    .shot-3 .mini-shot { height: 172px; margin-top: 26px; border: 1px solid var(--border); background: var(--ink); }
+    .shot-3 .mini-shot img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 31%; }
+
+    .shot-4 .install-grid { display: grid; grid-template-columns: 520px 1fr; gap: 58px; align-items: center; height: calc(100% - 76px); }
+    .shot-4 h2 { font-size: 76px; }
+    .shot-4 p { max-width: 450px; margin-top: 22px; }
+    .terminal { margin-top: 34px; border: 1px solid var(--border); border-radius: 18px; background: #071010; overflow: hidden; }
+    .terminal-head { display: flex; align-items: center; justify-content: space-between; height: 48px; padding: 0 18px; border-bottom: 1px solid var(--border); color: var(--muted); font: 500 13px/1 var(--mono); }
+    pre { margin: 0; padding: 24px; color: var(--text); font: 500 22px/1.65 var(--mono); white-space: pre-wrap; }
+    pre .prompt { color: var(--accent); }
+    .feature-list { display: grid; gap: 14px; }
+    .feature { display: grid; grid-template-columns: 42px 1fr; gap: 16px; align-items: start; padding: 18px; border: 1px solid var(--border); border-radius: 16px; background: rgba(23, 31, 31, .92); }
+    .feature i { display: grid; place-items: center; width: 42px; height: 42px; border-radius: 9px; background: rgba(0, 130, 134, .22); color: var(--accent); font: 800 18px/1 var(--display); font-style: normal; }
+    .feature b { display: block; font: 800 22px/1 var(--display); letter-spacing: -.025em; }
+    .feature span { display: block; margin-top: 5px; color: var(--muted); font-size: 16px; line-height: 1.35; }
+  </style>
+</head>
+<body>
+  <section class="shot shot-1" data-shot="1">
+    <div class="content">
+      <div class="topline"><div class="brand"><img src="../site/assets/mark-tastemaker.svg" alt="">tastemaker</div><div class="tag">Product Hunt launch gallery</div></div>
+      <div class="grid">
+        <div>
+          <h1>Make your agent's UI <span class="accent">worth shipping.</span></h1>
+          <p>A free skill that gives AI coding agents real design taste before they write the screen.</p>
+          <div class="actions"><span class="button">Install Tastemaker</span><span class="pill"><i>$</i> npx skills add codeswithroh/tastemaker</span></div>
+        </div>
+        <div class="browser hero-frame">
+          <div class="bar"><div class="dots"><span></span><span></span><span></span></div><span>tastemaker-skill.online</span><span>style locked</span></div>
+          <img src="captures/landing-hero.png" alt="">
+        </div>
+      </div>
+      <div class="caption pill"><i>01</i> launch poster</div>
+    </div>
+  </section>
+
+  <section class="shot shot-2" data-shot="2">
+    <div class="content">
+      <div class="topline"><div class="brand"><img src="../site/assets/mark-tastemaker.svg" alt="">tastemaker</div><div class="tag">Same prompt. Different result.</div></div>
+      <div class="split">
+        <div>
+          <h2>Stops the default <span class="accent">AI look.</span></h2>
+          <p>The same landing-page prompt becomes a real visual direction instead of another rounded-card indigo template.</p>
+          <div class="labels"><div><b>Before</b><span>Generic gradient, generic copy, no visual system.</span></div><div><b>After</b><span>Generated palette, real assets, motion, and a locked style.</span></div></div>
+        </div>
+        <div class="browser compare-frame">
+          <div class="bar"><div class="dots"><span></span><span></span><span></span></div><span>before-after proof</span><span>one prompt</span></div>
+          <img src="captures/compare-page.png" alt="">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="shot shot-3" data-shot="3">
+    <div class="content">
+      <div class="topline"><div class="brand"><img src="../site/assets/mark-tastemaker.svg" alt="">tastemaker</div><div class="tag">What changed under the hood</div></div>
+      <div class="headline-row">
+        <h2>Not a prompt pack. <span class="accent">A design system first.</span></h2>
+        <p>Concrete files and scripts keep the agent from drifting back to generic taste.</p>
+      </div>
+      <div class="proof-grid">
+        <article class="proof-card">
+          <h3>Fresh palettes</h3>
+          <p>Generated per project, matched to mood, then checked against contrast floors.</p>
+          <div class="palette"><span></span><span></span><span></span><span></span></div>
+          <div class="matrix"><span>Text / background</span><b>16.74 PASS</b><span>Button / label</span><b>4.63 PASS</b></div>
+        </article>
+        <article class="proof-card">
+          <h3>Style lock</h3>
+          <p>The decisions live in the repo so future screens reuse the same rules.</p>
+          <div class="lock-preview"><b>.tastemaker/style-lock.md</b><br>palette<br>type scale<br>legal pairings<br>motion feel<br>logo rule</div>
+        </article>
+        <article class="proof-card">
+          <h3>Visual proof</h3>
+          <p>Features become screenshots, comparisons, flows, and UI mockups.</p>
+          <div class="mini-shot"><img src="captures/capabilities-section.png" alt=""></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="shot shot-4" data-shot="4">
+    <div class="content">
+      <div class="topline"><div class="brand"><img src="../site/assets/mark-tastemaker.svg" alt="">tastemaker</div><div class="tag">Free and open source</div></div>
+      <div class="install-grid">
+        <div>
+          <h2>Install once. <span class="accent">Ask normally.</span></h2>
+          <p>No account, subscription, hosted editor, or lock-in. Drop the skill into your agent and build the UI.</p>
+          <div class="terminal">
+            <div class="terminal-head"><span>terminal / install</span><span>one command</span></div>
+            <pre><span class="prompt">$</span> npx skills add codeswithroh/tastemaker</pre>
+          </div>
+        </div>
+        <div class="feature-list">
+          <div class="feature"><i>1</i><div><b>Reads references</b><span>Extracts real pixels from screenshots instead of summarizing the vibe.</span></div></div>
+          <div class="feature"><i>2</i><div><b>Locks the system</b><span>Stores palette, type, assets, logo rules, and motion in project files.</span></div></div>
+          <div class="feature"><i>3</i><div><b>Builds with proof</b><span>Uses focused visuals, clean heroes, contrast checks, and reusable decisions.</span></div></div>
+          <div class="feature"><i>4</i><div><b>Works where you work</b><span>Claude Code, Cursor, Windsurf, and Codex.</span></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <script>
+    const params = new URLSearchParams(location.search);
+    const selected = params.get("shot");
+    if (selected) {
+      document.querySelectorAll(".shot").forEach((shot) => {
+        shot.style.display = shot.dataset.shot === selected ? "block" : "none";
+      });
+    }
+  </script>
+</body>
+</html>
