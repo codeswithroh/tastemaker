@@ -123,8 +123,10 @@ For the deterministic color extraction script you need Python 3 and Pillow (`pip
 | | |
 |---|---|
 | **Grounded in real pixels** | Reference images become real color tokens through `scripts/extract_palette.py`, not a text guess. |
+| **Reference-led without user references** | Cold starts create `.tastemaker/reference-board.md`: competitors, adjacent products, cultural sources, interface systems, anti-references, dials, and a direction contract. |
 | **A new palette every time, never reused** | `generate_palette.py` builds a fresh palette per project: a base hue in the mood's range, a color-harmony rule for the accent, and per-role lightness solved so the contrast pairings clear their floors. Two similar prompts get two different, legible palettes, never the same one twice. |
 | **A contrast contract, not a one time check** | `check_contrast.py --matrix` computes every pairing in the palette and reports which may carry text, which may carry a border, and which may carry neither. The generator satisfies this by construction, so a fresh palette is still a legible one. This buys readability, not taste. |
+| **Mechanical anti-slop scan** | `anti_slop_scan.py` flags high-confidence tells such as generic purple gradients, gradient text, `h-screen`, dead links, missing alt text, placeholder copy, emoji icons, eyebrow spam, and `transition-all`. |
 | **Real illustrations** | Each concept is matched to real illustrator grade art and recolored to your palette, not drawn from scratch by the model. |
 | **A real logo, not a letter in a box** | A constructed geometric mark plus a full favicon set, readable down to 16px. |
 | **Motion by default** | GSAP and ScrollTrigger reveals plus a sequenced hero, wired during the build and not left as a follow up. |
@@ -166,12 +168,13 @@ Icons follow the same idea at a smaller scale: each mood maps to two candidate I
 
 ```
 1. Read the idea      references, or the app concept itself
-2. Lock the style     palette and type, contrast checked, written to a lock file
-3. Source assets      photos, illustrations, icons, logo, favicons, in one pass
-4. Pick libraries     use proven primitives for hard UI behavior instead of hand-rolling
-5. Build screens      visual first, app states covered, motion gated and checked
-6. Prototype variants when direction is uncertain
-7. Remember taste     what you keep rolls into a profile for the next project
+2. Build references   quality bar, anti-references, design read, and dials
+3. Lock the style     palette and type, contrast checked, written to a lock file
+4. Source assets      photos, illustrations, icons, logo, favicons, in one pass
+5. Pick libraries     use proven primitives for hard UI behavior instead of hand-rolling
+6. Build screens      visual first, app states covered, motion and slop scans checked
+7. Prototype variants when direction is uncertain
+8. Remember taste     what you keep rolls into a profile for the next project
 ```
 
 The full workflow lives in [`SKILL.md`](SKILL.md). The reference files in [`references/`](references/) hold the deep material and are read only when a step needs them.

@@ -25,6 +25,14 @@ Record the six scores in the build's CSS stamp so a later run can see them: `/* 
 
 Run through these before handing back any generated UI. Every answer must land on the safe side. **Gates are universal unless a *Mood note* scopes them** — tastemaker's five moods are premium, warm, technical, playful, elegant (from `references/style-tokens.md`). A mood note loosens or tightens a gate for a specific mood; where there's no note, the gate binds every mood.
 
+Run the static scanner before the manual sweep:
+
+```bash
+python3 scripts/anti_slop_scan.py <changed-ui-paths>
+```
+
+The scanner catches high-confidence source tells: generic purple/cyan gradients, gradient text, `h-screen`, dead links, missing alt text, placeholder copy, AI-copy phrases, emoji icons, repeated eyebrow labels, and `transition-all`. Fix HIGH findings. For MEDIUM findings, either fix them or record why the brief earned the exception. The scanner is a floor, not the full review; the gates below still decide the work.
+
 ### Show, don't tell & structure
 
 1. **Shows, doesn't tell — visuals carry meaning, not paragraphs.** Go section by section: is each one mostly something to *look at* (a UI mockup, a chart, a comparison, a diagram, a numbered visual flow, a stat callout, an illustration) with text as its caption — or is it mostly prose with a decorative icon? A page where most sections are heading-plus-two-sentences-of-explanation is the text-wall failure mode, and it reads as generic even with perfect tokens. Replace explanatory paragraphs with the thing they describe: "fast analytics" → an actual chart; "simple 3-step setup" → three visual panels; "powerful editor" → a mockup of the editor. Text stays only where a visual genuinely can't carry it (headline, short subhead, caption, CTA). This is the highest-leverage anti-slop check there is — a beautiful palette on a wall of text still reads as AI slop. **A section can pass this gate technically and still fail it in spirit** — a proof/evidence section built as small label + description + tiny-icon cards floating in mostly-empty background is a card, not a paragraph, but is still too sparse to carry a proof beat. See `references/component-patterns.md`'s show-don't-tell section for the proof-specific floor: real supporting visuals (an annotated capture, a real chart, a constructed diagram), not undersized cards padded out by empty space.

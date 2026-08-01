@@ -73,6 +73,16 @@ The whole-page composition, recorded so a multi-page project stays coherent and 
 - Per-page body archetypes: <the hero/feature/proof/CTA picks per page, e.g. "landing: H2 split-demo · F1 bands · P1 logo-wall · C2 statement">
 - Build stamp / log: <note that `.tastemaker/log.json` carries the per-build record; the CSS stamp format is in `references/diversification.md`>
 
+## Reference intelligence
+See `references/reference-intelligence.md` before filling this section. It records the current quality bar and the design read that shaped the project.
+- Reference board: `.tastemaker/reference-board.md` <"viewed sources" | "inferred, not viewed">
+- Design read: <surface type> for <audience>, mode <Persuade|Operate|Read|Experience>, with <visual lane>
+- Dials: variance <1-10>, motion <1-10>, density <1-10>, art direction <1-10>
+- Foundation: <official design system | existing repo stack | custom aesthetic lane>, with dependency check result
+- Quality bar: <1-3 source names or inferred references and what they set>
+- Direction contract: Thesis <...>; First viewport <...>; System <...>; Risk <...>
+- Anti-references: <category defaults this project avoids>
+
 ## Taste memory
 See `references/taste-memory.md` before filling this section. It records how user preference shaped this project and whether anything should carry into future projects.
 - Profile priors used: <1-3 entries read from `~/.tastemaker/profile.md`, or "none">

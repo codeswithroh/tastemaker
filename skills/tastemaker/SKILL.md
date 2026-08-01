@@ -59,6 +59,15 @@ Before touching color or type, scope the work:
 - If no spec exists, ask the user directly (briefly) what screens are in scope, rather than guessing. A design system for the wrong surface area is wasted work.
 - Classify every screen before designing it: **marketing narrative**, **app shell**, **transactional form**, **data view**, **editor/canvas**, **settings**, **empty/loading/success state**. This classification controls density, component choice, and motion. A marketing page can teach through scroll; a dashboard earns trust by getting out of the way.
 
+### Step 1.25 — Build the reference field
+
+Read `references/reference-intelligence.md` before a cold start, a major redesign, or any request where the user wants a modern, polished, professional, or visually stunning result without supplying references.
+
+- State the one-line design read: surface type, audience, visitor mode, visual lane, and dials for variance, motion, density, and art direction.
+- Create or update `.tastemaker/reference-board.md` with direct competitors, adjacent products, cultural sources, interface systems, and anti-references. If live browsing or screenshots are available, use real sources and record the URLs. If they are not available, mark the board as inferred rather than viewed.
+- Decide whether the work should use an official design system, the repo's existing component stack, or a custom aesthetic lane. Check dependencies before importing anything.
+- Write the direction contract into the style lock or build stamp: thesis, first viewport, system, and risk.
+
 ### Step 1.5 — Pick the right building blocks
 
 Before hand-rolling interactive UI, read `references/library-selection.md` for the task type.
@@ -141,7 +150,14 @@ For high-risk UI, prototype before committing. If the user asks for a hero, pric
 
 **Stamp the build and record it in project memory.** The first non-empty line of the built CSS (or the top of an inline `<style>`) is a comment recording the structural picks, mood, palette seed, and contrast result — the format is in `references/diversification.md`. In the same pass, append an entry to `.tastemaker/log.json` (create it if absent) with the macrostructure and archetype picks. This is the durable record the *next* build reads to rotate against — skipping it is how the skill drifts back into building the same shape every time.
 
-`references/anti-slop-checklist.md` carries two checks that bracket the build. **Before you finalize**, run its pre-emit self-critique: score the planned output 1-5 on six axes (show-don't-tell, philosophy, hierarchy, specificity, restraint, variety) and revise anything scoring below 3 — catching weakness there is cheaper than catching it in the gate sweep. **After you build**, run its numbered gate list (mood-scoped: some gates loosen or tighten per the project's mood) — it catches the specific tells (generic gradient defaults, emoji-as-icons, contrast checked on only one pairing, text-walls where visuals belong, static/no-motion pages, `transition: all` and other motion tells, mid-render token improvisation, the generic hero→3-cards→CTA→footer template, invented metrics) that make output read as AI-generated regardless of how good the underlying tokens were. Record the six critique scores in the build stamp. Then run the motion review in `references/animation-guidelines.md`; the final check is not "does it animate?" It is "does the interface feel faster, clearer, and more trustworthy because of the motion?"
+`references/anti-slop-checklist.md` carries two checks that bracket the build. **Before you finalize**, run its pre-emit self-critique: score the planned output 1-5 on six axes (show-don't-tell, philosophy, hierarchy, specificity, restraint, variety) and revise anything scoring below 3 — catching weakness there is cheaper than catching it in the gate sweep. **After you build**, run its numbered gate list (mood-scoped: some gates loosen or tighten per the project's mood) — it catches the specific tells (generic gradient defaults, emoji-as-icons, contrast checked on only one pairing, text-walls where visuals belong, static/no-motion pages, `transition: all` and other motion tells, mid-render token improvisation, the generic hero→3-cards→CTA→footer template, invented metrics) that make output read as AI-generated regardless of how good the underlying tokens were. Record the six critique scores in the build stamp. Then run the mechanical scans:
+
+```bash
+python3 scripts/anti_slop_scan.py <changed-ui-paths>
+python3 scripts/audit_motion.py <changed-ui-paths>
+```
+
+Fix HIGH findings before handoff. MEDIUM findings need either a fix or a short reason they are earned by the brief. Then run the motion review in `references/animation-guidelines.md`; the final check is not "does it animate?" It is "does the interface feel faster, clearer, and more trustworthy because of the motion?"
 
 ### Step 5 — Close the loop: store taste, then reuse it
 
@@ -169,6 +185,7 @@ At handoff, say exactly what changed: decision log updated or not, style lock up
 |---|---|
 | `references/style-lock-format.md` | Writing or updating `.tastemaker/style-lock.md` |
 | `references/taste-memory.md` | Step 0 / Step 5 — reading, logging, resolving, or promoting user design preferences across sessions and projects |
+| `references/reference-intelligence.md` | Step 1.25 — building a reference field, design read, dials, quality bar, and direction contract when the user gives no references or asks for a major visual upgrade |
 | `references/modes/<name>.md` | Before Step 2, only if this folder exists and the user's request (or the project's style lock) names an aesthetic mode — see "Aesthetic modes" above. Not present in the base skill; an optional add-on. |
 | `references/style-tokens.md` | Cold start with no references — auto-selects a matched palette + Google-Font pairing from the app idea's mood, plus spacing/radius/shadow scales |
 | `references/narrative-arc.md` | Step 2.5, read before the macrostructure pick — the six-beat story arc (hook/problem/solution/how-it-works/proof/close) grounded in StoryBrand and PAS, so a page's sections build an argument, not just a varied shape |
@@ -196,6 +213,7 @@ At handoff, say exactly what changed: decision log updated or not, style lock up
 | `scripts/generate_palette.py` | Generate a fresh, contrast-valid palette for a mood (OKLCH + color harmony, per-role lightness solved against the contract). The default cold-start path, so output isn't one of five fixed options. Usage: `python3 scripts/generate_palette.py --mood <premium\|warm\|technical\|playful\|elegant> [--mode light\|dark] [--seed N]`. Prints the roles, a preview URL, and the contrast matrix to record in the lock. |
 | `scripts/extract_palette.py` | Deterministic color/contrast extraction from reference image(s). Usage: `python3 scripts/extract_palette.py <image_path> [image_path ...]` |
 | `scripts/check_contrast.py` | WCAG contrast check for a palette. `--palette text=hex bg=hex primary=hex accent=hex` checks the critical few pairings; `check_contrast.py <hex1> <hex2>` checks a single pair. `--matrix text=hex bg=hex surface=hex primary=hex accent=hex border=hex on-primary=hex` computes every pairing in the token set and reports which are text-safe (>=4.5:1), UI-safe (>=3.0:1), or decorative — this is what Step 2 records as the Color contract in `.tastemaker/style-lock.md`, and what Step 4 checks new pairings against (see `references/style-lock-format.md`). Run this on any palette, the reference anchors, an extracted reference-image palette, or a user-supplied brand color, not just the starter ones. |
+| `scripts/anti_slop_scan.py` | Static scan for high-confidence AI UI tells: generic purple/cyan gradients, gradient text, `h-screen`, dead links, missing alt text, placeholder copy, AI-copy phrases, emoji icons, eyebrow spam, and `transition-all`. Usage: `python3 scripts/anti_slop_scan.py <changed-ui-paths>` |
 | `scripts/validate_assets.py` | Validate SVG assets are well-formed before shipping them (Step 3/4). Usage: `python3 scripts/validate_assets.py <file_or_directory>` |
 | `scripts/fetch_photos.py` | Fetch real photography from Openverse — **no API key**, CC0/public-domain (attribution-free), writes a voluntary code-comment `CREDITS` block. Usage: `python3 scripts/fetch_photos.py "<query>" --out design/assets/photos`. Optional `--source pixabay` (needs `PIXABAY_API_KEY`) for higher-curation imagery. |
 | `scripts/fetch_icons.py` | Fetch icons from Iconify — **no API key, attribution-free**, pre-tinted to the accent, set chosen by mood so projects don't all get the same icons. Usage: `python3 scripts/fetch_icons.py --search "<terms>" --mood <mood>` then `--icons a b c --mood <mood> --color "#hex" --out design/assets/icons` (or `--set <prefix>` to name one directly) |
