@@ -37,11 +37,11 @@ Established: 2026-07-21. Source: Tastemaker technical/builder mood, generated wi
 - Overall density: editorial landing page with information-rich product demonstrations
 
 ## Structure
-- Macrostructure(s) used: homepage uses Editorial Index plus Gallery Grid; the proof page remains a live before/after comparison.
-- Narrative arc per page: homepage hook(layered collage hero) -> compatibility(agent wall) -> problem(escape generic AI slop) -> solution(skill catalog) -> proof/change(dark pinned band) -> demos(gallery grid) -> memory(local decisions) -> close(install).
-- Shared chrome: preserved Tastemaker mark, compact product nav, final masthead footer.
-- Per-page body archetypes: homepage H2 split-demo collage, P1 compatibility wall, H1 poster statement, F2 skill catalog, F3 pinned proof/change band, Gallery Grid demos, memory collage, command close.
-- Build stamp / log: `.tastemaker/log.json` carries structural history; CSS stamp records this revamp.
+- Macrostructure(s) used: homepage uses Editorial Artifact Gallery; the proof page remains a live before/after comparison.
+- Narrative arc per page: homepage hook(real proof-collage hero) -> proof(repo-file wall) -> compatibility(agent/file scene) -> problem(anti-slop poster) -> premium range(mode runway) -> solution(capability shelf) -> memory(pinned ledger) -> demos(proof gallery) -> close(tactile install panel).
+- Shared chrome: preserved Tastemaker mark, split floating nav islands, final masthead footer.
+- Per-page body archetypes: homepage H2 proof-collage hero, file proof wall, agent compatibility scene, typographic poster statement, premium mode runway, asymmetric capability shelf with print stack, pinned memory ledger, large proof gallery, tactile still-life command close.
+- Build stamp / log: `.tastemaker/log.json` carries structural history; CSS stamp records this artifact-gallery revamp.
 
 ## Reference intelligence
 - Reference board: `.tastemaker/reference-board.md` viewed sources
@@ -58,15 +58,17 @@ technical, discerning, alive, exact
 ## Assets
 - Anchor asset: `site/assets/mark-tastemaker.svg` — the established layered-swatch Tastemaker brand mark already used across distribution channels
 - Asset style: custom SVG orchestration artwork, layered proof screenshots, mode-gallery screenshots, paper notes, minimal utility icons only where the interaction needs them
+- Asset cast: hero anchor `launch-poster.png`; mode range `minimalist.jpg`, `soft-calm.jpg`, `glassmorphic.jpg`, `brutalist.jpg`; process artifacts `style-lock.md`, `decisions.log`, `reference-board.md`, `asset-cast.md`; proof `before-after-poster.png` and `capabilities-section.png`; texture object custom still-life; micro assets swatches, notes, file cards, and command chips
 - Illustration vs. photography split: abstract concept sections use the custom `site/assets/art/taste-orchestration.svg`; proof/demo sections use real local screenshots; no factual physical section requires photography
 - Illustration source used: hand-built SVG in the repo, not stock artwork
 - Logo: `site/assets/mark-tastemaker.svg` — preserve this exact established logo and do not replace or recolor it; wordmark uses Archivo
+- Rejected asset pattern: do not let one Product Hunt poster family carry hero, proof, demo, and close at the same time; each major section needs a distinct asset role
 
 ## Motion
 - Feel: visible, editorial, precise, and narrative
 - Entrance duration/distance: 320-640ms, 12-30px rise depending on visual weight
 - Easing: power3.out
-- Story motion: GSAP hero collage assembly, scroll-tied screenshot drift, pinned proof/change band, reveal groups, demo parallax, and memory-card drift, all reduced-motion aware
+- Story motion: GSAP hero collage assembly, scroll-tied asset curation board, mode runway drift, pinned memory ledger, reveal groups, demo parallax, and still-life drift, all reduced-motion aware
 
 ## Do not
 - Never replace or reinterpret the established `site/assets/mark-tastemaker.svg` logo

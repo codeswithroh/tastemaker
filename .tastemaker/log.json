@@ -48,5 +48,75 @@
       "restraint": 4,
       "variety": 5
     }
+  },
+  {
+    "ts": "2026-08-01T20:31:59+05:30",
+    "surface": "homepage",
+    "macrostructure": "Editorial Artifact Gallery",
+    "archetypes": {
+      "nav": "split floating product islands",
+      "hero": "proof-collage hero with real Product Hunt artifacts",
+      "proof": "repo-file proof wall",
+      "compatibility": "agent compatibility scene with file and rule objects",
+      "problem": "typographic anti-slop poster",
+      "capabilities": "asymmetric capability shelf with print artifact stack",
+      "memory": "pinned dark memory ledger",
+      "demos": "large proof-gallery cards",
+      "close": "tactile still-life install panel"
+    },
+    "rotation": "replaces the rejected card-heavy reference-led homepage with stronger physical artifacts, real proof posters, split navigation, a pinned memory section, and a tactile close",
+    "critique": {
+      "showTell": 5,
+      "philosophy": 5,
+      "hierarchy": 5,
+      "specificity": 5,
+      "restraint": 4,
+      "variety": 5
+    }
+  },
+  {
+    "ts": "2026-08-01T20:41:33+05:30",
+    "surface": "homepage",
+    "macrostructure": "Editorial Artifact Gallery + Premium Mode Runway",
+    "archetypes": {
+      "nav": "split floating product islands",
+      "hero": "proof-collage hero with varied proof and mode artifacts",
+      "proof": "repo-file proof wall",
+      "compatibility": "agent compatibility scene with file and rule objects",
+      "problem": "typographic anti-slop poster",
+      "modes": "overlapping premium mode runway",
+      "capabilities": "asymmetric capability shelf with custom orchestration artwork",
+      "memory": "pinned dark memory ledger",
+      "demos": "proof-gallery cards with mode asset variation",
+      "close": "tactile still-life install panel"
+    },
+    "rotation": "adds explicit premium mode range, stronger asset diversity, and more ScrollTrigger choreography after user rejected the repeated-asset version",
+    "critique": {
+      "showTell": 5,
+      "philosophy": 5,
+      "hierarchy": 5,
+      "specificity": 5,
+      "restraint": 4,
+      "variety": 5
+    }
+  },
+  {
+    "ts": "2026-08-01T20:48:01+05:30",
+    "surface": "homepage and skill",
+    "macrostructure": "Editorial Artifact Gallery + Asset Curation System",
+    "archetypes": {
+      "assetCuration": "visual asset-cast board with hero anchor, mode range, process, proof, texture, and rejected asset roles",
+      "skillReference": "new asset-curation reference file",
+      "componentKit": "bundled artifact-kit CSS and JS for artifact boards, mode runways, ledgers, and scroll motion"
+    },
+    "rotation": "moves asset work from ad hoc image placement into an explicit curation system and reusable visual component kit",
+    "critique": {
+      "showTell": 5,
+      "philosophy": 5,
+      "hierarchy": 5,
+      "specificity": 5,
+      "restraint": 4,
+      "variety": 5
+    }
   }
 ]
