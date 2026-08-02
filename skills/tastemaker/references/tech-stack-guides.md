@@ -7,6 +7,15 @@ The style lock is stack-agnostic; here's how to turn it into real config/code pe
 - Load fonts via `next/font` (self-hosted, no render-blocking Google Fonts request) and reference them through a CSS variable wired into the Tailwind font family config.
 - Centralize repeated patterns (card, button variants) as components, not copy-pasted className strings — drift creeps in fastest when the same "card" is hand-typed in five files.
 - GSAP: `npm install gsap`. Register ScrollTrigger once (e.g. in a small `lib/motion.ts`): `import { gsap } from "gsap"; import { ScrollTrigger } from "gsap/ScrollTrigger"; gsap.registerPlugin(ScrollTrigger);` — then drive it from a `useEffect`/`useGSAP` hook (the `@gsap/react` package's `useGSAP` hook handles cleanup on unmount correctly, which plain `useEffect` easily gets wrong with ScrollTrigger instances).
+- **Component registries** (`references/component-sourcing.md`): this is the stack where they all work. Run `npx shadcn@latest init` if `components.json` doesn't exist, then register the extra namespaces once:
+  ```json
+  { "registries": {
+      "@kokonutui": "https://kokonutui.com/r/{name}.json",
+      "@bklit": "https://ui.bklit.com/r/{name}.json"
+  } }
+  ```
+  Then `npx shadcn@latest add @bklit/area-chart`, `npx shadcn@latest add @kokonutui/particle-button`, or a full URL for Watermelon: `npx shadcn@latest add "https://registry.watermelon.sh/<name>.json"`. Check Tailwind's major version first — KokonutUI targets **v4**. Every pulled component gets restyled to the lock's tokens in the same pass, not left carrying its origin registry's colors.
+- Motion (for React component springs/layout/exit animation): `npm install motion`, `import { motion, AnimatePresence } from "motion/react"`. Don't run it alongside GSAP unless a pulled component brought it — see `references/animation-guidelines.md`.
 
 ## Vue / Nuxt
 - Same token approach via a Tailwind config if using Tailwind, or a CSS custom-properties file (`:root { --color-surface: ...; }`) if not — either way, one file is the source of truth, components consume variables/utility classes, never raw hex.

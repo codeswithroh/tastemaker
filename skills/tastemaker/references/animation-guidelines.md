@@ -87,6 +87,38 @@ If a project's brief calls for anime.js under either scoped case, use `assets/an
 - **Scroll-threshold syntax does not carry over from GSAP.** GSAP's `"top 85%"` string means nothing to anime.js's `ScrollObserver` — it silently matches nothing and the element never reveals. anime.js's own syntax (position keywords `top`/`bottom`/`start`/`end`, on both target and container) is different enough that copying a GSAP trigger string is a real, silent failure mode. Use the library's own defaults unless a specific threshold is actually needed.
 - **No automatic on-creation visibility check.** GSAP's `ScrollTrigger` checks whether a target is already in view at creation and fires immediately if so. anime.js's `ScrollObserver` only fires `onEnter` on an actual scroll-crossing transition — left alone, anything already above the fold (a hero's own `[data-reveal]` group) sits invisible until the user's first scroll. `anime-starter.js` fixes this by calling each observer's own `handleScroll()` once right after wiring it; any bespoke anime.js scroll animation needs the same explicit initial check.
 
+## Motion (motion.dev) — the React-component engine, and the one that also works build-free
+
+GSAP stays the default for this skill's own page-level motion (above). Motion — formerly Framer Motion — is the right engine in two specific situations, and `references/library-selection.md` already names the first:
+
+1. **React projects where components need springs, layout animation, exit animation (`AnimatePresence`), or gesture-driven values.** GSAP can do most of this, but Motion's component model fits React's lifecycle without the manual cleanup that ScrollTrigger instances demand in `useEffect`.
+2. **A component pulled from a registry that already ships with Motion** (`references/component-sourcing.md`). Don't rip out its animation layer to redo it in GSAP — retune its durations/easings to the lock's Motion values instead, and note that the project now carries Motion.
+
+Install: `npm install motion`. It also loads with **no build step**, which matters for this skill's plain-HTML default:
+
+```html
+<script type="module">
+  import { animate, scroll, inView, stagger } from "https://cdn.jsdelivr.net/npm/motion@12/+esm"
+</script>
+```
+
+Pin the major version rather than `@latest` in anything shipped — Motion's own docs say this explicitly.
+
+Verified API shapes:
+
+```js
+animate(el, { scale: [0.4, 1] }, { ease: "circInOut", duration: 1.2 })
+animate(el, { rotate: 90 }, { type: "spring", stiffness: 300 })
+animate("li", { y: 0, opacity: 1 }, { delay: stagger(0.1) })
+inView("section", () => animate("section", { opacity: [0, 1] }))
+
+// scroll-linked: build the animation, then hand it to scroll()
+const a = animate("div", { transform: ["none", "rotate(90deg)"] }, { ease: "linear" })
+scroll(a, { target: document.getElementById("item"), offset: ["start end", "end start"] })
+```
+
+**One engine per project.** Never load GSAP and Motion together to get one effect from each — the only acceptable reason for both is a pulled component that brought its own, and that should be stated rather than left for the next person to discover. Motion's docs don't document a `prefers-reduced-motion` helper for `scroll()`, so gate it yourself with `matchMedia("(prefers-reduced-motion: reduce)")` and render the end state directly, the same contract `gsap.matchMedia()` gives on the default track.
+
 ## Scroll storytelling — for landing/marketing pages that should unfold as you scroll
 
 `gsap-starter.js` covers the baseline (things fade/rise in on scroll). A *storytelling* page goes further: it uses scroll position as a timeline, so scrolling feels like advancing through a narrative rather than paging past static blocks. This is what makes a landing page feel crafted rather than assembled. Build these directly with ScrollTrigger (they're page-specific, so they live in the project, not in the shared starter):

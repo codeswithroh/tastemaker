@@ -68,13 +68,18 @@ Read `references/reference-intelligence.md` before a cold start, a major redesig
 - Decide whether the work should use an official design system, the repo's existing component stack, or a custom aesthetic lane. Check dependencies before importing anything.
 - Write the direction contract into the style lock or build stamp: thesis, first viewport, system, and risk.
 
-### Step 1.5 — Pick the right building blocks
+### Step 1.5 — Pick the right building blocks, and source them instead of fabricating them
 
-Before hand-rolling interactive UI, read `references/library-selection.md` for the task type.
+Read **both** files here; they cover different halves of the same decision:
 
-- Use proven primitives for hard interaction surfaces: dialogs, popovers, menus, selects, toasts, command palettes, drag and drop, virtualization, charts, number animation, and gesture-driven motion.
+- `references/library-selection.md` — **behavioral primitives**: dialogs, popovers, menus, selects, toasts, command palettes, drag and drop, virtualization, number animation, gesture motion. Things that are hard to get *right*.
+- `references/component-sourcing.md` — **visual components and blocks**: heroes, pricing tables, bento grids, dashboards, charts, marketing sections, and the shadcn-compatible registries (Watermelon, KokonutUI, bklit) plus MCP component servers they come from. Things that are hard to make *look finished*.
+
+The governing principle: **Tastemaker directs, it does not fabricate from scratch what a production-grade registry already ships.** Hand-rolled charts, bento grids, and pricing tables are a reliable "AI-built" tell. Pull the part, then spend the design effort restyling it to the locked tokens and enforcing one visual system across everything pulled — that coherence pass is the actual design work, and skipping it produces something worse than hand-rolling.
+
+- **Detect the stack before reaching for any registry** (`component-sourcing.md` Step 0). Most registries are React + Tailwind + shadcn; emitting `npx shadcn add …` at a static-HTML or SwiftUI project is a real failure. On a stack that can't consume them, port the *pattern* by hand and say that's what happened.
 - Check what the repo already uses before adding a dependency. Extend the existing stack when it is healthy.
-- Hand-roll only when the interaction is simple, static, or the project constraint forbids a dependency. A custom accessible select, toast stack, or drag system is rarely the right first move.
+- Hand-roll only when the stack can't consume a registry, the interaction is genuinely simple and static, or the project forbids dependencies.
 
 ### Step 2 — Establish the style, grounded in something real
 
@@ -150,6 +155,7 @@ For high-risk UI, prototype before committing. If the user asks for a hero, pric
 6. **Spacing follows the scale, not habit — and on a landing page, section rhythm is generous by default, not cramped.** Per `references/style-tokens.md`'s Spacing scale section: pick the project's tokens once, record them in `.tastemaker/style-lock.md`'s Density & spacing section, and reuse them — don't let each card or section improvise its own padding. The rule that actually governs card spacing: **internal spacing (a card's own padding) should be equal to or less than external spacing (the gap between that card and its neighbors)** — violating this is what makes a layout read as cramped in one place and empty in another at the same time. Content cards (pricing tiers, feature cards, testimonials) have a real floor: `space-6` (24px) minimum internal padding, not whatever a compact stat tile uses. Section-level padding is its own, separate failure mode: capping every landing-page section at a tight, uniform value is exactly what makes a page read as "everything cramped, nothing gets its own moment" even when card-level spacing is fine. Weight section padding by role — a pivotal section (hero, primary proof) earns `space-32`–`space-48` (128–192px), not the same value as a connective one — per that file's Section-level padding section. Don't reach for the same padding value everywhere regardless of what the element is, at either scale.
 7. **Every motion choice passes the motion gate.** Before shipping motion, answer: how often will the user see this, what purpose does it serve, can it stay within the timing budget, and does it help the task? Delete motion that fails. Run `python3 scripts/audit_motion.py <paths>` and fix hard failures: `transition: all`, `ease-in` on UI, `scale(0)`, layout-property animation, hover motion without pointer gating, movement without reduced-motion handling, and UI motion over 300ms without a stated reason.
 8. **Core app states are designed, not implied.** For app screens, build the populated, loading, empty, error, disabled, focus, hover, pressed, and success states. An app screen that only looks good with perfect sample data is unfinished.
+9. **Interface craft rules apply to everything shipped, including pulled components.** Read `references/interface-quality-rules.md` — keyboard access, visible focus states, labelled inputs, `alt` text, explicit image dimensions, URL-reflected state, no blocked paste, `Intl.*` for dates/numbers, real overflow handling. These are what separate "looks designed" from "is built well," and a component pulled from a registry does not get a pass on them: restyling it to the locked tokens is the same pass where you verify it clears these. Its Flag-these-on-sight list overlaps with `scripts/anti_slop_scan.py` and `scripts/audit_motion.py` — all three should come back clean.
 
 **Stamp the build and record it in project memory.** The first non-empty line of the built CSS (or the top of an inline `<style>`) is a comment recording the structural picks, mood, palette seed, and contrast result — the format is in `references/diversification.md`. In the same pass, append an entry to `.tastemaker/log.json` (create it if absent) with the macrostructure and archetype picks. This is the durable record the *next* build reads to rotate against — skipping it is how the skill drifts back into building the same shape every time.
 
@@ -204,7 +210,9 @@ At handoff, say exactly what changed: decision log updated or not, style lock up
 | `references/anti-slop-checklist.md` | The pre-emit self-critique (before finalizing, Step 4) + the numbered, mood-scoped gate sweep (after building) — the two quality checks that bracket every build |
 | `references/tech-stack-guides.md` | Implementing tokens/components in a specific stack (React/Next/Tailwind, Vue, SwiftUI, Flutter) |
 | `references/animation-guidelines.md` | Adding motion (Step 3/4) — GSAP + ScrollTrigger is the default engine, including scroll-storytelling timelines; read this first |
-| `references/library-selection.md` | Before adding or hand-rolling complex UI primitives, charts, gestures, toasts, command menus, virtualization, or animation libraries |
+| `references/library-selection.md` | Step 1.5 — behavioral primitives: before adding or hand-rolling dialogs, toasts, command menus, drag, virtualization, or animation libraries |
+| `references/component-sourcing.md` | Step 1.5 — visual components and blocks: the shadcn-compatible registries (Watermelon, KokonutUI, bklit), component MCP servers, Motion, the stack-detection gate that decides whether any of them apply, and the coherence rules for restyling what gets pulled |
+| `references/interface-quality-rules.md` | Step 4 — interface craft gates (accessibility, focus, forms, images, performance, URL state, locale, copy). Adapted from Vercel's Web Interface Guidelines; applies to pulled components too |
 | `references/prototype-variants.md` | When the right design direction is uncertain and a component/screen needs 2-3 real variants in an isolated picker |
 | `references/asset-curation.md` | Step 3 — building the asset cast, selecting artifact roles, avoiding repeated screenshot families, and using the artifact kit for visual/motion scenes |
 | `references/illustration-sources.md` | The attribution-free asset sourcing map (Step 3) — Openverse for photos, the vendored `ideagram/` for illustrations, Iconify for icons, Streamline as a manual exception; plus the "credit in code, never on the page" pattern |

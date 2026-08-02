@@ -8,3 +8,4 @@ __pycache__/
 # Netlify local link state
 site/.netlify/
 .netlify/
+site/.wrangler/

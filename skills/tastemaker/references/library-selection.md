@@ -2,6 +2,8 @@
 
 Use this before adding or hand-rolling complex interface behavior. Tastemaker should raise the floor by picking proven parts for hard interaction problems, then spend design energy on hierarchy, fit, and polish.
 
+**Read alongside `references/component-sourcing.md`.** This file covers *behavioral* primitives — the things that are hard to get **right** (focus management, keyboard access, virtualization, gesture physics). That file covers *visual* components and whole blocks — the things that are hard to make **look finished** (heroes, pricing tables, bento grids, dashboards, charts), and the shadcn-compatible registries they come from. A page usually needs both: a Base UI dialog for correctness, a registry block for finish.
+
 ## Decision order
 
 1. Identify the task, not the library the user mentioned.
@@ -23,7 +25,7 @@ Do not replace an existing working library just because this file names a differ
 | General animation in React | Motion | You need springs, layout animation, exit animation, gesture animation, or interruptible values |
 | Simple hover, press, reveal | CSS transitions or GSAP | The motion is predetermined and does not need a spring or gesture state |
 | Numbers and counters | NumberFlow | Digits change and should not jitter or reflow |
-| Static or dashboard charts | Recharts | You need ordinary product charts with tooltips and responsive layouts |
+| Static or dashboard charts | Recharts, or a **bklit** registry chart | Recharts for ordinary product charts with tooltips and responsive layouts. On a shadcn project, prefer pulling a bklit chart (`npx shadcn@latest add @bklit/<name>`) — 17+ types including candlestick, sankey, and heatmap, arriving as editable source already styled to a coherent system rather than assembled from primitives. Not benchmarked head-to-head against Recharts here; the argument is finish and breadth of chart type, not raw capability. Either way: **never hand-roll a chart.** |
 | Real-time charts | Liveline | Data streams over time and the chart advances continuously |
 | Drag and drop | dnd kit | Users reorder, drag between containers, or need accessible drag behavior |
 | Long lists and large tables | Virtuoso | Rendering every row would hurt scrolling or memory |
