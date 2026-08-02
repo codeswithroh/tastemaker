@@ -27,41 +27,41 @@
   --orchid: #be85ce;
   --orange: #e66826;
 
-  --background: #f4f1eb;
-  --foreground: #171514;
-  --card: #fffaf1;
-  --card-foreground: #171514;
-  --popover: #fffaf1;
-  --popover-foreground: #171514;
-  --primary: #0c1414;
-  --primary-foreground: #ffffff;
-  --secondary: #fffaf1;
-  --secondary-foreground: #171514;
-  --muted: #ece7dd;
-  --muted-foreground: #4d4842;
-  --accent: #008286;
-  --accent-foreground: #ffffff;
-  --destructive: #c83230;
-  --border: rgba(23, 21, 20, 0.13);
-  --input: rgba(23, 21, 20, 0.13);
-  --ring: #008286;
+  --background: #080f0f;
+  --foreground: #e5f6f6;
+  --card: rgba(255, 255, 255, 0.03);
+  --card-foreground: #e5f6f6;
+  --popover: #14201f;
+  --popover-foreground: #e5f6f6;
+  --primary: #e5f6f6;
+  --primary-foreground: #0c1414;
+  --secondary: #14201f;
+  --secondary-foreground: #e5f6f6;
+  --muted: #14201f;
+  --muted-foreground: #9aa8a8;
+  --accent: #55d8cc;
+  --accent-foreground: #0c1414;
+  --destructive: #e66826;
+  --border: rgba(229, 246, 246, 0.1);
+  --input: rgba(229, 246, 246, 0.14);
+  --ring: #55d8cc;
 
   /* Chart ramp, drawn from the locked palette rather than shadcn's greys, so
      any bklit/Recharts chart lands on-brand without per-chart overrides. */
-  --chart-1: #008286;
+  --chart-1: #55d8cc;
   --chart-2: #be85ce;
   --chart-3: #e66826;
-  --chart-4: #55d8cc;
-  --chart-5: #4d4842;
+  --chart-4: #008286;
+  --chart-5: #9aa8a8;
 
-  --sidebar: #fffaf1;
-  --sidebar-foreground: #171514;
-  --sidebar-primary: #0c1414;
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #f4f1eb;
-  --sidebar-accent-foreground: #171514;
-  --sidebar-border: rgba(23, 21, 20, 0.13);
-  --sidebar-ring: #008286;
+  --sidebar: #14201f;
+  --sidebar-foreground: #e5f6f6;
+  --sidebar-primary: #55d8cc;
+  --sidebar-primary-foreground: #0c1414;
+  --sidebar-accent: #0c1414;
+  --sidebar-accent-foreground: #e5f6f6;
+  --sidebar-border: rgba(229, 246, 246, 0.1);
+  --sidebar-ring: #55d8cc;
 }
 
 .dark {
@@ -168,6 +168,7 @@
   }
   html {
     scroll-behavior: smooth;
+    color-scheme: dark;
   }
   body {
     @apply bg-background text-foreground;
