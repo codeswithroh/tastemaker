@@ -17,9 +17,13 @@ Established: 2026-07-21. Source: Tastemaker technical/builder mood, generated wi
 
 ## Color contract
 
-- Text-safe (>=4.5): bg/on-primary, surface/on-primary, text/bg, text/surface, border/on-primary, text/border, bg/accent, surface/accent, accent/border, primary/on-primary, muted/bg, muted/surface
-- UI-safe (>=3.0 and <4.5): text/primary, bg/primary, surface/primary, primary/border
-- Decorative (<3.0): accent/on-primary, text/accent, primary/accent, bg/border, surface/border, text/on-primary, bg/surface
+Re-verified 2026-08-01 against the actual shipped hex values via `check_contrast.py` (the version below replaces an earlier draft that listed `bg/accent`/`surface/accent` as text-safe without having actually run the numbers — they measure 2.51 and 2.72, both decorative. Accent only clears the text-safe floor against the dark surface, not the paper background.).
+
+- Text-safe (>=4.5): dark/on-primary (18.65), text/on-primary (18.20), surface/dark (17.94), surface/text (17.50), dark/on-dark (16.74), bg/dark (16.55), text/on-dark (16.33), bg/text (16.15), muted/on-primary (9.05), surface/muted (8.70), muted/on-dark (8.12), bg/muted (8.03), dark/accent (6.60), text/accent (6.44), primary/on-primary (4.63)
+- UI-safe (>=3.0 and <4.5): surface/primary (4.45), on-dark/primary (4.15), bg/primary (4.11), dark/primary (4.03), text/primary (3.93), muted/accent (3.20)
+- Decorative (<3.0): accent/on-primary, surface/accent, on-dark/accent, bg/accent, dark/muted, text/muted, muted/primary, primary/accent, bg/on-primary, on-dark/on-primary, bg/surface, surface/on-dark, surface/on-primary, dark/text, bg/on-dark
+
+Practical read: accent (orchid) is only usable as *text* against the dark surface or the light-page text/muted colors — never directly on `bg` or `surface`. On light panels, use accent for borders/icons/decorative accents, not body text.
 
 ## Typography
 - Display/heading font: Archivo — direct, condensed enough for high-impact builder language
@@ -37,11 +41,12 @@ Established: 2026-07-21. Source: Tastemaker technical/builder mood, generated wi
 - Overall density: editorial landing page with information-rich product demonstrations
 
 ## Structure
-- Macrostructure(s) used: homepage uses Editorial Artifact Gallery; the proof page remains a live before/after comparison.
-- Narrative arc per page: homepage hook(real proof-collage hero) -> proof(repo-file wall) -> compatibility(agent/file scene) -> problem(anti-slop poster) -> premium range(mode runway) -> solution(capability shelf) -> memory(pinned ledger) -> demos(proof gallery) -> close(tactile install panel).
+- Macrostructure(s) used: homepage uses Feature Stack (editorial variant), replacing the prior Editorial Artifact Gallery; the proof page remains a live before/after comparison.
+- Narrative arc per page (2026-08-01 rebuild): hook (single real product visual, no collage) -> proof-strip (real file/link wall) -> problem (every agent defaults to the same page) -> how-it-works (6 real capability checks) -> proof (real, re-verified contrast matrix + link to full comparison) -> range (4-up mode grid) -> memory (pinned ledger) -> close (install panel).
 - Shared chrome: preserved Tastemaker mark, split floating nav islands, final masthead footer.
-- Per-page body archetypes: homepage H2 proof-collage hero, file proof wall, agent compatibility scene, typographic poster statement, premium mode runway, asymmetric capability shelf with print stack, pinned memory ledger, large proof gallery, tactile still-life command close.
-- Build stamp / log: `.tastemaker/log.json` carries structural history; CSS stamp records this artifact-gallery revamp.
+- Per-page body archetypes: single-visual hero, file proof wall, tell-card problem grid, 6-card capability grid, contrast-matrix proof rows, clean 4-up mode grid, 3-card memory ledger, dark install panel.
+- Rebuild reason: the prior Editorial Artifact Gallery (and its 4 predecessor iterations, all built on absolute-positioned collage sections) produced clipped headlines and cluttered/overlapping hero artifacts at multiple breakpoints — verified via Playwright, not just visual inspection. This rebuild replaces every absolute-positioned collage with CSS grid/flex, verified to produce zero horizontal overflow at desktop/tablet/mobile.
+- Build stamp / log: `.tastemaker/log.json` carries structural history; CSS stamp at the top of `site/styles.css` records this Feature Stack rebuild.
 
 ## Reference intelligence
 - Reference board: `.tastemaker/reference-board.md` viewed sources

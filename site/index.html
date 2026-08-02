@@ -3,15 +3,15 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Tastemaker - design taste for coding agents</title>
-  <meta name="description" content="Tastemaker gives coding agents a local taste layer: reference study, art direction, real assets, motion, memory, and anti-slop checks.">
-  <meta property="og:title" content="Tastemaker - design taste for coding agents">
-  <meta property="og:description" content="A taste layer for agents that build sites, app screens, dashboards, and demos.">
-  <meta name="theme-color" content="#F4F1EB">
+  <title>Tastemaker — design taste for coding agents</title>
+  <meta name="description" content="Tastemaker gives coding agents real design taste: real reference study, real assets, checked contrast, and a memory of what you keep.">
+  <meta property="og:title" content="Tastemaker — design taste for coding agents">
+  <meta property="og:description" content="Give your AI coding agent real design taste, not another generic template.">
+  <meta name="theme-color" content="#0c1414">
   <link rel="icon" type="image/svg+xml" href="assets/mark-tastemaker.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800;900&amp;family=IBM+Plex+Mono:wght@400;500;600;700&amp;family=IBM+Plex+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -25,15 +25,14 @@
       </a>
     </div>
     <nav class="nav-island nav-links" aria-label="Primary navigation">
-      <a href="#system">System</a>
-      <a href="#assets">Assets</a>
+      <a href="#how">How it works</a>
+      <a href="#proof">Proof</a>
       <a href="#modes">Modes</a>
       <a href="#memory">Memory</a>
-      <a href="#demos">Demos</a>
       <a href="changelog.html">Changelog</a>
     </nav>
     <div class="nav-island nav-actions">
-      <a href="https://github.com/codeswithroh/tastemaker" target="_blank" rel="noopener" aria-label="Tastemaker GitHub">
+      <a href="https://github.com/codeswithroh/tastemaker" target="_blank" rel="noopener" aria-label="Tastemaker on GitHub">
         <img src="assets/icons/github.svg" alt="">
       </a>
       <a class="install-link" href="#install">Install</a>
@@ -42,11 +41,14 @@
 
   <main id="main">
     <section class="hero" id="top">
+      <div class="hero-ambient" aria-hidden="true">
+        <canvas id="heroCanvas"></canvas>
+      </div>
       <div class="shell hero-layout">
         <div class="hero-copy">
           <p class="micro-label">design taste for coding agents</p>
-          <h1>Make agent-made UI feel art directed.</h1>
-          <p class="hero-lede">Tastemaker studies references, chooses the visual system, adds assets and motion, then remembers what you keep or reject.</p>
+          <h1>Your agent writes working code.<br>It doesn't write good taste.</h1>
+          <p class="hero-lede">Tastemaker is a local skill that gives Claude Code, Gemini CLI, and Windsurf a real design process: study references, lock a palette that passes contrast, cast real assets, and remember what you keep.</p>
           <div class="install-row">
             <code>npx skills add codeswithroh/tastemaker</code>
             <button class="copy-button" type="button" data-copy="npx skills add codeswithroh/tastemaker">
@@ -55,335 +57,200 @@
             </button>
           </div>
           <div class="hero-actions">
-            <a class="button button-dark" href="#demos">View proof</a>
-            <a class="button button-paper" href="#system">Study the system</a>
+            <a class="button button-dark" href="#proof">See the proof<img src="assets/icons/arrow-up-right.svg" alt="" class="button-icon"></a>
+            <a class="button button-paper" href="https://github.com/codeswithroh/tastemaker" target="_blank" rel="noopener">Read the source</a>
           </div>
         </div>
-
-        <div class="hero-stage" aria-label="Tastemaker output collage">
-          <figure class="artifact artifact-main">
-            <img src="assets/proof/launch-poster.png" alt="Tastemaker Product Hunt launch poster">
-          </figure>
-          <figure class="artifact artifact-proof">
-            <img src="assets/proof/before-after-poster.png" alt="Before and after UI proof created for Tastemaker">
-          </figure>
-          <figure class="artifact artifact-system">
-            <img src="assets/modes/glassmorphic.jpg" alt="Glassmorphic premium mode screenshot">
-          </figure>
-          <div class="artifact-note note-a">
-            <span>style-lock.md</span>
-            <b>tokens do not drift</b>
+        <figure class="hero-visual">
+          <div class="compare-reveal" role="img" aria-label="Animated side-by-side: the same landing-page prompt, once with no design skill and once rebuilt by tastemaker, wiping continuously between the two so the difference is visible without clicking.">
+            <div class="compare-panel compare-after">
+              <img src="assets/proof/after-fold.png" alt="">
+            </div>
+            <div class="compare-panel compare-before">
+              <img src="assets/proof/before-fold.png" alt="">
+            </div>
+            <div class="compare-divider"><span class="compare-handle"></span></div>
+            <span class="compare-tag compare-tag-before">no skill</span>
+            <span class="compare-tag compare-tag-after">tastemaker</span>
           </div>
-          <div class="artifact-note note-b">
-            <span>motion gate</span>
-            <b>scroll story wired</b>
-          </div>
-          <div class="palette-strip" aria-hidden="true">
-            <i></i><i></i><i></i><i></i><i></i>
-          </div>
-        </div>
+        </figure>
       </div>
     </section>
 
-    <section class="proof-wall" aria-label="Tastemaker proof wall">
+    <section class="proof-wall" aria-label="Built as a real local skill">
       <div class="shell proof-wall-inner">
-        <p>Built as a real local skill</p>
-        <a href="https://github.com/codeswithroh/tastemaker/blob/main/skills/tastemaker/SKILL.md" target="_blank" rel="noopener">SKILL.md</a>
-        <a href="https://github.com/codeswithroh/tastemaker/blob/main/skills/tastemaker/references/anti-slop-checklist.md" target="_blank" rel="noopener">anti-slop gates</a>
-        <a href="https://github.com/codeswithroh/tastemaker/blob/main/skills/tastemaker/references/animation-guidelines.md" target="_blank" rel="noopener">motion rules</a>
-        <a href="https://github.com/codeswithroh/tastemaker/blob/main/skills/tastemaker/references/taste-memory.md" target="_blank" rel="noopener">taste memory</a>
-      </div>
-    </section>
-
-    <section class="story-section" aria-label="Tastemaker story">
-      <div class="shell story-layout">
-        <div class="story-copy">
-          <p class="micro-label">the story</p>
-          <h2>A loose prompt becomes a designed world.</h2>
-          <p>The agent does not jump from words to cards. Tastemaker makes it pass through references, asset casting, motion grammar, and memory before the page exists.</p>
-        </div>
-        <div class="story-spine" aria-label="Tastemaker process spine">
-          <article class="story-step">
-            <span>Act 01</span>
-            <h3>Brief</h3>
-            <p>Extract the promise, audience, surface, and stakes.</p>
-          </article>
-          <article class="story-step">
-            <span>Act 02</span>
-            <h3>Reference field</h3>
-            <p>Study direct, adjacent, cultural, system, and anti-reference lanes.</p>
-          </article>
-          <article class="story-step">
-            <span>Act 03</span>
-            <h3>Asset cast</h3>
-            <p>Choose the hero anchor, process artifacts, proof, modes, and texture.</p>
-          </article>
-          <article class="story-step">
-            <span>Act 04</span>
-            <h3>Motion grammar</h3>
-            <p>Make the visual cast move with scroll, parallax, pins, and reveals.</p>
-          </article>
-          <article class="story-step">
-            <span>Act 05</span>
-            <h3>Memory</h3>
-            <p>Keep what works. Reject what looked generic. Carry taste forward.</p>
-          </article>
+        <p>Not a prompt pack. A real local skill.</p>
+        <div class="proof-wall-links">
+          <a href="https://github.com/codeswithroh/tastemaker/blob/main/skills/tastemaker/SKILL.md" target="_blank" rel="noopener">SKILL.md</a>
+          <a href="https://github.com/codeswithroh/tastemaker/blob/main/skills/tastemaker/references/anti-slop-checklist.md" target="_blank" rel="noopener">anti-slop gates</a>
+          <a href="https://github.com/codeswithroh/tastemaker/blob/main/skills/tastemaker/references/animation-guidelines.md" target="_blank" rel="noopener">motion rules</a>
+          <a href="https://github.com/codeswithroh/tastemaker/blob/main/skills/tastemaker/references/taste-memory.md" target="_blank" rel="noopener">taste memory</a>
         </div>
       </div>
     </section>
 
-    <section class="asset-section" id="assets">
-      <div class="shell asset-layout">
-        <div class="asset-copy">
-          <p class="micro-label">asset curation</p>
-          <h2>Before layout, build the visual cast.</h2>
-          <p>Hero anchor, mode range, process artifacts, proof, texture, and micro assets each get a job. Repetition gets rejected before it reaches the page.</p>
-        </div>
-        <div class="asset-board" aria-label="Curated Tastemaker asset board">
-          <article class="asset-tile asset-anchor">
-            <img src="assets/art/taste-orchestration.svg" alt="Tastemaker orchestration artwork">
-            <span>Hero anchor</span>
-          </article>
-          <article class="asset-tile asset-mode">
-            <img src="assets/modes/minimalist.jpg" alt="Minimalist premium mode asset">
-            <span>Mode range</span>
-          </article>
-          <article class="asset-tile asset-proof">
-            <img src="assets/proof/before-after-poster.png" alt="Before and after proof asset">
-            <span>Proof</span>
-          </article>
-          <article class="asset-tile asset-process">
-            <b>asset-cast.md</b>
-            <code>hero anchor<br>mode range<br>process artifact<br>texture object</code>
-            <span>Process</span>
-          </article>
-          <article class="asset-tile asset-texture" aria-label="Tactile texture object">
-            <div class="mini-stone"></div>
-            <img src="assets/mark-tastemaker.svg" alt="">
-            <span>Texture</span>
-          </article>
-          <article class="asset-tile asset-reject">
-            <b>Rejected</b>
-            <p>same poster reused three times</p>
-          </article>
+    <section class="problem-section">
+      <div class="shell problem-layout" data-reveal>
+        <p class="micro-label">the problem</p>
+        <h2>Every agent defaults to the same page.</h2>
+        <p class="problem-lede">Purple-to-indigo gradient hero. Rounded card, soft shadow. A palette picked because it looked fine in the moment, never checked against anything. Ask ten agents for a landing page and you'll recognize the ninth one before it finishes rendering.</p>
+        <div class="scan-console scan-console-fail" data-reveal>
+          <div class="scan-console-bar"><span>$ anti_slop_scan.py generic-agent-output.html</span></div>
+          <ul class="scan-console-body">
+            <li><span class="scan-mark scan-mark-fail">HIGH</span><span class="scan-key">ai-gradient</span><span class="scan-note">indigo-to-purple hero, unrelated to the product underneath it</span></li>
+            <li><span class="scan-mark scan-mark-fail">HIGH</span><span class="scan-key">unchecked-contrast</span><span class="scan-note">colors picked by eye, never run against a single pairing</span></li>
+            <li><span class="scan-mark scan-mark-fail">MED</span><span class="scan-key">no-style-lock</span><span class="scan-note">next screen in the same session drifts, nothing persists</span></li>
+          </ul>
+          <div class="scan-console-footer">3 findings. 0 fixed.</div>
         </div>
       </div>
     </section>
 
-    <section class="system-section" id="system">
-      <div class="shell system-grid">
-        <div class="system-copy">
-          <p class="micro-label">works across agents</p>
-          <h2>One skill file. Many builders. Same taste memory.</h2>
-          <p>Tastemaker stays portable because the design judgment lives in Markdown, scripts, style locks, and decision logs.</p>
+    <section class="how-section" id="how">
+      <div class="shell how-layout">
+        <div class="how-head" data-reveal>
+          <p class="micro-label">how it works</p>
+          <h2>Six checks run before the first component exists.</h2>
+          <p>Every one of these is real: a script, a Markdown file, or a gate that has to pass. Nothing here is decorative.</p>
         </div>
-        <div class="system-scene" aria-label="Agent compatibility scene">
-          <div class="scene-card command-card">
-            <span>terminal</span>
-            <code>$ npx skills add codeswithroh/tastemaker</code>
-          </div>
-          <div class="scene-card file-card">
-            <span>.tastemaker</span>
-            <b>style-lock.md</b>
-            <b>decisions.log</b>
-            <b>reference-board.md</b>
-          </div>
-          <div class="scene-card rule-card">
-            <span>anti-slop</span>
-            <b>no empty assets</b>
-            <b>no static page</b>
-            <b>no invented proof</b>
-          </div>
-          <div class="agent-orbit">
-            <a href="#install">Codex</a>
-            <a href="#install">Claude</a>
-            <a href="#install">Cursor</a>
-            <a href="#install">OpenCode</a>
-          </div>
+        <div class="scan-console scan-console-pass" data-reveal>
+          <div class="scan-console-bar"><span>$ tastemaker build --project tastemaker-skill.online</span></div>
+          <ul class="scan-console-body" data-reveal-group>
+            <li><span class="scan-mark scan-mark-pass">PASS</span><span class="scan-key">reference-intelligence</span><span class="scan-note">competitor + cultural board built before the first color</span></li>
+            <li><span class="scan-mark scan-mark-pass">PASS</span><span class="scan-key">contrast-check</span><span class="scan-note">every pairing run through real WCAG math</span></li>
+            <li><span class="scan-mark scan-mark-pass">PASS</span><span class="scan-key">real-assets</span><span class="scan-note">real photography, real icons, real screenshots, no gray boxes</span></li>
+            <li><span class="scan-mark scan-mark-pass">PASS</span><span class="scan-key">motion-by-default</span><span class="scan-note">scroll-driven reveals ship in the same pass, not a later step</span></li>
+            <li><span class="scan-mark scan-mark-pass">PASS</span><span class="scan-key">style-lock</span><span class="scan-note">palette and type reused on every later screen, not re-derived</span></li>
+            <li><span class="scan-mark scan-mark-pass">PASS</span><span class="scan-key">register-variety</span><span class="scan-note">brutalist, glassmorphic, minimalist, or calm — one committed direction</span></li>
+          </ul>
+          <div class="scan-console-footer">6 checks. 6 passed.</div>
         </div>
       </div>
     </section>
 
-    <section class="poster-section" aria-label="Anti slop positioning">
-      <div class="shell poster-frame">
-        <h2>
-          <span>Escape</span>
-          <span class="accent-word">the</span>
-          <span>default AI</span>
-          <span class="danger-word">look.</span>
-        </h2>
-        <figure class="poster-pill pill-one">
-          <img src="assets/modes/brutalist.jpg" alt="Brutalist mode interface crop">
-        </figure>
-        <figure class="poster-pill pill-two">
-          <img src="assets/modes/soft-calm.jpg" alt="Soft calm mode interface crop">
-        </figure>
+    <section class="proof-section" id="proof">
+      <div class="shell proof-layout">
+        <div class="proof-head" data-reveal>
+          <p class="micro-label">proof, not claims</p>
+          <h2>Checked with real math, not eyeballed.</h2>
+          <p>Every pairing on this page runs through <a href="https://github.com/codeswithroh/tastemaker/blob/main/skills/tastemaker/scripts/check_contrast.py" target="_blank" rel="noopener">check_contrast.py</a> before it ships. These are this page's actual numbers.</p>
+        </div>
+        <div class="contrast-rows" data-reveal-group>
+          <div class="contrast-row">
+            <span class="contrast-label">text / background</span>
+            <span class="contrast-value">16.15</span>
+            <span class="contrast-badge">PASS</span>
+          </div>
+          <div class="contrast-row">
+            <span class="contrast-label">label / primary</span>
+            <span class="contrast-value">4.63</span>
+            <span class="contrast-badge">PASS</span>
+          </div>
+          <div class="contrast-row">
+            <span class="contrast-label">accent / dark surface</span>
+            <span class="contrast-value">6.60</span>
+            <span class="contrast-badge">PASS</span>
+          </div>
+        </div>
+        <a class="proof-link" href="compare.html">
+          <span>See the full before/after comparison</span>
+          <img src="assets/icons/arrow-up-right.svg" alt="">
+        </a>
       </div>
     </section>
 
     <section class="mode-section" id="modes">
       <div class="shell mode-layout">
-        <div class="mode-copy">
+        <div class="mode-head" data-reveal>
           <p class="micro-label">premium modes</p>
-          <h2>Different products should not wear the same suit.</h2>
-          <p>Tastemaker can shift the whole visual register: typography, density, radius, asset language, and motion tempo move together.</p>
+          <h2>Different products shouldn't wear the same suit.</h2>
+          <p>Four sponsor-exclusive visual registers, generated by the same engine, committing to a real direction instead of a default.</p>
         </div>
-        <div class="mode-gallery" aria-label="Premium Tastemaker modes">
-          <article class="mode-card mode-minimal">
-            <img src="assets/modes/minimalist.jpg" alt="Minimalist premium mode screenshot">
-            <span>Minimalist</span>
-          </article>
-          <article class="mode-card mode-soft">
-            <img src="assets/modes/soft-calm.jpg" alt="Soft calm premium mode screenshot">
-            <span>Soft calm</span>
-          </article>
-          <article class="mode-card mode-glass">
-            <img src="assets/modes/glassmorphic.jpg" alt="Glassmorphic premium mode screenshot">
-            <span>Glassmorphic</span>
-          </article>
-          <article class="mode-card mode-brutal">
-            <img src="assets/modes/brutalist.jpg" alt="Brutalist premium mode screenshot">
-            <span>Brutalist</span>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="capability-section">
-      <div class="shell capability-layout">
-        <div class="capability-head">
-          <p class="micro-label">current capabilities</p>
-          <h2>It changes the build before the first component exists.</h2>
-        </div>
-        <div class="capability-grid" data-reveal-group>
-          <article class="capability-card tall">
-            <span>01</span>
-            <h3>Reference intelligence</h3>
-            <p>Builds a board from competitors, adjacent products, cultural references, interface systems, and anti-references.</p>
-          </article>
-          <article class="capability-card">
-            <span>02</span>
-            <h3>Art direction</h3>
-            <p>Chooses macrostructure, section rhythm, type behavior, asset style, and the page’s one brave break.</p>
-          </article>
-          <article class="capability-card">
-            <span>03</span>
-            <h3>Real assets</h3>
-            <p>Uses screenshots, SVG scenes, icons, photos, and demo captures with one visual DNA.</p>
-          </article>
-          <article class="capability-card wide">
-            <span>04</span>
-            <h3>Motion by default</h3>
-            <p>GSAP timelines, scroll-linked artifact movement, staggered sections, pointer feedback, and reduced-motion fallbacks ship in the same pass.</p>
-          </article>
-          <article class="capability-card">
-            <span>05</span>
-            <h3>Proof gates</h3>
-            <p>Runs contrast, SVG validation, motion audit, and anti-slop scans before handoff.</p>
-          </article>
-          <article class="capability-card">
-            <span>06</span>
-            <h3>Scoped taste</h3>
-            <p>Marketing pages, dashboards, app shells, forms, demos, and empty states get different rules.</p>
-          </article>
-        </div>
-        <aside class="print-stack" aria-label="Tastemaker process artifact stack">
-          <figure>
-            <img src="assets/art/taste-orchestration.svg" alt="Tastemaker orchestration artwork">
+        <div class="mode-grid" data-reveal-group>
+          <figure class="mode-card">
+            <div class="mode-card-shot"><img src="assets/modes/brutalist.jpg" alt="Brutalist mode: a finance dashboard with heavy black type, a yellow highlight block, and hard-edged cards."></div>
+            <figcaption><strong>Brutalist</strong><span>Heavy type, hard edges, no apology.</span></figcaption>
           </figure>
-          <div class="print-note">Reference board first. Components second.</div>
-          <div class="print-note ghost">Cards only work when proof surrounds them.</div>
-        </aside>
+          <figure class="mode-card">
+            <div class="mode-card-shot"><img src="assets/modes/glassmorphic.jpg" alt="Glassmorphic mode: a design-review tool with soft frosted panels over a warm gradient."></div>
+            <figcaption><strong>Glassmorphic</strong><span>Layered translucency, soft depth.</span></figcaption>
+          </figure>
+          <figure class="mode-card">
+            <div class="mode-card-shot"><img src="assets/modes/minimalist.jpg" alt="Minimalist mode: a clean, restrained product screen with generous whitespace."></div>
+            <figcaption><strong>Minimalist</strong><span>Restraint as the whole style.</span></figcaption>
+          </figure>
+          <figure class="mode-card">
+            <div class="mode-card-shot"><img src="assets/modes/soft-calm.jpg" alt="Soft calm mode: a gentle, low-contrast interface with rounded, quiet shapes."></div>
+            <figcaption><strong>Soft / Calm</strong><span>Low contrast, unhurried pacing.</span></figcaption>
+          </figure>
+        </div>
+        <div class="mode-cta">
+          <p>Sponsor-exclusive, on top of the free core skill.</p>
+          <a class="button button-dark" href="https://buy.polar.sh/polar_cl_tY4OjST0hD2YW36YeNrDJgHs6Ybz9vmsQeHNX0YSbl4" target="_blank" rel="noopener">Unlock for $8/month</a>
+        </div>
       </div>
     </section>
 
-    <section class="change-section">
-      <div class="shell change-layout">
-        <div class="change-copy">
+    <section class="memory-section" id="memory">
+      <div class="shell memory-layout">
+        <div class="memory-copy" data-reveal>
           <p class="micro-label">what changed</p>
           <h2>The skill remembers your taste.</h2>
-          <p>Project style choices live in the repo. Personal preferences can live locally. Rejected directions become future guardrails instead of getting forgotten next session.</p>
+          <p>Project style choices live in the repo. Personal preferences can live locally. A rejected direction becomes a guardrail for next time instead of getting forgotten.</p>
         </div>
-        <div class="ledger" id="memory">
-          <article>
-            <span>project</span>
-            <h3>.tastemaker/style-lock.md</h3>
-            <p>Palette, type, shape, assets, motion, and do-not rules for this project.</p>
-          </article>
-          <article>
-            <span>session</span>
-            <h3>.tastemaker/decisions.log</h3>
-            <p>Append-only keep, reject, and pending-review decisions from design passes.</p>
-          </article>
-          <article>
-            <span>personal</span>
-            <h3>~/.tastemaker/profile.md</h3>
-            <p>Reusable preferences promoted only when the user chooses or repeats them.</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="demo-section" id="demos">
-      <div class="shell demo-layout">
-        <div class="demo-head">
-          <p class="micro-label">visual proof</p>
-          <h2>Show range, not claims.</h2>
-        </div>
-        <div class="demo-gallery" data-reveal-group>
-          <a class="demo-card demo-wide" href="compare.html">
-            <img src="assets/proof/before-after-poster.png" alt="Before and after Tastemaker proof">
-            <span>Before and after</span>
-          </a>
-          <a class="demo-card" href="demo.html">
-            <img src="assets/proof/capabilities-section.png" alt="Tastemaker demo capability surface">
-            <span>Capability demo</span>
-          </a>
-          <a class="demo-card" href="#modes">
-            <img src="assets/modes/minimalist.jpg" alt="Minimalist Tastemaker mode">
-            <span>Premium modes</span>
-          </a>
+        <div class="file-tree" data-reveal>
+          <div class="file-tree-row file-tree-dir"><code>.tastemaker/</code><span class="file-tree-tag">this project</span></div>
+          <div class="file-tree-row" data-reveal-group>
+            <code><span class="file-tree-branch">├──</span> style-lock.md</code>
+            <span class="file-tree-desc">Palette, type, shape, assets, motion, and do-not rules for this project.</span>
+          </div>
+          <div class="file-tree-row">
+            <code><span class="file-tree-branch">└──</span> decisions.log</code>
+            <span class="file-tree-desc">Append-only keep, reject, and pending-review decisions from every design pass.</span>
+          </div>
+          <div class="file-tree-row file-tree-dir file-tree-dir-spaced"><code>~/.tastemaker/</code><span class="file-tree-tag">your machine, every project</span></div>
+          <div class="file-tree-row">
+            <code><span class="file-tree-branch">└──</span> profile.md</code>
+            <span class="file-tree-desc">Reusable preferences, promoted only when you choose or repeat them.</span>
+          </div>
         </div>
       </div>
     </section>
 
     <section class="install-section" id="install">
-      <div class="shell install-panel">
-        <div class="still-life" aria-hidden="true">
-          <div class="stone"></div>
-          <img src="assets/mark-tastemaker.svg" alt="">
-          <div class="leaf leaf-a"></div>
-          <div class="leaf leaf-b"></div>
-          <div class="leaf leaf-c"></div>
-        </div>
+      <div class="shell install-panel" data-reveal>
         <div class="install-copy">
           <p class="micro-label">free and local</p>
           <h2>Install once. Ask normally.</h2>
-          <p>No hosted editor, no account, no separate design handoff. Put the taste layer where the agent already works.</p>
-          <div class="install-row">
+          <p>No hosted editor, no account, no separate design handoff. The taste layer lives where the agent already works.</p>
+          <div class="install-row install-row-large">
             <code>npx skills add codeswithroh/tastemaker</code>
             <button class="copy-button" type="button" data-copy="npx skills add codeswithroh/tastemaker">
               <img src="assets/icons/copy.svg" alt="">
               <span>Copy</span>
             </button>
           </div>
+          <p class="install-note">Using Claude Code specifically? The <a href="https://github.com/codeswithroh/tastemaker#claude-code-plugin-marketplace" target="_blank" rel="noopener">plugin marketplace</a> and manual install work too.</p>
         </div>
       </div>
     </section>
   </main>
 
   <footer class="site-footer">
-    <div class="shell footer-inner">
+    <div class="shell footer-layout">
       <a class="brand" href="#top">
         <img src="assets/mark-tastemaker.svg" alt="">
         <span>tastemaker</span>
       </a>
-      <p>Local-first design taste for coding agents.</p>
+      <div class="footer-note">Built with the workflow it documents.</div>
       <div class="footer-links">
         <a href="https://github.com/codeswithroh/tastemaker" target="_blank" rel="noopener">GitHub</a>
-        <a href="https://github.com/codeswithroh/tastemaker/blob/main/LICENSE" target="_blank" rel="noopener">License</a>
-        <a href="https://github.com/sponsors/codeswithroh" target="_blank" rel="noopener">Sponsor</a>
+        <a href="https://github.com/codeswithroh/tastemaker/blob/main/README.md" target="_blank" rel="noopener">Docs</a>
+        <a href="changelog.html">Changelog</a>
+        <a href="https://github.com/codeswithroh/tastemaker/blob/main/LICENSE" target="_blank" rel="noopener">MIT License</a>
+        <a class="footer-sponsor" href="https://github.com/sponsors/codeswithroh" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true" focusable="false"><path fill="currentColor" d="M8 14.25a.75.75 0 0 1-.5-.19C4.42 11.35 2 9.2 2 6.5 2 4.5 3.5 3 5.4 3c1.06 0 2.05.5 2.6 1.28C8.55 3.5 9.54 3 10.6 3 12.5 3 14 4.5 14 6.5c0 2.7-2.42 4.85-5.5 7.56a.75.75 0 0 1-.5.19Z"/></svg>Sponsor</a>
       </div>
+      <a class="footer-badge" href="https://fazier.com/launches/tastemaker-skill.online" target="_blank" rel="noopener"><img src="https://fazier.com/api/v1//public/badges/launch_badges.svg?badge_type=launched&theme=dark" width="120" alt="Fazier badge" loading="lazy"></a>
     </div>
   </footer>
 

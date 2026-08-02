@@ -46,6 +46,35 @@ Use at most one outer presentation frame around the visual. Avoid a dashboard in
 - Keep the hero palette quieter than the sections below it. Accent color should identify the key phrase, action, or visual detail—not all three at maximum intensity.
 - When an established logo does not match the new theme, preserve the logo and solve the mismatch through its surrounding space, scale, or container.
 
+## Optional: a floating metric chip as annotation, not a second hero group
+
+A small chip (a real number + a one-to-three-word label, e.g. "6.60:1 contrast" or "5.2K active users") laid directly on top of the single proof visual — not beside it — reads as an annotation of that one visual, not a competing hero group, and premium references (motionsites.ai's higher-end hero examples among them) use this well. It is still governed by the same restraint budget, not exempt from it:
+
+- **Cap at one, or at most two** chips per hero, and they must sit ON the proof visual (overlapping its edge/corner), never floating independently in empty hero space — that reads as a fourth hero group, exactly what line 27 above forbids.
+- **The number must be real** — pulled from the product's own verified output (a contrast ratio actually computed for this build, a real usage count), never invented to fill the space.
+- Keep them small and quiet: this is a caption-scale detail noticed on a second look, not a headline-scale claim competing with the actual headline.
+- This does not relax the "one focused visual" rule — the chip is part of that one visual's presentation, not a second one.
+
+## Turn a static proof visual into a real animated comparison
+
+When the product's proof is fundamentally a *comparison* (before/after, with-skill/without-skill, old-way/new-way) and you have both real states as separate assets, don't compose them into one flat static image. Build an animated wipe/reveal instead: layer the two real screenshots absolutely, clip the top layer with `clip-path: inset()` driven by a CSS custom property (e.g. `--wipe`), and animate that property back and forth on a slow loop (GSAP supports tweening CSS custom properties directly: `gsap.to(el, { "--wipe": "80%", duration: 4, ease: "sine.inOut", yoyo: true, repeat: -1 })`).
+
+This is the single highest-leverage move for a hero that otherwise reads as "just a screenshot" — it turns real, honest content into something that visually reads as continuous motion (the "it looks like a video plays in the background" reaction premium references get), without fabricating a video asset or a synthetic 3D render. Both layers must be genuinely real captures of the actual product/comparison — never stage one side to look worse than it actually is.
+
+Constraints: this replaces the single proof visual, it doesn't add to it — still one visual, one frame, one job. Cap the wipe range so it never fully hides either state for long (e.g. 15%-85%, not 0%-100%) so a viewer glancing at any moment still sees both sides represented. Always respect `prefers-reduced-motion`: freeze at a fixed midpoint (e.g. 50%) rather than animating.
+
+## Optional: ambient depth behind the proof visual
+
+A soft radial glow (using the project's existing accent color at low opacity, positioned behind the proof visual) or a subtle idle drift/pulse on the visual itself (a few px of float, GSAP `yoyo: true, repeat: -1`, several-second duration) can make a static screenshot or product shot feel alive without adding a new competing element.
+
+**A stronger option when the brief calls for real production value**: an animated generative background — two or three soft radial-gradient "blobs" in the project's locked accent colors, drawn on a `<canvas>` and slowly drifted with `Math.sin`/`Math.cos` on a `requestAnimationFrame` loop — sitting behind the entire hero section (not just the proof visual). This is the honest substitute for a licensed stock-video background loop: genuinely continuous motion, zero licensing/sourcing cost, and it never competes with content because it's decorative and kept to low opacity. Draw one static frame and stop under `prefers-reduced-motion` instead of starting the loop.
+
+Either technique: keep the motion slow and low-amplitude enough that it reads as ambient texture, not attention-grabbing animation — and always gate it behind `prefers-reduced-motion` like any other motion in the hero.
+
+## A real reference check before calling a hero "done"
+
+Before finishing a hero pass, look at one current, genuinely award-caliber site in the same category as the product (not just a general inspiration gallery) and name what it's actually doing. A concrete finding from doing this against Linear.app while building this exact section: its hero is almost entirely restraint — huge type, a real (not glamorized) product screenshot at full width fading into the background via a top vignette, and *one* tiny text-link secondary action instead of a second button. No floating badges, no chips, no glow. That's a legitimate answer to "make it award-winning" that looks nothing like a maximalist agency-showcase hero — restraint, at sufficient scale and fidelity, reads as premium on its own. Don't assume "award-winning" means "add more decoration"; check a real reference in the product's own category before deciding which direction it means here.
+
 ## Motion should reveal, not multiply
 
 Use a short GSAP sequence with at most four coherent beats:

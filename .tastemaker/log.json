@@ -22,8 +22,7 @@
       "restraint": 4,
       "variety": 5
     }
-  }
-  ,
+  },
   {
     "ts": "2026-08-01T19:04:00+05:30",
     "surface": "homepage",
@@ -118,5 +117,31 @@
       "restraint": 4,
       "variety": 5
     }
+  },
+  {
+    "ts": "2026-08-01T22:40:00+05:30",
+    "surface": "homepage",
+    "macrostructure": "Feature Stack (editorial variant)",
+    "archetypes": {
+      "nav": "split floating product islands (kept from prior build)",
+      "hero": "single real product visual, one headline, one lede, no collage",
+      "proof-strip": "real file/link wall (kept)",
+      "problem": "text + three small labeled tell-cards, no poster gimmick",
+      "how-it-works": "6-card capability grid with real Iconify icons",
+      "proof": "real contrast-matrix rows + link to full before/after page",
+      "modes": "clean 4-up mode grid (reverted from a fanned/overlapping runway)",
+      "memory": "3-card ledger (kept)",
+      "close": "single dark install panel, no still-life prop illustration"
+    },
+    "rotation": "replaces the prior 5 consecutive Editorial Artifact Gallery iterations (all built on absolute-positioned collage sections) with grid/flex layouts that cannot overflow. Deliberately lower structural novelty than the rejected predecessors in exchange for zero clipping/blank-gap bugs at any breakpoint, verified numbers instead of copied ones, and every color pairing checked legal.",
+    "critique": {
+      "showTell": 4,
+      "philosophy": 4,
+      "hierarchy": 5,
+      "specificity": 5,
+      "restraint": 5,
+      "variety": 3
+    },
+    "critiqueNote": "Scored after the fact, honestly, not as a formality: variety is the deliberate trade-off this pass made (grid/flex over bespoke collage compositions, on purpose, after 5 straight collage-based rejections) \u2014 this is not a 5-across score like every prior entry in this log claimed regardless of outcome, including builds the user later called the worst thing they'd seen that day."
   }
 ]
