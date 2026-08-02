@@ -44,7 +44,7 @@ These install real component source into the project (copy-in, not a dependency 
 | Registry | Namespace / URL | Best for | Notes |
 |---|---|---|---|
 | **shadcn/ui** (the base) | `npx shadcn@latest add <name>` | The foundation layer: button, input, dialog, table, form, sidebar, chart. Also official **blocks** (dashboards, login, sidebar layouts). | Set this up first. Everything else layers on top. |
-| **Watermelon UI** | `npx shadcn@latest add "https://registry.watermelon.sh/<name>.json"` | 260+ components **and full blocks** — dashboards, login forms, page sections. Broadest single source. | Open source. Categories: inputs, data display, feedback, navigation, layout, charts (Recharts), blocks. |
+| **Watermelon UI** | `@watermelon` → `https://registry.watermelon.sh/r/{name}.json`<br>`npx shadcn@latest add @watermelon/<name>` | 260+ components **and full blocks** — dashboards, login forms, page sections. Broadest single source. | Open source. Categories: inputs, data display, feedback, navigation, layout, charts (Recharts), blocks. **Note the `/r/` path** — Watermelon's own docs print the URL without it, which returns the site's HTML instead of JSON and fails with `Unexpected token '<'`. Verified working path is `/r/{name}.json`. |
 | **KokonutUI** | `@kokonutui` → `https://kokonutui.com/r/{name}.json`<br>`npx shadcn@latest add @kokonutui/<name>` | Higher-polish, more *designed* components — the ones with real motion and visual character (e.g. `particle-button`). | **Tailwind v4** + lucide-icons. Verify the project's Tailwind major version before pulling. Utils: `https://kokonutui.com/r/utils.json`. |
 | **bklit UI** | `@bklit` → `https://ui.bklit.com/r/{name}.json`<br>`npx shadcn@latest add @bklit/<name>` | **Charts, specifically.** 17+ types: area, bar, line, pie, scatter, candlestick, sankey, heatmap. Plus legends, grids, tooltips, axes, brushes. | Free/open source. Reach for this over hand-rolling any chart. Some components auto-pull `@bklit/shimmering-text`. |
 
@@ -54,10 +54,16 @@ To register a namespace once in an existing project, add to `components.json`:
 {
   "registries": {
     "@kokonutui": "https://kokonutui.com/r/{name}.json",
-    "@bklit": "https://ui.bklit.com/r/{name}.json"
+    "@bklit": "https://ui.bklit.com/r/{name}.json",
+    "@watermelon": "https://registry.watermelon.sh/r/{name}.json"
   }
 }
 ```
+
+Two things that bite in practice, both hit while wiring this up for real:
+
+- **`shadcn init` overwrites the palette.** It writes its own neutral oklch defaults into the CSS token block, silently replacing a locked palette that was already there. Re-apply the lock's values *after* init, not before — and keep the `--chart-*` and `--sidebar-*` token names it adds, since pulled components reference them. Point them at the locked palette so charts and sidebars land on-brand without per-component overrides.
+- **Some registry items prompt interactively** (`utils.ts already exists, overwrite?`). In a non-interactive agent context that hangs. Pass `--yes`, and pipe `y` when a component legitimately needs to overwrite a shared file.
 
 ### MCP servers (live component search/retrieval, if configured)
 

@@ -1,0 +1,184 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* Tastemaker locked palette — see .tastemaker/style-lock.md.
+   Every pairing used here was verified with scripts/check_contrast.py.
+   NOTE: `shadcn init` writes its own neutral oklch defaults into this block.
+   They are deliberately replaced below with the locked palette — that restyle
+   is the coherence pass required by references/component-sourcing.md, and it
+   is done once here at the token layer so every component pulled from any
+   registry inherits Tastemaker's system instead of its origin registry's. */
+:root {
+  --radius: 0.75rem;
+
+  --paper: #f4f1eb;
+  --cream: #fffaf1;
+  --ink: #171514;
+  --ink-soft: #4d4842;
+  --soft-muted: #746b61;
+  --muted-dark: #9aa8a8;
+  --dark: #0c1414;
+  --dark-soft: #14201f;
+  --teal: #008286;
+  --teal-bright: #55d8cc;
+  --orchid: #be85ce;
+  --orange: #e66826;
+
+  --background: #f4f1eb;
+  --foreground: #171514;
+  --card: #fffaf1;
+  --card-foreground: #171514;
+  --popover: #fffaf1;
+  --popover-foreground: #171514;
+  --primary: #0c1414;
+  --primary-foreground: #ffffff;
+  --secondary: #fffaf1;
+  --secondary-foreground: #171514;
+  --muted: #ece7dd;
+  --muted-foreground: #4d4842;
+  --accent: #008286;
+  --accent-foreground: #ffffff;
+  --destructive: #c83230;
+  --border: rgba(23, 21, 20, 0.13);
+  --input: rgba(23, 21, 20, 0.13);
+  --ring: #008286;
+
+  /* Chart ramp, drawn from the locked palette rather than shadcn's greys, so
+     any bklit/Recharts chart lands on-brand without per-chart overrides. */
+  --chart-1: #008286;
+  --chart-2: #be85ce;
+  --chart-3: #e66826;
+  --chart-4: #55d8cc;
+  --chart-5: #4d4842;
+
+  --sidebar: #fffaf1;
+  --sidebar-foreground: #171514;
+  --sidebar-primary: #0c1414;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #f4f1eb;
+  --sidebar-accent-foreground: #171514;
+  --sidebar-border: rgba(23, 21, 20, 0.13);
+  --sidebar-ring: #008286;
+}
+
+.dark {
+  --background: #0c1414;
+  --foreground: #e5f6f6;
+  --card: #14201f;
+  --card-foreground: #e5f6f6;
+  --popover: #14201f;
+  --popover-foreground: #e5f6f6;
+  --primary: #e5f6f6;
+  --primary-foreground: #0c1414;
+  --secondary: #14201f;
+  --secondary-foreground: #e5f6f6;
+  --muted: #14201f;
+  --muted-foreground: #9aa8a8;
+  --accent: #55d8cc;
+  --accent-foreground: #0c1414;
+  --destructive: #e66826;
+  --border: rgba(229, 246, 246, 0.14);
+  --input: rgba(229, 246, 246, 0.14);
+  --ring: #55d8cc;
+
+  --chart-1: #55d8cc;
+  --chart-2: #be85ce;
+  --chart-3: #e66826;
+  --chart-4: #008286;
+  --chart-5: #9aa8a8;
+
+  --sidebar: #14201f;
+  --sidebar-foreground: #e5f6f6;
+  --sidebar-primary: #55d8cc;
+  --sidebar-primary-foreground: #0c1414;
+  --sidebar-accent: #0c1414;
+  --sidebar-accent-foreground: #e5f6f6;
+  --sidebar-border: rgba(229, 246, 246, 0.14);
+  --sidebar-ring: #55d8cc;
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-cream: var(--cream);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-soft-muted: var(--soft-muted);
+  --color-muted-dark: var(--muted-dark);
+  --color-dark: var(--dark);
+  --color-dark-soft: var(--dark-soft);
+  --color-teal: var(--teal);
+  --color-teal-bright: var(--teal-bright);
+  --color-orchid: var(--orchid);
+  --color-orange: var(--orange);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  --font-display: "Archivo", system-ui, sans-serif;
+  --font-sans: "IBM Plex Sans", system-ui, sans-serif;
+  --font-body: "IBM Plex Sans", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --font-heading: var(--font-display);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3 {
+    font-family: var(--font-display);
+    text-wrap: balance;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+  }
+}

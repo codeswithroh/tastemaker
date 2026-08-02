@@ -9,3 +9,6 @@ __pycache__/
 site/.netlify/
 .netlify/
 site/.wrangler/
+web/node_modules/
+web/dist/
+web/.wrangler/
