@@ -111,7 +111,7 @@ Only for projects with an app shell (sidebar plus topbar) — see `references/co
 - Asset style: <e.g. "outline icons, 1.5px stroke, rounded caps" | "flat geometric illustrations, palette-matched">
 - Illustration vs. photography split: <e.g. "ideagram/unDraw illustrations for mission/values/team personality; real Pixabay photography for office/location sections">
 - Illustration source used: <"matched from populated ~/.ideagram/undraw/ library" | "ideagram/assets/primitives fallback — no library available, quality tradeoff noted to user"> — so a later session in this project knows without re-checking
-- Logo: <path to mark/mark+wordmark SVG> — <symbol source, e.g. "logoyoyo.com blob mark, recolored to accent"> + <heading font used for wordmark>
+- Logo: <path to mark/mark+wordmark SVG> — <how it was produced, e.g. "constructed from primitives in the locked palette" or "preserved existing brand mark"> + <heading font used for wordmark>
 
 ## Motion
 - Feel: <e.g. "quick and restrained" | "soft and slightly bouncy" — should match the mood descriptors above>

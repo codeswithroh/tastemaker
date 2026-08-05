@@ -36,13 +36,13 @@ unDraw is no longer a fallback here — it's the primary illustration source via
 
 After any manual download: validate with `scripts/validate_assets.py`, recolor to the locked accent with `scripts/recolor_svg.py` if needed, then reuse across screens.
 
-## Logos — logoyoyo.com (also manual, license unverified)
+## Logos — constructed, not sourced
 
-The project's logo mark is its own sourcing step, not an illustration — see `references/logo-sourcing.md`. Same manual-browse category as the unDraw-library setup above (no API), done once per project. Unlike unDraw (confirmed no-attribution license) and Streamline (confirmed attribution terms), logoyoyo.com's license is unverified — see `references/logo-sourcing.md` for what was actually checked.
+The project's logo mark is its own sourcing step, not an illustration — see `references/logo-sourcing.md`. It is **constructed** from primitives in the locked palette (or an existing brand asset is preserved), so there is no third-party license or domain involved at all.
 
 ## The through-line
 
-Photos (Openverse) and icons (Iconify) are fully automatic, **keyless**, and attribution-free — no setup, every session. Illustrations (`ideagram/`) and logos (logoyoyo.com) both need a one-time manual step (populating the unDraw library; browsing a symbol), but are otherwise attribution-free and, once that one-time step is done, reused across every future project without repeating it. Streamline and the keyed upgrade (Pixabay) exist for fit, not because the defaults are lacking. If you ever find yourself about to add an on-site credit line to satisfy a source's license, stop: that means the wrong source was chosen for this skill's goal. Switch to an attribution-free one instead.
+Photos (Openverse) and icons (Iconify) are fully automatic, **keyless**, and attribution-free — no setup, every session. Illustrations (`ideagram/`) need a one-time manual step (populating the unDraw library), but are otherwise attribution-free and reused across every future project. Logos are constructed locally, so they need no external source at all. Streamline and the keyed upgrade (Pixabay) exist for fit, not because the defaults are lacking. If you ever find yourself about to add an on-site credit line to satisfy a source's license, stop: that means the wrong source was chosen for this skill's goal. Switch to an attribution-free one instead.
 
 ## On sameness across projects
 

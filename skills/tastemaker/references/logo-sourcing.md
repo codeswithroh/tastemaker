@@ -20,11 +20,9 @@ A single letter dropped inside a rounded square or circle — `[t]`, `[C]`, a mo
 
 **Path A — construct it (the reliable default).** A logo mark is just a very small, very simple illustration, and `ideagram` (vendored, always available) is already built for flat geometric SVG. Compose the mark directly from primitive shapes in the locked palette, following `ideagram/references/style-contract.md`. This is the default because it's automatic, original (no licensing question), on-brand by construction, and doesn't depend on a manual browse step. Build it, then validate with `scripts/validate_assets.py`.
 
-**Path B — source a symbol from logoyoyo.com (optional, manual).** logoyoyo.com is a browsable library of ~2900 SVG symbols (blobs, asterisks, blocks, abstract marks) that can be a good starting point or inspiration when construction isn't producing something clean. It is **not an API** — selecting one is a manual browse-and-download step, not an auto-fetch. Two caveats before relying on it:
-- **License is unverified.** Unlike unDraw (explicit no-attribution) or Streamline (documented terms), logoyoyo.com has no discoverable license/terms/FAQ page (checked homepage, `/license`, `/about`, `/faq` — all absent). Don't claim "free to use, no attribution" as settled fact. Before using one commercially, check the site for terms and tell the user what was actually found; if nothing turns up, say the license is unconfirmed and let them decide.
-- After download: recolor to the locked accent with `scripts/recolor_svg.py --accent "#<hex>" --preserve-dark`, then validate with `scripts/validate_assets.py`.
+**Path B — an existing brand asset already in the repo.** If the project already has a mark, favicon, or brand kit anywhere in the repository or the brief, that is the mark. Reuse it byte-for-byte (see the preservation rule above) rather than producing a new one.
 
-Given the unverified license on Path B, **default to Path A (construct it)** unless the user specifically wants to browse logoyoyo.com — a constructed mark is original, license-clean, and matches the brand by construction.
+> **Removed: third-party symbol libraries.** An earlier version of this file recommended a browsable third-party SVG symbol site as an optional manual source. It was removed after a security audit flagged the domain as a phishing risk, and because its license was never verifiable (no terms, license, or FAQ page existed). Do not reintroduce it or a substitute without a verifiable license **and** a clean reputation check — `scripts/check_domains.py` will fail the build on any domain not in the vetted allowlist. Constructing the mark (Path A) has no licensing question at all, which is why it is the default.
 
 ## Assemble mark + wordmark
 
@@ -42,4 +40,4 @@ Note the mark's concept, the shapes it's built from, and the wordmark font in `.
 
 ## Honesty
 
-Don't imply a constructed or library-sourced mark is bespoke agency work — it's a clean, fast, legitimate logo, just don't oversell it. And per the license note, don't state logoyoyo.com symbols are "free to use" unless you actually verified it.
+Don't imply a constructed mark is bespoke agency work — it's a clean, fast, legitimate logo, just don't oversell it.

@@ -49,6 +49,9 @@ import argparse
 import urllib.request
 import urllib.parse
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from _netguard import urlopen_checked  # noqa: E402
+
 API = "https://api.iconify.design"
 
 MOOD_ICON_SETS = {
@@ -61,8 +64,8 @@ MOOD_ICON_SETS = {
 
 
 def http_get(url):
-    req = urllib.request.Request(url, headers={"User-Agent": "tastemaker-skill/1.0"})
-    with urllib.request.urlopen(req, timeout=20) as resp:
+    # https-only + host allowlist, redirects included. See _netguard.py.
+    with urlopen_checked(url, timeout=20) as resp:
         return resp.read()
 
 

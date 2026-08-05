@@ -38,20 +38,25 @@ import argparse
 import urllib.request
 import urllib.parse
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from _netguard import urlopen_checked, BlockedURLError  # noqa: E402
+
 OPENVERSE = "https://api.openverse.org/v1/images/"
 PIXABAY = "https://pixabay.com/api/"
 UA = {"User-Agent": "tastemaker-skill/1.0 (https://github.com/codeswithroh/tastemaker)"}
 
 
 def http_json(url):
-    req = urllib.request.Request(url, headers=UA)
-    with urllib.request.urlopen(req, timeout=25) as resp:
+    # urlopen_checked enforces https-only + a host allowlist, on redirects too.
+    with urlopen_checked(url, timeout=25) as resp:
         return json.loads(resp.read().decode())
 
 
 def http_bytes(url):
-    req = urllib.request.Request(url, headers=UA)
-    with urllib.request.urlopen(req, timeout=45) as resp:
+    # The URL here can come straight from a search-API response, so it is
+    # untrusted input. urlopen_checked is what stops a hostile record from
+    # pointing this at file:// or an unvetted host.
+    with urlopen_checked(url, timeout=45) as resp:
         ctype = resp.headers.get("Content-Type", "")
         data = resp.read()
         return data, ctype

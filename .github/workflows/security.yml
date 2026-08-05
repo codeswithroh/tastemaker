@@ -1,0 +1,30 @@
+name: security
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  # Catches a domain that becomes malicious after it was allowlisted.
+  schedule:
+    - cron: "0 6 * * 1"
+
+jobs:
+  skill-security:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      # Fails on any banned domain, or any domain not explicitly vetted.
+      - name: Domain allowlist
+        run: python3 skills/tastemaker/scripts/check_domains.py
+
+      # URL-guard behaviour, no-shell/eval assertions, prompt-injection guidance.
+      - name: Security regression tests
+        run: python3 skills/tastemaker/scripts/test_security.py
+
+      - name: SVG assets are well-formed
+        run: python3 skills/tastemaker/scripts/validate_assets.py skills/tastemaker
