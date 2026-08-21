@@ -26,42 +26,53 @@
   --teal-bright: #55d8cc;
   --orchid: #be85ce;
   --orange: #e66826;
+  /* Sampled directly from the illustrations' own gold (#fab832 average),
+     then darkened along the same hue until it cleared text-safe contrast
+     on the paper background — the raw illustration gold measures 1.56:1
+     there (fails badly); this measures 5.03:1 (check_contrast.py). */
+  --gold: #8b5e03;
 
-  --background: #080f0f;
-  --foreground: #e5f6f6;
-  --card: rgba(255, 255, 255, 0.03);
-  --card-foreground: #e5f6f6;
-  --popover: #14201f;
-  --popover-foreground: #e5f6f6;
-  --primary: #e5f6f6;
-  --primary-foreground: #0c1414;
-  --secondary: #14201f;
-  --secondary-foreground: #e5f6f6;
-  --muted: #14201f;
-  --muted-foreground: #9aa8a8;
-  --accent: #55d8cc;
-  --accent-foreground: #0c1414;
-  --destructive: #e66826;
-  --border: rgba(229, 246, 246, 0.1);
-  --input: rgba(229, 246, 246, 0.14);
-  --ring: #55d8cc;
+  /* Light theme — see .tastemaker/style-lock.md's light palette. Re-verified
+     against these exact hexes with check_contrast.py: ink/paper 16.15,
+     ink-soft/paper 8.03, soft-muted/paper 4.64 (all text-safe); teal/paper
+     4.11 (UI-safe only — large text/buttons, never small body text);
+     orchid/paper 2.51 and orange/paper 2.92 (decorative only — borders,
+     icons, badge fills, never text on the page background). */
+  --background: #f4f1eb;
+  --foreground: #171514;
+  --card: #fffaf1;
+  --card-foreground: #171514;
+  --popover: #fffaf1;
+  --popover-foreground: #171514;
+  --primary: #0c1414;
+  --primary-foreground: #ffffff;
+  --secondary: #fffaf1;
+  --secondary-foreground: #171514;
+  --muted: #ece7dc;
+  --muted-foreground: #4d4842;
+  --accent: #008286;
+  --accent-foreground: #ffffff;
+  --destructive: #c83230;
+  --border: rgba(23, 21, 20, 0.12);
+  --input: rgba(23, 21, 20, 0.14);
+  --ring: #008286;
 
   /* Chart ramp, drawn from the locked palette rather than shadcn's greys, so
      any bklit/Recharts chart lands on-brand without per-chart overrides. */
-  --chart-1: #55d8cc;
+  --chart-1: #008286;
   --chart-2: #be85ce;
   --chart-3: #e66826;
-  --chart-4: #008286;
-  --chart-5: #9aa8a8;
+  --chart-4: #55d8cc;
+  --chart-5: #4d4842;
 
-  --sidebar: #14201f;
-  --sidebar-foreground: #e5f6f6;
-  --sidebar-primary: #55d8cc;
-  --sidebar-primary-foreground: #0c1414;
-  --sidebar-accent: #0c1414;
-  --sidebar-accent-foreground: #e5f6f6;
-  --sidebar-border: rgba(229, 246, 246, 0.1);
-  --sidebar-ring: #55d8cc;
+  --sidebar: #fffaf1;
+  --sidebar-foreground: #171514;
+  --sidebar-primary: #0c1414;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #f4f1eb;
+  --sidebar-accent-foreground: #171514;
+  --sidebar-border: rgba(23, 21, 20, 0.12);
+  --sidebar-ring: #008286;
 }
 
 .dark {
@@ -113,6 +124,7 @@
   --color-teal-bright: var(--teal-bright);
   --color-orchid: var(--orchid);
   --color-orange: var(--orange);
+  --color-gold: var(--gold);
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -153,6 +165,10 @@
   --font-body: "IBM Plex Sans", system-ui, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, monospace;
   --font-heading: var(--font-display);
+  /* Handwritten accent, echoing the illustrations' loose pen-ink linework —
+     used sparingly, on one emphasized phrase per headline, never for body
+     copy or anything that needs to read instantly. */
+  --font-hand: "Caveat", cursive;
 
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -168,7 +184,7 @@
   }
   html {
     scroll-behavior: smooth;
-    color-scheme: dark;
+    color-scheme: light;
   }
   body {
     @apply bg-background text-foreground;

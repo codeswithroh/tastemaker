@@ -32,10 +32,13 @@ export function Ambient() {
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
     }
 
+    // Tuned for the light canvas — the reference sites this palette now
+    // matches (Wunderbucket, Kacco) run almost flat backgrounds, so this
+    // reads as a faint warmth rather than a visible gradient mesh.
     const blobs = [
-      { x: 0.2, y: 0.28, r: 0.52, c: "0,130,134", a: 0.3, sx: 0.00011, sy: 0.00008, p: 0 },
-      { x: 0.78, y: 0.38, r: 0.44, c: "190,133,206", a: 0.22, sx: 0.00009, sy: 0.00013, p: 2.1 },
-      { x: 0.52, y: 0.78, r: 0.46, c: "85,216,204", a: 0.14, sx: 0.00013, sy: 0.0001, p: 4.2 },
+      { x: 0.2, y: 0.28, r: 0.52, c: "0,130,134", a: 0.09, sx: 0.00011, sy: 0.00008, p: 0 },
+      { x: 0.78, y: 0.38, r: 0.44, c: "190,133,206", a: 0.07, sx: 0.00009, sy: 0.00013, p: 2.1 },
+      { x: 0.52, y: 0.78, r: 0.46, c: "230,104,38", a: 0.05, sx: 0.00013, sy: 0.0001, p: 4.2 },
     ]
 
     const draw = (t: number) => {

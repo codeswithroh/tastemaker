@@ -82,3 +82,48 @@ technical, discerning, alive, exact
 - No emoji icons
 - No long body copy in monospace
 - No feature claim without a visual proof beside it
+
+## Illustration style (web/ React app, 2026-08-22)
+
+Eight custom illustrations (`web/public/assets/illustrations/`) replaced the terminal-chrome
+visual language as the primary storytelling device — one per major section, each mapping
+1:1 onto that section's real argument (hero: transformation; problem: the identical-output
+assembly line; how-it-works: the literal 6-step workflow; proof: measuring, not eyeballing;
+modes: four outfits for four registers; memory: rejected-pile to organized-archive; install:
+developer plus mascot). Source files live in `~/Documents/Tastemaker/design/assets/illustrations/`.
+
+**Reusable generation prompt** — append this to any prompt generating a new illustration for
+this project, so future additions match the existing eight instead of drifting:
+
+> Vintage editorial hand-drawn illustration, inspired by mid-century magazine spot
+> illustrations and old technical editorial cartoons. Thin imperfect black ink lines, loose
+> confident pen strokes, subtle hand-drawn wobble, charming human proportions, minimal
+> cross-hatching, very sparse detail, clever visual metaphor, whimsical but sophisticated,
+> modern technology represented through simple physical metaphors. Mostly black ink with a
+> very small amount of muted golden-yellow accent color. No gradients, no 3D, no glossy
+> effects, no photorealism, no vector-perfect geometry, no thick cartoon outlines, no anime
+> style, no corporate stock illustration style, no AI-generated aesthetic. No text, no
+> letters, no labels, no UI text. Isolated composition with generous negative space.
+> Transparent PNG background, true alpha transparency, absolutely no white, cream, beige, or
+> colored rectangular background.
+
+**Real gap found applying this:** the prompt's own "muted golden-yellow" didn't hold in the
+actual output — the illustrations' baked-in gold samples at `#fab832` (verified by direct
+pixel sampling, not eyeballing), which measures 1.56:1 against the site's paper background
+(`#f4f1eb`) — nowhere near text-safe. For any *typography* echoing this gold (not the
+illustrations themselves, which are a fixed asset), use `--gold: #8b5e03` instead — same hue,
+darkened until `check_contrast.py` cleared 4.5:1 (measures 5.03:1). The illustrations stay
+untouched; only text color pulls double duty as "goldish" safely.
+
+**Handwritten accent**: Caveat (`--font-hand`, Google Font "Caveat") on one emphasized
+phrase per major headline, sized ~1.15em relative to the surrounding bold sans since script
+faces read lighter at equal font-size. Never for body copy, labels, or anything read at a
+glance — matches the mid-century-editorial brief's "whimsical but sophisticated," not a
+children's-cartoon voice.
+
+**Framing rule**: four of the eight illustrations (hero, proof, memory, install) came back
+with a dark vignette baked into the source image rather than true alpha transparency, despite
+the prompt requesting it. On the site's light background those need a rounded-card wrapper
+with a soft shadow so they read as an intentional framed piece rather than a stray dark
+rectangle; the other four (problem, how-it-works, modes, and the alt install) are genuinely
+transparent and sit borderless. Check each new illustration for this before placing it.

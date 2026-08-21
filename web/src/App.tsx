@@ -24,8 +24,8 @@ function InstallRow({ large = false }: { large?: boolean }) {
   const [copied, setCopied] = useState(false)
   return (
     <div
-      className={`flex w-full max-w-[560px] items-center gap-2 rounded-full border border-white/10 py-2 pr-2 pl-5 backdrop-blur-xl ${
-        large ? "bg-white/[0.05]" : "bg-white/[0.04]"
+      className={`flex w-full max-w-[560px] items-center gap-2 rounded-full border border-ink/10 py-2 pr-2 pl-5 backdrop-blur-xl ${
+        large ? "bg-ink/[0.05]" : "bg-ink/[0.04]"
       }`}
     >
       <code className="min-w-0 flex-1 overflow-x-auto font-mono text-[0.82rem] whitespace-nowrap text-foreground [scrollbar-width:none]">
@@ -54,7 +54,7 @@ function InstallRow({ large = false }: { large?: boolean }) {
 
 function Eyebrow({ children }: { children: React.ReactNode }) {
   return (
-    <p className="mb-6 inline-flex w-max items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3.5 py-1.5 font-mono text-[0.66rem] font-bold tracking-[0.14em] text-muted-dark uppercase backdrop-blur-xl">
+    <p className="mb-6 inline-flex w-max items-center gap-2 rounded-full border border-ink/10 bg-ink/[0.04] px-3.5 py-1.5 font-mono text-[0.66rem] font-bold tracking-[0.14em] text-muted-dark uppercase backdrop-blur-xl">
       <span className="inline-block h-1.5 w-1.5 rounded-full bg-teal-bright" />
       {children}
     </p>
@@ -87,35 +87,46 @@ function SectionHead({
   )
 }
 
-/** A section's illustration, floating borderless on the dark canvas with
- * scroll parallax. The illustrations already carry their own vignette or
- * transparency, so no card/border — a frame would fight the art. */
+/** A section's illustration, with scroll parallax. Two of the source images
+ * carry a baked-in dark vignette (framed=true) — those get a rounded card
+ * and shadow so they read as an intentional framed piece against the light
+ * page instead of a jarring dark rectangle. The transparent ones sit
+ * borderless, since a frame would fight art that's meant to float free. */
 function Illustration({
   src,
   alt,
   strength = 26,
   maxW = 640,
   float = false,
+  framed = false,
 }: {
   src: string
   alt: string
   strength?: number
   maxW?: number
   float?: boolean
+  framed?: boolean
 }) {
   const img = (
     <img
       src={src}
       alt={alt}
       loading="lazy"
-      className="block w-full h-auto select-none"
+      className={`block w-full h-auto select-none ${framed ? "rounded-[28px]" : ""}`}
       style={{ maxWidth: maxW }}
       draggable={false}
     />
   )
+  const wrapped = framed ? (
+    <div className="overflow-hidden rounded-[28px] shadow-[0_30px_70px_rgba(23,21,20,0.16)]">
+      {img}
+    </div>
+  ) : (
+    img
+  )
   return (
-    <Parallax strength={strength} className="mx-auto" >
-      {float ? <Float duration={6}>{img}</Float> : img}
+    <Parallax strength={strength} className="mx-auto">
+      {float ? <Float duration={6}>{wrapped}</Float> : wrapped}
     </Parallax>
   )
 }
@@ -155,7 +166,7 @@ function Console({
 }) {
   const c = tone === "fail" ? "text-orange" : "text-teal-bright"
   return (
-    <div className="overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-xl">
+    <div className="overflow-hidden rounded-2xl border border-white/10 bg-dark shadow-[0_20px_50px_rgba(23,21,20,0.14)]">
       <div className="flex items-center gap-2 border-b border-white/10 px-5 py-3.5">
         <span className="h-2.5 w-2.5 rounded-full bg-orange/70" />
         <span className="h-2.5 w-2.5 rounded-full bg-white/15" />
@@ -164,9 +175,9 @@ function Console({
       </div>
       <ul className="m-0 list-none p-0">
         {rows.map((r) => (
-          <li key={r.key} className="flex flex-wrap items-baseline gap-x-4 gap-y-1 border-t border-white/[0.06] px-5 py-3 first:border-t-0">
+          <li key={r.key} className="flex flex-wrap items-baseline gap-x-4 gap-y-1 border-t border-white/[0.08] px-5 py-3 first:border-t-0">
             <span className={`w-11 flex-none font-mono text-[0.66rem] font-extrabold ${c}`}>{r.mark}</span>
-            <span className="flex-none font-mono text-[0.82rem] font-bold text-foreground sm:w-[164px]">{r.key}</span>
+            <span className="flex-none font-mono text-[0.82rem] font-bold text-[#e5f6f6] sm:w-[164px]">{r.key}</span>
             <span className="font-mono text-[0.82rem] text-muted-dark">{r.note}</span>
           </li>
         ))}
@@ -184,7 +195,7 @@ export default function App() {
         Skip to content
       </a>
 
-      <header className="sticky top-0 z-90 border-b border-white/[0.06] bg-background/70 backdrop-blur-xl">
+      <header className="sticky top-0 z-90 border-b border-ink/[0.08] bg-background/70 backdrop-blur-xl">
         <div className="mx-auto flex w-[min(1200px,calc(100%-40px))] items-center justify-between gap-3 py-4">
           <a href="#top" aria-label="Tastemaker home" className="flex items-center gap-2.5 font-display text-[1.05rem] font-black tracking-tight">
             <img src="/assets/mark-tastemaker.svg" alt="" width={28} height={28} />
@@ -196,10 +207,10 @@ export default function App() {
             ))}
           </nav>
           <div className="flex items-center gap-2">
-            <a href={REPO} target="_blank" rel="noopener" aria-label="Tastemaker on GitHub" className="grid h-9 w-9 place-items-center rounded-full border border-white/10 bg-white/[0.04] transition hover:bg-white/10">
-              <img src="/assets/icons/github.svg" alt="" width={15} height={15} className="opacity-80 invert" />
+            <a href={REPO} target="_blank" rel="noopener" aria-label="Tastemaker on GitHub" className="grid h-9 w-9 place-items-center rounded-full border border-ink/10 bg-ink/[0.04] transition hover:bg-ink/10">
+              <img src="/assets/icons/github.svg" alt="" width={15} height={15} className="opacity-80" />
             </a>
-            <a href="#install" className="inline-flex min-h-9 items-center rounded-full bg-foreground px-4 text-[0.86rem] font-extrabold text-dark transition hover:brightness-95">
+            <a href="#install" className="inline-flex min-h-9 items-center rounded-full bg-primary px-4 text-[0.86rem] font-extrabold text-primary-foreground transition hover:brightness-110">
               Install
             </a>
           </div>
@@ -215,7 +226,7 @@ export default function App() {
             <Eyebrow>design taste for coding agents</Eyebrow>
             <h1 className="max-w-[min(20ch,100%)] font-display text-[clamp(2.4rem,5.2vw,4.2rem)] leading-[1.04] font-extrabold tracking-[-0.03em]">
               Your agent writes working code.{" "}
-              <span className="text-teal-bright">It doesn't write taste.</span>
+              <span className="text-gold" style={{ fontFamily: "var(--font-hand)", fontSize: "1.15em" }}>It doesn't write taste.</span>
             </h1>
             <p className="mt-6 max-w-[min(46ch,100%)] text-[clamp(1rem,1.25vw,1.15rem)] leading-relaxed text-muted-dark">
               A local skill that gives Claude Code, Gemini CLI, and Windsurf a real design
@@ -224,7 +235,7 @@ export default function App() {
             </p>
             <div className="mt-8 flex w-full min-w-0 justify-center"><InstallRow /></div>
             <div className="mt-5 flex flex-wrap items-center justify-center gap-5">
-              <a href="#proof" className="group inline-flex min-h-[48px] items-center gap-2 rounded-full bg-foreground px-6 font-extrabold text-dark transition hover:brightness-95">
+              <a href="#proof" className="group inline-flex min-h-[48px] items-center gap-2 rounded-full bg-primary px-6 font-extrabold text-primary-foreground transition hover:brightness-110">
                 See the proof
                 <ArrowRight size={16} className="transition-transform group-hover:translate-x-0.5" />
               </a>
@@ -239,12 +250,13 @@ export default function App() {
               alt="A mentor character shows one robot a beautiful, styled landing page while a confused robot beside her holds a stack of identical generic wireframes — the moment an agent gains design taste."
               maxW={1200}
               strength={22}
+                framed
             />
           </div>
         </section>
 
         {/* proof strip */}
-        <section aria-label="Built as a real local skill" className="border-y border-white/[0.06]">
+        <section aria-label="Built as a real local skill" className="border-y border-ink/[0.08]">
           <div className="mx-auto flex w-[min(1200px,calc(100%-40px))] flex-wrap items-center gap-x-10 gap-y-4 py-6">
             <p className="mr-auto font-mono text-[0.8rem] font-bold text-muted-dark">
               Not a prompt pack. A real local skill.
@@ -268,7 +280,7 @@ export default function App() {
             <Reveal className="min-w-0">
               <SectionHead
                 eyebrow="the problem"
-                title={<>Every agent defaults to the <span className="text-orange">same page</span>.</>}
+                title={<>Every agent defaults to the <span className="text-gold" style={{ fontFamily: "var(--font-hand)", fontSize: "1.15em" }}>same page</span>.</>}
                 lede="Purple-to-indigo gradient hero. Rounded card, soft shadow. A palette picked because it looked fine in the moment, never checked against anything. Ask ten agents for a landing page and you'll recognize the ninth one before it finishes rendering."
               />
               <div className="mt-10 max-w-[520px]">
@@ -316,13 +328,13 @@ export default function App() {
               />
             </Reveal>
 
-            <div className="mt-14 grid gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/[0.06] sm:grid-cols-2 lg:grid-cols-3">
+            <div className="mt-14 grid gap-px overflow-hidden rounded-2xl border border-ink/10 bg-ink/[0.06] sm:grid-cols-2 lg:grid-cols-3">
               {CHECKS.map((c, i) => {
                 const Icon = c.icon
                 return (
                   <Reveal key={c.title} delay={i * 60}>
-                    <div className="group h-full bg-background p-7 transition-colors hover:bg-white/[0.03]">
-                      <div className="mb-5 grid h-10 w-10 place-items-center rounded-xl border border-white/10 bg-white/[0.04] text-teal-bright transition-colors group-hover:border-teal-bright/40">
+                    <div className="group h-full bg-background p-7 transition-colors hover:bg-ink/[0.03]">
+                      <div className="mb-5 grid h-10 w-10 place-items-center rounded-xl border border-ink/10 bg-ink/[0.04] text-teal-bright transition-colors group-hover:border-teal-bright/40">
                         <Icon size={18} strokeWidth={1.8} />
                       </div>
                       <h3 className="mb-2 font-display text-[1.05rem] font-extrabold">{c.title}</h3>
@@ -349,6 +361,7 @@ export default function App() {
                 alt="One character weighs two colors on a balance scale while another kneels with calipers and a ruler, precisely measuring contrast and spacing instead of guessing."
                 maxW={780}
                 strength={22}
+                framed
               />
             </Reveal>
 
@@ -363,9 +376,9 @@ export default function App() {
             <div className="mx-auto mt-10 flex max-w-[720px] flex-col gap-3">
               {CONTRAST.map((c, i) => (
                 <Reveal key={c.label} delay={160 + i * 70}>
-                  <div className="flex flex-wrap items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.03] px-6 py-5 backdrop-blur-xl">
+                  <div className="flex flex-wrap items-center gap-4 rounded-2xl border border-white/10 bg-dark px-6 py-5 shadow-[0_20px_50px_rgba(23,21,20,0.14)]">
                     <span className="flex-1 font-mono text-[0.9rem] text-muted-dark">{c.label}</span>
-                    <span className="font-display text-[1.7rem] font-extrabold text-foreground tabular-nums">{c.value}</span>
+                    <span className="font-display text-[1.7rem] font-extrabold text-[#e5f6f6] tabular-nums">{c.value}</span>
                     <span className="rounded-full border border-teal-bright/40 bg-teal-bright/10 px-3 py-1 font-mono text-[0.66rem] font-extrabold tracking-wider text-teal-bright">PASS</span>
                   </div>
                 </Reveal>
@@ -385,7 +398,7 @@ export default function App() {
               <SectionHead
                 center
                 eyebrow="premium modes"
-                title={<>Different products shouldn't wear the <span className="text-orchid">same suit</span>.</>}
+                title={<>Different products shouldn't wear the <span className="text-gold" style={{ fontFamily: "var(--font-hand)", fontSize: "1.15em" }}>same suit</span>.</>}
                 lede="Four sponsor-exclusive visual registers, generated by the same engine, each committing to a real direction instead of a default."
               />
             </Reveal>
@@ -402,8 +415,8 @@ export default function App() {
             <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
               {MODES.map((m, i) => (
                 <Reveal key={m.name} delay={i * 80}>
-                  <figure className="group m-0 overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] transition-all duration-300 hover:-translate-y-1 hover:border-teal-bright/30">
-                    <div className="overflow-hidden border-b border-white/10">
+                  <figure className="group m-0 overflow-hidden rounded-2xl border border-ink/10 bg-ink/[0.03] transition-all duration-300 hover:-translate-y-1 hover:border-teal-bright/30">
+                    <div className="overflow-hidden border-b border-ink/10">
                       <img
                         src={`/assets/modes/${m.file}`}
                         alt={m.alt}
@@ -422,7 +435,7 @@ export default function App() {
               ))}
             </div>
             <Reveal delay={120}>
-              <div className="mt-6 flex flex-wrap items-center justify-between gap-6 rounded-2xl border border-white/10 bg-white/[0.03] px-7 py-6 backdrop-blur-xl">
+              <div className="mt-6 flex flex-wrap items-center justify-between gap-6 rounded-2xl border border-ink/10 bg-ink/[0.03] px-7 py-6 backdrop-blur-xl">
                 <p className="max-w-[min(46ch,100%)] font-mono text-[0.84rem] text-muted-dark">
                   Sponsor-exclusive, on top of the free core skill.
                 </p>
@@ -452,11 +465,12 @@ export default function App() {
                 alt="A character walks away from a scattered pile of rejected, crossed-out generic designs toward an organized, lamp-lit filing cabinet full of kept references and assets."
                 maxW={1000}
                 strength={20}
+                framed
               />
             </Reveal>
 
             <Reveal delay={140} className="mx-auto mt-8 max-w-[900px]">
-              <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-7 backdrop-blur-xl sm:p-8">
+              <div className="rounded-2xl border border-ink/10 bg-ink/[0.03] p-7 backdrop-blur-xl sm:p-8">
                 <div className="flex flex-wrap items-baseline justify-between gap-2 pb-2">
                   <code className="font-mono text-[0.9rem] font-extrabold text-teal-bright">.tastemaker/</code>
                   <span className="font-mono text-[0.66rem] font-bold tracking-widest text-muted-dark uppercase">this project</span>
@@ -465,18 +479,18 @@ export default function App() {
                   ["├──", "style-lock.md", "Palette, type, shape, assets, motion, and do-not rules."],
                   ["└──", "decisions.log", "Append-only keep, reject, and pending-review decisions."],
                 ].map(([b, f, d]) => (
-                  <div key={f} className="flex flex-wrap items-baseline gap-x-4 gap-y-1 border-t border-white/[0.06] py-3">
+                  <div key={f} className="flex flex-wrap items-baseline gap-x-4 gap-y-1 border-t border-ink/[0.08] py-3">
                     <code className="font-mono text-[0.88rem] font-bold text-foreground">
                       <span className="font-normal text-muted-dark">{b}</span> {f}
                     </code>
                     <span className="text-[0.86rem] text-muted-dark">{d}</span>
                   </div>
                 ))}
-                <div className="mt-3 flex flex-wrap items-baseline justify-between gap-2 border-t border-dashed border-white/10 pt-5 pb-2">
+                <div className="mt-3 flex flex-wrap items-baseline justify-between gap-2 border-t border-dashed border-ink/10 pt-5 pb-2">
                   <code className="font-mono text-[0.9rem] font-extrabold text-teal-bright">~/.tastemaker/</code>
                   <span className="font-mono text-[0.66rem] font-bold tracking-widest text-muted-dark uppercase">every project</span>
                 </div>
-                <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1 border-t border-white/[0.06] py-3">
+                <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1 border-t border-ink/[0.08] py-3">
                   <code className="font-mono text-[0.88rem] font-bold text-foreground">
                     <span className="font-normal text-muted-dark">└──</span> profile.md
                   </code>
@@ -508,6 +522,7 @@ export default function App() {
                 alt="A developer works normally at their desk, plugged by a single cable into a small caped mascot that quietly handles color, type, and asset choices in the background."
                 maxW={900}
                 strength={16}
+                framed
                 float
               />
             </Reveal>
@@ -526,7 +541,7 @@ export default function App() {
         </section>
       </main>
 
-      <footer className="border-t border-white/[0.06] py-10">
+      <footer className="border-t border-ink/[0.08] py-10">
         <div className="mx-auto flex w-[min(1200px,calc(100%-40px))] flex-wrap items-center justify-between gap-6">
           <a href="#top" className="flex items-center gap-2.5 font-display text-[1.05rem] font-black">
             <img src="/assets/mark-tastemaker.svg" alt="" width={26} height={26} />
