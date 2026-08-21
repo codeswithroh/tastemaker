@@ -14,14 +14,20 @@ import {
 import { CompareReveal } from "@/components/site/CompareReveal"
 import { Ambient, Grain } from "@/components/site/Ambient"
 import { Reveal } from "@/components/site/Reveal"
+import { Parallax, Float } from "@/components/site/Parallax"
 
 const INSTALL = "npx skills add codeswithroh/tastemaker"
 const REPO = "https://github.com/codeswithroh/tastemaker"
+const ILL = "/assets/illustrations"
 
-function InstallRow() {
+function InstallRow({ large = false }: { large?: boolean }) {
   const [copied, setCopied] = useState(false)
   return (
-    <div className="flex w-full max-w-[560px] items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] py-2 pr-2 pl-5 backdrop-blur-xl">
+    <div
+      className={`flex w-full max-w-[560px] items-center gap-2 rounded-full border border-white/10 py-2 pr-2 pl-5 backdrop-blur-xl ${
+        large ? "bg-white/[0.05]" : "bg-white/[0.04]"
+      }`}
+    >
       <code className="min-w-0 flex-1 overflow-x-auto font-mono text-[0.82rem] whitespace-nowrap text-foreground [scrollbar-width:none]">
         {INSTALL}
       </code>
@@ -78,6 +84,39 @@ function SectionHead({
         </p>
       )}
     </div>
+  )
+}
+
+/** A section's illustration, floating borderless on the dark canvas with
+ * scroll parallax. The illustrations already carry their own vignette or
+ * transparency, so no card/border — a frame would fight the art. */
+function Illustration({
+  src,
+  alt,
+  strength = 26,
+  maxW = 640,
+  float = false,
+}: {
+  src: string
+  alt: string
+  strength?: number
+  maxW?: number
+  float?: boolean
+}) {
+  const img = (
+    <img
+      src={src}
+      alt={alt}
+      loading="lazy"
+      className="block w-full h-auto select-none"
+      style={{ maxWidth: maxW }}
+      draggable={false}
+    />
+  )
+  return (
+    <Parallax strength={strength} className="mx-auto" >
+      {float ? <Float duration={6}>{img}</Float> : img}
+    </Parallax>
   )
 }
 
@@ -168,38 +207,39 @@ export default function App() {
       </header>
 
       <main id="main">
-        {/* hero */}
+        {/* hero — the transformation illustration is the whole pitch */}
         <section id="top" className="relative isolate overflow-hidden">
           <Ambient />
           <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent to-background" />
-          <div className="relative mx-auto grid w-[min(1200px,calc(100%-40px))] grid-cols-[minmax(0,1fr)] items-center gap-14 py-20 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-16 lg:py-28">
-            <div className="min-w-0">
-              <Eyebrow>design taste for coding agents</Eyebrow>
-              <h1 className="max-w-[min(16ch,100%)] font-display text-[clamp(2.6rem,5.6vw,4.4rem)] leading-[1.02] font-extrabold tracking-[-0.03em]">
-                Your agent writes working code.{" "}
-                <span className="text-teal-bright">It doesn't write taste.</span>
-              </h1>
-              <p className="mt-7 max-w-[min(44ch,100%)] text-[clamp(1rem,1.25vw,1.15rem)] leading-relaxed text-muted-dark">
-                A local skill that gives Claude Code, Gemini CLI, and Windsurf a real design
-                process: study references, lock a palette that passes contrast, cast real assets,
-                and remember what you keep.
-              </p>
-              <div className="mt-9"><InstallRow /></div>
-              <div className="mt-5 flex flex-wrap items-center gap-5">
-                <a href="#proof" className="group inline-flex min-h-[48px] items-center gap-2 rounded-full bg-foreground px-6 font-extrabold text-dark transition hover:brightness-95">
-                  See the proof
-                  <ArrowRight size={16} className="transition-transform group-hover:translate-x-0.5" />
-                </a>
-                <a href={REPO} target="_blank" rel="noopener" className="inline-flex items-center gap-1.5 text-[0.92rem] font-semibold text-muted-dark transition-colors hover:text-foreground">
-                  Read the source <ArrowUpRight size={15} />
-                </a>
-              </div>
+          <div className="relative mx-auto flex w-[min(1200px,calc(100%-40px))] flex-col items-center pt-20 pb-4 text-center lg:pt-28">
+            <Eyebrow>design taste for coding agents</Eyebrow>
+            <h1 className="max-w-[min(20ch,100%)] font-display text-[clamp(2.4rem,5.2vw,4.2rem)] leading-[1.04] font-extrabold tracking-[-0.03em]">
+              Your agent writes working code.{" "}
+              <span className="text-teal-bright">It doesn't write taste.</span>
+            </h1>
+            <p className="mt-6 max-w-[min(46ch,100%)] text-[clamp(1rem,1.25vw,1.15rem)] leading-relaxed text-muted-dark">
+              A local skill that gives Claude Code, Gemini CLI, and Windsurf a real design
+              process: study references, lock a palette that passes contrast, cast real assets,
+              and remember what you keep.
+            </p>
+            <div className="mt-8 flex w-full min-w-0 justify-center"><InstallRow /></div>
+            <div className="mt-5 flex flex-wrap items-center justify-center gap-5">
+              <a href="#proof" className="group inline-flex min-h-[48px] items-center gap-2 rounded-full bg-foreground px-6 font-extrabold text-dark transition hover:brightness-95">
+                See the proof
+                <ArrowRight size={16} className="transition-transform group-hover:translate-x-0.5" />
+              </a>
+              <a href={REPO} target="_blank" rel="noopener" className="inline-flex items-center gap-1.5 text-[0.92rem] font-semibold text-muted-dark transition-colors hover:text-foreground">
+                Read the source <ArrowUpRight size={15} />
+              </a>
             </div>
-
-            <div className="relative min-w-0">
-              <div aria-hidden="true" className="absolute inset-0 -z-10 rounded-full bg-teal/20 blur-[80px]" />
-              <CompareReveal />
-            </div>
+          </div>
+          <div className="relative mx-auto mt-6 w-[min(1200px,calc(100%-24px))] lg:mt-2">
+            <Illustration
+              src={`${ILL}/hero-transformation.webp`}
+              alt="A mentor character shows one robot a beautiful, styled landing page while a confused robot beside her holds a stack of identical generic wireframes — the moment an agent gains design taste."
+              maxW={1200}
+              strength={22}
+            />
           </div>
         </section>
 
@@ -222,39 +262,57 @@ export default function App() {
           </div>
         </section>
 
-        {/* problem */}
+        {/* problem — the assembly line of identical robots IS the argument */}
         <section className="py-24 lg:py-32">
-          <div className="mx-auto w-[min(1200px,calc(100%-40px))]">
-            <Reveal>
+          <div className="mx-auto grid w-[min(1200px,calc(100%-40px))] items-center gap-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.95fr)]">
+            <Reveal className="min-w-0">
               <SectionHead
                 eyebrow="the problem"
                 title={<>Every agent defaults to the <span className="text-orange">same page</span>.</>}
                 lede="Purple-to-indigo gradient hero. Rounded card, soft shadow. A palette picked because it looked fine in the moment, never checked against anything. Ask ten agents for a landing page and you'll recognize the ninth one before it finishes rendering."
               />
+              <div className="mt-10 max-w-[520px]">
+                <Console
+                  tone="fail"
+                  command="anti_slop_scan.py generic-agent-output.html"
+                  rows={[
+                    { mark: "HIGH", key: "ai-gradient", note: "indigo-to-purple, unrelated to the product" },
+                    { mark: "HIGH", key: "unchecked-contrast", note: "colors picked by eye, never measured" },
+                    { mark: "MED", key: "no-style-lock", note: "next screen drifts, nothing persists" },
+                  ]}
+                  footer="3 findings. 0 fixed."
+                />
+              </div>
             </Reveal>
-            <Reveal delay={100} className="mt-14 max-w-[900px]">
-              <Console
-                tone="fail"
-                command="anti_slop_scan.py generic-agent-output.html"
-                rows={[
-                  { mark: "HIGH", key: "ai-gradient", note: "indigo-to-purple hero, unrelated to the product" },
-                  { mark: "HIGH", key: "unchecked-contrast", note: "colors picked by eye, never measured" },
-                  { mark: "MED", key: "no-style-lock", note: "next screen drifts, nothing persists" },
-                ]}
-                footer="3 findings. 0 fixed."
+            <Reveal delay={100} className="min-w-0">
+              <Illustration
+                src={`${ILL}/problem-assembly-line.webp`}
+                alt="An assembly line of identical small robots stamping out identical generic wireframe pages, with one robot at the end scratching its head in confusion."
+                maxW={560}
+                strength={34}
               />
             </Reveal>
           </div>
         </section>
 
-        {/* how it works */}
+        {/* how it works — the illustrated journey through the real workflow */}
         <section id="how" className="py-24 lg:py-32">
           <div className="mx-auto w-[min(1200px,calc(100%-40px))]">
             <Reveal>
               <SectionHead
+                center
                 eyebrow="how it works"
                 title="Six checks run before the first component exists."
                 lede="Every one is real: a script, a Markdown file, or a gate that has to pass. Nothing here is decorative."
+              />
+            </Reveal>
+
+            <Reveal delay={80} className="mt-6">
+              <Illustration
+                src={`${ILL}/how-it-works-journey.webp`}
+                alt="A character walks a dotted path through the design process: studying a reference through a magnifying glass, choosing a palette, picking assets from a box, setting type with a ruler, tuning motion on a dashed path, and stamping final approval — then launching the finished page as a paper airplane."
+                maxW={1100}
+                strength={20}
               />
             </Reveal>
 
@@ -274,40 +332,37 @@ export default function App() {
                 )
               })}
             </div>
-
-            <Reveal delay={140} className="mt-6 max-w-[900px]">
-              <Console
-                tone="pass"
-                command="tastemaker build --project tastemaker-skill.online"
-                rows={[
-                  { mark: "PASS", key: "reference-intel", note: "board built before the first color" },
-                  { mark: "PASS", key: "contrast-check", note: "every pairing run through real WCAG math" },
-                  { mark: "PASS", key: "real-assets", note: "real icons and screenshots, no gray boxes" },
-                  { mark: "PASS", key: "motion-default", note: "reveals ship in the same pass" },
-                  { mark: "PASS", key: "style-lock", note: "palette reused on every later screen" },
-                  { mark: "PASS", key: "register-variety", note: "one committed direction" },
-                ]}
-                footer="6 checks. 6 passed."
-              />
-            </Reveal>
           </div>
         </section>
 
-        {/* proof / contrast */}
+        {/* proof / contrast — the measuring illustration frames the real numbers */}
         <section id="proof" className="relative isolate overflow-hidden py-24 lg:py-32">
           <div aria-hidden="true" className="absolute top-1/2 left-1/2 -z-10 h-[420px] w-[820px] max-w-full -translate-x-1/2 -translate-y-1/2 rounded-full bg-orchid/10 blur-[110px]" />
-          <div className="mx-auto w-[min(820px,calc(100%-40px))]">
+          <div className="mx-auto w-[min(1000px,calc(100%-40px))]">
             <Reveal className="w-full min-w-0">
               <SectionHead center eyebrow="proof, not claims" title="Checked with real math, not eyeballed." />
-              <p className="mx-auto mt-5 max-w-[min(52ch,100%)] text-center text-muted-dark">
+            </Reveal>
+
+            <Reveal delay={60} className="mt-2">
+              <Illustration
+                src={`${ILL}/proof-measuring.webp`}
+                alt="One character weighs two colors on a balance scale while another kneels with calipers and a ruler, precisely measuring contrast and spacing instead of guessing."
+                maxW={780}
+                strength={22}
+              />
+            </Reveal>
+
+            <Reveal delay={120}>
+              <p className="mx-auto mt-4 max-w-[52ch] text-center text-muted-dark">
                 Every pairing on this page runs through{" "}
                 <a href={`${REPO}/blob/main/skills/tastemaker/scripts/check_contrast.py`} target="_blank" rel="noopener" className="text-teal-bright underline-offset-4 hover:underline">check_contrast.py</a>{" "}
                 before it ships. These are this page's actual numbers.
               </p>
             </Reveal>
-            <div className="mt-12 flex flex-col gap-3">
+
+            <div className="mx-auto mt-10 flex max-w-[720px] flex-col gap-3">
               {CONTRAST.map((c, i) => (
-                <Reveal key={c.label} delay={i * 80}>
+                <Reveal key={c.label} delay={160 + i * 70}>
                   <div className="flex flex-wrap items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.03] px-6 py-5 backdrop-blur-xl">
                     <span className="flex-1 font-mono text-[0.9rem] text-muted-dark">{c.label}</span>
                     <span className="font-display text-[1.7rem] font-extrabold text-foreground tabular-nums">{c.value}</span>
@@ -316,20 +371,35 @@ export default function App() {
                 </Reveal>
               ))}
             </div>
+
+            <Reveal delay={420} className="mx-auto mt-10 max-w-[720px]">
+              <CompareReveal />
+            </Reveal>
           </div>
         </section>
 
-        {/* modes */}
+        {/* modes — four outfits, four registers, same engine */}
         <section id="modes" className="py-24 lg:py-32">
           <div className="mx-auto w-[min(1200px,calc(100%-40px))]">
             <Reveal>
               <SectionHead
+                center
                 eyebrow="premium modes"
                 title={<>Different products shouldn't wear the <span className="text-orchid">same suit</span>.</>}
                 lede="Four sponsor-exclusive visual registers, generated by the same engine, each committing to a real direction instead of a default."
               />
             </Reveal>
-            <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+
+            <Reveal delay={80} className="mt-4">
+              <Illustration
+                src={`${ILL}/modes-outfits.webp`}
+                alt="Five characters, each dressed in a completely different outfit — a bold geometric block-color suit, a flowing translucent gown, plain minimal clothing, a soft rounded polka-dot coat, and a tailor cutting fabric swatches — representing four distinct visual registers built from the same engine."
+                maxW={1000}
+                strength={18}
+              />
+            </Reveal>
+
+            <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
               {MODES.map((m, i) => (
                 <Reveal key={m.name} delay={i * 80}>
                   <figure className="group m-0 overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] transition-all duration-300 hover:-translate-y-1 hover:border-teal-bright/30">
@@ -364,17 +434,28 @@ export default function App() {
           </div>
         </section>
 
-        {/* memory */}
+        {/* memory — walking away from the rejected pile, toward the archive */}
         <section id="memory" className="py-24 lg:py-32">
           <div className="mx-auto w-[min(1200px,calc(100%-40px))]">
             <Reveal>
               <SectionHead
+                center
                 eyebrow="what changed"
                 title="The skill remembers your taste."
                 lede="Project style choices live in the repo. Personal preferences live on your machine. A rejected direction becomes a guardrail instead of getting forgotten."
               />
             </Reveal>
-            <Reveal delay={100} className="mt-14 max-w-[900px]">
+
+            <Reveal delay={80} className="mt-6">
+              <Illustration
+                src={`${ILL}/memory-archive.webp`}
+                alt="A character walks away from a scattered pile of rejected, crossed-out generic designs toward an organized, lamp-lit filing cabinet full of kept references and assets."
+                maxW={1000}
+                strength={20}
+              />
+            </Reveal>
+
+            <Reveal delay={140} className="mx-auto mt-8 max-w-[900px]">
               <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-7 backdrop-blur-xl sm:p-8">
                 <div className="flex flex-wrap items-baseline justify-between gap-2 pb-2">
                   <code className="font-mono text-[0.9rem] font-extrabold text-teal-bright">.tastemaker/</code>
@@ -406,8 +487,8 @@ export default function App() {
           </div>
         </section>
 
-        {/* install */}
-        <section id="install" className="relative isolate overflow-hidden py-24 lg:py-36">
+        {/* install — the developer works normally, the mascot handles taste */}
+        <section id="install" className="relative isolate overflow-hidden py-24 lg:py-32">
           <div aria-hidden="true" className="absolute top-1/2 left-1/2 -z-10 h-[500px] w-[900px] max-w-full -translate-x-1/2 -translate-y-1/2 rounded-full bg-teal/20 blur-[120px]" />
           <div className="mx-auto flex w-[min(1200px,calc(100%-40px))] flex-col items-center text-center">
             <Reveal className="flex w-full min-w-0 flex-col items-center">
@@ -419,7 +500,22 @@ export default function App() {
                 No hosted editor, no account, no separate design handoff. The taste layer lives
                 where the agent already works.
               </p>
-              <div className="mt-10 flex w-full min-w-0 justify-center"><InstallRow /></div>
+            </Reveal>
+
+            <Reveal delay={80} className="mt-4 w-full">
+              <Illustration
+                src={`${ILL}/install-mascot.webp`}
+                alt="A developer works normally at their desk, plugged by a single cable into a small caped mascot that quietly handles color, type, and asset choices in the background."
+                maxW={900}
+                strength={16}
+                float
+              />
+            </Reveal>
+
+            <Reveal delay={140} className="mt-2 flex w-full min-w-0 justify-center">
+              <InstallRow large />
+            </Reveal>
+            <Reveal delay={180}>
               <p className="mt-5 text-[0.85rem] text-muted-dark">
                 Using Claude Code? The{" "}
                 <a href={`${REPO}#claude-code-plugin-marketplace`} target="_blank" rel="noopener" className="text-teal-bright underline-offset-4 hover:underline">plugin marketplace</a>{" "}

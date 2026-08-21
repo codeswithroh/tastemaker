@@ -12,3 +12,4 @@ site/.wrangler/
 web/node_modules/
 web/dist/
 web/.wrangler/
+.wrangler/
