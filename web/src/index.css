@@ -31,6 +31,13 @@
      on the paper background — the raw illustration gold measures 1.56:1
      there (fails badly); this measures 5.03:1 (check_contrast.py). */
   --gold: #8b5e03;
+  /* Bright variant for use on dark chrome (console/data surfaces) -- close
+     to the illustrations' own sampled gold (#fab832); check_contrast.py
+     against #0c1414 measures 10.63:1, well clear. The deep --gold above is
+     for the light page background specifically; this one is not legible
+     there (same math that made the deep version necessary in the first
+     place) so keep the two scoped to their own backgrounds. */
+  --gold-bright: #f5b731;
 
   /* Light theme — see .tastemaker/style-lock.md's light palette. Re-verified
      against these exact hexes with check_contrast.py: ink/paper 16.15,
@@ -125,6 +132,7 @@
   --color-orchid: var(--orchid);
   --color-orange: var(--orange);
   --color-gold: var(--gold);
+  --color-gold-bright: var(--gold-bright);
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);

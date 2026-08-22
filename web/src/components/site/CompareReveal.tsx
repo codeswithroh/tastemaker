@@ -57,7 +57,7 @@ export function CompareReveal() {
         ref={wrapRef}
         role="img"
         aria-label="The same landing-page prompt built twice: once with no design skill, once with tastemaker installed. The divider sweeps between them."
-        className="group relative aspect-[1200/660] cursor-ew-resize touch-none overflow-hidden rounded-[28px] border border-border bg-dark shadow-[0_30px_90px_rgba(12,20,20,0.3)] select-none [--wipe:50%]"
+        className="group relative aspect-[1200/660] -rotate-[1.1deg] cursor-ew-resize touch-none overflow-hidden rounded-[22px] border border-border bg-dark shadow-[0_30px_70px_rgba(23,21,20,0.22)] transition-transform duration-500 select-none [--wipe:50%] hover:rotate-0"
         onPointerDown={(e) => {
           manualRef.current = true
           e.currentTarget.setPointerCapture(e.pointerId)
@@ -93,10 +93,10 @@ export function CompareReveal() {
         </div>
 
         <div
-          className="absolute top-0 bottom-0 z-20 w-0.5 -translate-x-px bg-white shadow-[0_0_0_1px_rgba(23,21,20,0.25)]"
+          className="absolute top-0 bottom-0 z-20 w-0.5 -translate-x-px bg-gold-bright shadow-[0_0_0_1px_rgba(23,21,20,0.25)]"
           style={{ left: "var(--wipe)" }}
         >
-          <span className="absolute top-1/2 left-1/2 grid h-9 w-9 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-white shadow-[0_20px_60px_rgba(23,21,20,0.18)] transition-transform group-hover:scale-110">
+          <span className="absolute top-1/2 left-1/2 grid h-9 w-9 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-gold-bright shadow-[0_20px_60px_rgba(23,21,20,0.18)] transition-transform group-hover:scale-110">
             <svg width="16" height="10" viewBox="0 0 16 10" aria-hidden="true">
               <path
                 d="M5 1 1 5l4 4M11 1l4 4-4 4"
@@ -110,10 +110,19 @@ export function CompareReveal() {
           </span>
         </div>
 
-        <span className="absolute bottom-4 left-4 z-10 rounded-full bg-dark/80 px-3 py-1.5 font-mono text-[0.68rem] font-bold text-[#e5f6f6] backdrop-blur-sm">
+        {/* Hand-lettered tags rather than UI chips, to match the site's
+            illustration language instead of reading as product-marketing
+            chrome bolted onto a screenshot. */}
+        <span
+          className="absolute bottom-4 left-4 z-10 -rotate-3 rounded-md bg-[#f4f1eb] px-3 py-1 text-[1.05rem] font-bold text-ink shadow-[0_6px_16px_rgba(23,21,20,0.22)]"
+          style={{ fontFamily: "var(--font-hand)" }}
+        >
           no skill
         </span>
-        <span className="absolute right-4 bottom-4 z-10 rounded-full bg-dark/80 px-3 py-1.5 font-mono text-[0.68rem] font-bold text-[#e5f6f6] backdrop-blur-sm">
+        <span
+          className="absolute right-4 bottom-4 z-10 rotate-2 rounded-md bg-[#f4f1eb] px-3 py-1 text-[1.05rem] font-bold text-gold shadow-[0_6px_16px_rgba(23,21,20,0.22)]"
+          style={{ fontFamily: "var(--font-hand)" }}
+        >
           tastemaker
         </span>
       </div>

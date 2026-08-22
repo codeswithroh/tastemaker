@@ -108,7 +108,7 @@ function Illustration({
       src={src}
       alt={alt}
       loading="lazy"
-      className="block w-full h-auto select-none"
+      className="mx-auto block w-full h-auto select-none"
       style={{ maxWidth: maxW }}
       draggable={false}
     />
@@ -153,7 +153,7 @@ function Console({
   footer: string
   tone: "fail" | "pass"
 }) {
-  const c = tone === "fail" ? "text-orange" : "text-teal-bright"
+  const c = tone === "fail" ? "text-orange" : "text-gold-bright"
   return (
     <div className="overflow-hidden rounded-2xl border border-white/10 bg-dark shadow-[0_20px_50px_rgba(23,21,20,0.14)]">
       <div className="flex items-center gap-2 border-b border-white/10 px-5 py-3.5">
@@ -199,6 +199,9 @@ export default function App() {
             <a href={REPO} target="_blank" rel="noopener" aria-label="Tastemaker on GitHub" className="grid h-9 w-9 place-items-center rounded-full border border-ink/10 bg-ink/[0.04] transition hover:bg-ink/10">
               <img src="/assets/icons/github.svg" alt="" width={15} height={15} className="opacity-80" />
             </a>
+            <a href="https://x.com/tastemaker_ui" target="_blank" rel="noopener" aria-label="Tastemaker on X" className="grid h-9 w-9 place-items-center rounded-full border border-ink/10 bg-ink/[0.04] transition hover:bg-ink/10">
+              <img src="/assets/icons/x-twitter.svg" alt="" width={13} height={13} className="opacity-80" />
+            </a>
             <a href="#install" className="inline-flex min-h-9 items-center rounded-full bg-primary px-4 text-[0.86rem] font-extrabold text-primary-foreground transition hover:brightness-110">
               Install
             </a>
@@ -212,7 +215,6 @@ export default function App() {
           <Ambient />
           <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent to-background" />
           <div className="relative mx-auto flex w-[min(1200px,calc(100%-40px))] flex-col items-center pt-20 pb-4 text-center lg:pt-28">
-            <Eyebrow>design taste for coding agents</Eyebrow>
             <h1 className="max-w-[min(20ch,100%)] font-display text-[clamp(2.4rem,5.2vw,4.2rem)] leading-[1.04] font-extrabold tracking-[-0.03em]">
               Your agent writes working code.{" "}
               <span className="text-gold" style={{ fontFamily: "var(--font-hand)", fontSize: "1.15em" }}>It doesn't write taste.</span>
@@ -256,7 +258,7 @@ export default function App() {
                 ["motion rules", `${REPO}/blob/main/skills/tastemaker/references/animation-guidelines.md`],
                 ["taste memory", `${REPO}/blob/main/skills/tastemaker/references/taste-memory.md`],
               ].map(([l, h]) => (
-                <a key={l} href={h} target="_blank" rel="noopener" className="font-mono text-[0.8rem] font-semibold text-teal-bright transition-opacity hover:opacity-70">{l}</a>
+                <a key={l} href={h} target="_blank" rel="noopener" className="font-mono text-[0.8rem] font-semibold text-gold transition-opacity hover:opacity-70">{l}</a>
               ))}
             </div>
           </div>
@@ -322,7 +324,7 @@ export default function App() {
                 return (
                   <Reveal key={c.title} delay={i * 60}>
                     <div className="group h-full bg-background p-7 transition-colors hover:bg-ink/[0.03]">
-                      <div className="mb-5 grid h-10 w-10 place-items-center rounded-xl border border-ink/10 bg-ink/[0.04] text-teal-bright transition-colors group-hover:border-teal-bright/40">
+                      <div className="mb-5 grid h-10 w-10 place-items-center rounded-xl border border-ink/10 bg-ink/[0.04] text-gold transition-colors group-hover:border-gold/40">
                         <Icon size={18} strokeWidth={1.8} />
                       </div>
                       <h3 className="mb-2 font-display text-[1.05rem] font-extrabold">{c.title}</h3>
@@ -355,7 +357,7 @@ export default function App() {
             <Reveal delay={120}>
               <p className="mx-auto mt-4 max-w-[52ch] text-center text-muted-dark">
                 Every pairing on this page runs through{" "}
-                <a href={`${REPO}/blob/main/skills/tastemaker/scripts/check_contrast.py`} target="_blank" rel="noopener" className="text-teal-bright underline-offset-4 hover:underline">check_contrast.py</a>{" "}
+                <a href={`${REPO}/blob/main/skills/tastemaker/scripts/check_contrast.py`} target="_blank" rel="noopener" className="text-gold underline-offset-4 hover:underline">check_contrast.py</a>{" "}
                 before it ships. These are this page's actual numbers.
               </p>
             </Reveal>
@@ -366,7 +368,7 @@ export default function App() {
                   <div className="flex flex-wrap items-center gap-4 rounded-2xl border border-white/10 bg-dark px-6 py-5 shadow-[0_20px_50px_rgba(23,21,20,0.14)]">
                     <span className="flex-1 font-mono text-[0.9rem] text-muted-dark">{c.label}</span>
                     <span className="font-display text-[1.7rem] font-extrabold text-[#e5f6f6] tabular-nums">{c.value}</span>
-                    <span className="rounded-full border border-teal-bright/40 bg-teal-bright/10 px-3 py-1 font-mono text-[0.66rem] font-extrabold tracking-wider text-teal-bright">PASS</span>
+                    <span className="rounded-full border border-gold-bright/40 bg-gold-bright/10 px-3 py-1 font-mono text-[0.66rem] font-extrabold tracking-wider text-gold-bright">PASS</span>
                   </div>
                 </Reveal>
               ))}
@@ -458,7 +460,7 @@ export default function App() {
             <Reveal delay={140} className="mx-auto mt-8 max-w-[900px]">
               <div className="rounded-2xl border border-ink/10 bg-ink/[0.03] p-7 backdrop-blur-xl sm:p-8">
                 <div className="flex flex-wrap items-baseline justify-between gap-2 pb-2">
-                  <code className="font-mono text-[0.9rem] font-extrabold text-teal-bright">.tastemaker/</code>
+                  <code className="font-mono text-[0.9rem] font-extrabold text-gold">.tastemaker/</code>
                   <span className="font-mono text-[0.66rem] font-bold tracking-widest text-muted-dark uppercase">this project</span>
                 </div>
                 {[
@@ -473,7 +475,7 @@ export default function App() {
                   </div>
                 ))}
                 <div className="mt-3 flex flex-wrap items-baseline justify-between gap-2 border-t border-dashed border-ink/10 pt-5 pb-2">
-                  <code className="font-mono text-[0.9rem] font-extrabold text-teal-bright">~/.tastemaker/</code>
+                  <code className="font-mono text-[0.9rem] font-extrabold text-gold">~/.tastemaker/</code>
                   <span className="font-mono text-[0.66rem] font-bold tracking-widest text-muted-dark uppercase">every project</span>
                 </div>
                 <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1 border-t border-ink/[0.08] py-3">
@@ -518,7 +520,7 @@ export default function App() {
             <Reveal delay={180}>
               <p className="mt-5 text-[0.85rem] text-muted-dark">
                 Using Claude Code? The{" "}
-                <a href={`${REPO}#claude-code-plugin-marketplace`} target="_blank" rel="noopener" className="text-teal-bright underline-offset-4 hover:underline">plugin marketplace</a>{" "}
+                <a href={`${REPO}#claude-code-plugin-marketplace`} target="_blank" rel="noopener" className="text-gold underline-offset-4 hover:underline">plugin marketplace</a>{" "}
                 and manual install work too.
               </p>
             </Reveal>
@@ -537,10 +539,10 @@ export default function App() {
             <a href={REPO} target="_blank" rel="noopener" className="transition-colors hover:text-foreground">GitHub</a>
             <a href={`${REPO}/blob/main/README.md`} target="_blank" rel="noopener" className="transition-colors hover:text-foreground">Docs</a>
             <a href={`${REPO}/blob/main/LICENSE`} target="_blank" rel="noopener" className="transition-colors hover:text-foreground">MIT</a>
-            <a href="https://github.com/sponsors/codeswithroh" target="_blank" rel="noopener" className="text-teal-bright transition-opacity hover:opacity-70">Sponsor</a>
+            <a href="https://github.com/sponsors/codeswithroh" target="_blank" rel="noopener" className="text-gold transition-opacity hover:opacity-70">Sponsor</a>
           </div>
-          <a href="https://fazier.com/launches/tastemaker-skill.online" target="_blank" rel="noopener" className="inline-flex flex-none opacity-80 transition-opacity hover:opacity-100">
-            <img src="https://fazier.com/api/v1//public/badges/launch_badges.svg?badge_type=launched&theme=dark" width={120} height={26} alt="Fazier badge" loading="lazy" className="block h-[26px] w-auto" />
+          <a href="https://x.com/tastemaker_ui" target="_blank" rel="noopener" aria-label="Tastemaker on X" className="grid h-9 w-9 flex-none place-items-center rounded-full border border-ink/10 bg-ink/[0.04] transition hover:bg-ink/10">
+            <img src="/assets/icons/x-twitter.svg" alt="" width={13} height={13} className="opacity-80" />
           </a>
         </div>
       </footer>
