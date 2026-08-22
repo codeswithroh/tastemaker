@@ -87,46 +87,35 @@ function SectionHead({
   )
 }
 
-/** A section's illustration, with scroll parallax. Two of the source images
- * carry a baked-in dark vignette (framed=true) — those get a rounded card
- * and shadow so they read as an intentional framed piece against the light
- * page instead of a jarring dark rectangle. The transparent ones sit
- * borderless, since a frame would fight art that's meant to float free. */
+/** A section's illustration, with scroll parallax. No card, no border, no
+ * shadow — it sits directly on the page background so it blends into the
+ * site rather than reading as a separate framed asset. */
 function Illustration({
   src,
   alt,
   strength = 26,
   maxW = 640,
   float = false,
-  framed = false,
 }: {
   src: string
   alt: string
   strength?: number
   maxW?: number
   float?: boolean
-  framed?: boolean
 }) {
   const img = (
     <img
       src={src}
       alt={alt}
       loading="lazy"
-      className={`block w-full h-auto select-none ${framed ? "rounded-[28px]" : ""}`}
+      className="block w-full h-auto select-none"
       style={{ maxWidth: maxW }}
       draggable={false}
     />
   )
-  const wrapped = framed ? (
-    <div className="overflow-hidden rounded-[28px] shadow-[0_30px_70px_rgba(23,21,20,0.16)]">
-      {img}
-    </div>
-  ) : (
-    img
-  )
   return (
     <Parallax strength={strength} className="mx-auto">
-      {float ? <Float duration={6}>{wrapped}</Float> : wrapped}
+      {float ? <Float duration={6}>{img}</Float> : img}
     </Parallax>
   )
 }
@@ -250,7 +239,6 @@ export default function App() {
               alt="A mentor character shows one robot a beautiful, styled landing page while a confused robot beside her holds a stack of identical generic wireframes — the moment an agent gains design taste."
               maxW={1200}
               strength={22}
-                framed
             />
           </div>
         </section>
@@ -361,7 +349,6 @@ export default function App() {
                 alt="One character weighs two colors on a balance scale while another kneels with calipers and a ruler, precisely measuring contrast and spacing instead of guessing."
                 maxW={780}
                 strength={22}
-                framed
               />
             </Reveal>
 
@@ -465,7 +452,6 @@ export default function App() {
                 alt="A character walks away from a scattered pile of rejected, crossed-out generic designs toward an organized, lamp-lit filing cabinet full of kept references and assets."
                 maxW={1000}
                 strength={20}
-                framed
               />
             </Reveal>
 
@@ -522,7 +508,6 @@ export default function App() {
                 alt="A developer works normally at their desk, plugged by a single cable into a small caped mascot that quietly handles color, type, and asset choices in the background."
                 maxW={900}
                 strength={16}
-                framed
                 float
               />
             </Reveal>
