@@ -1,15 +1,16 @@
-import { useEffect, useRef, type ReactNode } from "react"
+import { useRef, type ReactNode } from "react"
+import { useGSAP } from "@gsap/react"
+import { gsap } from "@/lib/gsap"
 
 /**
- * Scroll-linked parallax. Writes `transform` straight to the DOM node on
- * scroll — never through React state. A previous component on this site
- * (CompareReveal) drove an animation through setState on every frame and
- * re-rendered ~60x/second, visibly janking the page; this is the fix
- * pattern applied everywhere motion is scroll-driven now.
+ * Scroll-linked parallax via ScrollTrigger's scrub — GSAP drives the
+ * transform directly against scroll position, on the compositor, with no
+ * React state involved. (An earlier component on this site, CompareReveal,
+ * drove its own scroll-linked value through setState and re-rendered the
+ * page ~60x/second; this never touches React's render loop at all.)
  *
- * strength: px of vertical drift at the extremes of the element's transit
- * through the viewport. Small values (20-40) read as depth; large ones
- * read as a gimmick.
+ * strength: px of vertical drift across the element's transit through the
+ * viewport. Small values (20-40) read as depth; large ones read as a gimmick.
  */
 export function Parallax({
   children,
@@ -22,62 +23,78 @@ export function Parallax({
 }) {
   const ref = useRef<HTMLDivElement>(null)
 
-  useEffect(() => {
-    const el = ref.current
-    if (!el) return
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
+  useGSAP(
+    () => {
+      const el = ref.current
+      if (!el) return
 
-    let raf = 0
-    const update = () => {
-      const rect = el.getBoundingClientRect()
-      const vh = window.innerHeight || 1
-      // progress: -1 (element far below viewport) .. 0 (centered) .. 1 (far above)
-      const center = rect.top + rect.height / 2
-      const progress = (vh / 2 - center) / (vh / 2 + rect.height / 2)
-      const y = Math.max(-1, Math.min(1, progress)) * strength
-      el.style.transform = `translate3d(0, ${y.toFixed(1)}px, 0)`
-      raf = 0
-    }
+      const mm = gsap.matchMedia()
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        gsap.fromTo(
+          el,
+          { y: -strength },
+          {
+            y: strength,
+            ease: "none",
+            scrollTrigger: {
+              trigger: el,
+              start: "top bottom",
+              end: "bottom top",
+              scrub: 0.6,
+            },
+          },
+        )
+      })
 
-    const onScroll = () => {
-      if (raf) return
-      raf = requestAnimationFrame(update)
-    }
-
-    update()
-    window.addEventListener("scroll", onScroll, { passive: true })
-    window.addEventListener("resize", onScroll)
-    return () => {
-      window.removeEventListener("scroll", onScroll)
-      window.removeEventListener("resize", onScroll)
-      if (raf) cancelAnimationFrame(raf)
-    }
-  }, [strength])
+      return () => mm.revert()
+    },
+    { scope: ref, dependencies: [strength] },
+  )
 
   return (
-    <div ref={ref} className={className} style={{ willChange: "transform" }}>
+    <div ref={ref} className={className}>
       {children}
     </div>
   )
 }
 
-/** Slow, low-amplitude idle bob — pure CSS, for character illustrations. */
+/** Slow, low-amplitude idle bob for character illustrations — a GSAP yoyo
+ * tween instead of a CSS keyframe, so it shares the same reduced-motion
+ * gate (gsap.matchMedia) as everything else on the page. */
 export function Float({
   children,
   className = "",
   duration = 5,
-  delay = 0,
 }: {
   children: ReactNode
   className?: string
   duration?: number
-  delay?: number
 }) {
+  const ref = useRef<HTMLDivElement>(null)
+
+  useGSAP(
+    () => {
+      const el = ref.current
+      if (!el) return
+
+      const mm = gsap.matchMedia()
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        gsap.to(el, {
+          y: -10,
+          duration: duration / 2,
+          ease: "sine.inOut",
+          yoyo: true,
+          repeat: -1,
+        })
+      })
+
+      return () => mm.revert()
+    },
+    { scope: ref, dependencies: [duration] },
+  )
+
   return (
-    <div
-      className={`motion-safe:[animation:float_ease-in-out_infinite] ${className}`}
-      style={{ animationDuration: `${duration}s`, animationDelay: `${delay}s` }}
-    >
+    <div ref={ref} className={className}>
       {children}
     </div>
   )

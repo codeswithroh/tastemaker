@@ -14,7 +14,10 @@ import {
 import { CompareReveal } from "@/components/site/CompareReveal"
 import { Ambient, Grain } from "@/components/site/Ambient"
 import { Reveal } from "@/components/site/Reveal"
+import { RevealGroup } from "@/components/site/RevealGroup"
 import { Parallax, Float } from "@/components/site/Parallax"
+import { HeroTimeline } from "@/components/site/HeroTimeline"
+import { ScrollTriggerRefresh } from "@/components/site/ScrollTriggerRefresh"
 
 const INSTALL = "npx skills add codeswithroh/tastemaker"
 const REPO = "https://github.com/codeswithroh/tastemaker"
@@ -180,11 +183,12 @@ export default function App() {
   return (
     <>
       <Grain />
+      <ScrollTriggerRefresh />
       <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-100 focus:rounded-xl focus:bg-teal-bright focus:px-4 focus:py-2.5 focus:font-bold focus:text-dark">
         Skip to content
       </a>
 
-      <header className="sticky top-0 z-90 border-b border-ink/[0.08] bg-background/70 backdrop-blur-xl">
+      <header data-hero="nav" className="sticky top-0 z-90 border-b border-ink/[0.08] bg-background/70 backdrop-blur-xl">
         <div className="mx-auto flex w-[min(1200px,calc(100%-40px))] items-center justify-between gap-3 py-4">
           <a href="#top" aria-label="Tastemaker home" className="flex items-center gap-2.5 font-display text-[1.05rem] font-black tracking-tight">
             <img src="/assets/mark-tastemaker.svg" alt="" width={28} height={28} />
@@ -212,20 +216,21 @@ export default function App() {
       <main id="main">
         {/* hero — the transformation illustration is the whole pitch */}
         <section id="top" className="relative isolate overflow-hidden">
+          <HeroTimeline />
           <Ambient />
           <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent to-background" />
           <div className="relative mx-auto flex w-[min(1200px,calc(100%-40px))] flex-col items-center pt-20 pb-4 text-center lg:pt-28">
-            <h1 className="max-w-[min(20ch,100%)] font-display text-[clamp(2.4rem,5.2vw,4.2rem)] leading-[1.04] font-extrabold tracking-[-0.03em]">
+            <h1 data-hero="headline" className="max-w-[min(20ch,100%)] font-display text-[clamp(2.4rem,5.2vw,4.2rem)] leading-[1.04] font-extrabold tracking-[-0.03em]">
               Your agent writes working code.{" "}
               <span className="text-gold" style={{ fontFamily: "var(--font-hand)", fontSize: "1.15em" }}>It doesn't write taste.</span>
             </h1>
-            <p className="mt-6 max-w-[min(46ch,100%)] text-[clamp(1rem,1.25vw,1.15rem)] leading-relaxed text-muted-dark">
+            <p data-hero="stagger" className="mt-6 max-w-[min(46ch,100%)] text-[clamp(1rem,1.25vw,1.15rem)] leading-relaxed text-muted-dark">
               A local skill that gives Claude Code, Gemini CLI, and Windsurf a real design
               process: study references, lock a palette that passes contrast, cast real assets,
               and remember what you keep.
             </p>
-            <div className="mt-8 flex w-full min-w-0 justify-center"><InstallRow /></div>
-            <div className="mt-5 flex flex-wrap items-center justify-center gap-5">
+            <div data-hero="stagger" className="mt-8 flex w-full min-w-0 justify-center"><InstallRow /></div>
+            <div data-hero="stagger" className="mt-5 flex flex-wrap items-center justify-center gap-5">
               <a href="#proof" className="group inline-flex min-h-[48px] items-center gap-2 rounded-full bg-primary px-6 font-extrabold text-primary-foreground transition hover:brightness-110">
                 See the proof
                 <ArrowRight size={16} className="transition-transform group-hover:translate-x-0.5" />
@@ -235,7 +240,7 @@ export default function App() {
               </a>
             </div>
           </div>
-          <div className="relative mx-auto mt-6 w-[min(1200px,calc(100%-24px))] lg:mt-2">
+          <div data-hero="visual" className="relative mx-auto mt-6 w-[min(1200px,calc(100%-24px))] lg:mt-2">
             <Illustration
               src={`${ILL}/hero-transformation.webp`}
               alt="A mentor character shows one robot a beautiful, styled landing page while a confused robot beside her holds a stack of identical generic wireframes — the moment an agent gains design taste."
@@ -318,22 +323,20 @@ export default function App() {
               />
             </Reveal>
 
-            <div className="mt-14 grid gap-px overflow-hidden rounded-2xl border border-ink/10 bg-ink/[0.06] sm:grid-cols-2 lg:grid-cols-3">
-              {CHECKS.map((c, i) => {
+            <RevealGroup className="mt-14 grid gap-px overflow-hidden rounded-2xl border border-ink/10 bg-ink/[0.06] sm:grid-cols-2 lg:grid-cols-3">
+              {CHECKS.map((c) => {
                 const Icon = c.icon
                 return (
-                  <Reveal key={c.title} delay={i * 60}>
-                    <div className="group h-full bg-background p-7 transition-colors hover:bg-ink/[0.03]">
-                      <div className="mb-5 grid h-10 w-10 place-items-center rounded-xl border border-ink/10 bg-ink/[0.04] text-gold transition-colors group-hover:border-gold/40">
-                        <Icon size={18} strokeWidth={1.8} />
-                      </div>
-                      <h3 className="mb-2 font-display text-[1.05rem] font-extrabold">{c.title}</h3>
-                      <p className="text-[0.9rem] leading-relaxed text-muted-dark">{c.body}</p>
+                  <div key={c.title} className="group h-full bg-background p-7 transition-colors hover:bg-ink/[0.03]">
+                    <div className="mb-5 grid h-10 w-10 place-items-center rounded-xl border border-ink/10 bg-ink/[0.04] text-gold transition-colors group-hover:border-gold/40">
+                      <Icon size={18} strokeWidth={1.8} />
                     </div>
-                  </Reveal>
+                    <h3 className="mb-2 font-display text-[1.05rem] font-extrabold">{c.title}</h3>
+                    <p className="text-[0.9rem] leading-relaxed text-muted-dark">{c.body}</p>
+                  </div>
                 )
               })}
-            </div>
+            </RevealGroup>
           </div>
         </section>
 
@@ -362,17 +365,15 @@ export default function App() {
               </p>
             </Reveal>
 
-            <div className="mx-auto mt-10 flex max-w-[720px] flex-col gap-3">
-              {CONTRAST.map((c, i) => (
-                <Reveal key={c.label} delay={160 + i * 70}>
-                  <div className="flex flex-wrap items-center gap-4 rounded-2xl border border-white/10 bg-dark px-6 py-5 shadow-[0_20px_50px_rgba(23,21,20,0.14)]">
-                    <span className="flex-1 font-mono text-[0.9rem] text-muted-dark">{c.label}</span>
-                    <span className="font-display text-[1.7rem] font-extrabold text-[#e5f6f6] tabular-nums">{c.value}</span>
-                    <span className="rounded-full border border-gold-bright/40 bg-gold-bright/10 px-3 py-1 font-mono text-[0.66rem] font-extrabold tracking-wider text-gold-bright">PASS</span>
-                  </div>
-                </Reveal>
+            <RevealGroup className="mx-auto mt-10 flex max-w-[720px] flex-col gap-3" stagger={0.1}>
+              {CONTRAST.map((c) => (
+                <div key={c.label} className="flex flex-wrap items-center gap-4 rounded-2xl border border-white/10 bg-dark px-6 py-5 shadow-[0_20px_50px_rgba(23,21,20,0.14)]">
+                  <span className="flex-1 font-mono text-[0.9rem] text-muted-dark">{c.label}</span>
+                  <span className="font-display text-[1.7rem] font-extrabold text-[#e5f6f6] tabular-nums">{c.value}</span>
+                  <span className="rounded-full border border-gold-bright/40 bg-gold-bright/10 px-3 py-1 font-mono text-[0.66rem] font-extrabold tracking-wider text-gold-bright">PASS</span>
+                </div>
               ))}
-            </div>
+            </RevealGroup>
 
             <Reveal delay={420} className="mx-auto mt-10 max-w-[720px]">
               <CompareReveal />
@@ -401,28 +402,26 @@ export default function App() {
               />
             </Reveal>
 
-            <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-              {MODES.map((m, i) => (
-                <Reveal key={m.name} delay={i * 80}>
-                  <figure className="group m-0 overflow-hidden rounded-2xl border border-ink/10 bg-ink/[0.03] transition-all duration-300 hover:-translate-y-1 hover:border-teal-bright/30">
-                    <div className="overflow-hidden border-b border-ink/10">
-                      <img
-                        src={`/assets/modes/${m.file}`}
-                        alt={m.alt}
-                        width={900}
-                        height={495}
-                        loading="lazy"
-                        className="block aspect-[900/495] h-auto w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.04]"
-                      />
-                    </div>
-                    <figcaption className="p-5">
-                      <strong className="block font-display text-[0.98rem] font-extrabold">{m.name}</strong>
-                      <span className="mt-1 block text-[0.8rem] text-muted-dark">{m.note}</span>
-                    </figcaption>
-                  </figure>
-                </Reveal>
+            <RevealGroup className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+              {MODES.map((m) => (
+                <figure key={m.name} className="group m-0 overflow-hidden rounded-2xl border border-ink/10 bg-ink/[0.03] transition-all duration-300 hover:-translate-y-1 hover:border-teal-bright/30">
+                  <div className="overflow-hidden border-b border-ink/10">
+                    <img
+                      src={`/assets/modes/${m.file}`}
+                      alt={m.alt}
+                      width={900}
+                      height={495}
+                      loading="lazy"
+                      className="block aspect-[900/495] h-auto w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.04]"
+                    />
+                  </div>
+                  <figcaption className="p-5">
+                    <strong className="block font-display text-[0.98rem] font-extrabold">{m.name}</strong>
+                    <span className="mt-1 block text-[0.8rem] text-muted-dark">{m.note}</span>
+                  </figcaption>
+                </figure>
               ))}
-            </div>
+            </RevealGroup>
             <Reveal delay={120}>
               <div className="mt-6 flex flex-wrap items-center justify-between gap-6 rounded-2xl border border-ink/10 bg-ink/[0.03] px-7 py-6 backdrop-blur-xl">
                 <p className="max-w-[min(46ch,100%)] font-mono text-[0.84rem] text-muted-dark">
