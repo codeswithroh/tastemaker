@@ -1,28 +1,44 @@
 import { useEffect, useState } from "react"
 import { Megaphone, Star, X } from "lucide-react"
 
-/**
- * Sponsor slots for the desktop-only side rails. `checkoutUrl: null` means
- * the Polar product isn't live yet — the card still renders (so the layout
- * and pricing are visible) but the CTA is disabled instead of linking
- * nowhere. Swap in real sponsor data here once a slot sells.
- */
-export type SponsorSlot = {
-  id: string
-  sponsor: null | { name: string; blurb: string; href: string }
-}
-
-const PRICE_PER_MONTH = 29
 const TOTAL_SLOTS = 5
-
-export const SPONSOR_SLOTS: SponsorSlot[] = Array.from({ length: TOTAL_SLOTS }, (_, i) => ({
-  id: `slot-${i + 1}`,
-  sponsor: null,
-}))
+const PRICE_PER_MONTH = 29
+const API_BASE = "https://tastemaker-sponsors-api.codeswithroh.workers.dev"
 
 let CHECKOUT_URL: string | null = null
 export function setSponsorCheckoutUrl(url: string) {
   CHECKOUT_URL = url
+}
+
+type ApprovedSponsor = {
+  id: string
+  slot: number
+  name: string
+  blurb: string
+  website_url: string
+  logo_url: string
+}
+
+/** Fetched once per page load from the sponsors Worker — approved sponsors
+ * only (the Worker never returns pending/rejected rows). Any slot with no
+ * matching entry renders as an open, purchasable slot. */
+function useApprovedSponsors() {
+  const [sponsors, setSponsors] = useState<ApprovedSponsor[]>([])
+  useEffect(() => {
+    let cancelled = false
+    fetch(`${API_BASE}/api/sponsors`)
+      .then((r) => (r.ok ? r.json() : { sponsors: [] }))
+      .then((data) => {
+        if (!cancelled) setSponsors(data.sponsors ?? [])
+      })
+      .catch(() => {
+        /* API unreachable — every slot just falls back to "open" */
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [])
+  return sponsors
 }
 
 function OpenSlotCard() {
@@ -67,18 +83,28 @@ function AdvertiseCard({ takenCount }: { takenCount: number }) {
   )
 }
 
-function SponsorTile({ slot }: { slot: SponsorSlot }) {
-  if (!slot.sponsor) return <OpenSlotCard />
-  const { name, blurb, href } = slot.sponsor
+function SponsorTile({ sponsor }: { sponsor: ApprovedSponsor | undefined }) {
+  if (!sponsor) return <OpenSlotCard />
+  const [logoFailed, setLogoFailed] = useState(false)
   return (
     <a
-      href={href}
+      href={sponsor.website_url}
       target="_blank"
       rel="noopener sponsored"
       className="flex min-h-[150px] flex-col justify-between rounded-2xl border border-border bg-card p-5 transition hover:-translate-y-0.5 hover:shadow-[0_16px_30px_rgba(23,21,20,0.1)]"
     >
-      <p className="font-mono text-[0.78rem] font-bold text-foreground">{name}</p>
-      <p className="text-[0.78rem] leading-snug text-muted-dark">{blurb}</p>
+      {!logoFailed && (
+        <img
+          src={sponsor.logo_url}
+          alt=""
+          className="h-7 w-7 rounded-md object-contain"
+          onError={() => setLogoFailed(true)}
+        />
+      )}
+      <div>
+        <p className="font-mono text-[0.78rem] font-bold text-foreground">{sponsor.name}</p>
+        <p className="mt-1 text-[0.78rem] leading-snug text-muted-dark">{sponsor.blurb}</p>
+      </div>
     </a>
   )
 }
@@ -88,26 +114,27 @@ function SponsorTile({ slot }: { slot: SponsorSlot }) {
  * sidebars until well past that), so it never competes with or squeezes
  * the primary reading column on any normal screen. */
 export function SponsorRail({ side }: { side: "left" | "right" }) {
-  const slots = side === "left" ? SPONSOR_SLOTS.slice(0, 2) : SPONSOR_SLOTS.slice(2)
-  const taken = SPONSOR_SLOTS.filter((s) => s.sponsor).length
+  const sponsors = useApprovedSponsors()
+  const bySlot = new Map(sponsors.map((s) => [s.slot, s]))
+  const slotNumbers = side === "left" ? [1, 2] : [3, 4, 5]
 
   return (
     <aside
       aria-label={`${side === "left" ? "Left" : "Right"} sponsor rail`}
       className="sticky top-24 hidden h-max min-[1680px]:flex min-[1680px]:w-[210px] min-[1680px]:flex-col min-[1680px]:gap-4"
     >
-      {slots.map((slot) => (
-        <SponsorTile key={slot.id} slot={slot} />
+      {slotNumbers.map((n) => (
+        <SponsorTile key={n} sponsor={bySlot.get(n)} />
       ))}
-      {side === "right" && <AdvertiseCard takenCount={taken} />}
+      {side === "right" && <AdvertiseCard takenCount={sponsors.length} />}
     </aside>
   )
 }
 
 export function AdvertiseModal() {
   const [open, setOpen] = useState(false)
-  const taken = SPONSOR_SLOTS.filter((s) => s.sponsor).length
-  const left = TOTAL_SLOTS - taken
+  const sponsors = useApprovedSponsors()
+  const left = TOTAL_SLOTS - sponsors.length
 
   useEffect(() => {
     const handler = () => setOpen(true)
@@ -195,7 +222,7 @@ export function AdvertiseModal() {
         </a>
 
         <p className="mt-4 text-[0.78rem] text-muted-dark">
-          Checkout asks for your company name, link, one-line description, and a logo URL — no separate form. Reviewed and live in the sidebar within a day. Billed monthly via Polar, cancel anytime.
+          Checkout collects your company name, link, one-line description, and logo — no separate form. Reviewed and live in the sidebar within a day. Billed monthly via Polar, cancel anytime.
         </p>
       </div>
     </div>

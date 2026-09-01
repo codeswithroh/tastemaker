@@ -1,0 +1,19 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "tastemaker-sponsors-api",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-08-01",
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "tastemaker-sponsors",
+      "database_id": "f09987d6-1a45-40ca-92af-b607585556e2"
+    }
+  ],
+  "observability": {
+    "enabled": true
+  },
+  "vars": {
+    "SPONSOR_PRODUCT_ID": "13f92a6f-4b20-44ad-9c96-102db0ea2be7"
+  }
+}
