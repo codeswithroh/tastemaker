@@ -400,8 +400,11 @@ export default function App() {
                   <img
                     src="https://api.star-history.com/chart?repos=codeswithroh/tastemaker&type=date&legend=top-left&sealed_token=2Pdh2oaN9iVgW2nRbAFsc4tD8k-rqntdhu7BOtXj_kcRY5_GKzhq8-XW_6jGalrc9yyM5fqEe5gf-yAhmSTT2qNWxO2WibZO9cI_mHyUergN74Bvt0gIgw"
                     alt="Star History chart for codeswithroh/tastemaker, showing GitHub stars accumulating over time"
+                    width={800}
+                    height={533}
                     loading="lazy"
                     className="w-full rounded-xl"
+                    style={{ aspectRatio: "800 / 533", height: "auto" }}
                   />
                 </picture>
               </a>
