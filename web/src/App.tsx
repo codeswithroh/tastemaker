@@ -18,6 +18,9 @@ import { RevealGroup } from "@/components/site/RevealGroup"
 import { Parallax, Float } from "@/components/site/Parallax"
 import { HeroTimeline } from "@/components/site/HeroTimeline"
 import { ScrollTriggerRefresh } from "@/components/site/ScrollTriggerRefresh"
+import { SponsorRail, AdvertiseModal, setSponsorCheckoutUrl } from "@/components/site/SponsorRail"
+
+setSponsorCheckoutUrl("https://buy.polar.sh/polar_cl_v360Z1xaM0O7QadiXzo5OlRjgaWGIZvxGhNir4LllXc")
 
 const INSTALL = "npx skills add codeswithroh/tastemaker"
 const REPO = "https://github.com/codeswithroh/tastemaker"
@@ -213,7 +216,9 @@ export default function App() {
         </div>
       </header>
 
-      <main id="main">
+      <main id="main" className="flex w-full items-start gap-4 min-[1680px]:px-6">
+        <SponsorRail side="left" />
+        <div className="min-w-0 flex-1">
         {/* hero — the transformation illustration is the whole pitch */}
         <section id="top" className="relative isolate overflow-hidden">
           <HeroTimeline />
@@ -560,7 +565,11 @@ export default function App() {
             </Reveal>
           </div>
         </section>
+        </div>
+        <SponsorRail side="right" />
       </main>
+
+      <AdvertiseModal />
 
       <footer className="border-t border-ink/[0.08] py-10">
         <div className="mx-auto flex w-[min(1200px,calc(100%-40px))] flex-wrap items-center justify-between gap-6">
