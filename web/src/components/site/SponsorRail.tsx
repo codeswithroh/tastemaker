@@ -195,7 +195,7 @@ export function AdvertiseModal() {
         </a>
 
         <p className="mt-4 text-[0.78rem] text-muted-dark">
-          Your slot goes live in the sidebar within a day of payment. Billed monthly via Polar, cancel anytime.
+          Checkout asks for your company name, link, one-line description, and a logo URL — no separate form. Reviewed and live in the sidebar within a day. Billed monthly via Polar, cancel anytime.
         </p>
       </div>
     </div>
