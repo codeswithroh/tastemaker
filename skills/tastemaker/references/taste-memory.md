@@ -29,6 +29,8 @@ Required fields:
 {"ts":"<ISO-8601 timestamp>","project":"<absolute or repo-root path>","surface":"<screen or component>","status":"kept|rejected|pending-review","axis":"<palette|type|density|structure|motion|assets|copy|interaction|other>","decision":"<specific choice>","reason":"<why this was chosen or rejected>","source":"user|agent-pending|migration","promote":false}
 ```
 
+When `axis` is `structure` or `copy` and `status` resolves to `kept` or `rejected`, also patch the `outcome` field of the matching entry in `~/.tastemaker/structure-history.json` or `~/.tastemaker/copy-history.json` (matched by `id`) — see the "Close the loop" sections in `references/diversification.md` and `references/copy-voice.md`. This is what feeds `scripts/summarize_outcomes.py`; a decisions.log entry alone doesn't reach the cross-project file automatically.
+
 Examples:
 
 ```json

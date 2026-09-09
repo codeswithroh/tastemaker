@@ -45,7 +45,13 @@ Use five lanes:
 4. **Interface systems:** official design systems or product languages that fit the surface.
 5. **Anti-references:** common category defaults this project should avoid.
 
-If web search or screenshot tools are available, collect 5-9 concrete references across those lanes and write the source URLs, dates viewed, and the traits you are borrowing. If browsing is unavailable, write an inferred reference board and label it `inferred, not viewed`; do not pretend you saw sources.
+**If a web search or web-fetch tool is available in this session, using it here is mandatory, not optional.** This is the actual point of failure in practice: the tools are available in most sessions, but "if web search or screenshot tools are available" reads as permission to skip them when writing an inferred board is faster, and an inferred board is what the model defaults to under time pressure — which quietly turns "grounded in real references" back into "grounded in the model's memory of good UI," the exact thing this file exists to prevent. Concretely, before writing the design read:
+
+1. Run at least one real search for the product's category (e.g. "best \<category\> landing pages 2026", "\<category\> SaaS design", the names of 2-3 known players in the space if you know them).
+2. Fetch or screenshot at least 2-3 of the resulting current, real sites — not sites recalled from training data, actually retrieved this session.
+3. Pull concrete, current traits from what you actually saw: a real layout choice, a real type treatment, a real motion pattern — not a paraphrase of what that company's site probably still looks like.
+
+Collect 5-9 concrete references across the five lanes this way, and write the source URLs, dates viewed, and the traits you are borrowing. **Only fall back to an inferred board when the tools are genuinely unavailable in this session** (check the tool list, don't guess) or a specific fetch fails after a real attempt — never as a shortcut past a step that takes a few tool calls. When falling back, label it `inferred, not viewed` and say plainly that search/fetch tools were unavailable or failed; do not pretend you saw sources, and do not let "inferred" quietly become the default path in a session where it didn't have to be.
 
 Reference board format:
 
@@ -56,6 +62,7 @@ Created: <date>
 Mode: <Persuade|Operate|Read|Experience>
 Design read: <one-line read>
 Dials: variance <n>, motion <n>, density <n>, art direction <n>
+Sourcing: <viewed via search/fetch on <date> | inferred, tools unavailable | inferred, fetch failed after attempt>
 
 ## Quality bar
 - <source or inferred reference>: <what sets the craft bar>
@@ -111,7 +118,7 @@ Then write the direction contract into `.tastemaker/style-lock.md` and the build
 
 ## If no user references exist
 
-You still need a quality bar. Use the reference board lanes above and search current sources when tools allow it. When search is not available, derive the board from the product's world and mark it as inferred. This keeps the work grounded without blocking the build.
+You still need a quality bar. **Search current sources — this is the default path when tools allow it, not the option to skip.** Use the reference board lanes above. When search or fetch is genuinely not available this session, derive the board from the product's world and mark it as inferred. This keeps the work grounded without blocking the build — but grounded-via-search is the intended common case in a tool-enabled session, and inferred should be the exception you can point to a reason for, not the default outcome.
 
 ## Do not
 
@@ -119,3 +126,4 @@ You still need a quality bar. Use the reference board lanes above and search cur
 - Do not default to a familiar category treatment just because the user gave no references.
 - Do not treat a generated image or reference screenshot as a promise to copy. It is a quality bar and grammar source.
 - Do not invent customer logos, metrics, quotes, or public proof while building a reference-led surface.
+- Do not skip the search/fetch step because an inferred board is faster to write — if the tools are on the tool list this session, reaching for "inferred" without trying them first is the exact failure this file exists to close, not a neutral shortcut.

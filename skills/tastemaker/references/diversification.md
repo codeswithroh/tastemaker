@@ -20,6 +20,35 @@ Lives alongside `.tastemaker/style-lock.md` in the project root. A JSON array, n
 - **Trim to the last ~20 entries.** Create `.tastemaker/` and the file if absent; respect the project's `.gitignore` (the user may or may not want it committed).
 - If a build's CSS carries a stamp but there's no `log.json`, infer one entry from the stamp and proceed.
 
+## Cross-project memory — `~/.tastemaker/structure-history.json`
+
+`.tastemaker/log.json` only stops *one* project from repeating itself. It does nothing about two different projects both defaulting to Feature Stack every time — which is the failure mode that actually makes tastemaker output feel common: not one site repeating its own shape, but many *different* sites converging on the same "safe" shape independently. This file closes that gap. It lives outside any repo, next to `~/.tastemaker/profile.md`, and is shared across every project this skill touches.
+
+Same entry shape as the project log, plus a `project` field, an `id`, and an `outcome`:
+
+```json
+[
+  { "id": "tracejam-2026-07-23", "date": "2026-07-23", "project": "tracejam", "page": "landing", "macrostructure": "Feature Stack", "nav": "N2", "hero": "H2", "footer": "Ft1", "outcome": "kept" },
+  { "id": "meridian-studio-2026-07-20", "date": "2026-07-20", "project": "meridian-studio", "page": "landing", "macrostructure": "Editorial Index", "nav": "N4", "hero": "H1", "footer": "Ft4", "outcome": "pending" }
+]
+```
+
+- **Append a new entry in the same pass** that writes the project's `log.json` entry and the CSS stamp — all three record one build, from three angles (cross-project frequency, project-local rotation, in-code record). Set `outcome` to `"pending"` at write time — it isn't known yet.
+- **Trim to the last ~40 entries.** Create the file (and `~/.tastemaker/`) if absent.
+- **Check it as part of Step 2.5**, alongside the project's own `log.json` — before picking, not after.
+- **Run the mechanical check**: `python3 scripts/check_structure_history.py --current <picks.json> [--project-log .tastemaker/log.json] [--global-log ~/.tastemaker/structure-history.json]`, where `<picks.json>` is a small JSON object of the build's chosen `{macrostructure, nav, hero, footer}`. It flags (non-fatal — a nudge, not a block) when a pick makes up 60%+ of the last 5 global entries, i.e. it's the thing every recent project reached for regardless of brief. Run it right after stating the rotation out loud, before Step 4's build — catching an over-hot pick here is cheaper than catching it in the finished page.
+- If the check flags something and the pick is kept anyway (the brief genuinely calls for it), say so explicitly in the rotation statement — same honesty rule as everywhere else in this skill.
+- **Update `outcome` at Step 5**, when the design pass gets a real keep/reject verdict (see "Close the loop" below) — don't leave every entry sitting at `"pending"` forever, or the outcome data never accumulates enough to be useful.
+
+## Close the loop — outcome-weighted picking
+
+Blind rotation (never repeat the last pick) prevents monoculture but has no opinion about *quality* — it will just as happily rotate toward a macrostructure that keeps getting rejected as one that keeps getting kept. Once `structure-history.json` has enough resolved entries to say something, use that signal too, without letting it override rotation:
+
+1. **At Step 5**, when a design pass resolves to `kept` or `rejected` (per `references/taste-memory.md`'s decision log), also patch the matching `structure-history.json` entry's `outcome` field to `"kept"` or `"rejected"` — match it by `id`, or by date + project if the id wasn't recorded. This is a small edit to an existing entry, not a new one; `.tastemaker/log.json` stays as the immutable per-build record.
+2. **At Step 2.5**, once the rotation rule has produced a shortlist of legal candidates (the ones that pass "differs from the last 3-5 builds"), run `python3 scripts/summarize_outcomes.py` to see each macrostructure/nav/hero/footer archetype's kept-vs-rejected rate across resolved global entries. Use it only as a **tie-break among already-legal candidates** — never to justify breaking the rotation rule and repeating last build's pick because it "tested well." Variety is still mandatory; this only helps decide *which* fresh direction to reach for when more than one would fit the brief.
+3. **Small samples say nothing.** An archetype with 1-2 resolved outcomes is noise, not signal — `summarize_outcomes.py` marks anything under 4 resolved entries as low-confidence and it should be read as "no real data yet," not weighted into the pick.
+4. **A high reject rate is a prompt to ask why, not to blacklist the shape.** A macrostructure might read as rejected because it was genuinely wrong for those briefs, or because it was executed poorly each time (thin content, bad archetype pairing, weak copy). If the rejections cluster around a specific reason in the decision log, note that reason rather than avoiding the shape wholesale.
+
 ## The rotation rule (mandatory)
 
 Using the **last 3-5 entries**:
@@ -36,7 +65,8 @@ Using the **last 3-5 entries**:
 Before writing any code, say the rotation in plain text — picking on the page, not in your head, is what actually breaks the default-attractor. Format:
 
 > *"Last 3 builds: Feature Stack (Tracejam) · Editorial Index (Meridian) · Bento Showcase (Cobalt). Picking from {Long-Scroll Narrative, Stat-Led, Gallery Grid, Product Demo} — going with Long-Scroll Narrative; the brief is a non-obvious product that needs explaining.*
-> *Nav: last was N2, this build N3 floating pill. Footer: last was Ft1, this build Ft4 statement. Hero: last was H2, this build H6 letter."*
+> *Nav: last was N2, this build N3 floating pill. Footer: last was Ft1, this build Ft4 statement. Hero: last was H2, this build H6 letter.*
+> *Cross-project check (`check_structure_history.py`): clean, no axis over 60% of the last 5 global builds."*
 
 Three shapes to imitate:
 
