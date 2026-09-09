@@ -17,6 +17,17 @@ Pick 4-6 asset roles before writing markup:
 
 If a page repeats one screenshot family more than twice, add another asset role or crop family. Repetition needs a story reason.
 
+### Brand/logo walls — fetch the real mark, never a text chip
+
+A "works with," "compatible with," "as seen in," "compare across models," or integration-partner section names real, identifiable companies or products. **The default failure mode is rendering those names as plain text chips** ("ChatGPT", "Vercel", "Webflow" in a `<span>`) instead of the actual logo — it's the fastest way this specific section reads as a stub, because every real product's version of this section shows the mark, not the word. Treat a named-brand row as an asset-sourcing task under Human/market proof, not a copy-writing one:
+
+1. **Fetch the real mark via Iconify**, the same keyless, attribution-free source `scripts/fetch_icons.py` already uses for UI icons — it also carries `simple-icons` (monochrome brand marks, tintable to one color, the usual fit for a mono-tone logo wall) and `logos` (official multi-color marks, for a wall that wants brand color variety). Target either directly: `python3 scripts/fetch_icons.py --icons vercel netlify shopify webflow --set simple-icons --color "#<accent-or-muted>" --out design/assets/logos`.
+2. **Check the exact slug before assuming a miss means "unavailable."** Brand slugs don't always match the obvious name — ChatGPT's mark is filed under `openai`, Gemini under `googlegemini`, Bing Copilot under `microsoftbing`, generic Google-attributed features (e.g. "AI Overviews") reasonably borrow the plain `google` mark. `curl -s -o /dev/null -w "%{http_code}" "https://api.iconify.design/simple-icons:<slug>.svg"` returning 200 confirms a slug before spending a fetch call on a guess.
+3. **A genuine miss is a real gap, not a placeholder license.** If neither `simple-icons` nor `logos` has a specific brand (this does happen for smaller/niche products), drop that item from the wall rather than rendering it as the one text-only chip in an otherwise-real row — a mixed row (eight real logos, one bare word) is more visibly unfinished than a row of seven.
+4. **Validate before shipping**, same as any other fetched SVG: `python3 scripts/validate_assets.py design/assets/logos`.
+5. **This is still "real logos… do not invent these."** Fetching the actual mark is what makes that rule operational instead of aspirational — a hand-drawn approximation of a brand's logo is exactly the kind of invented asset that line already forbids.
+6. **On a stack that can't run `fetch_icons.py`'s output as-is** (rare — it's just SVG files, so this applies almost everywhere) or where brand trademark policy is a genuine concern for the client, say so plainly rather than silently falling back to text and calling it done.
+
 ## Curation Pass
 
 Create a short asset board in `.tastemaker/reference-board.md` or the style lock:

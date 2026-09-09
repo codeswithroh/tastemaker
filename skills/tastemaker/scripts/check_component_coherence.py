@@ -47,7 +47,7 @@ ICON_PACKAGES = {
 
 MOTION_ENGINES = {
     "GSAP": r"from\s+[\"']gsap[\"']|gsap\.(?:to|from|fromTo|timeline)\(",
-    "Motion / Framer Motion": r"from\s+[\"'](?:framer-motion|motion|motion/react)[\"']",
+    "Motion / Framer Motion": r"from\s+[\"'](?:framer-motion|motion|motion/react)[\"']|from\s+[\"']https?://[^\"']*/motion@[^\"']*[\"']",
     "anime.js": r"from\s+[\"']animejs[\"']|anime\(\{",
 }
 
@@ -56,7 +56,12 @@ MOTION_ENGINES = {
 # GSAP driving page-level scroll motion alongside that is the expected pairing,
 # not a mixed-engine mistake — only flag Motion usage HIGH when it shows up
 # outside an icons component directory too.
-ICON_COMPONENT_DIR_RE = re.compile(r"components[/\\]icons[/\\]|[/\\]icons[/\\][a-z0-9-]+\.(?:tsx|jsx|ts|js)$", re.IGNORECASE)
+ICON_COMPONENT_DIR_RE = re.compile(
+    r"components[/\\]icons[/\\]"
+    r"|[/\\]icons[/\\][a-z0-9-]+\.(?:tsx|jsx|ts|js)$"
+    r"|(?:^|[/\\])icons?(?:[-_]motion)?\.(?:tsx|jsx|ts|js)$",
+    re.IGNORECASE,
+)
 
 RAW_BOX_SHADOW_RE = re.compile(r"box-shadow\s*:\s*([^;\n}]+)", re.IGNORECASE)
 RAW_RADIUS_RE = re.compile(r"border-radius\s*:\s*(-?\d+(?:\.\d+)?(?:px|rem|em))\b", re.IGNORECASE)

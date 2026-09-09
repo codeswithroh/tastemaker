@@ -28,6 +28,8 @@ That does not mean the same set every project, though. Pass `--mood <the project
 
 > One nuance to respect: Iconify/its sets are for using icons *in* your design. Don't build a product feature that re-exposes these icons as a *pickable library to your own end users* (an "insert icon" picker in a builder app) — that's a different use some sets restrict. Using an icon directly in a client's UI, which is all this skill does, is fine.
 
+**Iconify also carries real brand marks** — `simple-icons` (monochrome, tintable) and `logos` (official multi-color) cover thousands of named companies and products. Reach for these specifically for any "works with," "compatible with," or "compare across models" section that names real brands — see `references/asset-curation.md`'s Brand/logo walls section for the sourcing steps and slug-checking tip. The default failure without this is rendering brand names as plain text chips, which reads as a stub next to a page that otherwise shows real assets everywhere else.
+
 ## Manual exception — Streamline
 
 unDraw is no longer a fallback here — it's the primary illustration source via `ideagram/` above. The remaining manual exception is for when even a populated unDraw library has no real fit for a concept (per `ideagram/SKILL.md` Step 2's "don't force a bad match" rule):
