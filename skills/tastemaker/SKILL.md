@@ -167,6 +167,7 @@ For high-risk UI, prototype before committing. If the user asks for a hero, pric
 ```bash
 python3 scripts/anti_slop_scan.py <changed-ui-paths>
 python3 scripts/audit_motion.py <changed-ui-paths>
+python3 scripts/check_component_coherence.py <changed-ui-paths>
 ```
 
 Fix HIGH findings before handoff. MEDIUM findings need either a fix or a short reason they are earned by the brief. Then run the motion review in `references/animation-guidelines.md`; the final check is not "does it animate?" It is "does the interface feel faster, clearer, and more trustworthy because of the motion?"
@@ -216,7 +217,7 @@ At handoff, say exactly what changed: decision log updated or not, style lock up
 | `references/tech-stack-guides.md` | Implementing tokens/components in a specific stack (React/Next/Tailwind, Vue, SwiftUI, Flutter) |
 | `references/animation-guidelines.md` | Adding motion (Step 3/4) — GSAP + ScrollTrigger is the default engine, including scroll-storytelling timelines; read this first |
 | `references/library-selection.md` | Step 1.5 — behavioral primitives: before adding or hand-rolling dialogs, toasts, command menus, drag, virtualization, or animation libraries |
-| `references/component-sourcing.md` | Step 1.5 — visual components and blocks: the shadcn-compatible registries (Watermelon, KokonutUI, bklit), component MCP servers, Motion, the stack-detection gate that decides whether any of them apply, and the coherence rules for restyling what gets pulled |
+| `references/component-sourcing.md` | Step 1.5 — visual components and blocks: the shadcn-compatible registries (Watermelon, KokonutUI, bklit), component MCP servers, Motion, the stack-detection gate that decides whether any of them apply, and the coherence rules for restyling what gets pulled — now backed by `scripts/check_component_coherence.py`'s mechanical check |
 | `references/interface-quality-rules.md` | Step 4 — interface craft gates (accessibility, focus, forms, images, performance, URL state, locale, copy). Adapted from Vercel's Web Interface Guidelines; applies to pulled components too |
 | `references/prototype-variants.md` | When the right design direction is uncertain and a component/screen needs 2-3 real variants in an isolated picker |
 | `references/asset-curation.md` | Step 3 — building the asset cast, selecting artifact roles, avoiding repeated screenshot families, and using the artifact kit for visual/motion scenes |
@@ -237,6 +238,7 @@ At handoff, say exactly what changed: decision log updated or not, style lock up
 | `scripts/recolor_svg.py` | Recolor local SVG files (already on disk) to match the locked accent color. Usage: `python3 scripts/recolor_svg.py <path> --accent "#hex" --preserve-dark` |
 | `scripts/export_favicons.py` | Export a logo mark SVG to favicon.ico, apple-touch-icon, PWA manifest icons, and an OG-card PNG (needs cairosvg + system cairo, same as `ideagram/scripts/export_png.py`). Usage: `python3 scripts/export_favicons.py <mark>.svg --out design/assets/favicons/` |
 | `scripts/audit_motion.py` | Scan CSS/HTML/JS/TS/TSX for common motion craft failures: `transition: all`, `ease-in`, `scale(0)`, long UI durations, layout-property animation, ungated hover motion, and missing reduced-motion handling. Usage: `python3 scripts/audit_motion.py site references assets` |
+| `scripts/check_component_coherence.py` | Step 1.5/4 — flags the mechanical symptoms of un-restyled pulled components: more than one icon package imported, more than one motion engine imported, and a spread of hard-coded (non-token) `box-shadow`/`border-radius` literals. See `references/component-sourcing.md`'s "director's actual job" section. Usage: `python3 scripts/check_component_coherence.py <changed-ui-paths>` |
 | `scripts/check_structure_history.py` | Step 2.5 — flags a macrostructure/nav/hero/footer pick that repeats the immediately previous project build, or that's over-represented (60%+) in the last 5 builds *across all projects* via `~/.tastemaker/structure-history.json`. A nudge, not a hard block — see `references/diversification.md`. Usage: `python3 scripts/check_structure_history.py --current <picks.json>` |
 | `scripts/check_copy_diversity.py` | Step 4, non-negotiable 10 — flags a headline/CTA that matches a generic sentence-template ("The smart way to X") or is a near-duplicate of a recent headline from *any* project via `~/.tastemaker/copy-history.json`. A nudge, not a hard block — see `references/copy-voice.md`. Usage: `python3 scripts/check_copy_diversity.py --headline "<text>" --cta "<text>"` |
 | `scripts/summarize_outcomes.py` | Step 2.5 — reports kept-vs-rejected rates per macrostructure/nav/hero/footer and per copy angle, from the `outcome` field Step 5 patches into `~/.tastemaker/structure-history.json` and `~/.tastemaker/copy-history.json`. Tie-break signal among already rotation-legal candidates only — see "Close the loop" in `references/diversification.md`. Usage: `python3 scripts/summarize_outcomes.py` |
