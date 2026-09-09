@@ -41,6 +41,15 @@ Copy voice is a real axis, same status as palette and type — it should shift w
 
 State which mood's dial you're writing to before drafting, the same way Step 2 states the palette mood — it's one line, and it's what keeps the three candidates in Step 2 from defaulting to the same flat register regardless of the project.
 
+## Punctuation — no em dashes, ever
+
+**The em dash (—) is banned from shipped UI copy. No exceptions, no "just this one."** It is one of the single most recognizable AI-writing tells on its own — independent of word choice, template shape, or mood — because it shows up in LLM output at a rate real human marketing copy doesn't match. A page can pass the template bank below and the word-choice scan and still read as machine-written if it leans on em dashes to stitch clauses together, which is exactly the crutch this rule closes off.
+
+- Rewrite the sentence instead of substituting the punctuation. An em dash almost always means the sentence is doing two jobs at once — split it into two sentences, use a period, a comma, a colon, or parentheses depending on what the clause actually needs, or just cut the second half if it isn't earning its place.
+- This applies to every piece of shipped copy: headlines, subheads, body text, button labels, alt text, meta descriptions, FAQ answers, error/empty states. It does not apply to this skill's own reference documentation (files like this one), which is internal instruction text, not product copy a visitor reads.
+- `scripts/anti_slop_scan.py` treats any em dash found in a scanned UI file as a HIGH finding — this is a hard gate, not a MEDIUM nudge like the generic-word list. Run it before calling copy done, not just the copy-specific checks.
+- If a source reference (a PRD, a brand brief) already uses em dashes in copy handed to you verbatim, that's the one exception — user-supplied exact copy is never rewritten (same rule as the rest of this file). Rewrite everything else.
+
 ## The template bank — sentence shapes to reject on sight
 
 These are shapes, not words — a candidate matching one of these patterns is generic by construction even if every individual word is fine. Reject and rewrite rather than reaching for a synonym.

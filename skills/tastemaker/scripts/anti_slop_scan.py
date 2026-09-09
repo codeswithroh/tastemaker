@@ -236,6 +236,18 @@ def audit_file(path: Path) -> list[Finding]:
             f"AI-copy phrase `{phrase}` found. Replace with specific product language.",
         )
 
+    add_regex(
+        findings,
+        path,
+        text,
+        r"—",
+        "HIGH",
+        "em-dash",
+        "Em dash (—) in shipped copy — one of the most recognizable AI-writing tells on its own. "
+        "Rewrite the sentence: split it, or use a period, comma, colon, or parentheses instead. "
+        "See references/copy-voice.md's Punctuation section. No exceptions for shipped UI copy.",
+    )
+
     for pattern, rule in COPY_TEMPLATE_PATTERNS:
         add_regex(
             findings,

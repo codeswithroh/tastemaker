@@ -10,6 +10,13 @@ This is that check for pulled-component coherence: it doesn't verify taste,
 it verifies that the *symptoms* of an uncoherent restyle pass (mixed icon
 families, two motion engines, an unbounded spread of raw shadow/radius
 literals instead of the locked scale) aren't present.
+
+One sanctioned exception: lucide-animated / itshover icon components (the
+default icon source on React stacks, see component-sourcing.md's Icon
+precedence) bring Motion for their own hover animation while GSAP still
+drives page-level motion. That pairing is recognized and downgraded to an
+informational note, not flagged as the mixed-engine failure this check
+otherwise exists to catch.
 """
 
 from __future__ import annotations
@@ -35,6 +42,7 @@ ICON_PACKAGES = {
     "iconify (iconify-icon element)": r"<iconify-icon\b",
     "remixicon": r"from\s+[\"']@remixicon/|ri-[a-z-]+-line|ri-[a-z-]+-fill",
     "feather icons": r"from\s+[\"']feather-icons(?:-react)?[\"']",
+    "lucide-animated / itshover (local components/icons)": r"from\s+[\"'][^\"']*components/icons/[a-z0-9-]+[\"']",
 }
 
 MOTION_ENGINES = {
@@ -42,6 +50,13 @@ MOTION_ENGINES = {
     "Motion / Framer Motion": r"from\s+[\"'](?:framer-motion|motion|motion/react)[\"']",
     "anime.js": r"from\s+[\"']animejs[\"']|anime\(\{",
 }
+
+# lucide-animated / itshover icon components (references/component-sourcing.md's
+# sanctioned default) ship Motion for their own hover/trigger micro-interaction.
+# GSAP driving page-level scroll motion alongside that is the expected pairing,
+# not a mixed-engine mistake — only flag Motion usage HIGH when it shows up
+# outside an icons component directory too.
+ICON_COMPONENT_DIR_RE = re.compile(r"components[/\\]icons[/\\]|[/\\]icons[/\\][a-z0-9-]+\.(?:tsx|jsx|ts|js)$", re.IGNORECASE)
 
 RAW_BOX_SHADOW_RE = re.compile(r"box-shadow\s*:\s*([^;\n}]+)", re.IGNORECASE)
 RAW_RADIUS_RE = re.compile(r"border-radius\s*:\s*(-?\d+(?:\.\d+)?(?:px|rem|em))\b", re.IGNORECASE)
@@ -105,6 +120,28 @@ def scan_motion_engines(files: list[Path]) -> list[Finding]:
     if len(hits) <= 1:
         return []
     lines = [f"{name} (in {len(paths)} file(s), e.g. {sorted(paths)[0]})" for name, paths in hits.items()]
+
+    # Sanctioned exception: Motion appears only inside icon-component files
+    # (lucide-animated / itshover, per component-sourcing.md's Icon precedence),
+    # alongside GSAP used for everything else. That's two engines with two
+    # non-overlapping jobs, not the mixed-engine failure this check exists for.
+    motion_files = hits.get("Motion / Framer Motion", set())
+    motion_confined_to_icons = bool(motion_files) and all(
+        ICON_COMPONENT_DIR_RE.search(str(p)) for p in motion_files
+    )
+    other_engines = set(hits) - {"Motion / Framer Motion"}
+    if motion_confined_to_icons and other_engines <= {"GSAP"}:
+        return [
+            Finding(
+                "MEDIUM",
+                "icon-motion-pairing",
+                "Motion is used only inside icon-component files (" + "; ".join(lines) + "). "
+                "This matches component-sourcing.md's sanctioned default (lucide-animated/itshover icons "
+                "use Motion for their own hover animation; GSAP drives page-level motion) — not flagged as "
+                "a mixed-engine failure. Confirm Motion genuinely doesn't leak into non-icon files.",
+            )
+        ]
+
     return [
         Finding(
             "HIGH",

@@ -47,6 +47,8 @@ These install real component source into the project (copy-in, not a dependency 
 | **Watermelon UI** | `@watermelon` → `https://registry.watermelon.sh/r/{name}.json`<br>`npx shadcn@latest add @watermelon/<name>` | 260+ components **and full blocks** — dashboards, login forms, page sections. Broadest single source. | Open source. Categories: inputs, data display, feedback, navigation, layout, charts (Recharts), blocks. **Note the `/r/` path** — Watermelon's own docs print the URL without it, which returns the site's HTML instead of JSON and fails with `Unexpected token '<'`. Verified working path is `/r/{name}.json`. |
 | **KokonutUI** | `@kokonutui` → `https://kokonutui.com/r/{name}.json`<br>`npx shadcn@latest add @kokonutui/<name>` | Higher-polish, more *designed* components — the ones with real motion and visual character (e.g. `particle-button`). | **Tailwind v4** + lucide-icons. Verify the project's Tailwind major version before pulling. Utils: `https://kokonutui.com/r/utils.json`. |
 | **bklit UI** | `@bklit` → `https://ui.bklit.com/r/{name}.json`<br>`npx shadcn@latest add @bklit/<name>` | **Charts, specifically.** 17+ types: area, bar, line, pie, scatter, candlestick, sankey, heatmap. Plus legends, grids, tooltips, axes, brushes. | Free/open source. Reach for this over hand-rolling any chart. Some components auto-pull `@bklit/shimmering-text`. |
+| **lucide-animated** (pqoqubbw) | `https://lucide-animated.com/r/{name}.json`<br>`npx shadcn@latest add "https://lucide-animated.com/r/<name>.json"` | **Icons, specifically — the default icon source on this stack.** 467+ animated Lucide-based icons that play a small motion on hover/trigger instead of sitting static. | MIT. Built on Motion (`motion/react`) — the CLI adds it automatically. Drops a component at `components/icons/<name>.tsx`; import as a PascalCase component (`import { Activity } from "@/components/icons/activity"`), not an inline SVG string. See "Icon precedence" below for when this beats `scripts/fetch_icons.py`. |
+| **itshover** | `https://itshover.com/r/{name}.json`<br>`npx shadcn@latest add https://itshover.com/r/<name>.json` | **Icons, specifically — second source.** 186+ animated icons, broader coverage of brand/tech-stack marks (GitHub, Docker, Node, Python, TypeScript, etc.) that lucide-animated doesn't cover as a design-language set. | Apache 2.0. Same Motion dependency and copy-in pattern as lucide-animated. Reach for this when a needed icon (a specific brand mark, a less common action) isn't in lucide-animated's set — don't mix the two for icons that exist in both, to keep one visual language. |
 
 To register a namespace once in an existing project, add to `components.json`:
 
@@ -110,7 +112,7 @@ scroll(a, { target: document.getElementById("item"), offset: ["start end", "end 
 - The project is **React** and components need springs, layout animation, exit animation, or gesture values (this is already `library-selection.md`'s standing recommendation).
 - A pulled component **already ships with Motion** as its animation dependency — don't rip it out to re-do it in GSAP. Let the component keep its own engine and match its timing to the project's locked motion values instead.
 
-Never load both GSAP and Motion just to get one effect. One engine per project unless a pulled component forces the second, and if it does, say so.
+Never load both GSAP and Motion just to get one effect. One engine per project unless a pulled component forces the second, and if it does, say so. **The one default exception**, now common enough to name explicitly: lucide-animated/itshover icons (below) bring Motion for their own hover/trigger micro-interaction, while GSAP still drives page-level scroll motion. That's two engines with two distinct, non-overlapping jobs, not a mixed-engine mistake — say so in the handoff the same way any second-engine exception gets called out, but don't treat it as something to fix. `scripts/check_component_coherence.py` recognizes this pattern (Motion usage confined to an `icons/` component directory) and won't flag it as a coherence violation; it still flags Motion used for general page/section motion alongside GSAP, which is the real mixed-engine failure.
 
 ### Not agent-consumable (documented so it isn't attempted)
 
@@ -125,8 +127,20 @@ Never load both GSAP and Motion just to get one effect. One engine per project u
 3. **Watermelon** for breadth, including whole blocks/sections.
 4. **KokonutUI** for a component that needs visual character and motion out of the box.
 5. **bklit** for anything chart-shaped. Always. Hand-rolled charts are a reliable slop tell.
-6. **MCP search** (shadcn-ui-mcp / 21st) when you need to *discover* rather than pick from the known list.
-7. **Hand-roll** only when: the stack can't consume any of the above, the interaction is genuinely simple (a static section, a plain card), or the project forbids dependencies.
+6. **lucide-animated, then itshover, for icons** on any React + Tailwind + shadcn stack. See "Icon precedence" below.
+7. **MCP search** (shadcn-ui-mcp / 21st) when you need to *discover* rather than pick from the known list.
+8. **Hand-roll** only when: the stack can't consume any of the above, the interaction is genuinely simple (a static section, a plain card), or the project forbids dependencies.
+
+## Icon precedence — animated registries first, static fetch as the fallback
+
+Icons are a component-sourcing decision like any other, not a separate system, and the default changed: **on a React + Tailwind + shadcn stack, lucide-animated and itshover are the default icon source, ahead of `scripts/fetch_icons.py`.** A static SVG that never moves is a missed opportunity for exactly the kind of small, purposeful motion this skill otherwise asks for everywhere else (Step 4's motion non-negotiable) — an icon that plays a short animation on hover reads as considered; the same icon sitting inert next to buttons that do animate reads as unfinished.
+
+1. **Stack check first, same gate as every other registry in this file (Step 0).** These are shadcn-compatible React registries — they do not apply to Vue/Svelte/static-HTML/native projects. On those stacks, skip straight to `scripts/fetch_icons.py` (Iconify), which is stack-agnostic and remains the default there.
+2. **On React + Tailwind + shadcn: try lucide-animated first** (`https://lucide-animated.com/r/{name}.json`) — broadest set (467+), matches Lucide's shapes (which shadcn/KokonutUI already lean on), so it stays visually consistent with any non-animated Lucide icons already in the project.
+3. **Fall back to itshover** (`https://itshover.com/r/{name}.json`) for an icon lucide-animated doesn't have — its broader brand/tech-mark coverage fills the more common gap. Don't pull the same concept from both; pick one source per icon and keep the whole set from one registry wherever both carry it.
+4. **Fall back to `scripts/fetch_icons.py` (Iconify)** only when: the stack can't consume either registry, a specific icon exists in neither, or the project has a hard reason to avoid the Motion dependency. Static Iconify icons stay the right call for non-React builds — that hasn't changed.
+5. **Still one icon *family* per project**, same rule as always (`references/anti-slop-checklist.md` gates this) — don't mix lucide-animated icons with a KokonutUI component's own bundled lucide-static icons for the same concept; convert one to match the other. `scripts/check_component_coherence.py` still flags multiple icon packages in the same project.
+6. **Restyle to the locked accent regardless of source**, same as any pulled component — these registries ship their own default stroke color; set it to `.tastemaker/style-lock.md`'s accent as part of pulling them in, the same restyle pass every other registry component gets.
 
 ---
 
@@ -137,7 +151,7 @@ Never load both GSAP and Motion just to get one effect. One engine per project u
 Sourcing is the cheap part. These are the rules that make it design work:
 
 1. **Restyle every pulled component to the locked palette and tokens.** Registry components ship with their own defaults (`bg-zinc-900`, `rounded-xl`, their own shadows). Rewrite those to `.tastemaker/style-lock.md`'s tokens as part of the same pass. A pulled component still carrying its origin registry's colors is an unfinished component, and it's visible instantly. This is non-negotiable and it's where most of the work goes.
-2. **One icon family across the whole project.** shadcn and KokonutUI both lean lucide; if the project's mood-matched set from `scripts/fetch_icons.py` is different, pick one and convert. Never ship two icon families — `anti-slop-checklist.md` gates this.
+2. **One icon family across the whole project.** On React stacks that's lucide-animated (falling back to itshover for gaps — see "Icon precedence" above), not a static set pulled alongside it out of habit; on stacks that can't consume those registries it's the mood-matched `scripts/fetch_icons.py` set. If a pulled block (KokonutUI, Watermelon) brings its own static lucide icons, convert them to the animated set too rather than leaving a mix of moving and inert icons on the same page. Never ship two icon families — `anti-slop-checklist.md` gates this.
 3. **One radius scale, one shadow scale, one spacing scale.** Take them from the lock, not from whichever component happened to arrive first.
 4. **One motion feel.** Match every pulled component's durations/easings to the lock's Motion section. A component that springs at 300 stiffness next to one that eases at 200ms linear reads as broken.
 5. **Delete what the page doesn't need.** A registry block often ships with a stat row, a logo wall, and a testimonial slot. If the brief has no real numbers and no real testimonials, **cut those slots** — do not fill them with invented content. That's `anti-slop-checklist.md` item 47 (no invented metrics) and it's the most common way pulled blocks introduce fabrication.
