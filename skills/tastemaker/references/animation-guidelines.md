@@ -130,6 +130,41 @@ scroll(a, { target: document.getElementById("item"), offset: ["start end", "end 
 
 Keep it coherent with the locked motion feel (`.tastemaker/style-lock.md`): a "premium/confident" project storytells with restraint (slow, smooth, minimal), a "playful" one can be more energetic. And every one of these must degrade under `prefers-reduced-motion` — wrap them in the same `gsap.matchMedia()` pattern `gsap-starter.js` uses, showing the end state without the scroll-driven motion.
 
+## Cursor / pointer-driven motion — for a hero that should feel alive, not just animate on load
+
+Scroll-triggered reveals fire once and stop; a page that only moves on scroll and hover can still feel static while the visitor is just sitting there reading the hero. Cursor-driven motion — an element that subtly tracks or reacts to the mouse in real time — is the difference between a hero that "has an animation" and one that feels alive, and it's the technique behind a lot of premium/playful marketing sites (a mascot's eyes or whole body drifting toward the cursor, a hero visual tilting with pointer position, a card set showing parallax depth as the mouse moves). Reach for this on a hero when the mood is playful/consumer or premium/confident and the brief wants noticeably more polish than the baseline — it's a deliberate upgrade, not a default every project needs.
+
+**The core technique — lerped follow, not 1:1 tracking.** Never set an element's position directly to the raw mouse coordinate; that reads as jittery and mechanical. Track a *target* value on `mousemove`, then ease a *current* value toward it every frame (linear interpolation, `current += (target - current) * factor`, factor around 0.06-0.12 — lower factors feel heavier/laggier, higher feels snappier) inside a `requestAnimationFrame` loop, and apply `current` as a `transform: translate()`. This is what makes the motion feel like it has weight and follows smoothly instead of snapping to the cursor.
+
+```js
+let targetX = 0, targetY = 0, curX = 0, curY = 0;
+const strength = 18; // max px of travel — keep small, this is a drift, not a drag
+window.addEventListener("mousemove", (e) => {
+  const nx = e.clientX / window.innerWidth - 0.5;
+  const ny = e.clientY / window.innerHeight - 0.5;
+  targetX = nx * strength;
+  targetY = ny * strength;
+});
+gsap.ticker.add(() => {
+  curX += (targetX - curX) * 0.08;
+  curY += (targetY - curY) * 0.08;
+  gsap.set(el, { x: curX, y: curY });
+});
+```
+
+(`gsap.ticker` is a convenient shared rAF loop when GSAP is already loaded — plain `requestAnimationFrame` works identically if it isn't.)
+
+**Depth via differential strength, not a single moving layer.** The premium version of this effect moves multiple layers at different `strength` values off the same pointer position — a background shader/glow at a small strength (subtle drift), a mid-layer character or card set at a medium strength, a foreground label or badge at the highest strength — so the parallax between layers reads as real depth, not one element sliding around alone. Keep the *foreground* strength small regardless (10-25px range) — this is ambient depth, not a drag interaction; anything larger starts to feel like the element is trying to escape the cursor.
+
+**Character/mascot-specific: eyes or gaze lead the drift, before the whole body does.** If the hero has a character (see `references/asset-curation.md`'s character/mascot sourcing), the cheapest, highest-payoff version of "it reacts to you" is just the eyes (or a single focal detail) tracking the cursor at a higher strength than the character's body — a small pupil/eye element that lerps toward the pointer within a tight radius reads as *alive* even if nothing else on the page moves. Layer the body-level drift (small, per the depth rule above) on top only if the brief wants more.
+
+**Respect the trigger surface.** Bind `mousemove` to the hero section (or `window`, scoped to only apply the transform while the pointer is over the hero) — not the whole document — so the effect doesn't fight with unrelated page motion once the visitor scrolls past. Reset to the rest position (`curX`/`curY` easing back to 0) on `mouseleave` rather than freezing at the last position.
+
+**Accessibility and device gating, same rules as everywhere else in this file:**
+- Gate behind `@media (hover: hover) and (pointer: fine)` — touch devices have no persistent cursor, so this is a no-op there by construction; don't attach the listeners at all rather than have dead code.
+- Respect `prefers-reduced-motion: reduce` — skip the rAF loop entirely and leave the element at its rest position. This is genuinely decorative motion, unlike the drag-follow in the App shell section below, so the reduced-motion branch is mandatory here.
+- Keep the strength values small enough that they never obscure or relocate text/CTAs — this is ambient personality, not a layout mechanism, and it must never make a click target move out from under a pointer mid-click.
+
 ## App shell motion — for internal tools, dashboards, and anything that isn't a scroll narrative
 
 The scroll-storytelling track above is the right model for a page the user scrolls through once, top to bottom. It is close to meaningless for a sidebar-plus-topbar internal tool: most of the screen loads once and stays in place while the user works, there is no scroll narrative to tell, and a scrubbed hero reveal or a pinned section has nothing to attach to. Motion is still not optional here (per this file's own "motion should clarify, not decorate" rule), it just answers different questions: what changed, what's about to happen, is this still loading.

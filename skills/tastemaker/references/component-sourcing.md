@@ -108,6 +108,52 @@ const a = animate("div", { transform: ["none", "rotate(90deg)"] }, { ease: "line
 scroll(a, { target: document.getElementById("item"), offset: ["start end", "end start"] })
 ```
 
+### Paper Shaders — real WebGL backgrounds instead of a hand-rolled canvas loop
+
+`@paper-design/shaders` (vanilla, zero-dependency) and `@paper-design/shaders-react` — real animated GPU shaders (mesh gradients, grain gradients, warp, dot orbit, voronoi, metaballs, smoke ring, and more), Apache-2.0, no attribution required. This is the upgrade path for `references/hero-guidelines.md`'s "ambient generative background" — a real WebGL shader instead of a hand-rolled `requestAnimationFrame` canvas blob loop, and the single highest-leverage move for making two builds in the same mood stop looking like the same template with different words, since two hand-drawn CSS radial-glow heroes converge fast and two shader choices genuinely don't.
+
+**Install (React):** `npm install @paper-design/shaders-react`, then use the exported components (`MeshGradient`, `GrainGradient`, `Warp`, `DotOrbit`, and the rest) directly as JSX.
+
+**Vanilla / static HTML, no build step** (verified against the published CDN build):
+
+```html
+<script type="module">
+  import { ShaderMount, meshGradientFragmentShader, getShaderColorFromString }
+    from "https://cdn.jsdelivr.net/npm/@paper-design/shaders@0.0.80/+esm"
+
+  const mount = new ShaderMount(
+    document.querySelector(".hero-shader"),   // parent element — the mount creates its own <canvas> inside it
+    meshGradientFragmentShader,               // imported from the package, not retyped by hand
+    {
+      u_colors: [
+        getShaderColorFromString("#148568"),  // pull straight from the locked palette
+        getShaderColorFromString("#c382d2"),
+        getShaderColorFromString("#050b09"),
+      ],
+      u_colorsCount: 3,
+      u_distortion: 0.5,
+      u_swirl: 0.3,
+    },
+    undefined,   // webGlContextAttributes
+    prefersReducedMotion ? 0 : 0.3   // speed — 0 renders one static frame and stops the render loop entirely
+  )
+</script>
+```
+
+Pin the exact version in the CDN URL (as shown), the same rule as Motion above. Each shader module exports its own fragment shader constant and a `<name>Meta` object (e.g. `meshGradientMeta.maxColorCount`) — import what a given effect needs rather than assuming every shader takes the same uniform set; some (grain gradient, dithering) also need a generated noise texture via the package's own `getShaderNoiseTexture` helper, which adds a step — **mesh gradient needs neither a texture nor a color-panel setup, making it the simplest reliable default** for a first shader background in a project.
+
+**Picking an effect — vary it the same way palette and macrostructure vary, don't default to mesh gradient every time.** Two candidate effects per mood, alternate between them the way `fetch_icons.py` alternates icon sets:
+
+| Mood | Effects | Character |
+|---|---|---|
+| Premium / confident | Mesh Gradient, Static Radial Gradient | Smooth, confident, minimal noise |
+| Warm / approachable | Waves, Neuro Noise | Organic, soft motion |
+| Technical / builder-facing | Grain Gradient, Warp | Structured, textured, data-adjacent |
+| Playful / consumer | Metaballs, Dot Orbit | Bouncy, literally playful motion |
+| Elegant / editorial | Smoke Ring, God Rays | Restrained, atmospheric, low-saturation |
+
+**Contrast discipline (non-negotiable, same rule as everything else in this skill):** a shader sitting directly behind body text is a contrast hazard — motion and color variance under text is exactly what the color-contract rules in `references/style-tokens.md` exist to prevent. Never place a shader as the literal background of a text block. Instead: confine it to the hero's outer field (a full-bleed layer behind the whole section, `opacity` reduced to roughly 0.3-0.6) and add a **vignette** — a radial-gradient overlay from the locked `bg` color (opaque at the text's center, transparent toward the edges) — so the headline/CTA zone always sits on a near-solid, contrast-safe backdrop while the shader's color and motion show at the margins. Verify the actual rendered text against the gate in `references/anti-slop-checklist.md`, not just the token pairing in isolation — a shader is dynamic, and a contrast check on the static palette doesn't account for a bright frame sitting under a headline.
+
 **Motion does not replace GSAP as this skill's default** (see `references/animation-guidelines.md` — GSAP + ScrollTrigger stays the default engine, with a real tested investment behind it). Use Motion when:
 - The project is **React** and components need springs, layout animation, exit animation, or gesture values (this is already `library-selection.md`'s standing recommendation).
 - A pulled component **already ships with Motion** as its animation dependency — don't rip it out to re-do it in GSAP. Let the component keep its own engine and match its timing to the project's locked motion values instead.
