@@ -175,7 +175,8 @@ Never load both GSAP and Motion just to get one effect. One engine per project u
 5. **bklit** for anything chart-shaped. Always. Hand-rolled charts are a reliable slop tell.
 6. **lucide-animated, then itshover, for icons** on any React + Tailwind + shadcn stack. See "Icon precedence" below.
 7. **MCP search** (shadcn-ui-mcp / 21st) when you need to *discover* rather than pick from the known list.
-8. **Hand-roll** only when: the stack can't consume any of the above, the interaction is genuinely simple (a static section, a plain card), or the project forbids dependencies.
+8. **`inspo` (`mcp__inspo__find_reference_components` + `get_reference_jsx`)** when the brief needs a specific real *composition* pattern none of the above quite has — see `references/inspo-mcp.md`. React + Tailwind source; port by hand on a stack that can't consume it, same as every other registry here.
+9. **Hand-roll** only when: the stack can't consume any of the above, the interaction is genuinely simple (a static section, a plain card), or the project forbids dependencies.
 
 ## Icon precedence — animated registries first, static fetch as the fallback
 
