@@ -39,7 +39,7 @@ Create `.tastemaker/reference-board.md` on cold starts and major redesigns.
 
 Use five lanes:
 
-1. **Direct competitors:** what this category already ships.
+1. **Direct competitors:** what this category already ships. For hero sections specifically, `references/hero-guidelines.md`'s "real reference check" names two fast sources: `inspo` MCP when connected, and supahero.io (a human-curated directory of real, individually-linked hero sections) as a manual browse.
 2. **Adjacent products:** tools or brands with a similar audience, but a different category.
 3. **Cultural sources:** publications, physical objects, places, rituals, or graphics the audience already understands.
 4. **Interface systems:** official design systems or product languages that fit the surface.
