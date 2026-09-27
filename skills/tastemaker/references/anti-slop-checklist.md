@@ -6,18 +6,33 @@ Two checks stand between a build and handoff: a **pre-emit self-critique** (run 
 
 ## Pre-emit self-critique (run before you finalize)
 
-Before handing anything back, score the planned output **1-5 on each of six axes**. Anything **< 3 on any axis triggers a revision pass** before the gate sweep — don't carry a known weakness into a 50-gate review. Two passes is normal; a third is usually a sign the *brief* is underspecified, not the design — re-read it.
+Before handing anything back, run **two critique passes**: concept & structure (whether this build has a point of view and isn't a reskin of the last one), then execution (whether the thing on screen is actually well-made). They catch different failures — a page can have a sharp, specific concept and still be badly typeset, or be flawlessly executed and totally generic. Score each axis **1-5**; anything **< 3 on any axis triggers a revision pass** before the gate sweep — don't carry a known weakness into a 50-gate review. Two passes total is normal; a third is usually a sign the *brief* is underspecified, not the design — re-read it.
+
+### Pass 1 — Concept & structure
 
 | Axis | What you're scoring |
 |---|---|
 | **Show-don't-tell** | Is each section mostly something to *look at* (mockup, chart, comparison, illustration, real photo) with text as caption — or mostly prose with a decorative icon? This is tastemaker's top principle; score it first. |
 | **Philosophy** | Is there a clear *why* — a position this design takes, a reason it looks like *this* — or is it just a competent layout? |
-| **Hierarchy** | Can a viewer tell, in 2 seconds, what's primary, secondary, tertiary? Or is everything the same weight? |
+| **Hierarchy** | Can a viewer tell, in 2 seconds, what's primary, secondary, tertiary? Or is everything the same weight? (Corresponds to the `visual_hierarchy` dimension in Pass 2's source study — scored here rather than duplicated below.) |
 | **Specificity** | Does this look like *this* product/brief — or like a generic page that could be anyone's, just in different colors? |
 | **Restraint** | Has everything that isn't earning its place been removed — decoration, redundancy, padding-for-padding's-sake, motion that carries no information? |
 | **Variety** | Does this share a structural fingerprint (macrostructure, nav/footer/hero archetype) with a previous build in this project? Score by *structural* distance — a palette swap doesn't count as variety. See `references/diversification.md`. |
 
-Record the six scores in the build's CSS stamp so a later run can see them: `/* tastemaker · critique: ShowTell 5 · Phil 4 · Hier 5 · Spec 4 · Restr 5 · Var 5 */`.
+### Pass 2 — Execution (grounded in TASTE, a real designer-annotated preference study)
+
+These four axes are adapted from [TASTE](https://arxiv.org/abs/2605.20731) (Zhu et al., Lica World + Contra) — a published dataset of real designer-panel rankings of AI-generated graphic design, scored across dimensions including color accuracy, color harmony, mood/color tone, spatial accuracy, typography, and visual hierarchy. Two of their seven dimensions aren't repeated here: `color_accuracy` (does the output match the intended palette) is already verified mechanically and more precisely by `scripts/check_contrast.py` and the token-pairing contract in `.tastemaker/style-lock.md`, and `visual_hierarchy` is Pass 1's `Hierarchy` axis. The other four are genuinely unchecked elsewhere in this skill until now — self-critique has judged *whether* a design is specific and structurally sound, but never explicitly *how well-made* the color, type, and spacing actually are.
+
+| Axis | What you're scoring |
+|---|---|
+| **Color harmony** | Do the colors used together actually work as a set — not "is each pairing contrast-legal" (already mechanical), but does the combination read as chosen with an eye, not just permitted by the matrix? |
+| **Mood & color tone** | Does the palette's *feeling* match the locked mood (`.tastemaker/style-lock.md`) — does a "warm/approachable" project actually feel warm, does "technical" actually feel technical, or is the mood a label the color doesn't back up? |
+| **Typography** | Is the type well-set, not just well-chosen — real kerning/tracking at display size (see `references/hero-guidelines.md`'s line-height floor), a type scale that's actually followed, weight used to carry hierarchy instead of just size? |
+| **Spatial accuracy** | Is the spacing precise and proportional, not just "using the scale" — does internal padding relate sensibly to external gaps (see `references/style-tokens.md`'s spacing rule), do elements align to a real grid, does density feel intentional rather than approximate? |
+
+Close Pass 2 with one more number that isn't an axis to fix, just a gut-check: **Preference (1-5)** — stepping back from the individual axes, would a real design panel prefer this over a competent-but-generic alternative? This is TASTE's own `preference` dimension, the one their model was ultimately trained to predict; treat a low score here as a signal to re-scan the other ten axes for what's actually dragging it down, not as its own separate fix.
+
+Record all eleven scores in the build's CSS stamp so a later run can see them: `/* tastemaker · critique: ShowTell 5 · Phil 4 · Hier 5 · Spec 4 · Restr 5 · Var 5 · ColorHarm 4 · MoodTone 5 · Type 4 · Spatial 5 · Pref 4 */`.
 
 ---
 
