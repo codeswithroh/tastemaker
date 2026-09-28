@@ -59,6 +59,12 @@ DOC_ALLOWED = {
     "coolors.co", "fontpair.co", "realtimecolors.com", "make.design",
     "motionsites.ai", "grayblocks.net", "symbolfyi.com", "www.typotheque.com",
     "typotheque.com", "framer.com", "webflow.com",
+    # animated-icon registries (references/component-sourcing.md)
+    "lucide-animated.com", "itshover.com",
+    # curated hero-section directory (references/hero-guidelines.md, inspo-mcp.md)
+    "supahero.io",
+    # research citation for the TASTE-grounded critique pass (anti-slop-checklist.md)
+    "arxiv.org",
 }
 
 ALLOWED = DOC_ALLOWED | set(ALLOWED_HOSTS)
