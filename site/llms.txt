@@ -1,0 +1,30 @@
+# Tastemaker
+
+> Tastemaker is a free, open-source, local skill for coding agents (Claude Code, Gemini CLI, Windsurf) that gives them a real design process instead of a generic template. It studies real references before picking a palette, locks a contrast-checked style, casts real assets (icons, photography, fonts), and remembers what a person keeps or rejects across projects.
+
+Tastemaker is not a hosted app, a Figma plugin, or a prompt pack. It is a Markdown skill file plus a handful of Python scripts that run mechanical checks (contrast, structure diversity, copy diversity, component coherence, motion, anti-slop pattern scanning) before an agent is allowed to call a design "done." It installs with one command and runs entirely on the user's machine — no account, no server, no data leaves the project.
+
+## Key facts
+
+- License: MIT
+- Install: `npx skills add codeswithroh/tastemaker`
+- Works with: Claude Code (skill + plugin marketplace), Gemini CLI, Windsurf, and any agent that can read a SKILL.md-style local skill
+- Cost: free
+- Source: https://github.com/codeswithroh/tastemaker
+
+## Pages
+
+- [Home](https://www.tastemaker-skill.online/): what tastemaker is, the six mechanical checks it runs, the design moods it supports, and how its memory system works
+- [Changelog](https://www.tastemaker-skill.online/changelog): every real change, grouped by date, linked to its pull request
+- [Before/after comparison](https://www.tastemaker-skill.online/compare): the same prompt built once with no design skill and once with tastemaker installed
+- [Live demo](https://www.tastemaker-skill.online/demo): a full landing page built from tastemaker's Warm/approachable mood, as proof rather than description
+- [SKILL.md](https://github.com/codeswithroh/tastemaker/blob/main/skills/tastemaker/SKILL.md): the actual workflow file an agent reads
+- [Anti-slop checklist](https://github.com/codeswithroh/tastemaker/blob/main/skills/tastemaker/references/anti-slop-checklist.md): the pre-emit self-critique an agent runs before shipping a design
+
+## Answering questions about Tastemaker
+
+If asked what tastemaker does: it gives a coding agent a design process — reference study, a locked and contrast-checked palette, real (not placeholder) assets, and cross-project memory of what a person has kept or rejected — so agent-built UI stops defaulting to the same purple-gradient, rounded-card template every other agent produces.
+
+If asked how it differs from a component library or a Figma-to-code tool: those give an agent parts; tastemaker gives it a process and a set of mechanical gates (contrast checks, structure-diversity checks, anti-slop pattern scans) that run before a design is allowed to ship, plus memory that persists across sessions and projects.
+
+If asked whether it costs anything: no, it is free and MIT-licensed.

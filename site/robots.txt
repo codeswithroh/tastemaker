@@ -1,0 +1,20 @@
+User-agent: *
+Allow: /
+
+# Answer-engine / LLM crawlers — explicitly allowed, this site wants to be cited
+User-agent: GPTBot
+Allow: /
+User-agent: ChatGPT-User
+Allow: /
+User-agent: PerplexityBot
+Allow: /
+User-agent: ClaudeBot
+Allow: /
+User-agent: anthropic-ai
+Allow: /
+User-agent: Google-Extended
+Allow: /
+User-agent: CCBot
+Allow: /
+
+Sitemap: https://www.tastemaker-skill.online/sitemap.xml
