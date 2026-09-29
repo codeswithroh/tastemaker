@@ -1,0 +1,33 @@
+name: 'Tastemaker Contrast Check'
+description: 'Reads palette and legal pairings from .tastemaker/style-lock.md and checks for contrast regressions'
+inputs:
+  style-lock:
+    description: 'Path to style-lock.md'
+    required: false
+    default: '.tastemaker/style-lock.md'
+  json-output:
+    description: 'Output check results in JSON format'
+    required: false
+    default: 'false'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.x'
+
+    - name: Run Contrast Regression Check
+      shell: bash
+      run: |
+        SCRIPT_PATH="${{ github.action_path }}/../../skills/tastemaker/scripts/check_contrast.py"
+        if [ ! -f "$SCRIPT_PATH" ]; then
+          SCRIPT_PATH="./skills/tastemaker/scripts/check_contrast.py"
+        fi
+        
+        if [ "${{ inputs.json-output }}" = "true" ]; then
+          python3 "$SCRIPT_PATH" --json --check-lock "${{ inputs.style-lock }}"
+        else
+          python3 "$SCRIPT_PATH" --check-lock "${{ inputs.style-lock }}"
+        fi
