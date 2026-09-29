@@ -148,6 +148,50 @@ const CONTRAST = [
   { label: "accent / background", value: "11.13" },
 ]
 
+const FAQS = [
+  {
+    q: "What is Tastemaker?",
+    a: "A free, open-source, local skill that gives coding agents a real design process. Instead of guessing a palette and layout, it studies real references first, locks a contrast-checked style, casts real assets instead of placeholders, and remembers what you keep or reject across projects.",
+  },
+  {
+    q: "How is it different from a component library or a Figma-to-code tool?",
+    a: "Those give an agent parts. Tastemaker gives it a process: mandatory reference study, a palette checked against real WCAG contrast math, a mechanical anti-slop scan for generic AI-UI patterns, and cross-project memory, all of which run before a design is allowed to ship.",
+  },
+  {
+    q: "Does it cost anything?",
+    a: "The core skill is free and MIT-licensed. Four extra sponsor-exclusive visual registers are $8/month on top; the free core stays free either way.",
+  },
+  {
+    q: "Which coding agents does it work with?",
+    a: "Claude Code (as a skill and via its plugin marketplace), Gemini CLI, Windsurf, and any agent that can read a local SKILL.md-style skill file.",
+  },
+  {
+    q: "Does it send my project data anywhere?",
+    a: "No. Tastemaker runs entirely locally as a skill file plus Python scripts. There is no account, no hosted service, and no project data leaves your machine.",
+  },
+  {
+    q: "How do I install it?",
+    a: "Run npx skills add codeswithroh/tastemaker. Claude Code users can also install it through the plugin marketplace described in the project's README.",
+  },
+]
+
+function Faq() {
+  return (
+    <dl className="mx-auto mt-10 max-w-[720px] divide-y divide-ink/[0.08] border-t border-ink/[0.08]">
+      {FAQS.map((f, i) => (
+        <details key={f.q} className="group py-5" open={i === 0}>
+          <summary className="flex cursor-pointer list-none items-baseline justify-between gap-4 font-display text-[1.02rem] font-bold text-foreground">
+            {f.q}
+            <span className="flex-none font-mono text-lg font-normal text-muted-dark group-open:hidden">+</span>
+            <span className="hidden flex-none font-mono text-lg font-normal text-muted-dark group-open:inline">−</span>
+          </summary>
+          <p className="mt-2.5 max-w-[62ch] text-[0.95rem] leading-relaxed text-muted-dark">{f.a}</p>
+        </details>
+      ))}
+    </dl>
+  )
+}
+
 function Console({
   command,
   rows,
@@ -198,7 +242,7 @@ export default function App() {
             <span>tastemaker</span>
           </a>
           <nav aria-label="Primary" className="hidden items-center gap-8 lg:flex">
-            {[["How it works", "#how"], ["Proof", "#proof"], ["Modes", "#modes"], ["Memory", "#memory"]].map(([l, h]) => (
+            {[["How it works", "#how"], ["Proof", "#proof"], ["Modes", "#modes"], ["Memory", "#memory"], ["FAQ", "#faq"]].map(([l, h]) => (
               <a key={h} href={h} className="text-[0.86rem] text-muted-dark transition-colors hover:text-foreground">{l}</a>
             ))}
           </nav>
@@ -524,6 +568,17 @@ export default function App() {
                   <span className="text-[0.86rem] text-muted-dark">Reusable preferences, promoted only when you choose or repeat them.</span>
                 </div>
               </div>
+            </Reveal>
+          </div>
+        </section>
+
+        <section id="faq" className="py-24 lg:py-32">
+          <div className="mx-auto w-[min(1200px,calc(100%-40px))]">
+            <Reveal>
+              <SectionHead center eyebrow="questions" title="Straight answers, no marketing copy." />
+            </Reveal>
+            <Reveal delay={80}>
+              <Faq />
             </Reveal>
           </div>
         </section>
