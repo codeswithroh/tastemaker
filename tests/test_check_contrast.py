@@ -7,7 +7,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-SCRIPT = Path(__file__).with_name("check_contrast.py")
+SCRIPT = Path(__file__).resolve().parents[1] / "skills/tastemaker/scripts/check_contrast.py"
 
 
 def run(*args):
