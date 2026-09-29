@@ -239,6 +239,30 @@ No community sponsors yet. The moment GitHub Sponsors gets its first backer, the
 
 **tastemaker has no official token, coin, or crypto project.** Any token using this project's name, logo, or branding is unaffiliated and not endorsed by the maintainer.
 
+# Check style-lock contrast in pull requests
+
+Projects with a `.tastemaker/style-lock.md` can fail a pull request when a
+declared text-safe pairing drops below 4.5:1. Add this workflow in the project
+repository (pin the action to a release tag or commit in production):
+
+```yaml
+name: Contrast check
+on: pull_request
+jobs:
+  contrast:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: codeswithroh/tastemaker/.github/actions/contrast-check@main
+        with:
+          style-lock: .tastemaker/style-lock.md
+```
+
+For local tools, `python3 skills/tastemaker/scripts/check_contrast.py --json
+--matrix text=050315 bg=fbfbfe` emits a machine-readable pairing matrix.
+`--check-lock .tastemaker/style-lock.md` reads the lock's palette and declared
+Text-safe list and names any pair that no longer meets 4.5:1.
+
 ## License
 
 [MIT](LICENSE). Use it freely, including in commercial work.
