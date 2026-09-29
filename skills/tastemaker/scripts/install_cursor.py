@@ -73,6 +73,9 @@ def install(source, project):
         "installer": "tastemaker-cursor", "version": 1
     }:
         raise ValueError("Unrecognized installer manifest")
+    # Replace the managed skill as a unit so files removed upstream do not linger.
+    if destination.exists():
+        shutil.rmtree(destination)
     for item, target in files:
         target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(item, target)
@@ -84,7 +87,8 @@ def install(source, project):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("project", type=Path, help="Target Cursor project directory")
+    parser.add_argument("project", nargs="?", type=Path, default=Path.cwd(),
+                        help="Target Cursor project directory (default: current directory)")
     args = parser.parse_args()
     try:
         rule = install(Path(__file__).resolve().parents[1], args.project)

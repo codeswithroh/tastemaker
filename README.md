@@ -112,7 +112,7 @@ This installs tastemaker (and `ideagram`, its vendored illustration sub-skill) g
 python3 skills/tastemaker/scripts/install_cursor.py /path/to/your/project
 ```
 
-Requires Python 3.10 or later. The installer generates `.cursor/rules/tastemaker.mdc` from the skill and copies its supporting directories, including `references/`, `scripts/`, `assets/`, and `ideagram/`, into `.tastemaker/skill/`. The generated rule uses project-root paths. Re-running updates bundled files in place and leaves your project's style lock and decisions outside that directory unchanged. Keep custom edits outside the installed skill; files removed upstream are retained until a clean reinstall.
+Requires Python 3.10 or later. The installer generates `.cursor/rules/tastemaker.mdc` from the skill and copies its supporting directories, including `references/`, `scripts/`, `assets/`, and `ideagram/`, into `.tastemaker/skill/`. The generated rule uses project-root paths. Re-running updates bundled files in place and leaves your project's style lock and decisions outside that directory unchanged. Keep custom edits outside the installed skill; files removed upstream are removed automatically on upgrade.
 
 The rule is available to Cursor's agent when its description matches a UI task. To check the installed helpers directly, run these commands from your project root:
 

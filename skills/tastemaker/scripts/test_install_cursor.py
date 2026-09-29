@@ -55,8 +55,11 @@ class CursorInstallTests(unittest.TestCase):
         memory.write_text("user choices", encoding="utf-8")
         install(self.source, self.project)
         self.assertEqual(first, rule.read_bytes())
+        stale = self.project / ".tastemaker/skill/references/removed-upstream.md"
+        stale.write_text("stale", encoding="utf-8")
         (self.source / "references/style.md").write_text("updated", encoding="utf-8")
         install(self.source, self.project)
+        self.assertFalse(stale.exists())
         self.assertEqual((self.project / ".tastemaker/skill/references/style.md").read_text(), "updated")
         self.assertEqual(memory.read_text(), "user choices")
 
