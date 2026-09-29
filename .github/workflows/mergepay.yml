@@ -1,0 +1,35 @@
+# MergePay: USDC bounties on this repo's issues, paid on merge via Arc.
+# Contributors comment /claim on a funded issue; the claimant's merged PR is paid.
+# https://github.com/codeswithroh/mergepay
+name: MergePay
+on:
+  pull_request_target:
+    types: [opened, closed]
+  issue_comment:
+    types: [created]      # /claim, /unclaim
+  schedule:
+    - cron: "17 3 * * *"  # release claims idle for 7 days
+  workflow_dispatch:
+
+jobs:
+  award:
+    if: github.event_name == 'pull_request_target' && github.event.action == 'closed' && github.event.pull_request.merged
+    uses: codeswithroh/mergepay/.github/workflows/award.yml@v1
+    permissions:
+      id-token: write       # GitHub signs the merge proof
+      pull-requests: write  # payout comment
+      issues: write
+      contents: read
+    with:
+      contract: "0xcff79B144833b36ca53b310C1Ad7854AF9Ff9EeD"
+      relayer: https://mergepay.codeswithroh.workers.dev
+
+  claims:
+    if: github.event_name != 'pull_request_target' || github.event.action == 'opened'
+    uses: codeswithroh/mergepay/.github/workflows/claims.yml@v1
+    permissions:
+      issues: write
+      pull-requests: write
+    with:
+      relayer: https://mergepay.codeswithroh.workers.dev
+      release_after_days: 7
