@@ -32,12 +32,23 @@ Usage:
     python3 check_contrast.py --matrix text=e6e6ea bg=0b0d12 surface=161a21 \
         primary=047857 accent=34d399 border=232a33 on-primary=ffffff
 
+Machine output: add --json in any mode. The object has a stable `mode`,
+`passed`, and `pairs` array. Each pair has `a`, `b`, `ratio` (full precision),
+`class` (`text-safe`, `ui-safe`, or `decorative`), `floor`, and `passed`.
+Matrix output also has `legal_pairings` with arrays for each class. Pair order
+is descending by ratio in matrix mode; palette checks retain their display
+order. Use --check-lock PATH to compare the lock's declared Text-safe pairs
+with its current palette; it works with or without --json.
+
 Exit code: --palette and single-pair exit nonzero if any checked pairing fails
-its floor. --matrix is a report and exits 0 (it does not know each pair's
-intended use, so it classifies rather than pass/fails).
+its floor. --matrix is a report and exits 0 unless --check-lock finds a
+declared text-safe pairing below 4.5:1.
 """
 
+import json
+import re
 import sys
+from pathlib import Path
 
 AA_NORMAL = 4.5        # body text on its background
 AA_LARGE_OR_UI = 3.0   # large text, UI components, graphical objects (WCAG 1.4.11)
@@ -111,8 +122,73 @@ def run_matrix(roles):
     return pairs
 
 
+def classify(r):
+    return "text-safe" if r >= AA_NORMAL else "ui-safe" if r >= AA_LARGE_OR_UI else "decorative"
+
+
+def pair_data(a, b, color_a, color_b, floor):
+    r = ratio(color_a, color_b)
+    return {"a": a, "b": b, "ratio": r, "class": classify(r),
+            "floor": floor, "passed": r >= floor}
+
+
+def read_lock(path):
+    """Read the Palette and Legal pairings sections from a style lock."""
+    contents = Path(path).read_text(encoding="utf-8")
+    palette_section = re.search(r"(?ms)^## Palette\s*$\n(.*?)(?=^## |\Z)", contents)
+    contract_section = re.search(r"(?ms)^## Color contract\s*$\n(.*?)(?=^## |\Z)", contents)
+    if not palette_section or not contract_section:
+        raise ValueError("style lock needs Palette and Color contract sections")
+    roles = {}
+    names = {"background": "bg", "text primary": "text", "text muted": "text-muted",
+             "button label color": "on-primary"}
+    for label, value in re.findall(r"(?mi)^\s*-\s*([^:\n]+):\s*(#[0-9a-fA-F]{6})\b", palette_section.group(1)):
+        roles[names.get(label.strip().lower(), label.strip().lower().replace(" ", "-"))] = value[1:]
+    # A white label is often specified by name, rather than as a hex value.
+    if re.search(r"(?mi)^\s*-\s*Button label color:\s*white\b", palette_section.group(1)):
+        roles["on-primary"] = "ffffff"
+    elif re.search(r"(?mi)^\s*-\s*Button label color:\s*text primary\b", palette_section.group(1)) and "text" in roles:
+        roles["on-primary"] = roles["text"]
+    declared = re.search(r"(?mi)^\s*-\s*Text-safe\s*(?:\(.*?\))?\s*:\s*(.*)$", contract_section.group(1))
+    if not declared:
+        raise ValueError("style lock needs a Text-safe legal pairings line")
+    pairs = re.findall(r"([\w-]+)\s*/\s*([\w-]+)", declared.group(1))
+    if not pairs:
+        raise ValueError("style lock has no declared Text-safe pairs")
+    for a, b in pairs:
+        if a not in roles or b not in roles:
+            raise ValueError(f"text-safe pair {a}/{b} references a missing palette role")
+    return roles, pairs
+
+
+def json_output(mode, pairs, passed):
+    result = {"mode": mode, "passed": passed, "pairs": pairs}
+    if mode == "matrix":
+        result["legal_pairings"] = {cls: [f"{p['a']}/{p['b']}" for p in pairs if p["class"] == cls]
+                                    for cls in ("text-safe", "ui-safe", "decorative")}
+    print(json.dumps(result, indent=2))
+
+
 def main():
     args = sys.argv[1:]
+    as_json = "--json" in args
+    args = [arg for arg in args if arg != "--json"]
+    lock_path = None
+    if "--check-lock" in args:
+        index = args.index("--check-lock")
+        if index + 1 >= len(args):
+            print("--check-lock needs a path", file=sys.stderr)
+            sys.exit(1)
+        lock_path = args[index + 1]
+        del args[index:index + 2]
+    if lock_path:
+        try:
+            lock_roles, declared = read_lock(lock_path)
+        except (OSError, ValueError) as exc:
+            print(f"Invalid style lock: {exc}", file=sys.stderr)
+            sys.exit(1)
+        if not args:
+            args = ["--matrix", *(f"{k}={v}" for k, v in lock_roles.items())]
     if not args:
         print(__doc__, file=sys.stderr)
         sys.exit(1)
@@ -122,8 +198,24 @@ def main():
         if len(roles) < 2:
             print("--matrix needs at least two role=hex colors.", file=sys.stderr)
             sys.exit(1)
-        run_matrix(roles)
-        sys.exit(0)
+        if as_json:
+            names = list(roles)
+            pairs = sorted((pair_data(a, b, roles[a], roles[b], AA_NORMAL)
+                            for i, a in enumerate(names) for b in names[i + 1:]),
+                           key=lambda p: -p["ratio"])
+        else:
+            run_matrix(roles)
+        failures = []
+        if lock_path:
+            for a, b in declared:
+                r = ratio(lock_roles[a], lock_roles[b])
+                if r < AA_NORMAL:
+                    failures.append(f"{a}/{b}: {r:.2f}:1 (floor 4.5:1)")
+        if as_json:
+            json_output("matrix", pairs, not failures)
+        for failure in failures:
+            print(f"[FAIL] Text-safe regression: {failure}", file=sys.stderr)
+        sys.exit(1 if failures else 0)
 
     all_pass = True
 
@@ -135,29 +227,49 @@ def main():
             print(f"--palette requires at least text= and bg=; missing {missing}", file=sys.stderr)
             sys.exit(1)
 
-        all_pass &= report("body text / background", roles["text"], roles["bg"], AA_NORMAL)
+        checks = [("body text / background", "text", "bg", AA_NORMAL)]
+        if not as_json:
+            all_pass &= report("body text / background", roles["text"], roles["bg"], AA_NORMAL)
 
         # Primary is treated as a solid CTA fill (role definition: "main CTAs"),
         # so it needs a label color that's actually readable on it. Whichever
         # of white/dark-text passes is the one to use for button labels.
         if "primary" in roles:
-            white_ok = report("white label / primary fill", "ffffff", roles["primary"], AA_NORMAL)
-            dark_ok = report(f"dark text ({roles['text']}) / primary fill", roles["text"], roles["primary"], AA_NORMAL)
+            checks.extend([("white label / primary fill", "white", "primary", AA_NORMAL),
+                           (f"dark text ({roles['text']}) / primary fill", "text", "primary", AA_NORMAL)])
+            white_ok = ratio("ffffff", roles["primary"]) >= AA_NORMAL if as_json else report("white label / primary fill", "ffffff", roles["primary"], AA_NORMAL)
+            dark_ok = ratio(roles["text"], roles["primary"]) >= AA_NORMAL if as_json else report(f"dark text ({roles['text']}) / primary fill", roles["text"], roles["primary"], AA_NORMAL)
             if not (white_ok or dark_ok):
-                print(f"  -> NEITHER white nor {roles['text']} text is readable on primary #{roles['primary']} — darken/lighten primary, don't just pick a label color and hope.")
+                if not as_json:
+                    print(f"  -> NEITHER white nor {roles['text']} text is readable on primary #{roles['primary']} — darken/lighten primary, don't just pick a label color and hope.")
             all_pass &= (white_ok or dark_ok)
-            all_pass &= report("primary / background (visibility, UI-component floor)", roles["primary"], roles["bg"], AA_LARGE_OR_UI)
+            checks.append(("primary / background (visibility, UI-component floor)", "primary", "bg", AA_LARGE_OR_UI))
 
         # Accent's own role (hyperlinks, highlights, small pops — not a solid
         # button fill) only needs the lighter UI-component/large-text floor
         # against the background, not full text-on-fill contrast.
         if "accent" in roles:
-            all_pass &= report("accent / background (visibility + hyperlink-text floor)", roles["accent"], roles["bg"], AA_LARGE_OR_UI)
+            checks.append(("accent / background (visibility + hyperlink-text floor)", "accent", "bg", AA_LARGE_OR_UI))
+        output_pairs = []
+        for label, a, b, floor in checks:
+            ca, cb = ("ffffff" if a == "white" else roles[a]), roles[b]
+            output_pairs.append(pair_data(a, b, ca, cb, floor))
+            if not as_json and a not in ("white", "text"):
+                all_pass &= report(label, ca, cb, floor)
+        all_pass &= output_pairs[0]["passed"]
+        if "primary" in roles:
+            all_pass &= output_pairs[3]["passed"]
+        if "accent" in roles:
+            all_pass &= output_pairs[-1]["passed"]
     else:
         if len(args) != 2:
             print("Usage: check_contrast.py <hex1> <hex2>  OR  --palette role=hex ...  OR  --matrix role=hex ...", file=sys.stderr)
             sys.exit(1)
-        all_pass = report("given pair", args[0], args[1], AA_NORMAL)
+        output_pairs = [pair_data("foreground", "background", args[0], args[1], AA_NORMAL)]
+        all_pass = output_pairs[0]["passed"] if as_json else report("given pair", args[0], args[1], AA_NORMAL)
+
+    if as_json:
+        json_output("palette" if args[0] == "--palette" else "pair", output_pairs, all_pass)
 
     sys.exit(0 if all_pass else 1)
 
