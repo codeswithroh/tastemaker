@@ -106,7 +106,22 @@ gemini skills install https://github.com/codeswithroh/tastemaker --path skills/t
 
 This installs tastemaker (and `ideagram`, its vendored illustration sub-skill) globally for Gemini CLI, byte-for-byte identical to the source. First run in a project may ask you to trust the folder before workspace-scoped skills activate; global installs (the default here) don't need that.
 
-**Cursor: not a straight copy, and currently degraded even then.** Cursor doesn't read `SKILL.md` natively; it needs conversion to its own `.mdc` rule format (via a tool like [openskills](https://github.com/numman-ali/openskills)), and that conversion strips out supporting directories entirely. Since nearly all of tastemaker's actual mechanism lives in `references/` (the palette contract, macrostructure catalog, anti-slop gates) and `scripts/` (the palette generator, contrast checker), a Cursor install currently loses the parts that make tastemaker work, not just a cosmetic difference. Verified against Cursor's actual conversion behavior rather than assumed from the plugin-format similarity to Claude Code. Until Cursor ships native `SKILL.md` support with subdirectories intact, don't expect full functionality there.
+**Cursor: install the rule and its supporting files together.** From a clone of this repository, run:
+
+```bash
+python3 skills/tastemaker/scripts/install_cursor.py /path/to/your/project
+```
+
+Requires Python 3.10 or later. The installer generates `.cursor/rules/tastemaker.mdc` from the skill and copies its supporting directories, including `references/`, `scripts/`, `assets/`, and `ideagram/`, into `.tastemaker/skill/`. The generated rule uses project-root paths. Re-running updates bundled files in place and leaves your project's style lock and decisions outside that directory unchanged. Keep custom edits outside the installed skill; files removed upstream are retained until a clean reinstall.
+
+The rule is available to Cursor's agent when its description matches a UI task. To check the installed helpers directly, run these commands from your project root:
+
+```bash
+python3 .tastemaker/skill/scripts/generate_palette.py --mood technical --seed 7
+python3 .tastemaker/skill/scripts/check_contrast.py --matrix text=000000 bg=ffffff
+```
+
+If Cursor does not select the rule automatically, attach `tastemaker` explicitly in the chat.
 
 Restart your agent, then just ask:
 
@@ -242,3 +257,4 @@ No community sponsors yet. The moment GitHub Sponsors gets its first backer, the
 ## License
 
 [MIT](LICENSE). Use it freely, including in commercial work.
+
