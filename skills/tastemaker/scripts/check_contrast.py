@@ -140,7 +140,8 @@ def read_lock(path):
     if not palette_section or not contract_section:
         raise ValueError("style lock needs Palette and Color contract sections")
     roles = {}
-    names = {"background": "bg", "text primary": "text", "text muted": "text-muted",
+    names = {"background": "bg", "text primary": "text", "text muted": "muted",
+             "dark surface": "dark", "on-dark text": "on-dark",
              "button label color": "on-primary"}
     for label, value in re.findall(r"(?mi)^\s*-\s*([^:\n]+):\s*(#[0-9a-fA-F]{6})\b", palette_section.group(1)):
         roles[names.get(label.strip().lower(), label.strip().lower().replace(" ", "-"))] = value[1:]
