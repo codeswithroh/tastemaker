@@ -1,0 +1,57 @@
+name: 'Contrast Check'
+description: 'Fail when a style-lock text-safe pairing drops below 4.5:1'
+inputs:
+  style-lock:
+    description: 'Path to the style lock file'
+    required: false
+    default: '.tastemaker/style-lock.md'
+  palette:
+    description: 'Optional explicit palette as space-separated role=hex'
+    required: false
+    default: ''
+  extra-args:
+    description: 'Extra args forwarded to check_contrast.py'
+    required: false
+    default: ''
+runs:
+  using: 'composite'
+  steps:
+    - name: Extract palette and run regression check
+      shell: bash
+      env:
+        STYLE_LOCK: ${{ inputs.style-lock }}
+        PALETTE_INPUT: ${{ inputs.palette }}
+        EXTRA_ARGS: ${{ inputs.extra-args }}
+      run: |
+        set -euo pipefail
+        STYLE_LOCK="$STYLE_LOCK"
+        PALETTE="$PALETTE_INPUT"
+        EXTRA="$EXTRA_ARGS"
+        if [[ ! -f "$STYLE_LOCK" ]]; then
+          echo "Style lock not found at $STYLE_LOCK -- skipping (no contract)." >&2
+          exit 0
+        fi
+        if [[ -z "$PALETTE" ]]; then
+          PALETTE=$(python3 "$GITHUB_ACTION_PATH/extract_palette_from_lock.py" "$STYLE_LOCK")
+          echo "Extracted palette: $PALETTE"
+        fi
+        if [[ -z "$PALETTE" ]]; then
+          echo "No palette extracted from $STYLE_LOCK; skipping." >&2
+          exit 0
+        fi
+        echo "Checking contrast for: $PALETTE"
+        echo "Style lock: $STYLE_LOCK"
+        set +e
+        if [[ -n "$EXTRA" ]]; then
+          python3 skills/tastemaker/scripts/check_contrast.py --matrix $PALETTE --style-lock "$STYLE_LOCK" $EXTRA
+        else
+          python3 skills/tastemaker/scripts/check_contrast.py --matrix $PALETTE --style-lock "$STYLE_LOCK"
+        fi
+        RC=$?
+        if [[ $RC -ne 0 ]]; then
+          echo "" >&2
+          echo "Contrast regression detected: a pairing marked text-safe (>=4.5) in $STYLE_LOCK now measures <4.5:1." >&2
+          echo "Offending pair(s) are listed above." >&2
+          exit $RC
+        fi
+        echo "Contrast check passed -- no text-safe regressions."
