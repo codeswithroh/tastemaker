@@ -1,0 +1,133 @@
+name: "Contrast check"
+description: "Check palette contrast from .tastemaker/style-lock.md and fail on text-safe regressions. Reads the locked palette, runs skills/tastemaker/scripts/check_contrast.py --matrix and enforces --style-lock."
+inputs:
+  style-lock:
+    description: "Path to the style lock file"
+    required: false
+    default: ".tastemaker/style-lock.md"
+  python:
+    description: "Python executable"
+    required: false
+    default: "python3"
+  fail-on-regression:
+    description: "Whether a text-safe regression should fail the step (set false for informational runs)"
+    required: false
+    default: "true"
+  show-matrix:
+    description: "Whether to print the full human-readable matrix"
+    required: false
+    default: "true"
+runs:
+  using: "composite"
+  steps:
+    - name: Run contrast regression check
+      shell: bash
+      run: |
+        set -euo pipefail
+        LOCK="${{ inputs.style-lock }}"
+        PY="${{ inputs.python }}"
+        SHOW="${{ inputs.show-matrix }}"
+        FAIL="${{ inputs.fail-on-regression }}"
+
+        if [[ ! -f "$LOCK" ]]; then
+          echo "::warning::Style lock not found at $LOCK — skipping contrast regression check."
+          exit 0
+        fi
+
+        # Extract Palette section (## Palette .. next ## heading) and map labels -> roles.
+        # Known roles from style-lock-format.md and the repo's lock: bg, surface, dark, primary, accent, text, muted, on-dark, on-primary, border, secondary.
+        # Labels are human like "Background", "Text primary", "Button label color"; we normalize to those roles.
+        PALETTE_SECTION=$(awk '/^## Palette/{flag=1;next} /^## /{if(flag) exit} flag' "$LOCK")
+
+        if [[ -z "$PALETTE_SECTION" ]]; then
+          echo "::warning::No ## Palette section in $LOCK — skipping."
+          exit 0
+        fi
+
+        declare -A LABEL_TO_ROLE=(
+          ["background"]="bg"
+          ["surface"]="surface"
+          ["dark surface"]="dark"
+          ["primary"]="primary"
+          ["accent"]="accent"
+          ["secondary"]="secondary"
+          ["text primary"]="text"
+          ["text muted"]="muted"
+          ["on-dark text"]="on-dark"
+          ["button label color"]="on-primary"
+          ["border"]="border"
+          ["dark mode"]=""
+          ["dark"]="dark"
+          ["text"]="text"
+          ["bg"]="bg"
+        )
+
+        ARGS=()
+        while IFS= read -r line; do
+          # Only lines like "- Label: #hex"
+          if ! echo "$line" | grep -qE '^[[:space:]]*-[[:space:]]*[^:]+:[[:space:]]*#[0-9a-fA-F]{6}'; then
+            continue
+          fi
+          LABEL=$(echo "$line" | sed -E 's/^[[:space:]]*-[[:space:]]*([^:]+):.*/\1/' | tr '[:upper:]' '[:lower:]' | xargs)
+          HEX=$(echo "$line" | grep -oE '#[0-9a-fA-F]{6}' | head -1 | tr -d '#' | tr '[:upper:]' '[:lower:]')
+          ROLE="${LABEL_TO_ROLE[$LABEL]:-}"
+          if [[ -z "$ROLE" ]]; then
+            # fallback: slugify label (spaces -> -, keep a-z0-9-)
+            ROLE=$(echo "$LABEL" | tr ' ' '-' | tr -cd 'a-z0-9-')
+            if [[ -z "$ROLE" ]]; then
+              continue
+            fi
+          fi
+          if [[ -z "$HEX" ]]; then
+            continue
+          fi
+          ARGS+=("${ROLE}=${HEX}")
+        done <<< "$PALETTE_SECTION"
+
+        if [[ ${#ARGS[@]} -lt 2 ]]; then
+          echo "::warning::Could not extract at least 2 palette roles from $LOCK — check Palette formatting. Skipping."
+          echo "Extracted: ${ARGS[*]:-(none)}"
+          exit 0
+        fi
+
+        echo "Palette roles from $LOCK: ${ARGS[*]}"
+
+        SCRIPT="skills/tastemaker/scripts/check_contrast.py"
+        if [[ ! -f "$SCRIPT" ]]; then
+          echo "::error::Contrast script not found at $SCRIPT"
+          exit 1
+        fi
+
+        # Human-readable matrix for logs (does not affect exit except via --style-lock)
+        if [[ "$SHOW" == "true" ]]; then
+          set +e
+          "$PY" "$SCRIPT" --matrix "${ARGS[@]}"
+          MATRIX_EXIT=$?
+          set -e
+          # --matrix alone always exits 0; ignore unless it's an unexpected non-zero
+          if [[ $MATRIX_EXIT -ne 0 ]]; then
+            echo "::warning::matrix report exited $MATRIX_EXIT"
+          fi
+        fi
+
+        # Regression gate: fails if any Text-safe pair from the lock is now <4.5
+        set +e
+        if [[ "$FAIL" == "true" ]]; then
+          "$PY" "$SCRIPT" --matrix "${ARGS[@]}" --style-lock "$LOCK"
+        else
+          "$PY" "$SCRIPT" --matrix "${ARGS[@]}" --style-lock "$LOCK" || true
+        fi
+        REG_EXIT=$?
+        set -e
+        if [[ $REG_EXIT -ne 0 ]]; then
+          # Parse regressions for annotation (also visible on stderr from the script)
+          echo "::error::Contrast regression: a pairing marked text-safe in $LOCK now measures below 4.5:1 — see failing pair(s) above."
+          if [[ "$FAIL" == "true" ]]; then
+            exit $REG_EXIT
+          fi
+        else
+          echo "No text-safe regressions detected against $LOCK."
+        fi
+branding:
+  icon: "eye"
+  color: "purple"

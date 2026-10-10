@@ -1,0 +1,29 @@
+name: contrast-check
+
+on:
+  pull_request:
+    paths:
+      - ".tastemaker/style-lock.md"
+      - "skills/tastemaker/scripts/check_contrast.py"
+      - ".github/actions/contrast-check/**"
+      - ".github/workflows/contrast-check.yml"
+  push:
+    branches: [main]
+    paths:
+      - ".tastemaker/style-lock.md"
+      - "skills/tastemaker/scripts/check_contrast.py"
+
+jobs:
+  contrast:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Contrast regression gate
+        uses: ./.github/actions/contrast-check
+        with:
+          style-lock: ".tastemaker/style-lock.md"
