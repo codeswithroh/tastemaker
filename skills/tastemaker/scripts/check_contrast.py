@@ -180,18 +180,22 @@ def parse_style_lock_text_safe_pairs(path):
     for line in text.splitlines():
         if re.search(r"Text-safe", line, re.IGNORECASE):
             m = re.search(r"Text-safe[^:]*:\s*(.+)", line, re.IGNORECASE)
-            if m:
-                content = m.group(1).strip()
-                if content.lower() == "none" or not content:
+            if not m:
+                continue
+            content = m.group(1).strip()
+            if content.lower() == "none" or not content:
+                continue
+            found = []
+            for part in content.split(","):
+                part = part.strip()
+                if not part:
                     continue
-                for part in content.split(","):
-                    part = part.strip()
-                    if not part:
-                        continue
-                    token = part.split()[0]
-                    if "/" in token:
-                        pairs.append(token.strip())
-            break
+                token = part.split()[0]
+                if "/" in token:
+                    found.append(token.strip())
+            if found:
+                pairs.extend(found)
+                break
     return pairs
 
 
