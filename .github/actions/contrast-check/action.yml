@@ -1,0 +1,15 @@
+name: Tastemaker contrast check
+description: Fail when a style lock's declared text-safe pairs fall below 4.5:1
+inputs:
+  style-lock:
+    description: Path to the checked-out project's style lock
+    required: false
+    default: .tastemaker/style-lock.md
+runs:
+  using: composite
+  steps:
+    - name: Check declared text-safe pairs
+      shell: bash
+      env:
+        TASTEMAKER_STYLE_LOCK: ${{ inputs.style-lock }}
+      run: python3 "${{ github.action_path }}/../../../skills/tastemaker/scripts/check_contrast.py" --check-lock "$TASTEMAKER_STYLE_LOCK"
