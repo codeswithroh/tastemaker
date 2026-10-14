@@ -1,0 +1,96 @@
+name: 'Contrast Check'
+description: 'Fail when a style-lock text-safe pairing drops below 4.5:1'
+inputs:
+  style-lock:
+    description: 'Path to the style lock file'
+    required: false
+    default: '.tastemaker/style-lock.md'
+  palette:
+    description: 'Optional explicit palette as space-separated role=hex (e.g. "text=050315 bg=fbfbfe"). When empty, the palette is read from the style lock.'
+    required: false
+    default: ''
+  json-output:
+    description: 'If true, emit machine-readable JSON (normally false for CI logs)'
+    required: false
+    default: 'false'
+  extra-args:
+    description: 'Extra args forwarded to check_contrast.py (rarely needed)'
+    required: false
+    default: ''
+runs:
+  using: 'composite'
+  steps:
+    - name: Contrast regression check
+      shell: bash
+      env:
+        STYLE_LOCK: ${{ inputs.style-lock }}
+        PALETTE_INPUT: ${{ inputs.palette }}
+        JSON_OUTPUT: ${{ inputs.json-output }}
+        EXTRA_ARGS: ${{ inputs.extra-args }}
+      run: |
+        set -euo pipefail
+        STYLE_LOCK="$STYLE_LOCK"
+        PALETTE="$PALETTE_INPUT"
+        JSON_OUTPUT="$JSON_OUTPUT"
+        EXTRA_ARGS="$EXTRA_ARGS"
+
+        if [[ ! -f "$STYLE_LOCK" ]]; then
+          echo "::error::Style lock not found at $STYLE_LOCK" >&2
+          exit 1
+        fi
+
+        SCRIPT="$GITHUB_ACTION_PATH/../../skills/tastemaker/scripts/check_contrast.py"
+        if [[ ! -f "$SCRIPT" ]]; then
+          SCRIPT="$GITHUB_ACTION_PATH/../../../skills/tastemaker/scripts/check_contrast.py"
+        fi
+        if [[ ! -f "$SCRIPT" ]]; then
+          SCRIPT="skills/tastemaker/scripts/check_contrast.py"
+        fi
+        if [[ ! -f "$SCRIPT" ]]; then
+          SCRIPT="./skills/tastemaker/scripts/check_contrast.py"
+        fi
+        if [[ ! -f "$SCRIPT" ]]; then
+          echo "::error::check_contrast.py not found (tried $GITHUB_ACTION_PATH relative paths and skills/tastemaker/scripts/check_contrast.py)" >&2
+          exit 1
+        fi
+
+        # Build command
+        CMD=(python3 "$SCRIPT")
+
+        # If palette not given, use self-check mode (reads Palette from lock)
+        if [[ -n "$PALETTE" ]]; then
+          # Palette is space-separated role=hex
+          # shellcheck disable=SC2206
+          PALETTE_ARGS=($PALETTE)
+          if [[ "$JSON_OUTPUT" == "true" ]]; then
+            CMD+=(--json --matrix "${PALETTE_ARGS[@]}" --check-lock "$STYLE_LOCK")
+          else
+            CMD+=(--matrix "${PALETTE_ARGS[@]}" --check-lock "$STYLE_LOCK")
+          fi
+          if [[ -n "$EXTRA_ARGS" ]]; then
+            # shellcheck disable=SC2206
+            EXTRA_SPLIT=($EXTRA_ARGS)
+            CMD+=("${EXTRA_SPLIT[@]}")
+          fi
+        else
+          if [[ "$JSON_OUTPUT" == "true" ]]; then
+            CMD+=(--json --check-lock "$STYLE_LOCK")
+          else
+            CMD+=(--check-lock "$STYLE_LOCK")
+          fi
+          if [[ -n "$EXTRA_ARGS" ]]; then
+            # shellcheck disable=SC2206
+            EXTRA_SPLIT=($EXTRA_ARGS)
+            CMD+=("${EXTRA_SPLIT[@]}")
+          fi
+        fi
+
+        echo "Running: ${CMD[*]}" >&2
+        "${CMD[@]}"
+        RC=$?
+        if [[ $RC -ne 0 ]]; then
+          echo "" >&2
+          echo "::error::Contrast regression: a pairing marked text-safe (>=4.5) in $STYLE_LOCK now measures <4.5:1. Offending pair(s) listed above." >&2
+          exit $RC
+        fi
+        echo "Contrast check passed -- no text-safe regressions." >&2
