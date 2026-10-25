@@ -1,0 +1,18 @@
+name: Contrast check
+description: >-
+  Fails the build when a pairing the style lock records as text-safe
+  drops below WCAG 4.5:1, naming the offending pair. Reads the palette
+  straight from the style lock, so no role list is maintained by hand.
+inputs:
+  style-lock:
+    description: Path to the style lock file.
+    default: .tastemaker/style-lock.md
+  script:
+    description: Path to check_contrast.py.
+    default: skills/tastemaker/scripts/check_contrast.py
+runs:
+  using: composite
+  steps:
+    - name: Check recorded text-safe pairings
+      shell: bash
+      run: python3 "${{ inputs.script }}" --from-lock "${{ inputs.style-lock }}"
