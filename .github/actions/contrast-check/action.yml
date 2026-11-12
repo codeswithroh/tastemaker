@@ -1,0 +1,40 @@
+name: 'Tastemaker Contrast Check'
+description: >
+  Run check_contrast.py against the palette read from .tastemaker/style-lock.md
+  and fail the workflow if any text-safe pairing falls below 4.5:1.
+inputs:
+  style-lock:
+    description: 'Path to the style lock markdown file'
+    required: false
+    default: '.tastemaker/style-lock.md'
+  palette:
+    description: 'Optional inline palette (role=hex ...). If empty, palette is read from style-lock.'
+    required: false
+    default: ''
+  script:
+    description: 'Path to check_contrast.py'
+    required: false
+    default: 'skills/tastemaker/scripts/check_contrast.py'
+  python:
+    description: 'Python interpreter'
+    required: false
+    default: 'python3'
+runs:
+  using: 'composite'
+  steps:
+    - name: Contrast check
+      shell: bash
+      run: |
+        set -euo pipefail
+        if [ ! -f "${STYLE_LOCK}" ]; then echo "::error::Style lock not found at ${STYLE_LOCK}"; exit 1; fi
+        if [ ! -f "${SCRIPT}" ]; then echo "::error::check_contrast.py not found at ${SCRIPT}"; exit 1; fi
+        if [ -n "${PALETTE}" ]; then
+          "${PY}" "${SCRIPT}" --palette ${PALETTE} --style-lock "${STYLE_LOCK}"
+        else
+          "${PY}" "${SCRIPT}" --ci --style-lock "${STYLE_LOCK}"
+        fi
+      env:
+        STYLE_LOCK: ${{ inputs.style-lock }}
+        PALETTE: ${{ inputs.palette }}
+        SCRIPT: ${{ inputs.script }}
+        PY: ${{ inputs.python }}
